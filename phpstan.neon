@@ -1,0 +1,10 @@
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+parameters:
+    level: max
+    paths:
+        - src
+    bootstrapFiles:
+        - tests/bootstrap.php
+    symfony:
+        containerXmlPath: var/cache/test-container.xml

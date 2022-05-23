@@ -1,0 +1,47 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  CPSIT\ProjectBuilder\:
+    resource: '../src/*'
+    exclude:
+      - '../src/Builder/Config/*'
+      - '../src/Builder/BuildInstructions.php'
+      - '../src/Builder/BuildResult.php'
+      - '../src/Resource/Local/ProcessedFile.php'
+
+  CPSIT\ProjectBuilder\Builder\Config\Config:
+    alias: 'app.config'
+
+  CPSIT\ProjectBuilder\Builder\Generator\Generator:
+    public: true
+    shared: false
+
+  CPSIT\ProjectBuilder\Builder\Generator\Step\StepFactory:
+    arguments:
+      $steps: !tagged_iterator generator.step
+
+  CPSIT\ProjectBuilder\Builder\Writer\WriterFactory:
+    arguments:
+      $writers: !tagged_iterator builder.writer
+
+  CPSIT\ProjectBuilder\IO\InputReader:
+    factory: ['@app.messenger', 'createInputReader']
+
+  CPSIT\ProjectBuilder\IO\Messenger:
+    alias: 'app.messenger'
+
+  CPSIT\ProjectBuilder\Twig\Extension\ProjectBuilderExtension:
+    arguments:
+      $filters: !tagged_iterator twig.filter
+      $functions: !tagged_iterator twig.function
+
+  app.config:
+    class: 'CPSIT\ProjectBuilder\Builder\Config\Config'
+    synthetic: true
+
+  app.messenger:
+    class: 'CPSIT\ProjectBuilder\IO\Messenger'
+    synthetic: true

@@ -1,0 +1,314 @@
+{
+	"$schema": "https://json-schema.org/draft/2019-09/schema#",
+	"type": "object",
+	"title": "Project builder template configuration",
+	"properties": {
+		"identifier": {
+			"type": "string",
+			"title": "Project template identifier",
+			"description": "Will be used to locate source and configuration files"
+		},
+		"name": {
+			"type": "string",
+			"title": "Project template name",
+			"description": "Will be shown to the user when collecting build instructions"
+		},
+		"steps": {
+			"type": "array",
+			"title": "Project build steps",
+			"description": "Will be processed to generate a new project from a template",
+			"items": {
+				"$ref": "#/definitions/step"
+			},
+			"minItems": 1
+		},
+		"properties": {
+			"type": "array",
+			"title": "Additional template properties",
+			"description": "Will be collected and used as template variables",
+			"items": {
+				"$ref": "#/definitions/property"
+			}
+		}
+	},
+	"additionalProperties": false,
+	"required": [
+		"identifier",
+		"name",
+		"steps"
+	],
+	"definitions": {
+		"property": {
+			"type": "object",
+			"title": "A single template property",
+			"description": "Will be passed as template variable to the template renderer",
+			"allOf": [
+				{
+					"properties": {
+						"identifier": {
+							"type": "string",
+							"title": "The property identifier",
+							"description": "Will be used as variable name in the template renderer"
+						},
+						"name": {
+							"type": "string",
+							"title": "The property name",
+							"description": "Will be shown to the user when collecting build instructions"
+						},
+						"path": {
+							"$ref": "#/definitions/path"
+						}
+					},
+					"required": [
+						"identifier",
+						"name"
+					]
+				},
+				{
+					"oneOf": [
+						{
+							"properties": {
+								"properties": {
+									"type": "array",
+									"title": "A list of sub-properties",
+									"items": {
+										"$ref": "#/definitions/sub-property"
+									},
+									"minItems": 1
+								}
+							},
+							"required": [
+								"properties"
+							]
+						},
+						{
+							"properties": {
+								"value": {
+									"$ref": "#/definitions/value"
+								}
+							},
+							"required": [
+								"value"
+							]
+						}
+					]
+				}
+			],
+			"unevaluatedProperties": false
+		},
+		"sub-property": {
+			"type": "object",
+			"title": "A sub-property of a template property",
+			"description": "Will be used as sub-array of the parent property's template variable",
+			"properties": {
+				"identifier": {
+					"type": "string",
+					"title": "The sub-property identifier",
+					"description": "Will be used as identifier within the parent property's template variable"
+				},
+				"name": {
+					"type": "string",
+					"title": "The name of the sub-property",
+					"description": "Will be shown to the user when collecting build instructions"
+				},
+				"type": {
+					"type": "string",
+					"title": "The sub-property type",
+					"description": "Will be used to determine how to apply a sub-property",
+					"enum": [
+						"dynamicSelect",
+						"select",
+						"staticValue",
+						"question"
+					]
+				},
+				"path": {
+					"$ref": "#/definitions/path"
+				},
+				"if": {
+					"$ref": "#/definitions/condition"
+				},
+				"options": {
+					"type": "array",
+					"title": "The sub-property options",
+					"description": "Will be used for selectable sub-property types",
+					"items": {
+						"$ref": "#/definitions/option"
+					}
+				},
+				"defaultValue": {
+					"title": "The default (fallback) value of the sub-property",
+					"oneOf": [
+						{
+							"type": "boolean"
+						},
+						{
+							"type": "string"
+						}
+					]
+				},
+				"validators": {
+					"$ref": "#/definitions/validators"
+				}
+			},
+			"additionalProperties": false,
+			"required": [
+				"identifier",
+				"name",
+				"type"
+			]
+		},
+		"option": {
+			"type": "object",
+			"title": "A selectable property option",
+			"properties": {
+				"if": {
+					"$ref": "#/definitions/condition"
+				},
+				"value": {
+					"$ref": "#/definitions/value"
+				}
+			},
+			"additionalProperties": false,
+			"required": [
+				"value"
+			]
+		},
+		"validators": {
+			"type": "array",
+			"title": "A list of optional property validators",
+			"items": {
+				"$ref": "#/definitions/validator"
+			},
+			"minItems": 1
+		},
+		"validator": {
+			"type": "object",
+			"title": "A property validator",
+			"properties": {
+				"type": {
+					"type": "string",
+					"enum": [
+						"email",
+						"notEmpty",
+						"url"
+					]
+				},
+				"options": {
+					"type": "object"
+				}
+			},
+			"additionalProperties": false,
+			"required": [
+				"type"
+			]
+		},
+		"step": {
+			"type": "object",
+			"title": "A single project generation step",
+			"oneOf": [
+				{
+					"properties": {
+						"type": {
+							"type": "string",
+							"enum": [
+								"collectBuildInstructions",
+								"installComposerDependencies",
+								"mirrorProcessedFiles"
+							]
+						}
+					}
+				},
+				{
+					"properties": {
+						"type": {
+							"type": "string",
+							"enum": [
+								"processSourceFiles",
+								"processSharedSourceFiles"
+							]
+						},
+						"options": {
+							"type": "object",
+							"properties": {
+								"fileConditions": {
+									"type": "array",
+									"title": "A list of optional file conditions",
+									"items": {
+										"$ref": "#/definitions/file-condition"
+									}
+								}
+							}
+						}
+					}
+				},
+				{
+					"properties": {
+						"type": {
+							"const": "showNextSteps"
+						},
+						"options": {
+							"type": "object",
+							"properties": {
+								"templateFile": {
+									"type": "string",
+									"title": "Path to a template file",
+									"description": "Should contain a Twig template with next steps shown to the user"
+								}
+							},
+							"required": [
+								"templateFile"
+							]
+						}
+					},
+					"required": [
+						"options"
+					]
+				}
+			],
+			"unevaluatedProperties": false,
+			"required": [
+				"type"
+			]
+		},
+		"file-condition": {
+			"type": "object",
+			"title": "A condition to include or exclude a file",
+			"properties": {
+				"if": {
+					"$ref": "#/definitions/condition"
+				},
+				"path": {
+					"type": "string",
+					"title": "Relative path to a file"
+				}
+			},
+			"additionalProperties": false,
+			"required": [
+				"if",
+				"path"
+			]
+		},
+		"condition": {
+			"type": "string",
+			"title": "A condition to include or exclude the current object",
+			"description": "Will be parsed with Symfony Expression Language"
+		},
+		"path": {
+			"type": "string",
+			"title": "The property path",
+			"description": "Will be used as variable identifier in templates"
+		},
+		"value": {
+			"title": "A static value",
+			"oneOf": [
+				{
+					"type": "number"
+				},
+				{
+					"type": "string"
+				}
+			]
+		}
+	}
+}

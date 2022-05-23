@@ -1,0 +1,58 @@
+name: CGL
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  cgl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Prepare environment
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          tools: composer:v2, composer-require-checker, composer-unused:0.7
+
+      # Validation
+      - name: Validate composer.json
+        run: composer validate --no-check-lock
+
+      # Install dependencies
+      - name: Install Composer dependencies
+        run: composer require --no-progress --no-plugins composer/composer:"^2.1"
+
+      # Check Composer dependencies
+      - name: Check dependencies
+        run: composer-require-checker check --config-file dependency-checker.json
+      - name: Reset composer.json
+        run: |
+          git checkout composer.json
+          composer update --no-progress --no-plugins
+      - name: Check for unused dependencies
+        run: composer-unused --excludePackage=symfony/polyfill-php80
+
+      # Linting
+      - name: Lint composer.json
+        run: composer lint:composer -- --dry-run
+      - name: Lint Editorconfig
+        run: composer lint:editorconfig
+      - name: Lint JSON
+        run: composer lint:json
+      - name: Lint PHP
+        run: composer lint:php -- --dry-run
+      - name: Lint YAML
+        run: composer lint:yaml
+
+      # SCA
+      - name: SCA PHP
+        run: composer sca:php -- --error-format github

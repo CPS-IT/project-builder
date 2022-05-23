@@ -1,0 +1,125 @@
+{
+	"name": "cpsit/project-builder",
+	"description": "Template repository to create new projects from project templates",
+	"license": "GPL-3.0-or-later",
+	"type": "project",
+	"authors": [
+		{
+			"name": "Elias Häußler",
+			"email": "e.haeussler@familie-redlich.de",
+			"homepage": "https://www.cps-it.de",
+			"role": "Maintainer"
+		}
+	],
+	"require": {
+		"php": ">= 7.4 < 8.2",
+		"ext-filter": "*",
+		"ext-json": "*",
+		"ext-mbstring": "*",
+		"composer-runtime-api": "^2.1",
+		"cocur/slugify": "^4.1",
+		"cuyz/valinor": "^0.9.0",
+		"guzzlehttp/guzzle": "^7.0",
+		"nyholm/psr7": "^1.5",
+		"oomphinc/composer-installers-extender": "^2.0",
+		"opis/json-schema": "^2.3",
+		"psr/http-client": "^1.0",
+		"psr/http-factory": "^1.0",
+		"psr/http-message": "^1.0",
+		"sebastianfeldmann/cli": "^3.4",
+		"symfony/config": "^5.4 || ^6.0",
+		"symfony/console": "^5.4 || ^6.0",
+		"symfony/dependency-injection": "^5.4 || ^6.0",
+		"symfony/expression-language": "^5.4 || ^6.0",
+		"symfony/filesystem": "^5.4 || ^6.0",
+		"symfony/finder": "^5.4 || ^6.0",
+		"symfony/polyfill-php80": "^1.25",
+		"symfony/yaml": "^5.4 || ^6.0",
+		"twig/twig": "^3.0",
+		"wikimedia/composer-merge-plugin": "^2.0"
+	},
+	"require-dev": {
+		"armin/editorconfig-cli": "^1.5",
+		"composer/composer": "^2.1",
+		"ergebnis/composer-normalize": "^2.26",
+		"friendsofphp/php-cs-fixer": "^3.8",
+		"j13k/yaml-lint": "^1.1",
+		"pestphp/pest": "^1.21",
+		"phpstan/phpstan": "^1.6",
+		"phpstan/phpstan-symfony": "^1.2",
+		"seld/jsonlint": "^1.9"
+	},
+	"autoload": {
+		"psr-4": {
+			"CPSIT\\ProjectBuilder\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"CPSIT\\ProjectBuilder\\Tests\\": "tests/"
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true,
+			"ergebnis/composer-normalize": true,
+			"oomphinc/composer-installers-extender": true,
+			"pestphp/pest-plugin": true,
+			"wikimedia/composer-merge-plugin": true
+		},
+		"sort-packages": true
+	},
+	"extra": {
+		"installer-paths": {
+			"templates/{$name}": [
+				"type:project-builder-template"
+			]
+		},
+		"installer-types": [
+			"project-builder-template"
+		],
+		"merge-plugin": {
+			"include": [
+				"composer.templates.json",
+				"templates/*/composer.json"
+			],
+			"merge-dev": false,
+			"merge-extra": true,
+			"merge-extra-deep": true
+		}
+	},
+	"scripts": {
+		"post-autoload-dump": [
+			"@php tests/bootstrap.php"
+		],
+		"post-create-project-cmd": [
+			"CPSIT\\ProjectBuilder\\Bootstrap::createProject"
+		],
+		"lint": [
+			"@lint:composer",
+			"@lint:composer:templates",
+			"@lint:editorconfig:fix",
+			"@lint:json",
+			"@lint:php",
+			"@lint:yaml"
+		],
+		"lint:composer": "@composer normalize --no-check-lock --no-update-lock",
+		"lint:composer:templates": "find templates -type f -name composer.json -mindepth 2 -maxdepth 2 -exec composer lint:composer {} \\;",
+		"lint:editorconfig": "ec",
+		"lint:editorconfig:fix": "@lint:editorconfig --fix",
+		"lint:json": [
+			"@lint:json:schema",
+			"@lint:json:templates"
+		],
+		"lint:json:schema": "jsonlint resources/config.schema.json",
+		"lint:json:templates": "find templates -type f -name config.json -mindepth 2 -maxdepth 2 -exec jsonlint {} \\;",
+		"lint:php": "php-cs-fixer fix",
+		"lint:yaml": "find templates -type f -name '*.y*ml' -mindepth 2 -exec yaml-lint {} \\;",
+		"sca": [
+			"@sca:php"
+		],
+		"sca:php": "phpstan analyse -c phpstan.neon",
+		"test": "pest",
+		"test:coverage": "@test --coverage --coverage-clover .build/coverage/clover.xml --coverage-html .build/coverage/html"
+	}
+}
