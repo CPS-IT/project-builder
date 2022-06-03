@@ -1,0 +1,42 @@
+{
+	"identifier": "dummy",
+	"name": "Dummy",
+	"steps": [
+		{
+			"type": "collectBuildInstructions"
+		},
+		{
+			"type": "processSourceFiles"
+		},
+		{
+			"type": "mirrorProcessedFiles"
+		}
+	],
+	"properties": [
+		{
+			"identifier": "foo",
+			"name": "Foo",
+			"value": "foo"
+		},
+		{
+			"identifier": "bar",
+			"name": "Bar",
+			"properties": [
+				{
+					"identifier": "name",
+					"name": "Name",
+					"type": "staticValue",
+					"defaultValue": "dummy",
+					"validators": [
+						{
+							"type": "notEmpty",
+							"options": {
+								"strict": true
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

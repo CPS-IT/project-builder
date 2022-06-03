@@ -1,0 +1,117 @@
+name: Tests
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  tests:
+    name: Tests (PHP ${{ matrix.php-version }}, Composer ${{ matrix.composer-version }} & ${{ matrix.preferred-install }} dependencies)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ["7.4", "8.0", "8.1"]
+        composer-version: ["2.1", "2.2", "2.3"]
+        preferred-install: ["stable", "lowest"]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Prepare environment
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer:v${{ matrix.composer-version }}
+          coverage: none
+
+      # Define Composer cache
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Define Composer cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: tests-php-${{ matrix.php-version }}-${{ matrix.composer-version }}-${{ matrix.preferred-install }}
+          restore-keys: |
+            tests-php-${{ matrix.php-version }}-${{ matrix.composer-version }}-
+            tests-php-${{ matrix.php-version }}-
+            tests-php-
+
+      # Install dependencies
+      - name: Install Composer dependencies
+        run: |
+          composer remove wikimedia/composer-merge-plugin --no-progress --no-plugins --no-install --no-update
+          composer update --no-progress --prefer-${{ matrix.preferred-install }}
+
+      # Run tests
+      - name: Run tests
+        run: composer test
+
+  coverage:
+    name: Test coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Prepare environment
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          tools: composer:v2
+          coverage: pcov
+
+      # Define Composer cache
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Define Composer cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: tests-php-8.1-stable
+          restore-keys: |
+            tests-php-8.1-
+            tests-php-
+
+      # Install dependencies
+      - name: Install Composer dependencies
+        run: |
+          composer config allow-plugins.wikimedia/composer-merge-plugin false
+          composer update --no-progress
+
+      # Run tests
+      - name: Build coverage directory
+        run: mkdir -p .build/coverage
+      - name: Run tests with coverage
+        run: composer test:coverage
+
+      # Report coverage
+      - name: Fix coverage path
+        working-directory: .build/coverage
+        run: sed -i 's#/home/runner/work/project-builder/project-builder#${{ github.workspace }}#g' clover.xml
+      - name: CodeClimate report
+        uses: paambaati/codeclimate-action@v3.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageLocations: |
+            ${{ github.workspace }}/.build/coverage/clover.xml:clover
+      - name: codecov report
+        uses: codecov/codecov-action@v3
+        with:
+          directory: .build/coverage
+          fail_ci_if_error: true
+          verbose: true

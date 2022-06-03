@@ -1,0 +1,31 @@
+identifier: yaml
+name: Yaml
+
+steps:
+  - type: collectBuildInstructions
+  - type: processSourceFiles
+    options:
+      fileConditions:
+        - path: dummy-2.yaml
+          if: 'false'
+  - type: processSharedSourceFiles
+    options:
+      fileConditions:
+        - path: shared-dummy-2.yaml
+          if: 'false'
+  - type: mirrorProcessedFiles
+
+properties:
+  - identifier: foo
+    name: Foo
+    value: foo
+  - identifier: bar
+    name: Bar
+    properties:
+      - identifier: name
+        name: Name
+        type: staticValue
+        validators:
+          - type: notEmpty
+            options:
+              strict: true
