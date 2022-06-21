@@ -1,0 +1,60 @@
+{
+	"identifier": "json",
+	"name": "Json",
+	"steps": [
+		{
+			"type": "collectBuildInstructions"
+		},
+		{
+			"type": "processSourceFiles",
+			"options": {
+				"fileConditions": [
+					{
+						"path": "dummy-2.json",
+						"if": "false"
+					}
+				]
+			}
+		},
+		{
+			"type": "processSharedSourceFiles",
+			"options": {
+				"fileConditions": [
+					{
+						"path": "shared-dummy-2.json",
+						"if": "false"
+					}
+				]
+			}
+		},
+		{
+			"type": "mirrorProcessedFiles"
+		}
+	],
+	"properties": [
+		{
+			"identifier": "foo",
+			"name": "Foo",
+			"value": "foo"
+		},
+		{
+			"identifier": "bar",
+			"name": "Bar",
+			"properties": [
+				{
+					"identifier": "name",
+					"name": "Name",
+					"type": "staticValue",
+					"validators": [
+						{
+							"type": "notEmpty",
+							"options": {
+								"strict": true
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,11 @@
+{
+	"require": {
+		"cpsit/project-builder-template-typo3-cms-bundle": "^1.1"
+	},
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://composer.321.works"
+		}
+	]
+}

@@ -1,0 +1,18 @@
+services:
+  CPSIT\ProjectBuilder\Tests\Fixtures\DummyEventListener:
+    tags:
+      - name: event.listener
+        method: onEventDispatch
+        event: CPSIT\ProjectBuilder\Event\ProjectBuildStartedEvent
+      - name: event.listener
+        method: onEventDispatch
+        event: CPSIT\ProjectBuilder\Event\ProjectBuildFinishedEvent
+      - name: event.listener
+        method: onEventDispatch
+        event: CPSIT\ProjectBuilder\Event\BuildStepProcessedEvent
+      - name: event.listener
+        method: onEventDispatch
+        event: CPSIT\ProjectBuilder\Event\BuildStepRevertedEvent
+
+  CPSIT\ProjectBuilder\Tests\Fixtures\DummyTemplateRenderingEventListener:
+    tags: ['event.listener']

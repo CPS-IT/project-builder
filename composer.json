@@ -1,0 +1,129 @@
+{
+	"name": "cpsit/project-builder",
+	"description": "Composer package to create new projects from project templates",
+	"license": "GPL-3.0-or-later",
+	"type": "project",
+	"authors": [
+		{
+			"name": "Elias Häußler",
+			"email": "e.haeussler@familie-redlich.de",
+			"homepage": "https://www.cps-it.de",
+			"role": "Maintainer"
+		}
+	],
+	"require": {
+		"php": ">= 7.4 < 8.2",
+		"ext-filter": "*",
+		"ext-json": "*",
+		"ext-mbstring": "*",
+		"composer-runtime-api": "^2.1",
+		"cocur/slugify": "^4.1",
+		"composer/installers": "^2.0",
+		"cuyz/valinor": "^0.9.0",
+		"guzzlehttp/guzzle": "^7.0",
+		"nyholm/psr7": "^1.5",
+		"oomphinc/composer-installers-extender": "^2.0",
+		"opis/json-schema": "^2.3",
+		"psr/http-client": "^1.0",
+		"psr/http-factory": "^1.0",
+		"psr/http-message": "^1.0",
+		"sebastianfeldmann/cli": "^3.4",
+		"symfony/config": "^5.4 || ^6.0",
+		"symfony/console": "^5.4 || ^6.0",
+		"symfony/dependency-injection": "^5.4 || ^6.0",
+		"symfony/event-dispatcher": "^5.4 || ^6.0",
+		"symfony/expression-language": "^5.4 || ^6.0",
+		"symfony/filesystem": "^5.4 || ^6.0",
+		"symfony/finder": "^5.4 || ^6.0",
+		"symfony/polyfill-php80": "^1.25",
+		"symfony/yaml": "^5.4 || ^6.0",
+		"twig/twig": "^3.3.3",
+		"webmozart/assert": "^1.11",
+		"wikimedia/composer-merge-plugin": "^2.0"
+	},
+	"require-dev": {
+		"armin/editorconfig-cli": "^1.5",
+		"composer/composer": "^2.2.13 || ^2.3.6",
+		"composer/xdebug-handler": "^3.0",
+		"ergebnis/composer-normalize": "^2.26",
+		"friendsofphp/php-cs-fixer": "^3.8",
+		"phpstan/phpstan": "^1.6",
+		"phpstan/phpstan-phpunit": "^1.1",
+		"phpstan/phpstan-strict-rules": "^1.2",
+		"phpstan/phpstan-symfony": "^1.2",
+		"phpstan/phpstan-webmozart-assert": "^1.2",
+		"phpunit/phpunit": "^9.5.5",
+		"seld/jsonlint": "^1.9"
+	},
+	"autoload": {
+		"classmap": [
+			"src/"
+		],
+		"files": [
+			"src/Functions.php"
+		]
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"CPSIT\\ProjectBuilder\\Tests\\": "tests/src/"
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true,
+			"ergebnis/composer-normalize": true,
+			"oomphinc/composer-installers-extender": true,
+			"pestphp/pest-plugin": true,
+			"wikimedia/composer-merge-plugin": true
+		},
+		"sort-packages": true,
+		"vendor-dir": ".build/vendor"
+	},
+	"extra": {
+		"installer-paths": {
+			".build/templates/{$name}": [
+				"type:project-builder-template"
+			]
+		},
+		"installer-types": [
+			"project-builder-template"
+		],
+		"merge-plugin": {
+			"include": [
+				"composer.templates.json"
+			],
+			"merge-dev": false,
+			"merge-extra": true,
+			"merge-extra-deep": true
+		}
+	},
+	"scripts": {
+		"post-create-project-cmd": [
+			"CPSIT\\ProjectBuilder\\Bootstrap::createProject"
+		],
+		"lint": [
+			"@lint:composer",
+			"@lint:editorconfig:fix",
+			"@lint:json",
+			"@lint:php"
+		],
+		"lint:composer": "@composer normalize --no-check-lock --no-update-lock",
+		"lint:editorconfig": "ec",
+		"lint:editorconfig:fix": "@lint:editorconfig --fix",
+		"lint:json": "jsonlint resources/config.schema.json",
+		"lint:php": "php-cs-fixer fix",
+		"sca": [
+			"@sca:php"
+		],
+		"sca:php": [
+			"@php tests/bootstrap.php",
+			"phpstan analyse -c phpstan.neon"
+		],
+		"simulate": [
+			"Composer\\Config::disableProcessTimeout",
+			"CPSIT\\ProjectBuilder\\Bootstrap::simulateCreateProject"
+		],
+		"test": "phpunit -c phpunit.xml",
+		"test:coverage": "phpunit -c phpunit.coverage.xml"
+	}
+}
