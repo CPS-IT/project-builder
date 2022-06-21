@@ -1,3 +1,6 @@
+2022-06-21         [RELEASE] Release of project-builder 0.1.2 (Elias Häußler)
+2022-06-21 a6d6fa8 [DOCS] Fix PR section in contribution guide (Elias Häußler)
+
 2022-06-21         [RELEASE] Release of project-builder 0.1.1 (Elias Häußler)
 2022-06-21 aea9a03 [TASK] Require typo3-cms-bundle template ^1.1.1 (Elias Häußler)
 2022-06-21 7774954 [TASK] Require cuyz/valinor ^0.10.0 (Elias Häußler)
