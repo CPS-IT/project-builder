@@ -28,7 +28,6 @@ We recommend using the command like follows:
 composer create-project cpsit/project-builder \
   --prefer-dist \
   --no-dev \
-  --remove-vcs \
   <projectname>
 ```
 
@@ -38,9 +37,6 @@ This implies usage of the following options:
   skipping files that are only relevant for development of this repository
 * **`--no-dev`** speeds up the installation process by skipping
   dev-requirements (those are only required for development purposes)
-* **`--remove-vcs`** removes potentially generated VCS directories. _You
-  can also skip this option and decide on your own how to handle VCS
-  directories._
 
 :bulb: Tip: Add the `-v` (or `--verbose`) command option to get a verbose
 output of processing steps.
