@@ -5,7 +5,7 @@
 This project serves as template repository for new projects. It is built on top of
 these three concepts:
 
-* Each project type is described by a [**template configuration**](#configuration) file
+* Each project type is described by a [**template configuration**](#Configuration) file
 * Config files contains [**build steps**](#project-generation) to be processed
 * Project templates can be defined as a set of
   - Generic files
@@ -40,7 +40,7 @@ valid, it gets hydrated on a [`Config`](../src/Builder/Config/Config.php) object
 
 Based on the loaded configuration, a new service container is built. Its
 configuration can be extended by each project type and contains all
-relevant services to successfully run project generation.
+relevant services to successfully run the project generation.
 
 > :arrow_right: Read more a [`Dependency injection`](dependency-injection.md)
 
@@ -70,17 +70,16 @@ Once all project build steps are successfully processed, the generated project i
 cleaned up. This is done by the [`CleanUpStep`](../src/Builder/Generator/Step/CleanUpStep.php)
 which must not be referenced anywhere else than in the bootstrapping process. It is
 responsible for assuring a clean project state. For this, all protected library
-files that were necessary to successfully execute the project generation are now
-removed.
+files necessary to successfully execute the project generation are now removed.
 
 The cleanup step is the last part in the whole project generation lifecycle. Thus,
 it's considered final and cannot be reverted. If an error occurs during clean up,
-it's recommended to re-run project generation.
+it's recommended to re-run the project generation.
 
 ## Events
 
 Some parts in the project generation lifecycle allow active interaction from
-external resources. This is done by the use of several events.
+external resources. This is done by the use of Events.
 
 > :arrow_right: Read more at [`Events`](events.md).
 

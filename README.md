@@ -18,18 +18,20 @@
 
 </div>
 
-A template repository with templates for various project types developed at
-[coding. powerful. systems. CPS GmbH][1]. The project comes with a powerful
-configuration and templating system that allows to kickstart new project in
-seconds. By using the Composer command [`create-project`][2], it was never
-easier to create new project repositories from command line.
+The CPS Project Builder serves as a template repository providing a generic way to create
+a various set of project types developed at [coding. powerful. systems. CPS GmbH][1]. The
+project comes with a powerful configuration and templating system that allows to kickstart
+a new project in  seconds.
+
+By simply using the Composer command [`create-project`][2] it was never easier to create
+new project repositories from command line.
 
 ## :rocket: Features
 
 * Kickstarter package for new projects
 * Modern configuration and templating system
 * Support for templating of external dependencies
-* Easy extensible for new project types
+* Easily extensible for new project types
 
 ## :zap: Usage
 
@@ -40,8 +42,10 @@ composer create-project cpsit/project-builder <projectname>
 Please have a look at [`Usage`](docs/usage.md) for an extended overview.
 
 ## :open_file_folder: Configuration
+The configuration describes how to build a project, e.g. which steps are necessary and what
+properties are required when rendering project templates.
 
-Please have a look at [`Configuration`](docs/configuration.md).
+Explore configuration details and examples in [`Configuration`](docs/configuration.md).
 
 ## :roller_coaster: Architecture
 

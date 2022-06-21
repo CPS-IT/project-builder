@@ -1,12 +1,12 @@
 # Events
 
 The project build process is a complex construct. It is meant to match as many
-needs as possible, thus it already provides convenient ways for customization.
-However, some use cases may not always be configurable, for example if interaction
+needs as possible. Therefore, it provides convenient ways for customization.
+However, some use cases may not always be configurable, for example if an interaction
 should be possible on failed build steps only.
 
 For this, the project builder provides an event-driven interaction system. On
-several points in the project build lifecycle, custom events are dispatched. They
+several points in the project build lifecycle custom events are dispatched. They
 contain information about the current process and thus enable its modification.
 
 ## Dispatched events
