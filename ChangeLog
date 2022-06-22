@@ -1,3 +1,6 @@
+2022-06-22         [RELEASE] Release of project-builder 0.1.4 (Elias Häußler)
+2022-06-22 1585c56 [BUGFIX] Avoid usage of php-yaml extension (Elias Häußler)
+
 2022-06-21         [RELEASE] Release of project-builder 0.1.3 (Elias Häußler)
 2022-06-21 cb70093 [DOCS] Drop recommendation of `--remove-vcs` option (Elias Häußler)
 
