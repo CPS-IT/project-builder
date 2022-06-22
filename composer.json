@@ -56,12 +56,12 @@
 		"seld/jsonlint": "^1.9"
 	},
 	"autoload": {
-		"classmap": [
-			"src/"
-		],
-		"files": [
-			"src/Functions.php"
-		]
+		"psr-4": {
+			"CPSIT\\ProjectBuilder\\": [
+				"src/",
+				".build/src/"
+			]
+		}
 	},
 	"autoload-dev": {
 		"psr-4": {

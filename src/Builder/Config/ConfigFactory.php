@@ -35,6 +35,8 @@ use Symfony\Component\Filesystem;
 use Symfony\Component\Yaml;
 use function assert;
 use function dirname;
+use function is_iterable;
+use function json_decode;
 
 /**
  * ConfigFactory.
@@ -127,15 +129,28 @@ final class ConfigFactory
     {
         switch ($type) {
             case FileType::YAML:
-                return Mapper\Source\Source::yaml($content);
+                $iterable = Yaml\Yaml::parse($content);
+
+                break;
 
             case FileType::JSON:
-                return Mapper\Source\Source::json($content);
+                $iterable = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+
+                break;
+
+            default:
+                // @codeCoverageIgnoreStart
+                throw Exception\UnsupportedTypeException::create($type);
+                // @codeCoverageIgnoreEnd
         }
 
         // @codeCoverageIgnoreStart
-        throw Exception\UnsupportedTypeException::create($type);
+        if (!is_iterable($iterable)) {
+            throw Exception\InvalidConfigurationException::forSource($content);
+        }
         // @codeCoverageIgnoreEnd
+
+        return Mapper\Source\Source::iterable($iterable);
     }
 
     private function parseContent(string $content, string $type): stdClass
