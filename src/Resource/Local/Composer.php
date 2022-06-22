@@ -98,14 +98,10 @@ final class Composer
     /**
      * @internal
      */
-    public static function createClassLoader(string $sourcePath = null): Autoload\ClassLoader
+    public static function createClassLoader(): Autoload\ClassLoader
     {
         $rootPath = Helper\FilesystemHelper::getProjectRootPath();
         $composer = self::createComposer($rootPath);
-
-        if (null !== $sourcePath) {
-            self::addSourcePathToRootPackageClassMap($composer, $sourcePath);
-        }
 
         // Get all packages of type "project-builder-template"
         $repository = $composer->getRepositoryManager()->getLocalRepository();
@@ -140,21 +136,5 @@ final class Composer
         assert($composer instanceof \Composer\Composer);
 
         return $composer;
-    }
-
-    /**
-     * @internal
-     */
-    private static function addSourcePathToRootPackageClassMap(\Composer\Composer $composer, string $sourcePath): void
-    {
-        $rootPackage = $composer->getPackage();
-        $autoload = $rootPackage->getAutoload();
-
-        if (!isset($autoload['classmap'])) {
-            $autoload['classmap'] = [];
-        }
-
-        $autoload['classmap'][] = $sourcePath;
-        $rootPackage->setAutoload($autoload);
     }
 }
