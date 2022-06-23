@@ -1,3 +1,6 @@
+2022-06-23         [RELEASE] Release of project-builder 0.1.5 (Elias Häußler)
+2022-06-23 a655923 [FEATURE] Build and deploy Docker image for alternative usage (Elias Häußler)
+
 2022-06-22         [RELEASE] Release of project-builder 0.1.4 (Elias Häußler)
 2022-06-22 1585c56 [BUGFIX] Avoid usage of php-yaml extension (Elias Häußler)
 
