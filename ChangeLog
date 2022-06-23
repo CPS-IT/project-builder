@@ -1,3 +1,6 @@
+2022-06-23         [RELEASE] Release of project-builder 0.1.6 (Elias Häußler)
+2022-06-23 5e98211 [BUGFIX] Do not run `composer normalize` when during `docker build` (Elias Häußler)
+
 2022-06-23         [RELEASE] Release of project-builder 0.1.5 (Elias Häußler)
 2022-06-23 a655923 [FEATURE] Build and deploy Docker image for alternative usage (Elias Häußler)
 
