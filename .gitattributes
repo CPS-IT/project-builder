@@ -6,6 +6,8 @@
 /.php-cs-fixer.php        export-ignore
 /codecov.yml              export-ignore
 /dependency-checker.json  export-ignore
+/docker-entrypoint.sh     export-ignore
+/Dockerfile               export-ignore
 /phpstan.neon             export-ignore
 /phpunit.xml              export-ignore
 /phpunit.coverage.xml     export-ignore
