@@ -1,3 +1,6 @@
+2022-06-23         [RELEASE] Release of project-builder 0.1.7 (Elias Häußler)
+2022-06-23 4461ad6 [BUGFIX] Skip installation of dependencies during `docker build` (Elias Häußler)
+
 2022-06-23         [RELEASE] Release of project-builder 0.1.6 (Elias Häußler)
 2022-06-23 5e98211 [BUGFIX] Do not run `composer normalize` when during `docker build` (Elias Häußler)
 
