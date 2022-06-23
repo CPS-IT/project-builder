@@ -17,7 +17,6 @@ RUN apk update \
 # Build project-builder artifact for later use in entrypoint
 ARG PROJECT_BUILDER_VERSION=0.0.0
 RUN composer config version "$PROJECT_BUILDER_VERSION" \
-    && composer lint:composer \
     && composer update --prefer-dist --no-dev \
     && git add -f composer.lock \
     && mkdir artifacts \
