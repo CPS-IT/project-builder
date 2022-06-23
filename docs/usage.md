@@ -1,11 +1,20 @@
 # Usage
 
-## Requirements
+There are two ways this project can be used:
+
+* [Usage with Composer](#usage-with-composer) is the preferred way. It
+  requires a global Composer installation.
+* [Usage with Docker](#usage-with-docker) is an alternative way. The only
+  requirement with this method is a local Docker installation.
+
+## Usage with Composer
+
+### Requirements
 
 * Composer >= 2.1
 * PHP >= 7.4
 
-## Basic usage
+### Basic usage
 
 This project should always be used together with the [`create-project`][1]
 Composer command:
@@ -20,7 +29,7 @@ be the folder name where to install and set up your new project.
 :bulb: For more command options, refer to the documentation of the
 [`create-project`][1] command.
 
-## Recommended usage
+### Recommended usage
 
 We recommend using the command like follows:
 
@@ -40,6 +49,37 @@ This implies usage of the following options:
 
 :bulb: Tip: Add the `-v` (or `--verbose`) command option to get a verbose
 output of processing steps.
+
+## Usage with Docker
+
+### Requirements
+
+* Docker
+
+### Basic usage
+
+As an alternative to the usage with Composer, there's also a ready-to-use
+[Docker image][2]:
+
+```bash
+docker run --rm -it -v <target-dir>:/app cpsit/project-builder
+```
+
+Replace `<target-dir>` with an absolute or relative path to the directory
+where to install and set up your new project. Make sure to always mount
+the volume to `/app`.
+
+:bulb: In the entrypoint, `composer create-project` is executed. It already
+contains all [recommended command options](#recommended-usage).
+
+### Available image tags
+
+The following image tags are currently available:
+
+| Tag name    | Description                                   |
+|-------------|-----------------------------------------------|
+| `<version>` | The appropriate project version, e.g. `0.1.0` |
+| `latest`    | The latest project version                    |
 
 ## Next steps
 
@@ -69,3 +109,4 @@ after successful project creation. Those steps highly depend on the
 project type. Read more at [Processing build steps#Show next steps](processing-build-steps.md#show-next-steps).
 
 [1]: https://getcomposer.org/doc/03-cli.md#create-project
+[2]: https://hub.docker.com/r/cpsit/project-builder
