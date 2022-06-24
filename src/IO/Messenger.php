@@ -320,13 +320,24 @@ final class Messenger
         string $label,
         $default = null,
         bool $required = true,
-        array $alternatives = []
+        array $alternatives = [],
+        bool $multiple = false
     ): string {
         $label = preg_replace('/(\s*:\s*)?$/', '', $label);
 
+        $notices = [];
+
         if (!$required) {
-            $label .= ' (<comment>optional</comment>)';
+            $notices[] = 'optional';
         }
+        if ($multiple) {
+            $notices[] = 'multiple allowed, separate by comma';
+        }
+
+        if ([] !== $notices) {
+            $label .= sprintf(' (<comment>%s</comment>)', implode('</comment>, <comment>', $notices));
+        }
+
         if ([] !== $alternatives) {
             array_unshift($alternatives, '');
         }
