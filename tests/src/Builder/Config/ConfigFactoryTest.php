@@ -111,6 +111,7 @@ final class ConfigFactoryTest extends TestCase
                             null,
                             null,
                             [],
+                            false,
                             null,
                             [
                                 new Src\Builder\Config\ValueObject\PropertyValidator(

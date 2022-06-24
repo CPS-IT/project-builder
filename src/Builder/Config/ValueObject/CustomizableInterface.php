@@ -40,6 +40,8 @@ interface CustomizableInterface
      */
     public function getOptions(): array;
 
+    public function canHaveMultipleValues(): bool;
+
     /**
      * @return mixed
      */
