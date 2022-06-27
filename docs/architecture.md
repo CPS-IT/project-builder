@@ -5,7 +5,7 @@
 This project serves as template repository for new projects. It is built on top of
 these three concepts:
 
-* Each project type is described by a [**template configuration**](#Configuration) file
+* Each project type is described by a [**template configuration**](#configuration) file
 * Config files contains [**build steps**](#project-generation) to be processed
 * Project templates can be defined as a set of
   - Generic files
