@@ -192,8 +192,9 @@ final class Bootstrap
             return 1;
         }
 
-        $mirroredSourcePath = $this->mirrorSourceFiles();
-        $loader = Resource\Local\Composer::createClassLoader($mirroredSourcePath);
+        $this->mirrorSourceFiles();
+
+        $loader = Resource\Local\Composer::createClassLoader();
         $loader->register(true);
 
         $this->messenger->clearScreen();
