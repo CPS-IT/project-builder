@@ -43,6 +43,7 @@ final class SubProperty implements CustomizableInterface
      * @var list<PropertyOption>
      */
     private array $options;
+    private bool $multiple;
 
     /**
      * @var mixed
@@ -69,6 +70,7 @@ final class SubProperty implements CustomizableInterface
         string $if = null,
         $value = null,
         array $options = [],
+        bool $multiple = false,
         $defaultValue = null,
         array $validators = [],
         ?Property $parent = null
@@ -80,6 +82,7 @@ final class SubProperty implements CustomizableInterface
         $this->if = $if;
         $this->value = $value;
         $this->options = $options;
+        $this->multiple = $multiple;
         $this->defaultValue = $defaultValue;
         $this->validators = $validators;
         $this->parent = $parent;
@@ -103,6 +106,11 @@ final class SubProperty implements CustomizableInterface
     public function getOptions(): array
     {
         return $this->options;
+    }
+
+    public function canHaveMultipleValues(): bool
+    {
+        return $this->multiple;
     }
 
     /**

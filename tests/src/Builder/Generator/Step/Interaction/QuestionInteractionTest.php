@@ -101,6 +101,7 @@ final class QuestionInteractionTest extends Tests\ContainerAwareTestCase
             null,
             null,
             $options,
+            false,
             $defaultValue
         );
     }
