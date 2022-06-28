@@ -34,12 +34,12 @@ final class PropertyValidator
     use TypeTrait;
 
     /**
-     * @var array<string, mixed>
+     * @var array<string, int|float|string|bool>
      */
     private array $options;
 
     /**
-     * @param array<string, mixed> $options
+     * @param array<string, int|float|string|bool> $options
      */
     public function __construct(string $type, array $options = [])
     {
@@ -48,7 +48,7 @@ final class PropertyValidator
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, int|float|string|bool>
      */
     public function getOptions(): array
     {

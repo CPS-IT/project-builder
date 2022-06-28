@@ -117,7 +117,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
 
     /**
      * @param list<Src\Builder\Config\ValueObject\PropertyOption> $options
-     * @param mixed                                               $defaultValue
+     * @param int|float|string|bool|null                          $defaultValue
      */
     private function buildInteractionSubject(
         array $options = [],

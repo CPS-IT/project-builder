@@ -19,7 +19,7 @@
 		"composer-runtime-api": "^2.1",
 		"cocur/slugify": "^4.1",
 		"composer/installers": "^2.0",
-		"cuyz/valinor": "^0.10.0",
+		"cuyz/valinor": "^0.10.0 || ^0.11.0",
 		"guzzlehttp/guzzle": "^7.0",
 		"nyholm/psr7": "^1.5",
 		"oomphinc/composer-installers-extender": "^2.0",

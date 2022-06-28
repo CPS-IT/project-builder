@@ -41,8 +41,8 @@ final class Property
     private array $properties;
 
     /**
-     * @param mixed             $value
-     * @param list<SubProperty> $properties
+     * @param int|float|string|bool|null $value
+     * @param list<SubProperty>          $properties
      */
     public function __construct(
         string $identifier,
