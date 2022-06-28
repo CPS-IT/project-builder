@@ -21,14 +21,13 @@ configured by the `step` property (see [`Configuration#Structure`](configuration
 When steps are executed, they may perform I/O operations on the generated project or other
 directories. If any of those operations fail, it should be possible to revert them. For
 this, steps are required to implement a `revert()` method. It is called for all previously
-applied step once any step in the project generation process fails.
+applied steps once any step in the project generation process fails.
 
 ## Applying processed steps
 
 Each successfully processed step should itself apply to the current build result. This is
 the only way for the application to recognize that the step was executed. If the step is
-not applied to the build result, it cannot be reverted and will not be mentioned to the
-user.
+not applied to the build result, it cannot be reverted.
 
 Example:
 
@@ -104,7 +103,7 @@ must be in the project type's template folder.
 
 This is typically one of the **last configured steps**. It asks for confirmation to
 mirror all previously processed source files and shared source files to the target
-project directory. It also takes care of cleaning up the target directory first as
+project directory. It also takes care of cleaning up the target directory as
 well as removing the previously generated temporary directory.
 
 ### Process source files
