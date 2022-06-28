@@ -2,7 +2,7 @@
 	"name": "cpsit/project-builder",
 	"description": "Composer package to create new projects from project templates",
 	"license": "GPL-3.0-or-later",
-	"type": "project",
+	"type": "library",
 	"authors": [
 		{
 			"name": "Elias Häußler",
