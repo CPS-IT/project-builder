@@ -46,7 +46,7 @@ final class SubProperty implements CustomizableInterface
     private bool $multiple;
 
     /**
-     * @var mixed
+     * @var int|float|string|bool|null
      */
     private $defaultValue;
 
@@ -57,10 +57,10 @@ final class SubProperty implements CustomizableInterface
     private ?Property $parent;
 
     /**
-     * @param mixed                   $value
-     * @param list<PropertyOption>    $options
-     * @param mixed                   $defaultValue
-     * @param list<PropertyValidator> $validators
+     * @param int|float|string|bool|null $value
+     * @param list<PropertyOption>       $options
+     * @param int|float|string|bool|null $defaultValue
+     * @param list<PropertyValidator>    $validators
      */
     public function __construct(
         string $identifier,
@@ -113,9 +113,6 @@ final class SubProperty implements CustomizableInterface
         return $this->multiple;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDefaultValue()
     {
         return $this->defaultValue;
