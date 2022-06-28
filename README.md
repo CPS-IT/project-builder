@@ -23,7 +23,7 @@
 The CPS Project Builder serves as a template repository providing a generic way to create
 a various set of project types developed at [coding. powerful. systems. CPS GmbH][1]. The
 project comes with a powerful configuration and templating system that allows to kickstart
-a new project in  seconds.
+a new project in seconds.
 
 By simply using the Composer command [`create-project`][2] it was never easier to create
 new project repositories from command line.
