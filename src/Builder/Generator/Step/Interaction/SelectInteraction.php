@@ -28,6 +28,7 @@ use CPSIT\ProjectBuilder\IO;
 use CPSIT\ProjectBuilder\Twig;
 use Symfony\Component\ExpressionLanguage;
 
+use function array_filter;
 use function is_string;
 
 /**
@@ -91,15 +92,15 @@ final class SelectInteraction implements InteractionInterface
 
         foreach ($options as $option) {
             if ($option->conditionMatches($this->expressionLanguage, $instructions->getTemplateVariables(), true)) {
-                $processedOptions[] = $this->renderValue($option->getValue(), $instructions);
+                $processedOptions[] = $this->renderValue((string) $option->getValue(), $instructions);
             }
         }
 
-        return $processedOptions;
+        return array_filter($processedOptions);
     }
 
     /**
-     * @param mixed $value
+     * @param int|float|string|bool|null $value
      *
      * @phpstan-return ($value is string ? string : null)
      */
