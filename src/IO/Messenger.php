@@ -27,6 +27,7 @@ use Composer\IO;
 use CPSIT\ProjectBuilder\Builder;
 use CPSIT\ProjectBuilder\Resource;
 use Symfony\Component\Console;
+
 use function count;
 use function implode;
 use function is_scalar;

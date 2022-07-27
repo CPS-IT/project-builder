@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Config;
 
 use CPSIT\ProjectBuilder as Src;
 use PHPUnit\Framework\TestCase;
+
 use function dirname;
 
 /**

@@ -27,6 +27,7 @@ use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\Paths;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
+
 use function array_key_exists;
 use function dirname;
 use function strcasecmp;

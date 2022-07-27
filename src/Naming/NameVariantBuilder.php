@@ -28,6 +28,7 @@ use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\StringCase;
 use Webmozart\Assert;
+
 use function is_string;
 
 /**

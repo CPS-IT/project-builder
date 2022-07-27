@@ -27,6 +27,7 @@ use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Generator;
 use Webmozart\Assert;
+
 use function error_reporting;
 
 /**

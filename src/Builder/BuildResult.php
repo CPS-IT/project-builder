@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Builder;
 
 use CPSIT\ProjectBuilder\Resource;
 use Symfony\Component\Filesystem;
+
 use function array_merge;
 use function array_values;
 

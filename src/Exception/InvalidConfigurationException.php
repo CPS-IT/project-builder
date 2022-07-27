@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Exception;
 
 use Opis\JsonSchema;
+
 use function implode;
 use function sprintf;
 
