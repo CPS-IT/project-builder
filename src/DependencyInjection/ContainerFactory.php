@@ -31,6 +31,7 @@ use Symfony\Component\Config;
 use Symfony\Component\DependencyInjection;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
+
 use function array_filter;
 use function array_unshift;
 use function basename;

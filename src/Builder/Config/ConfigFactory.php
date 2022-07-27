@@ -33,6 +33,7 @@ use Opis\JsonSchema;
 use stdClass;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Yaml;
+
 use function assert;
 use function dirname;
 use function is_iterable;
@@ -139,9 +140,7 @@ final class ConfigFactory
                 break;
 
             default:
-                // @codeCoverageIgnoreStart
-                throw Exception\UnsupportedTypeException::create($type);
-                // @codeCoverageIgnoreEnd
+                throw Exception\UnsupportedTypeException::create($type); // @codeCoverageIgnore
         }
 
         // @codeCoverageIgnoreStart

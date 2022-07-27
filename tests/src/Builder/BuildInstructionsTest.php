@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+
 use function dirname;
 use function sys_get_temp_dir;
 

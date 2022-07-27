@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Twig\Func;
 
 use Webmozart\Assert;
+
 use function gethostbynamel;
 use function is_string;
 use function parse_url;

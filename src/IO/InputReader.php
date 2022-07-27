@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\IO;
 
 use Composer\IO;
 use CPSIT\ProjectBuilder\Exception;
+
 use function array_filter;
 use function array_key_first;
 use function array_map;

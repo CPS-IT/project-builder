@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\DependencyInjection\CompilerPass;
 
 use CPSIT\ProjectBuilder\Exception;
 use Symfony\Component\DependencyInjection;
+
 use function ltrim;
 
 /**

@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Resource\Local;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Symfony\Component\Console;
+
 use function dirname;
 use function getenv;
 use function putenv;

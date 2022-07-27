@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Fixtures;
 
 use CPSIT\ProjectBuilder\IO;
+
 use function strtoupper;
 
 /**

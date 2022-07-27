@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Builder\Config\ValueObject;
 
 use Symfony\Component\ExpressionLanguage;
+
 use function assert;
 use function is_string;
 

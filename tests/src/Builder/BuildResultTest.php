@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Symfony\Component\Finder;
+
 use function basename;
 use function dirname;
 
