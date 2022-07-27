@@ -26,6 +26,8 @@ namespace CPSIT\ProjectBuilder\Tests\Error;
 use Composer\IO;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use CuyZ\Valinor\Mapper;
+use CuyZ\Valinor\MapperBuilder;
 use Exception;
 use Generator;
 use Symfony\Component\Console;
@@ -122,5 +124,20 @@ final class ErrorHandlerTest extends Tests\ContainerAwareTestCase
                 'Caused by: This caused the exception. [456]',
             ],
         ];
+
+        try {
+            $mapper = (new MapperBuilder())->mapper();
+            $mapper->map('array{foo: string}', null);
+
+            self::fail('No exception thrown. This should not happen.');
+        } catch (Mapper\MappingError $error) {
+            yield 'MappingError' => [
+                $error,
+                [
+                    'Could not map type `array{foo: string}` with the given source. [1617193185]',
+                    '- Cannot be empty and must be filled with a value matching type `array{foo: string}`.',
+                ],
+            ];
+        }
     }
 }
