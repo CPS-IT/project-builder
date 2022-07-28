@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Fixtures;
 
 use CPSIT\ProjectBuilder\Exception;
 use SebastianFeldmann\Cli;
+
 use function array_shift;
 
 /**

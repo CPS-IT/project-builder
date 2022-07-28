@@ -24,7 +24,7 @@ composer create-project cpsit/project-builder <projectname>
 ```
 
 Replace `<projectname>` with the actual name of your new project. This will
-be the folder name where to install and set up your new project.
+be the folder name where to install and set up your project.
 
 :bulb: For more command options, refer to the documentation of the
 [`create-project`][1] command.
@@ -42,7 +42,7 @@ composer create-project cpsit/project-builder \
 
 This implies usage of the following options:
 
-* **`--prefer-dist`** ensures that only distributed files are installed,
+* **`--prefer-dist`** ensures that only distributed files are installed
   skipping files that are only relevant for development of this repository
 * **`--no-dev`** speeds up the installation process by skipping
   dev-requirements (those are only required for development purposes)

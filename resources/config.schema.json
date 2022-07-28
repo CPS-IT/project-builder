@@ -136,6 +136,11 @@
 						"$ref": "#/definitions/option"
 					}
 				},
+				"multiple": {
+					"type": "boolean",
+					"title": "Allow selection of multiple sub-property options",
+					"description": "Will only be respected for sub-property type \"select\""
+				},
 				"defaultValue": {
 					"title": "The default (fallback) value of the sub-property",
 					"oneOf": [

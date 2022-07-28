@@ -49,6 +49,7 @@ final class SubPropertyTest extends TestCase
             [
                 new Src\Builder\Config\ValueObject\PropertyOption('value'),
             ],
+            true,
             'defaultValue',
             [
                 new Src\Builder\Config\ValueObject\PropertyValidator('type'),
@@ -86,6 +87,14 @@ final class SubPropertyTest extends TestCase
             ],
             $this->subject->getOptions()
         );
+    }
+
+    /**
+     * @test
+     */
+    public function canHaveMultipleValuesReturnsTrue(): void
+    {
+        self::assertTrue($this->subject->canHaveMultipleValues());
     }
 
     /**

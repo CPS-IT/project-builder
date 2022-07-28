@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Twig;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+
 use function dirname;
 use function json_decode;
 use function trim;

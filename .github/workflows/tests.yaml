@@ -104,6 +104,7 @@ jobs:
         run: sed -i 's#/home/runner/work/project-builder/project-builder#${{ github.workspace }}#g' clover.xml
       - name: CodeClimate report
         uses: paambaati/codeclimate-action@v3.0.0
+        if: env.CC_TEST_REPORTER_ID
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:

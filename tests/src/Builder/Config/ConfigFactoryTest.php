@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Config;
 
 use CPSIT\ProjectBuilder as Src;
 use PHPUnit\Framework\TestCase;
+
 use function dirname;
 use function ucfirst;
 
@@ -111,6 +112,7 @@ final class ConfigFactoryTest extends TestCase
                             null,
                             null,
                             [],
+                            false,
                             null,
                             [
                                 new Src\Builder\Config\ValueObject\PropertyValidator(

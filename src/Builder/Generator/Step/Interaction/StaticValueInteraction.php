@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Builder\Generator\Step\Interaction;
 use CPSIT\ProjectBuilder\Builder;
 use CPSIT\ProjectBuilder\IO;
 use CPSIT\ProjectBuilder\Twig;
+
 use function is_string;
 
 /**

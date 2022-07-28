@@ -33,8 +33,8 @@ use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\Helper;
 use Symfony\Component\Console as SymfonyConsole;
 use Symfony\Component\Filesystem;
+
 use function array_filter;
-use function assert;
 use function basename;
 use function dirname;
 use function getenv;
@@ -132,9 +132,7 @@ final class Composer
     private static function createComposer(string $rootPath): \Composer\Composer
     {
         $factory = new Factory();
-        $composer = $factory->createComposer(new IO\NullIO(), null, false, $rootPath);
-        assert($composer instanceof \Composer\Composer);
 
-        return $composer;
+        return $factory->createComposer(new IO\NullIO(), null, false, $rootPath);
     }
 }

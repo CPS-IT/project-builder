@@ -40,8 +40,10 @@ interface CustomizableInterface
      */
     public function getOptions(): array;
 
+    public function canHaveMultipleValues(): bool;
+
     /**
-     * @return mixed
+     * @return int|float|string|bool|null
      */
     public function getDefaultValue();
 

@@ -94,7 +94,7 @@ final class QuestionInteraction implements InteractionInterface
         );
 
         foreach ($options as $option) {
-            $value = $this->renderValue($option->getValue(), $instructions);
+            $value = $this->renderValue((string) $option->getValue(), $instructions);
             $condition = $option->getCondition();
 
             if (!$option->hasCondition()) {

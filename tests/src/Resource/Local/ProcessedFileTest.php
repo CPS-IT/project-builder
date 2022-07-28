@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Resource\Local;
 use CPSIT\ProjectBuilder as Src;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder;
+
 use function dirname;
 
 /**

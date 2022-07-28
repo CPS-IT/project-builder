@@ -27,7 +27,8 @@ use CPSIT\ProjectBuilder\Builder;
 use CPSIT\ProjectBuilder\IO;
 use CPSIT\ProjectBuilder\Twig;
 use Symfony\Component\ExpressionLanguage;
-use function is_bool;
+
+use function array_filter;
 use function is_string;
 
 /**
@@ -54,15 +55,19 @@ final class SelectInteraction implements InteractionInterface
         $this->renderer = $renderer;
     }
 
+    /**
+     * @return string|list<string>|null
+     */
     public function interact(
         Builder\Config\ValueObject\CustomizableInterface $subject,
         Builder\BuildInstructions $instructions
-    ): string {
+    ) {
         return $this->reader->choices(
             $subject->getName(),
             $this->processOptions($subject->getOptions(), $instructions),
             $this->renderValue($subject->getDefaultValue(), $instructions),
-            $subject->isRequired()
+            $subject->isRequired(),
+            $subject->canHaveMultipleValues()
         );
     }
 
@@ -87,26 +92,22 @@ final class SelectInteraction implements InteractionInterface
 
         foreach ($options as $option) {
             if ($option->conditionMatches($this->expressionLanguage, $instructions->getTemplateVariables(), true)) {
-                $processedOptions[] = $this->renderValue($option->getValue(), $instructions);
+                $processedOptions[] = $this->renderValue((string) $option->getValue(), $instructions);
             }
         }
 
-        return $processedOptions;
+        return array_filter($processedOptions);
     }
 
     /**
-     * @param mixed $value
+     * @param int|float|string|bool|null $value
      *
-     * @return ($value is string ? string : ($value is bool ? bool : null))
+     * @phpstan-return ($value is string ? string : null)
      */
-    private function renderValue($value, Builder\BuildInstructions $instructions)
+    private function renderValue($value, Builder\BuildInstructions $instructions): ?string
     {
-        if (!is_string($value) && !is_bool($value)) {
+        if (!is_string($value)) {
             return null;
-        }
-
-        if (is_bool($value)) {
-            return $value;
         }
 
         $renderer = $this->renderer->withDefaultTemplate($value);

@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Error;
 
 use CPSIT\ProjectBuilder\IO;
+use CuyZ\Valinor\Mapper;
 use Throwable;
 
 /**
@@ -47,9 +48,13 @@ final class ErrorHandler
 
         $this->messenger->error($exception->getMessage().$this->formatExceptionCode($exception));
 
+        if ($exception instanceof Mapper\MappingError) {
+            $this->formatMappingErrors($exception->node());
+        }
+
         if (null !== $previousException) {
             $this->messenger->error(
-                sprintf('Caused by: %s%s', $previousException->getMessage(), $this->formatExceptionCode($previousException))
+                'Caused by: '.$previousException->getMessage().$this->formatExceptionCode($previousException)
             );
         }
 
@@ -57,6 +62,16 @@ final class ErrorHandler
             $this->messenger->newLine();
 
             throw $exception;
+        }
+    }
+
+    private function formatMappingErrors(Mapper\Tree\Node $node): void
+    {
+        $flattener = new Mapper\Tree\Message\MessagesFlattener($node);
+        $errors = $flattener->errors();
+
+        foreach ($errors as $error) {
+            $this->messenger->error('- '.$error);
         }
     }
 

@@ -43,9 +43,10 @@ final class SubProperty implements CustomizableInterface
      * @var list<PropertyOption>
      */
     private array $options;
+    private bool $multiple;
 
     /**
-     * @var mixed
+     * @var int|float|string|bool|null
      */
     private $defaultValue;
 
@@ -56,10 +57,10 @@ final class SubProperty implements CustomizableInterface
     private ?Property $parent;
 
     /**
-     * @param mixed                   $value
-     * @param list<PropertyOption>    $options
-     * @param mixed                   $defaultValue
-     * @param list<PropertyValidator> $validators
+     * @param int|float|string|bool|null $value
+     * @param list<PropertyOption>       $options
+     * @param int|float|string|bool|null $defaultValue
+     * @param list<PropertyValidator>    $validators
      */
     public function __construct(
         string $identifier,
@@ -69,6 +70,7 @@ final class SubProperty implements CustomizableInterface
         string $if = null,
         $value = null,
         array $options = [],
+        bool $multiple = false,
         $defaultValue = null,
         array $validators = [],
         ?Property $parent = null
@@ -80,6 +82,7 @@ final class SubProperty implements CustomizableInterface
         $this->if = $if;
         $this->value = $value;
         $this->options = $options;
+        $this->multiple = $multiple;
         $this->defaultValue = $defaultValue;
         $this->validators = $validators;
         $this->parent = $parent;
@@ -105,9 +108,11 @@ final class SubProperty implements CustomizableInterface
         return $this->options;
     }
 
-    /**
-     * @return mixed
-     */
+    public function canHaveMultipleValues(): bool
+    {
+        return $this->multiple;
+    }
+
     public function getDefaultValue()
     {
         return $this->defaultValue;

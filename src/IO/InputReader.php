@@ -25,7 +25,11 @@ namespace CPSIT\ProjectBuilder\IO;
 
 use Composer\IO;
 use CPSIT\ProjectBuilder\Exception;
+
+use function array_filter;
 use function array_key_first;
+use function array_map;
+use function is_array;
 use function is_string;
 use function trim;
 
@@ -76,12 +80,23 @@ final class InputReader
      * @param list<string>     $choices
      * @param bool|string|null $default
      *
+     * @return string|list<string>|null
+     * @phpstan-return ($multiple is true ? list<string> : string|null)
+     *
      * @throws Exception\IOException
      */
-    public function choices(string $label, array $choices, $default = null, bool $required = false): string
-    {
+    public function choices(
+        string $label,
+        array $choices,
+        $default = null,
+        bool $required = false,
+        bool $multiple = false
+    ) {
+        $noSelectionIndex = null;
+
         if (!$required) {
             array_unshift($choices, '<info>No selection</info>');
+            $noSelectionIndex = array_key_first($choices);
         }
 
         if (null === $default) {
@@ -91,17 +106,14 @@ final class InputReader
             $default = false;
         }
 
-        $label = Messenger::decorateLabel($label, $default);
-        $answer = (int) $this->io->select($label, $choices, $default, 3);
+        $label = Messenger::decorateLabel($label, $default, $required, [], $multiple);
+        $answer = $this->io->select($label, $choices, $default, 3, 'Value "%s" is invalid', $multiple);
 
-        if (isset($choices[$answer])) {
-            return $choices[$answer];
-        }
-        if (isset($choices[$default])) {
-            return $choices[$default];
+        if (is_array($answer)) {
+            return $this->parseMultipleAnswers($answer, $choices, $noSelectionIndex);
         }
 
-        throw Exception\ValidationException::create('No selection was made. Please try again.');
+        return $this->parseSingleAnswer((int) $answer, $choices, $noSelectionIndex);
     }
 
     /**
@@ -122,6 +134,52 @@ final class InputReader
         }
 
         return $noValue;
+    }
+
+    /**
+     * @param list<string|int> $answers
+     * @param list<string>     $choices
+     *
+     * @return list<string>
+     */
+    private function parseMultipleAnswers(array $answers, array $choices, int $noSelectionIndex = null): array
+    {
+        $selections = array_map(
+            fn ($answer): string => $choices[(int) $answer],
+            array_filter($answers, fn ($answer): bool => $noSelectionIndex !== (int) $answer)
+        );
+
+        // @codeCoverageIgnoreStart
+        if ([] === $selections) {
+            throw Exception\ValidationException::create('No selection was made. Please try again.');
+        }
+        // @codeCoverageIgnoreEnd
+
+        return $selections;
+    }
+
+    /**
+     * @param list<string> $choices
+     */
+    private function parseSingleAnswer(int $answer, array $choices, int $noSelectionIndex = null): ?string
+    {
+        $selection = null;
+
+        if ($noSelectionIndex === $answer) {
+            return null;
+        }
+
+        if (isset($choices[$answer])) {
+            $selection = $choices[$answer];
+        }
+
+        // @codeCoverageIgnoreStart
+        if (null === $selection) {
+            throw Exception\ValidationException::create('No selection was made. Please try again.');
+        }
+        // @codeCoverageIgnoreEnd
+
+        return $selection;
     }
 
     private function makeValidator(

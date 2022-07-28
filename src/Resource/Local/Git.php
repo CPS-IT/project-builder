@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Resource\Local;
 
 use SebastianFeldmann\Cli;
+
 use function trim;
 
 /**

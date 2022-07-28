@@ -1,3 +1,16 @@
+2022-07-28         [RELEASE] Release of project-builder 0.2.0 (Elias Häußler)
+2022-07-27 df7ba85 [FEATURE] Properly handle config mapping errors in ErrorHandler (Elias Häußler)
+2022-07-27 4bcde56 [!!!][BUGFIX] Require cuyz/valinor ^0.12.0 (Elias Häußler)
+2022-07-27 9ead92e [BUGFIX] Remove superfluous assert for created `Composer` instance (Elias Häußler)
+2022-07-27 d7946cf [BUGFIX] Apply fixes from PHP-CS-Fixer (Elias Häußler)
+2022-06-28 210ca6c [TASK] Add support for cuyz/valinor 0.11.x (Elias Häußler)
+2022-06-28 423dc4a [BUGFIX] Change package type from `project` to `library` (Elias Häußler)
+2022-06-28 4dfd33d [DOCS] Removing redundant whitespace (Martin)
+2022-06-27 607ba5e [DOCS] Restore original anchor link (Elias Häußler)
+2022-06-27 0e04be7 [BUGFIX] Skip codeclimate coverate report if secret is not available (Elias Häußler)
+2022-06-24 1ca98bf [!!!][FEATURE] Allow selection of multiple sub-property options (Elias Häußler)
+2022-06-21 654c00f [DOC] minor language washing and clarification (Martin Adler)
+
 2022-06-23         [RELEASE] Release of project-builder 0.1.7 (Elias Häußler)
 2022-06-23 4461ad6 [BUGFIX] Skip installation of dependencies during `docker build` (Elias Häußler)
 

@@ -32,12 +32,12 @@ namespace CPSIT\ProjectBuilder\Builder\Config\ValueObject;
 trait ValueTrait
 {
     /**
-     * @var mixed
+     * @var int|float|string|bool|null
      */
     protected $value;
 
     /**
-     * @return mixed
+     * @return int|float|string|bool|null
      */
     public function getValue()
     {

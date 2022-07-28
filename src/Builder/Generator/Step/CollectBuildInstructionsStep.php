@@ -141,7 +141,7 @@ final class CollectBuildInstructionsStep extends AbstractStep
     /**
      * @param list<Builder\Config\ValueObject\PropertyOption> $options
      *
-     * @return mixed
+     * @return int|float|string|null
      */
     private function processOptions(array $options, Builder\BuildInstructions $instructions)
     {
