@@ -1,3 +1,7 @@
+2022-08-01         [RELEASE] Release of project-builder 0.2.1 (Elias Häußler)
+2022-08-01 1fe79de [TASK] Include Composer 2.4@RC in test matrix (Elias Häußler)
+2022-08-01 e858a8a [FEATURE] Add support for cuyz/valinor ^0.13.0 (Elias Häußler)
+
 2022-07-28         [RELEASE] Release of project-builder 0.2.0 (Elias Häußler)
 2022-07-27 df7ba85 [FEATURE] Properly handle config mapping errors in ErrorHandler (Elias Häußler)
 2022-07-27 4bcde56 [!!!][BUGFIX] Require cuyz/valinor ^0.12.0 (Elias Häußler)
