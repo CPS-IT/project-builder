@@ -134,8 +134,9 @@ final class ErrorHandlerTest extends Tests\ContainerAwareTestCase
             yield 'MappingError' => [
                 $error,
                 [
-                    'Could not map type `array{foo: string}` with the given source. [1617193185]',
-                    '- Cannot be empty and must be filled with a value matching type `array{foo: string}`.',
+                    'Could not map type `array{foo: string}`',
+                    '[1617193185]',
+                    'Cannot be empty and must be filled with a value matching type `array{foo: string}`.',
                 ],
             ];
         }
