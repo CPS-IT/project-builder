@@ -1,3 +1,8 @@
+2022-09-01         [RELEASE] Release of project-builder 0.2.2 (Elias Häußler)
+2022-09-01 ee73d16 [TASK] Streamline test workflow (Elias Häußler)
+2022-09-01 1460599 [TASK] Enable Dependabot updates for Composer (Elias Häußler)
+2022-09-01 226c1ea [TASK] Add `composer.lock` file (Elias Häußler)
+
 2022-08-01         [RELEASE] Release of project-builder 0.2.1 (Elias Häußler)
 2022-08-01 1fe79de [TASK] Include Composer 2.4@RC in test matrix (Elias Häußler)
 2022-08-01 e858a8a [FEATURE] Add support for cuyz/valinor ^0.13.0 (Elias Häußler)
