@@ -5,6 +5,7 @@
 /.gitignore               export-ignore
 /.php-cs-fixer.php        export-ignore
 /codecov.yml              export-ignore
+/composer.lock            export-ignore
 /dependency-checker.json  export-ignore
 /docker-entrypoint.sh     export-ignore
 /Dockerfile               export-ignore
