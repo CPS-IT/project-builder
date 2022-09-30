@@ -97,7 +97,7 @@ final class InstallComposerDependenciesStepTest extends Tests\ContainerAwareTest
 
         $configFactory = Src\Builder\Config\ConfigFactory::create();
 
-        return $configFactory->buildFromFile(self::$temporaryDirectory.'/config.yaml');
+        return $configFactory->buildFromFile(self::$temporaryDirectory.'/config.yaml', 'yaml');
     }
 
     protected function tearDown(): void

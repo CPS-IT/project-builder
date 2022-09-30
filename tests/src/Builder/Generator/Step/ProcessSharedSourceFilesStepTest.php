@@ -80,7 +80,10 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
     {
         $configFactory = Src\Builder\Config\ConfigFactory::create();
 
-        return $configFactory->buildFromFile(dirname(__DIR__, 3).'/Fixtures/Templates/yaml-template/config.yaml');
+        return $configFactory->buildFromFile(
+            dirname(__DIR__, 3).'/Fixtures/Templates/yaml-template/config.yaml',
+            'yaml'
+        );
     }
 
     private function findStep(): Src\Builder\Config\ValueObject\Step

@@ -106,4 +106,12 @@ final class InvalidConfigurationException extends Exception
             1653424186
         );
     }
+
+    public static function forMissingManifestFile(string $file): self
+    {
+        return new self(
+            sprintf('The Composer manifest file for "%s" could not be found.', $file),
+            1664558700
+        );
+    }
 }
