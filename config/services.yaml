@@ -12,7 +12,6 @@ services:
       - '../src/Builder/BuildResult.php'
       - '../src/DependencyInjection/*'
       - '../src/Event/*'
-      - '../src/Functions.php'
       - '../src/Naming/NameVariantBuilder.php'
       - '../src/Resource/Local/ProcessedFile.php'
 
