@@ -98,9 +98,9 @@ final class Composer
     /**
      * @internal
      */
-    public static function createClassLoader(): Autoload\ClassLoader
+    public static function createClassLoader(string $rootPath = null): Autoload\ClassLoader
     {
-        $rootPath = Helper\FilesystemHelper::getProjectRootPath();
+        $rootPath ??= Helper\FilesystemHelper::getProjectRootPath();
         $composer = self::createComposer($rootPath);
 
         // Get all packages of type "project-builder-template"
