@@ -37,8 +37,8 @@ jobs:
         run: composer-require-checker check --config-file dependency-checker.json
       - name: Reset composer.json
         run: |
-          git checkout composer.json
-          composer update --no-progress --no-plugins
+          git checkout composer.json composer.lock
+          composer install --no-progress --no-plugins
       - name: Check for unused dependencies
         run: composer-unused --excludePackage=symfony/polyfill-php80
 
