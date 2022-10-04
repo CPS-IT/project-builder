@@ -32,6 +32,7 @@ use Symfony\Component\DependencyInjection;
  * @license GPL-3.0-or-later
  *
  * @internal Only to be used for testing purposes
+ *
  * @codeCoverageIgnore
  */
 final class PublicServicePass implements DependencyInjection\Compiler\CompilerPassInterface

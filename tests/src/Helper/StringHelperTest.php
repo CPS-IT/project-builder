@@ -39,6 +39,7 @@ final class StringHelperTest extends TestCase
      * @test
      *
      * @param Src\StringCase::* $case
+     *
      * @dataProvider convertCaseConvertsStringToGivenCaseDataProvider
      */
     public function convertCaseConvertsStringToGivenCase(string $string, string $case, string $expected): void
@@ -61,6 +62,7 @@ final class StringHelperTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider
      *
      * @param array<string, string> $replacePairs

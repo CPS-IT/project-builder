@@ -59,6 +59,7 @@ final class SlugifyFilterTest extends Tests\ContainerAwareTestCase
 
     /**
      * @test
+     *
      * @dataProvider invokeReturnsSlugForGivenInputDataProvider
      */
     public function invokeReturnsSlugForGivenInput(?string $separator, string $expected): void
