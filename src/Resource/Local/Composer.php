@@ -129,10 +129,13 @@ final class Composer
     /**
      * @internal
      */
-    private static function createComposer(string $rootPath): \Composer\Composer
+    public static function createComposer(string $rootPath): \Composer\Composer
     {
         $factory = new Factory();
 
-        return $factory->createComposer(new IO\NullIO(), null, false, $rootPath);
+        return $factory->createComposer(
+            new IO\NullIO(),
+            Filesystem\Path::join($rootPath, 'composer.json')
+        );
     }
 }

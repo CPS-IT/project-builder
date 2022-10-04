@@ -68,9 +68,9 @@ final class ConfigReaderTest extends TestCase
 
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
         $this->expectExceptionCode(1652950002);
-        $this->expectExceptionMessageMatches('#^Configuration for "invalid" already exists as "[^"]+"\\. Please use only one config file per template!$#');
+        $this->expectExceptionMessageMatches('#^Configuration for "cpsit/project-builder-template-invalid" already exists as "[^"]+"\\. Please use only one config file per template!$#');
 
-        $subject->readConfig('invalid');
+        $subject->readConfig('cpsit/project-builder-template-invalid');
     }
 
     /**
@@ -78,9 +78,9 @@ final class ConfigReaderTest extends TestCase
      */
     public function readConfigReturnsHydratedConfigObject(): void
     {
-        $actual = $this->subject->readConfig('yaml');
+        $actual = $this->subject->readConfig('cpsit/project-builder-template-yaml');
 
-        self::assertSame('yaml', $actual->getIdentifier());
+        self::assertSame('cpsit/project-builder-template-yaml', $actual->getIdentifier());
         self::assertSame(
             dirname(__DIR__, 2).'/Fixtures/Templates/yaml-template/config.yaml',
             $actual->getDeclaringFile()
@@ -92,8 +92,8 @@ final class ConfigReaderTest extends TestCase
      */
     public function hasConfigChecksWhetherConfigWithGivenIdentifierExists(): void
     {
-        self::assertTrue($this->subject->hasConfig('json'));
-        self::assertTrue($this->subject->hasConfig('yaml'));
+        self::assertTrue($this->subject->hasConfig('cpsit/project-builder-template-json'));
+        self::assertTrue($this->subject->hasConfig('cpsit/project-builder-template-yaml'));
         self::assertFalse($this->subject->hasConfig('foo'));
     }
 
@@ -103,8 +103,8 @@ final class ConfigReaderTest extends TestCase
     public function listTemplateListsAllAvailableTemplates(): void
     {
         $expected = [
-            'json' => 'Json',
-            'yaml' => 'Yaml',
+            'cpsit/project-builder-template-json' => 'Json',
+            'cpsit/project-builder-template-yaml' => 'Yaml',
         ];
 
         self::assertSame($expected, $this->subject->listTemplates());

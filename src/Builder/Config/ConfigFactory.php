@@ -35,7 +35,6 @@ use Symfony\Component\Filesystem;
 use Symfony\Component\Yaml;
 
 use function dirname;
-use function is_iterable;
 use function json_decode;
 
 /**
@@ -73,7 +72,7 @@ final class ConfigFactory
         return new self($mapper, new JsonSchema\Validator());
     }
 
-    public function buildFromFile(string $file): Config
+    public function buildFromFile(string $file, string $identifier): Config
     {
         $type = $this->determineFileType($file);
         $content = file_get_contents($file);
@@ -84,13 +83,12 @@ final class ConfigFactory
             // @codeCoverageIgnoreEnd
         }
 
-        $config = $this->buildFromString($content, $type);
-        $config->setDeclaringFile($file);
+        $config = $this->buildFromString($content, $identifier, $type);
 
-        return $config;
+        return $config->setDeclaringFile($file);
     }
 
-    public function buildFromString(string $content, string $type): Config
+    public function buildFromString(string $content, string $identifier, string $type): Config
     {
         $parsedContent = $this->parseContent($content, $type);
         $validationResult = $this->validateConfig($parsedContent);
@@ -99,7 +97,7 @@ final class ConfigFactory
             throw Exception\InvalidConfigurationException::forValidationErrors($validationResult->error());
         }
 
-        $source = $this->generateMapperSource($content, $type);
+        $source = $this->generateMapperSource($content, $identifier, $type);
 
         return $this->mapper->map(Config::class, $source);
     }
@@ -122,16 +120,16 @@ final class ConfigFactory
         return $this->validator->validate($parsedContent, $schemaReference);
     }
 
-    private function generateMapperSource(string $content, string $type): Mapper\Source\Source
+    private function generateMapperSource(string $content, string $identifier, string $type): Mapper\Source\Source
     {
         switch ($type) {
             case FileType::YAML:
-                $iterable = Yaml\Yaml::parse($content);
+                $parsedContent = Yaml\Yaml::parse($content);
 
                 break;
 
             case FileType::JSON:
-                $iterable = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+                $parsedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
                 break;
 
@@ -140,12 +138,15 @@ final class ConfigFactory
         }
 
         // @codeCoverageIgnoreStart
-        if (!is_iterable($iterable)) {
+        if (!is_array($parsedContent)) {
             throw Exception\InvalidConfigurationException::forSource($content);
         }
         // @codeCoverageIgnoreEnd
 
-        return Mapper\Source\Source::iterable($iterable);
+        // Enforce custom identifier
+        $parsedContent['identifier'] = $identifier;
+
+        return Mapper\Source\Source::array($parsedContent);
     }
 
     private function parseContent(string $content, string $type): stdClass

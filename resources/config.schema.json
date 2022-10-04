@@ -6,7 +6,8 @@
 		"identifier": {
 			"type": "string",
 			"title": "Project template identifier",
-			"description": "Will be used to locate source and configuration files"
+			"description": "No longer needed, templates are now identified by their Composer package name.",
+			"deprecated": true
 		},
 		"name": {
 			"type": "string",
@@ -33,7 +34,6 @@
 	},
 	"additionalProperties": false,
 	"required": [
-		"identifier",
 		"name",
 		"steps"
 	],
