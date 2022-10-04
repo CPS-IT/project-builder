@@ -140,6 +140,13 @@ final class ConfigReader
 
     private function createFinder(): Finder\Finder
     {
+        $filesystem = new Filesystem\Filesystem();
+
+        // Ensure template directory exists
+        if (!$filesystem->exists($this->templateDirectory)) {
+            $filesystem->mkdir($this->templateDirectory);
+        }
+
         $finder = Finder\Finder::create()
             ->files()
             ->in($this->templateDirectory)
