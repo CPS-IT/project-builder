@@ -65,6 +65,7 @@ final class NameVariantBuilder
                 return $this->createFullVariant($case);
         }
 
+        /* @phpstan-ignore-next-line */
         throw Exception\UnsupportedTypeException::create($variant);
     }
 

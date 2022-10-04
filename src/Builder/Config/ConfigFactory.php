@@ -34,7 +34,6 @@ use stdClass;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Yaml;
 
-use function assert;
 use function dirname;
 use function is_iterable;
 use function json_decode;
@@ -101,11 +100,8 @@ final class ConfigFactory
         }
 
         $source = $this->generateMapperSource($content, $type);
-        $config = $this->mapper->map(Config::class, $source);
 
-        assert($config instanceof Config);
-
-        return $config;
+        return $this->mapper->map(Config::class, $source);
     }
 
     private function validateConfig(stdClass $parsedContent): JsonSchema\ValidationResult
