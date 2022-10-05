@@ -341,17 +341,17 @@
         },
         {
             "name": "cpsit/project-builder-template-typo3-cms-bundle",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@gitlab.321.works/DevOps/templates/backend/project-builder/typo3-cms-bundle.git",
-                "reference": "6fff87b7308b7ace9c662a7647ee6a26735f5671"
+                "reference": "64fa6262cf28db487de379059c58a5c74f46d1a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://composer.321.works/dist/cpsit/project-builder-template-typo3-cms-bundle/cpsit-project-builder-template-typo3-cms-bundle-1.2.0-e9ad20.zip",
-                "reference": "6fff87b7308b7ace9c662a7647ee6a26735f5671",
-                "shasum": "fb4c454611afb8a333c0be015e4e0aba9061cae6"
+                "url": "https://composer.321.works/dist/cpsit/project-builder-template-typo3-cms-bundle/cpsit-project-builder-template-typo3-cms-bundle-1.2.1-0a1ae2.zip",
+                "reference": "64fa6262cf28db487de379059c58a5c74f46d1a5",
+                "shasum": "6b64773e6f34184fbda2378b0c4124ea94947d3a"
             },
             "require": {
                 "cpsit/project-builder-shared-ddev": "^1.0",
@@ -407,9 +407,6 @@
                 }
             },
             "scripts": {
-                "post-autoload-dump": [
-                    "@php tests/bootstrap.php"
-                ],
                 "lint": [
                     "@lint:composer",
                     "@lint:editorconfig:fix",
@@ -439,6 +436,7 @@
                     "@sca:php"
                 ],
                 "sca:php": [
+                    "@php tests/bootstrap.php",
                     "phpstan analyse -c phpstan.neon"
                 ],
                 "test": [
@@ -467,7 +465,7 @@
                 }
             ],
             "description": "Project builder template package for TYPO3 CMS bundles",
-            "time": "2022-10-05T19:05:09+00:00"
+            "time": "2022-10-05T19:29:32+00:00"
         },
         {
             "name": "cuyz/valinor",
