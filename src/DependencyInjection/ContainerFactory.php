@@ -88,12 +88,17 @@ final class ContainerFactory
         return self::create($resourcePaths);
     }
 
-    public static function createForTesting(): self
+    public static function createForTesting(string $testsRootPath = 'tests'): self
     {
+        if (!Filesystem\Path::isAbsolute($testsRootPath)) {
+            $testsRootPath = Filesystem\Path::join(
+                Helper\FilesystemHelper::getProjectRootPath(),
+                $testsRootPath
+            );
+        }
         $resources = self::locateResources([
             Filesystem\Path::join(
-                Helper\FilesystemHelper::getProjectRootPath(),
-                'tests',
+                $testsRootPath,
                 'config'
             ),
         ]);

@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Builder\Config;
 
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\Paths;
+use CPSIT\ProjectBuilder\Resource;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
 
@@ -111,7 +112,8 @@ final class ConfigReader
         $this->parsedConfig = [];
 
         foreach ($this->finder as $configFile) {
-            $config = $this->factory->buildFromFile($configFile->getPathname());
+            $identifier = $this->determineIdentifier($configFile->getPathname());
+            $config = $this->factory->buildFromFile($configFile->getPathname(), $identifier);
 
             if (array_key_exists($config->getIdentifier(), $this->parsedConfig)) {
                 throw Exception\InvalidConfigurationException::forAmbiguousFiles($config->getIdentifier(), $this->parsedConfig[$config->getIdentifier()]->getDeclaringFile());
@@ -123,6 +125,17 @@ final class ConfigReader
         uasort($this->parsedConfig, fn (Config $a, Config $b): int => strcasecmp($a->getName(), $b->getName()));
 
         $this->parsed = true;
+    }
+
+    private function determineIdentifier(string $configFile): string
+    {
+        try {
+            $composer = Resource\Local\Composer::createComposer(dirname($configFile));
+        } catch (\Exception $exception) {
+            throw Exception\InvalidConfigurationException::forMissingManifestFile($configFile);
+        }
+
+        return $composer->getPackage()->getName();
     }
 
     private function createFinder(): Finder\Finder

@@ -82,7 +82,7 @@ abstract class ContainerAwareTestCase extends TestCase
                         ),
                     ],
                 ),
-            ],
+            ]
         );
         $config->setDeclaringFile(__FILE__);
 

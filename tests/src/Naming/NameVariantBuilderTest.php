@@ -74,6 +74,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
 
     /**
      * @test
+     *
      * @dataProvider createShortVariantReturnsShortVariantDataProvider
      */
     public function createShortVariantReturnsShortVariant(string $customerName, ?string $projectName, string $expected): void
@@ -109,6 +110,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
 
     /**
      * @test
+     *
      * @dataProvider createAbbreviationVariantReturnsAbbreviationVariantDataProvider
      */
     public function createAbbreviationVariantReturnsAbbreviationVariant(string $customerName, ?string $projectName, string $expected): void
@@ -144,6 +146,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
 
     /**
      * @test
+     *
      * @dataProvider createFullVariantReturnsFullVariantDataProvider
      */
     public function createFullVariantReturnsFullVariant(string $customerName, ?string $projectName, string $expected): void
@@ -171,6 +174,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
 
     /**
      * @test
+     *
      * @dataProvider isDefaultProjectNameReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider
      */
     public function isDefaultProjectNameReturnsTrueIfGivenProjectNameIsTheDefault(?string $projectName, bool $expected): void

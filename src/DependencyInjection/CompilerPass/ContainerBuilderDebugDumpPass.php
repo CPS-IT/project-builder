@@ -34,6 +34,7 @@ use Symfony\Component\DependencyInjection;
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @internal Only to be used for testing purposes
+ *
  * @codeCoverageIgnore
  *
  * @see https://github.com/symfony/framework-bundle/blob/5.4/DependencyInjection/Compiler/ContainerBuilderDebugDumpPass.php

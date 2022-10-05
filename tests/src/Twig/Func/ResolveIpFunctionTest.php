@@ -76,6 +76,7 @@ final class ResolveIpFunctionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider invokeReturnsResolvedIpAddressDataProvider
      */
     public function invokeReturnsResolvedIpAddress(string $hostname): void

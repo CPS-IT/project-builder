@@ -68,6 +68,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
 
     /**
      * @test
+     *
      * @dataProvider invokeReturnsNameVariantDataProvider
      *
      * @param Src\Naming\NameVariant::* $variant

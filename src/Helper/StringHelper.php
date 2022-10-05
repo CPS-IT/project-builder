@@ -61,6 +61,7 @@ final class StringHelper
                 return str_replace(' ', '', lcfirst(ucwords($string)));
         }
 
+        /* @phpstan-ignore-next-line */
         throw Exception\UnsupportedTypeException::create($case);
     }
 

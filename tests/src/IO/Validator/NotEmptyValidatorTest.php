@@ -44,6 +44,7 @@ final class NotEmptyValidatorTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider invokeThrowsExceptionIfGivenInputIsEmptyDataProvider
      */
     public function invokeThrowsExceptionIfGivenInputIsEmpty(?string $input): void

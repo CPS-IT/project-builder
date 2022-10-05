@@ -50,6 +50,7 @@ final class ErrorHandlerTest extends Tests\ContainerAwareTestCase
 
     /**
      * @test
+     *
      * @dataProvider handleExceptionWritesFormattedErrorMessageDataProvider
      *
      * @param list<string> $expectedOutput

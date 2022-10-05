@@ -53,7 +53,7 @@ final class ConfigFactoryTest extends TestCase
         $this->expectExceptionCode(1652800199);
         $this->expectExceptionMessage('The type "php" is not supported.');
 
-        $this->subject->buildFromFile(__FILE__);
+        $this->subject->buildFromFile(__FILE__, 'foo');
     }
 
     /**
@@ -64,7 +64,7 @@ final class ConfigFactoryTest extends TestCase
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
         $this->expectExceptionCode(1653303396);
 
-        $this->subject->buildFromFile(dirname(__DIR__, 2).'/Fixtures/Files/invalid-config.yaml');
+        $this->subject->buildFromFile(dirname(__DIR__, 2).'/Fixtures/Files/invalid-config.yaml', 'foo');
     }
 
     /**
@@ -125,7 +125,7 @@ final class ConfigFactoryTest extends TestCase
                         ),
                     ],
                 ),
-            ],
+            ]
         );
 
         foreach (['json', 'yaml'] as $fileType) {
@@ -133,7 +133,7 @@ final class ConfigFactoryTest extends TestCase
             $expected = $createConfig($fileType);
             $expected->setDeclaringFile($configFile);
 
-            self::assertEquals($expected, $this->subject->buildFromFile($configFile));
+            self::assertEquals($expected, $this->subject->buildFromFile($configFile, $fileType));
         }
     }
 
@@ -146,7 +146,7 @@ final class ConfigFactoryTest extends TestCase
         $this->expectExceptionCode(1652800199);
         $this->expectExceptionMessage('The type "php" is not supported.');
 
-        $this->subject->buildFromString('foo', 'php');
+        $this->subject->buildFromString('foo', 'baz', 'php');
     }
 
     /**
@@ -158,6 +158,6 @@ final class ConfigFactoryTest extends TestCase
         $this->expectExceptionCode(1653058480);
         $this->expectExceptionMessage('The config source "foo" is invalid and cannot be processed.');
 
-        $this->subject->buildFromString('foo', 'yaml');
+        $this->subject->buildFromString('foo', 'baz', 'yaml');
     }
 }

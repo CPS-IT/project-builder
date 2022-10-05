@@ -44,6 +44,7 @@ final class DefaultProjectNameFunctionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider invokeReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider
      */
     public function invokeReturnsTrueIfGivenProjectNameIsTheDefault(?string $projectName, bool $expected): void

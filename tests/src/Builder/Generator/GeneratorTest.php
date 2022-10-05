@@ -149,7 +149,8 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         $configReader = Src\Builder\Config\ConfigFactory::create();
 
         return $configReader->buildFromFile(
-            dirname(__DIR__, 2).'/Fixtures/Templates/yaml-template/config.yaml'
+            dirname(__DIR__, 2).'/Fixtures/Templates/yaml-template/config.yaml',
+            'yaml'
         );
     }
 

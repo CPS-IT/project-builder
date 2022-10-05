@@ -35,6 +35,7 @@ use function ltrim;
  * @license GPL-3.0-or-later
  *
  * @internal
+ *
  * @codeCoverageIgnore
  */
 final class FactoryServicesPass implements DependencyInjection\Compiler\CompilerPassInterface

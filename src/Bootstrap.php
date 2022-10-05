@@ -108,6 +108,7 @@ final class Bootstrap
      * anywhere else than in debugging test cases.
      *
      * @internal
+     *
      * @codeCoverageIgnore
      */
     public static function simulateCreateProject(Script\Event $event): void

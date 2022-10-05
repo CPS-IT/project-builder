@@ -37,6 +37,7 @@ use function class_exists;
  * @license GPL-3.0-or-later
  *
  * @internal
+ *
  * @codeCoverageIgnore
  */
 final class EventListenerPass implements DependencyInjection\Compiler\CompilerPassInterface

@@ -81,6 +81,7 @@ final class InputReader
      * @param bool|string|null $default
      *
      * @return string|list<string>|null
+     *
      * @phpstan-return ($multiple is true ? list<string> : string|null)
      *
      * @throws Exception\IOException
