@@ -1,3 +1,10 @@
+2022-10-05         [RELEASE] Release of project-builder 0.3.0 (Elias Häußler)
+2022-09-30 bccfc96 [FEATURE] Add support for cuyz/valinor 0.14.x (Elias Häußler)
+2022-09-30 0748249 [!!!][FEATURE] Deprecate config identifier and use Composer name instead (Elias Häußler)
+2022-10-04 f05156c [TASK] Update PHPStan and fix reported issues (Elias Häußler)
+2022-10-04 43a391d [TASK] Update friendsofphp/php-cs-fixer and fix new linting issues (Elias Häußler)
+2022-09-30 7e2e52d [TASK] Allow specifying different test root path when creating container (Elias Häußler)
+
 2022-09-01         [RELEASE] Release of project-builder 0.2.2 (Elias Häußler)
 2022-09-01 ee73d16 [TASK] Streamline test workflow (Elias Häußler)
 2022-09-01 1460599 [TASK] Enable Dependabot updates for Composer (Elias Häußler)
