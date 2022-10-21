@@ -1,3 +1,11 @@
+2022-10-21         [RELEASE] Release of project-builder 0.3.1 (Elias Häußler)
+2022-10-21 e6addd5 [FEATURE] Support `fnmatch` symbols in step's file condition paths (Elias Häußler)
+2022-10-21 f9955e7 [BUGFIX] Use correct subject and assertions in test (Elias Häußler)
+2022-10-20 d222e16 [TASK]: Bump paambaati/codeclimate-action from 3.1.0 to 3.1.1 (dependabot[bot])
+2022-10-14 5f3cdbe [TASK]: Bump paambaati/codeclimate-action from 3.0.0 to 3.1.0 (dependabot[bot])
+2022-10-05 7d1fbde [TASK] Update cpsit/project-builder-template-typo3-cms-bundle (Elias Häußler)
+2022-10-05 de7d3cf [TASK] Update all template packages and shared template packages (Elias Häußler)
+
 2022-10-05         [RELEASE] Release of project-builder 0.3.0 (Elias Häußler)
 2022-09-30 bccfc96 [FEATURE] Add support for cuyz/valinor 0.14.x (Elias Häußler)
 2022-09-30 0748249 [!!!][FEATURE] Deprecate config identifier and use Composer name instead (Elias Häußler)

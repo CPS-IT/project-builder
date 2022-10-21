@@ -11,6 +11,10 @@
 					{
 						"path": "dummy-2.json",
 						"if": "false"
+					},
+					{
+						"path": "*-3.json",
+						"if": "false"
 					}
 				]
 			}
@@ -21,6 +25,10 @@
 				"fileConditions": [
 					{
 						"path": "shared-dummy-2.json",
+						"if": "false"
+					},
+					{
+						"path": "shared-*-3.json",
 						"if": "false"
 					}
 				]

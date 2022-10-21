@@ -284,17 +284,17 @@
         },
         {
             "name": "cpsit/project-builder-shared-deployment",
-            "version": "1.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@gitlab.321.works/DevOps/templates/backend/project-builder/shared/deployment.git",
-                "reference": "4caaee7f560de7669ba67ed6d8ab290b8f348917"
+                "reference": "123fbb528ad9d518739eb99e3dd62e6b76fe0db8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://composer.321.works/dist/cpsit/project-builder-shared-deployment/cpsit-project-builder-shared-deployment-1.0.0-c96efb.zip",
-                "reference": "4caaee7f560de7669ba67ed6d8ab290b8f348917",
-                "shasum": "64f2a29dc8a7fd5519a9cec4c709566148779cc2"
+                "url": "https://composer.321.works/dist/cpsit/project-builder-shared-deployment/cpsit-project-builder-shared-deployment-2.0.1-234fd7.zip",
+                "reference": "123fbb528ad9d518739eb99e3dd62e6b76fe0db8",
+                "shasum": "e8d25c387dcd11c373ecd27df765abecc81efdcf"
             },
             "require-dev": {
                 "armin/editorconfig-cli": "^1.5",
@@ -337,39 +337,50 @@
                 }
             ],
             "description": "Shared deployment templates for project builder project types",
-            "time": "2022-06-02T16:16:05+00:00"
+            "time": "2022-10-05T18:53:23+00:00"
         },
         {
             "name": "cpsit/project-builder-template-typo3-cms-bundle",
-            "version": "1.1.4",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@gitlab.321.works/DevOps/templates/backend/project-builder/typo3-cms-bundle.git",
-                "reference": "1adb1b32e5a719db3111be0a8f1e48614c924771"
+                "reference": "64fa6262cf28db487de379059c58a5c74f46d1a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://composer.321.works/dist/cpsit/project-builder-template-typo3-cms-bundle/cpsit-project-builder-template-typo3-cms-bundle-1.1.4-01c7e6.zip",
-                "reference": "1adb1b32e5a719db3111be0a8f1e48614c924771",
-                "shasum": "d286ab7e790bce5197219eb24f36fb9ba0a4ab07"
+                "url": "https://composer.321.works/dist/cpsit/project-builder-template-typo3-cms-bundle/cpsit-project-builder-template-typo3-cms-bundle-1.2.1-0a1ae2.zip",
+                "reference": "64fa6262cf28db487de379059c58a5c74f46d1a5",
+                "shasum": "6b64773e6f34184fbda2378b0c4124ea94947d3a"
             },
             "require": {
                 "cpsit/project-builder-shared-ddev": "^1.0",
-                "cpsit/project-builder-shared-deployment": "^1.0",
+                "cpsit/project-builder-shared-deployment": "^2.0",
+                "cuyz/valinor": "^0.12.0 || ^0.13.0 || ^0.14.0",
+                "guzzlehttp/guzzle": "^7.0",
+                "nyholm/psr7": "^1.5",
                 "oomphinc/composer-installers-extender": "^2.0",
                 "php": ">= 7.4 < 8.2",
-                "symfony/filesystem": "^5.4 || ^6.0"
+                "psr/http-client": "^1.0",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.0",
+                "symfony/filesystem": "^5.4 || ^6.0",
+                "webmozart/assert": "^1.11"
             },
             "require-dev": {
                 "armin/editorconfig-cli": "^1.5",
                 "composer/composer": "^2.1",
-                "cpsit/project-builder": "^0.1.0 || ^0.2.0",
+                "cpsit/project-builder": "^0.3.0",
                 "ergebnis/composer-normalize": "^2.27",
                 "friendsofphp/php-cs-fixer": "^3.8",
                 "friendsoftwig/twigcs": "^6.0",
                 "j13k/yaml-lint": "^1.1",
                 "phpstan/phpstan": "^1.7",
-                "phpstan/phpstan-strict-rules": "^1.2"
+                "phpstan/phpstan-phpunit": "^1.1",
+                "phpstan/phpstan-strict-rules": "^1.2",
+                "phpstan/phpstan-symfony": "^1.2",
+                "phpstan/phpstan-webmozart-assert": "^1.2",
+                "phpunit/phpunit": "^9.5"
             },
             "type": "project-builder-template",
             "extra": {
@@ -388,6 +399,11 @@
             "autoload": {
                 "psr-4": {
                     "CPSIT\\ProjectBuilderTemplate\\Typo3CmsBundle\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "CPSIT\\ProjectBuilderTemplate\\Typo3CmsBundle\\Tests\\": "tests/src/"
                 }
             },
             "scripts": {
@@ -420,7 +436,14 @@
                     "@sca:php"
                 ],
                 "sca:php": [
+                    "@php tests/bootstrap.php",
                     "phpstan analyse -c phpstan.neon"
+                ],
+                "test": [
+                    "phpunit -c phpunit.xml"
+                ],
+                "test:coverage": [
+                    "phpunit -c phpunit.coverage.xml"
                 ],
                 "validate-schema": [
                     "bin/validate-schema.sh"
@@ -442,7 +465,7 @@
                 }
             ],
             "description": "Project builder template package for TYPO3 CMS bundles",
-            "time": "2022-07-28T09:33:20+00:00"
+            "time": "2022-10-05T19:29:32+00:00"
         },
         {
             "name": "cuyz/valinor",
