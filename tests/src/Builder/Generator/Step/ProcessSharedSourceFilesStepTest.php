@@ -34,14 +34,14 @@ use CPSIT\ProjectBuilder\Tests;
  */
 final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCase
 {
-    private Src\Builder\Generator\Step\ProcessSourceFilesStep $subject;
+    private Src\Builder\Generator\Step\ProcessSharedSourceFilesStep $subject;
     private Src\Builder\BuildResult $result;
 
     protected function setUp(): void
     {
         $step = $this->findStep();
 
-        $this->subject = self::$container->get(Src\Builder\Generator\Step\ProcessSourceFilesStep::class);
+        $this->subject = self::$container->get(Src\Builder\Generator\Step\ProcessSharedSourceFilesStep::class);
         $this->subject->setConfig($step);
         $this->result = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(self::$config, 'foo')
@@ -57,8 +57,8 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
 
         self::assertTrue($actual);
         self::assertCount(1, $this->subject->getProcessedFiles());
-        self::assertSame('dummy.yaml', $this->subject->getProcessedFiles()[0]->getTargetFile()->getRelativePathname());
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/dummy.yaml');
+        self::assertSame('shared-dummy.yaml', $this->subject->getProcessedFiles()[0]->getTargetFile()->getRelativePathname());
+        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy.yaml');
         self::assertTrue($this->result->isStepApplied($this->subject));
     }
 
@@ -69,11 +69,11 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
     {
         $this->subject->run($this->result);
 
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/dummy.yaml');
+        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy.yaml');
 
         $this->subject->revert($this->result);
 
-        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/dummy.yaml');
+        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy.yaml');
     }
 
     protected static function createConfig(): Src\Builder\Config\Config
@@ -89,7 +89,7 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
     private function findStep(): Src\Builder\Config\ValueObject\Step
     {
         foreach (self::$config->getSteps() as $step) {
-            if (Src\Builder\Generator\Step\ProcessSourceFilesStep::getType() === $step->getType()) {
+            if (Src\Builder\Generator\Step\ProcessSharedSourceFilesStep::getType() === $step->getType()) {
                 return $step;
             }
         }
