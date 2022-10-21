@@ -18,11 +18,9 @@
 		"ext-mbstring": "*",
 		"composer-runtime-api": "^2.1",
 		"cocur/slugify": "^4.1",
-		"composer/installers": "^2.0",
 		"cuyz/valinor": "^0.12.0 || ^0.13.0 || ^0.14.0 || ^0.15.0 || ^0.16.0",
 		"guzzlehttp/guzzle": "^7.0",
 		"nyholm/psr7": "^1.5",
-		"oomphinc/composer-installers-extender": "^2.0",
 		"opis/json-schema": "^2.3",
 		"psr/http-client": "^1.0",
 		"psr/http-factory": "^1.0",
@@ -38,13 +36,13 @@
 		"symfony/polyfill-php80": "^1.25",
 		"symfony/yaml": "^5.4 || ^6.0",
 		"twig/twig": "^3.3.3",
-		"webmozart/assert": "^1.11",
-		"wikimedia/composer-merge-plugin": "^2.0"
+		"webmozart/assert": "^1.11"
 	},
 	"require-dev": {
 		"armin/editorconfig-cli": "^1.5",
 		"composer/composer": "^2.2.13 || ^2.3.6",
 		"composer/xdebug-handler": "^3.0",
+		"donatj/mock-webserver": "^2.5",
 		"ergebnis/composer-normalize": "^2.26",
 		"friendsofphp/php-cs-fixer": "^3.8",
 		"phpstan/phpstan": "^1.9",
@@ -70,32 +68,10 @@
 	},
 	"config": {
 		"allow-plugins": {
-			"composer/installers": true,
-			"ergebnis/composer-normalize": true,
-			"oomphinc/composer-installers-extender": true,
-			"pestphp/pest-plugin": true,
-			"wikimedia/composer-merge-plugin": true
+			"ergebnis/composer-normalize": true
 		},
 		"sort-packages": true,
 		"vendor-dir": ".build/vendor"
-	},
-	"extra": {
-		"installer-paths": {
-			".build/templates/{$name}": [
-				"type:project-builder-template"
-			]
-		},
-		"installer-types": [
-			"project-builder-template"
-		],
-		"merge-plugin": {
-			"include": [
-				"composer.templates.json"
-			],
-			"merge-dev": false,
-			"merge-extra": true,
-			"merge-extra-deep": true
-		}
 	},
 	"scripts": {
 		"post-create-project-cmd": [

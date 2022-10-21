@@ -39,6 +39,11 @@ abstract class Paths
     ];
 
     /**
+     * Path to template source installer.
+     */
+    public const PROJECT_INSTALLER = 'installer';
+
+    /**
      * Path to JSON schema for template config files.
      */
     public const PROJECT_SCHEMA_CONFIG = 'resources/config.schema.json';

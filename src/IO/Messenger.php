@@ -24,8 +24,11 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\IO;
 
 use Composer\IO;
+use Composer\Package;
 use CPSIT\ProjectBuilder\Builder;
+use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\Resource;
+use CPSIT\ProjectBuilder\Template;
 use Symfony\Component\Console;
 
 use function count;
@@ -103,13 +106,52 @@ final class Messenger
     }
 
     /**
-     * @param array<string, string> $templates
+     * @param list<Template\Provider\ProviderInterface> $providers
      */
-    public function selectTemplate(array $templates): string
+    public function selectProvider(array $providers): Template\Provider\ProviderInterface
     {
-        $identifiers = array_keys($templates);
-        $labels = array_values($templates);
-        $defaultIdentifier = array_key_first($identifiers);
+        $labels = array_map(
+            fn (Template\Provider\ProviderInterface $provider) => $provider->getName(),
+            array_values($providers)
+        );
+        $defaultIdentifier = array_key_first($providers);
+
+        $index = $this->getIO()->select(
+            self::decorateLabel('Which platform hosts the project template you want to create?', $defaultIdentifier),
+            $labels,
+            (string) $defaultIdentifier
+        );
+
+        $selectedProvider = $providers[(int) $index];
+
+        if (!($selectedProvider instanceof Template\Provider\CustomProviderInterface)) {
+            $this->newLine();
+
+            return $selectedProvider;
+        }
+
+        $selectedProvider->requestCustomOptions($this);
+
+        $this->newLine();
+
+        return $selectedProvider;
+    }
+
+    public function selectTemplateSource(Template\Provider\ProviderInterface $provider): Template\TemplateSource
+    {
+        $this->progress('Fetching available template sources...', IO\IOInterface::NORMAL);
+
+        $templateSources = $provider->listTemplateSources();
+
+        $this->done();
+        $this->newLine();
+
+        if ([] === $templateSources) {
+            throw Exception\InvalidTemplateSourceException::forProvider($provider);
+        }
+
+        $labels = array_map([$this, 'decorateTemplateSource'], $templateSources);
+        $defaultIdentifier = array_key_first($templateSources);
 
         $index = $this->getIO()->select(
             self::decorateLabel('Please select a project you would like to create', $defaultIdentifier),
@@ -119,7 +161,7 @@ final class Messenger
 
         $this->newLine();
 
-        return $identifiers[(int) $index];
+        return $templateSources[(int) $index];
     }
 
     public function confirmOverwrite(string $directory): bool
@@ -349,6 +391,24 @@ final class Messenger
         $label .= ': ';
 
         return $label;
+    }
+
+    private function decorateTemplateSource(Template\TemplateSource $templateSource): string
+    {
+        $package = $templateSource->getPackage();
+        $name = $package->getPrettyName();
+
+        if (!($package instanceof Package\CompletePackageInterface)) {
+            return $name;
+        }
+
+        $description = $package->getDescription();
+
+        if (null === $description || '' === trim($description)) {
+            return $name;
+        }
+
+        return sprintf('%s (<comment>%s</comment>)', $description, $name);
     }
 
     /**

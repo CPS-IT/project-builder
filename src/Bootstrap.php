@@ -203,7 +203,14 @@ final class Bootstrap
         $this->messenger->welcome();
 
         try {
-            $templateIdentifier = $this->messenger->selectTemplate($this->configReader->listTemplates());
+            $templateProvider = $this->messenger->selectProvider([
+                new Template\Provider\PackagistProvider($this->messenger, $this->filesystem),
+                new Template\Provider\CustomComposerProvider($this->messenger, $this->filesystem),
+            ]);
+            $templateSource = $this->messenger->selectTemplateSource($templateProvider);
+            $templateSource->getProvider()->installTemplateSource($templateSource);
+            $templateIdentifier = $templateSource->getPackage()->getName();
+
             $config = $this->configReader->readConfig($templateIdentifier);
             $container = $this->buildContainer($config);
 
