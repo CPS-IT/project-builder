@@ -59,6 +59,8 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
         self::assertCount(1, $this->subject->getProcessedFiles());
         self::assertSame('dummy.yaml', $this->subject->getProcessedFiles()[0]->getTargetFile()->getRelativePathname());
         self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/dummy.yaml');
+        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/dummy-2.yaml');
+        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/dummy-3.yaml');
         self::assertTrue($this->result->isStepApplied($this->subject));
     }
 

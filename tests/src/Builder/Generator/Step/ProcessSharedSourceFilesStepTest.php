@@ -59,6 +59,8 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
         self::assertCount(1, $this->subject->getProcessedFiles());
         self::assertSame('shared-dummy.yaml', $this->subject->getProcessedFiles()[0]->getTargetFile()->getRelativePathname());
         self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy.yaml');
+        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy-2.yaml');
+        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy-3.yaml');
         self::assertTrue($this->result->isStepApplied($this->subject));
     }
 
