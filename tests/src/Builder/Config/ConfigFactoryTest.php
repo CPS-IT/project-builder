@@ -81,12 +81,14 @@ final class ConfigFactoryTest extends TestCase
                     'processSourceFiles',
                     new Src\Builder\Config\ValueObject\StepOptions([
                         new Src\Builder\Config\ValueObject\FileCondition('dummy-2.'.$type, 'false'),
+                        new Src\Builder\Config\ValueObject\FileCondition('*-3.'.$type, 'false'),
                     ])
                 ),
                 new Src\Builder\Config\ValueObject\Step(
                     'processSharedSourceFiles',
                     new Src\Builder\Config\ValueObject\StepOptions([
                         new Src\Builder\Config\ValueObject\FileCondition('shared-dummy-2.'.$type, 'false'),
+                        new Src\Builder\Config\ValueObject\FileCondition('shared-*-3.'.$type, 'false'),
                     ])
                 ),
                 new Src\Builder\Config\ValueObject\Step('mirrorProcessedFiles'),

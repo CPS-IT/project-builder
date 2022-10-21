@@ -65,7 +65,7 @@ trait ProcessingFilesTrait
     protected function shouldProcessFile(Finder\SplFileInfo $file, Builder\BuildInstructions $instructions): bool
     {
         foreach ($this->config->getOptions()->getFileConditions() as $fileCondition) {
-            if ($file->getRelativePathname() !== $fileCondition->getPath()) {
+            if (!fnmatch($fileCondition->getPath(), $file->getRelativePathname())) {
                 continue;
             }
 

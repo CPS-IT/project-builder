@@ -285,7 +285,7 @@
 				},
 				"path": {
 					"type": "string",
-					"title": "Relative path to a file"
+					"title": "Relative path to a file, can contain symbols processable by `fnmatch`"
 				}
 			},
 			"additionalProperties": false,
