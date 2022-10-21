@@ -46,7 +46,12 @@ my-fancy-project
 └── templates
     ├── shared
     │   ├── ...
-    │   └── .gitlab-ci.yml
+    │   └── my-fancy-shared-resource
+    │       ├── composer.json
+    │       └── templates
+    │           └── src
+    │               ├── ...
+    │               └── .gitlab-ci.yml.twig
     └── src
         ├── ...
         └── composer.json.twig
@@ -217,8 +222,8 @@ Currently, the following file variants are supported:
 
 In case multiple project types share the same source files, it might be useful
 to outsource them to an external Composer package. This allows better maintenance
-of those shared source files. External shared Composer packages must be of the type
-`project-builder-shared`.
+of those shared source files. Per convention, external shared Composer packages
+should be of the type `project-builder-shared`.
 
 Example `composer.json`:
 
@@ -235,13 +240,13 @@ Example `composer.json`:
 The shared source file packages must be required in the `composer.json` file of
 each project type that requires the shared source files. As a consequence, the
 package must be installable via Composer. In order to make it installable, either
-register it on Packagist or add it to our Satis configuration at
+submit it on Packagist or add it to our Satis configuration at
 <https://composer.321.works>.
 
 The project builder expects shared source files to be installed within the
-project type's `templates/shared` folder. For this, it is useful to use the
-Composer package [`oomphinc/composer-installers-extender`][3] and define the
-installation paths of each shared source file package.
+project type's `templates/shared/<package-name>/templates/src` folder. For this,
+it is useful to use the Composer package [`oomphinc/composer-installers-extender`][3]
+and define the installation paths of each shared source file package.
 
 Example `composer.json`:
 
@@ -250,12 +255,13 @@ Example `composer.json`:
     "name": "cpsit/project-builder-template-my-fancy-project",
     "type": "project-builder-template",
     "require": {
+        "cpsit/project-builder-shared-my-fancy-shared-resource": "^1.0",
         "oomphinc/composer-installers-extender": "^2.0"
     },
     "extra": {
         "installer-paths": {
-            "templates/shared/my-fancy-shared-resource/": [
-                "cpsit/project-builder-shared-my-fancy-shared-resource"
+            "templates/shared/{$name}/": [
+                "type:project-builder-shared"
             ]
         },
         "installer-types": [
@@ -264,6 +270,17 @@ Example `composer.json`:
     },
     // ...
 }
+```
+
+The shared source file package must then provide the following folder structure:
+
+```
+my-fancy-shared-resource
+├── composer.json
+└── templates
+    └── src
+        ├── ...
+        └── some-shared-file.json.twig
 ```
 
 [1]: https://github.com/CuyZ/Valinor
