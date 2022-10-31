@@ -1,3 +1,7 @@
+2022-10-31         [RELEASE] Release of project-builder 0.3.2 (Elias Häußler)
+2022-10-31 bdf5359 [TASK] Switch to `ncipollo/release-action` for new releases (Elias Häußler)
+2022-10-21 b8caa80 [TASK]: Bump paambaati/codeclimate-action from 3.1.1 to 3.2.0 (dependabot[bot])
+
 2022-10-21         [RELEASE] Release of project-builder 0.3.1 (Elias Häußler)
 2022-10-21 e6addd5 [FEATURE] Support `fnmatch` symbols in step's file condition paths (Elias Häußler)
 2022-10-21 f9955e7 [BUGFIX] Use correct subject and assertions in test (Elias Häußler)
