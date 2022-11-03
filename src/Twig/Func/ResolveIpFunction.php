@@ -58,7 +58,7 @@ final class ResolveIpFunction implements TwigFunctionInterface
             return null;
         }
 
-        return reset($ipAddresses);
+        return (false !== reset($ipAddresses)) ? reset($ipAddresses) : null;
     }
 
     public function getName(): string
