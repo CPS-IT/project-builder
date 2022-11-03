@@ -156,7 +156,7 @@ final class InputReader
         }
         // @codeCoverageIgnoreEnd
 
-        return $selections;
+        return array_values($selections);
     }
 
     /**
