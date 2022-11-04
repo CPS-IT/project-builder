@@ -25,9 +25,6 @@ namespace CPSIT\ProjectBuilder\Builder\Config\ValueObject;
 
 use Symfony\Component\ExpressionLanguage;
 
-use function assert;
-use function is_string;
-
 /**
  * ConditionTrait.
  *
@@ -43,6 +40,9 @@ trait ConditionTrait
         return $this->if;
     }
 
+    /**
+     * @phpstan-assert-if-true !null $this->getCondition()
+     */
     public function hasCondition(): bool
     {
         return null !== $this->if;
@@ -61,8 +61,6 @@ trait ConditionTrait
         }
 
         $condition = $this->getCondition();
-
-        assert(is_string($condition));
 
         return (bool) $expressionLanguage->evaluate($condition, $additionalVariables);
     }

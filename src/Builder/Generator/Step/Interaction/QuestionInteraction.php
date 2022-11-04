@@ -95,17 +95,18 @@ final class QuestionInteraction implements InteractionInterface
 
         foreach ($options as $option) {
             $value = $this->renderValue((string) $option->getValue(), $instructions);
-            $condition = $option->getCondition();
 
-            if (!$option->hasCondition()) {
+            if ($option->hasCondition()) {
+                $condition = $option->getCondition();
+            } else {
                 $condition = 'selected';
             }
 
-            if ($matches((string) $condition, true)) {
+            if ($matches($condition, true)) {
                 $yesValue = $value;
             }
 
-            if ($matches((string) $condition, false)) {
+            if ($matches($condition, false)) {
                 $noValue = $value;
             }
         }
