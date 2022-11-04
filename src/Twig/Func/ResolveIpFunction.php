@@ -54,11 +54,11 @@ final class ResolveIpFunction implements TwigFunctionInterface
 
         $ipAddresses = gethostbynamel($hostname);
 
-        if (false === $ipAddresses) {
+        if (false === $ipAddresses || [] === $ipAddresses) {
             return null;
         }
 
-        return (false !== reset($ipAddresses)) ? reset($ipAddresses) : null;
+        return reset($ipAddresses);
     }
 
     public function getName(): string
