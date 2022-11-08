@@ -58,6 +58,10 @@ final class CollectBuildInstructionsStep extends AbstractStep
         $instructions = $buildResult->getInstructions();
 
         foreach ($instructions->getConfig()->getProperties() as $property) {
+            if (!$property->conditionMatches($this->expressionLanguage, $instructions->getTemplateVariables(), true)) {
+                continue;
+            }
+
             $this->messenger->section($property->getName());
 
             if ($property->hasValue() && $property->hasSubProperties()) {
