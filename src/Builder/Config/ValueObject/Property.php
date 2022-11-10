@@ -31,6 +31,7 @@ namespace CPSIT\ProjectBuilder\Builder\Config\ValueObject;
  */
 final class Property
 {
+    use ConditionTrait;
     use IdentifierTrait;
     use NameTrait;
     use ValueTrait;
@@ -48,12 +49,14 @@ final class Property
         string $identifier,
         string $name,
         string $path = null,
+        string $if = null,
         $value = null,
         array $properties = []
     ) {
         $this->identifier = $identifier;
         $this->name = $name;
         $this->path = $path;
+        $this->if = $if;
         $this->value = $value;
         $this->properties = $properties;
     }

@@ -74,6 +74,7 @@ abstract class ContainerAwareTestCase extends TestCase
                     'Foo',
                     null,
                     null,
+                    null,
                     [
                         new Src\Builder\Config\ValueObject\SubProperty(
                             'bar',

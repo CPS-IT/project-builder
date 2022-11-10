@@ -98,11 +98,13 @@ final class ConfigFactoryTest extends TestCase
                     'foo',
                     'Foo',
                     null,
+                    'false',
                     'foo'
                 ),
                 new Src\Builder\Config\ValueObject\Property(
                     'bar',
                     'Bar',
+                    null,
                     null,
                     null,
                     [
