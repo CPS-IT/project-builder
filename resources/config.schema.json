@@ -57,6 +57,9 @@
 						},
 						"path": {
 							"$ref": "#/definitions/path"
+						},
+						"if": {
+							"$ref": "#/definitions/condition"
 						}
 					},
 					"required": [

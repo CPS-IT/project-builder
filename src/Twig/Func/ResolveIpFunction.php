@@ -54,7 +54,7 @@ final class ResolveIpFunction implements TwigFunctionInterface
 
         $ipAddresses = gethostbynamel($hostname);
 
-        if (false === $ipAddresses) {
+        if (false === $ipAddresses || [] === $ipAddresses) {
             return null;
         }
 

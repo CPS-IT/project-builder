@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3bd88c23ca0efbe72377819faf89db91",
+    "content-hash": "701092e42a279715e178f57365aa1ee6",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -227,17 +227,17 @@
         },
         {
             "name": "cpsit/project-builder-shared-ddev",
-            "version": "1.0.1",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@gitlab.321.works/DevOps/templates/backend/project-builder/shared/ddev.git",
-                "reference": "ca5b9cc69bc4656decba0800f72b7471150b1ac3"
+                "reference": "a270e67c4b9bc383486f33d1fec7fc2e4980117d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://composer.321.works/dist/cpsit/project-builder-shared-ddev/cpsit-project-builder-shared-ddev-1.0.1-4f9a8a.zip",
-                "reference": "ca5b9cc69bc4656decba0800f72b7471150b1ac3",
-                "shasum": "fbc3685d795b0518c9acf3dfd1fed7860bb4c597"
+                "url": "https://composer.321.works/dist/cpsit/project-builder-shared-ddev/cpsit-project-builder-shared-ddev-1.2.1-9b0ddd.zip",
+                "reference": "a270e67c4b9bc383486f33d1fec7fc2e4980117d",
+                "shasum": "0de4a9f95f4bb9190b9b9df93dcd6d08d9dda2c8"
             },
             "require-dev": {
                 "armin/editorconfig-cli": "^1.5",
@@ -280,21 +280,21 @@
                 }
             ],
             "description": "Shared DDEV templates for project builder project types",
-            "time": "2022-06-02T17:19:26+00:00"
+            "time": "2022-11-02T12:06:44+00:00"
         },
         {
             "name": "cpsit/project-builder-shared-deployment",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "ssh://git@gitlab.321.works/DevOps/templates/backend/project-builder/shared/deployment.git",
-                "reference": "123fbb528ad9d518739eb99e3dd62e6b76fe0db8"
+                "reference": "06a2a9b343ac7a694d128161e25c6016ffc904c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://composer.321.works/dist/cpsit/project-builder-shared-deployment/cpsit-project-builder-shared-deployment-2.0.1-234fd7.zip",
-                "reference": "123fbb528ad9d518739eb99e3dd62e6b76fe0db8",
-                "shasum": "e8d25c387dcd11c373ecd27df765abecc81efdcf"
+                "url": "https://composer.321.works/dist/cpsit/project-builder-shared-deployment/cpsit-project-builder-shared-deployment-2.0.2-fa8d09.zip",
+                "reference": "06a2a9b343ac7a694d128161e25c6016ffc904c3",
+                "shasum": "54885dd8f6a35f1baf8882129aba57a49719481c"
             },
             "require-dev": {
                 "armin/editorconfig-cli": "^1.5",
@@ -337,26 +337,26 @@
                 }
             ],
             "description": "Shared deployment templates for project builder project types",
-            "time": "2022-10-05T18:53:23+00:00"
+            "time": "2022-10-21T11:43:58+00:00"
         },
         {
             "name": "cpsit/project-builder-template-typo3-cms-bundle",
-            "version": "1.2.1",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@gitlab.321.works/DevOps/templates/backend/project-builder/typo3-cms-bundle.git",
-                "reference": "64fa6262cf28db487de379059c58a5c74f46d1a5"
+                "reference": "377c002158e9e12a6fc30ce1ec3ddb1770d51eba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://composer.321.works/dist/cpsit/project-builder-template-typo3-cms-bundle/cpsit-project-builder-template-typo3-cms-bundle-1.2.1-0a1ae2.zip",
-                "reference": "64fa6262cf28db487de379059c58a5c74f46d1a5",
-                "shasum": "6b64773e6f34184fbda2378b0c4124ea94947d3a"
+                "url": "https://composer.321.works/dist/cpsit/project-builder-template-typo3-cms-bundle/cpsit-project-builder-template-typo3-cms-bundle-1.7.0-0f09fb.zip",
+                "reference": "377c002158e9e12a6fc30ce1ec3ddb1770d51eba",
+                "shasum": "981578bbac5b712ba12c789807468fdb850e34ab"
             },
             "require": {
                 "cpsit/project-builder-shared-ddev": "^1.0",
                 "cpsit/project-builder-shared-deployment": "^2.0",
-                "cuyz/valinor": "^0.12.0 || ^0.13.0 || ^0.14.0",
+                "cuyz/valinor": "^0.12.0 || ^0.13.0 || ^0.14.0 || ^0.15.0 || ^0.16.0",
                 "guzzlehttp/guzzle": "^7.0",
                 "nyholm/psr7": "^1.5",
                 "oomphinc/composer-installers-extender": "^2.0",
@@ -465,26 +465,26 @@
                 }
             ],
             "description": "Project builder template package for TYPO3 CMS bundles",
-            "time": "2022-10-05T19:29:32+00:00"
+            "time": "2022-11-04T09:47:36+00:00"
         },
         {
             "name": "cuyz/valinor",
-            "version": "0.14.0",
+            "version": "0.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CuyZ/Valinor.git",
-                "reference": "d8957c061d3d6ab8225d0eae6ca0bd13d3613bb3"
+                "reference": "027d2a43daa66d37c3792369d5520dd6c5498723"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CuyZ/Valinor/zipball/d8957c061d3d6ab8225d0eae6ca0bd13d3613bb3",
-                "reference": "d8957c061d3d6ab8225d0eae6ca0bd13d3613bb3",
+                "url": "https://api.github.com/repos/CuyZ/Valinor/zipball/027d2a43daa66d37c3792369d5520dd6c5498723",
+                "reference": "027d2a43daa66d37c3792369d5520dd6c5498723",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.0",
                 "doctrine/annotations": "^1.11",
-                "php": "~7.4.0 || ~8.0.0 || ~8.1.0",
+                "php": "~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0",
                 "psr/simple-cache": "^1.0 || ^2.0"
             },
             "require-dev": {
@@ -531,9 +531,9 @@
             ],
             "support": {
                 "issues": "https://github.com/CuyZ/Valinor/issues",
-                "source": "https://github.com/CuyZ/Valinor/tree/0.14.0"
+                "source": "https://github.com/CuyZ/Valinor/tree/0.16.0"
             },
-            "time": "2022-09-01T10:51:11+00:00"
+            "time": "2022-10-19T11:46:57+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -5200,16 +5200,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.8.6",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "c386ab2741e64cc9e21729f891b28b2b10fe6618"
+                "reference": "e08de53a5eec983de78a787a88e72518cf8fe43a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c386ab2741e64cc9e21729f891b28b2b10fe6618",
-                "reference": "c386ab2741e64cc9e21729f891b28b2b10fe6618",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e08de53a5eec983de78a787a88e72518cf8fe43a",
+                "reference": "e08de53a5eec983de78a787a88e72518cf8fe43a",
                 "shasum": ""
             },
             "require": {
@@ -5239,7 +5239,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.8.6"
+                "source": "https://github.com/phpstan/phpstan/tree/1.9.0"
             },
             "funding": [
                 {
@@ -5255,7 +5255,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-23T09:54:39+00:00"
+            "time": "2022-11-03T07:26:48+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",

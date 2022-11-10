@@ -42,6 +42,7 @@ final class PropertyTest extends TestCase
             'identifier',
             'name',
             'path',
+            'if',
             'value',
             [
                 new Src\Builder\Config\ValueObject\SubProperty(

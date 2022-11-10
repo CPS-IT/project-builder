@@ -28,7 +28,6 @@ use CPSIT\ProjectBuilder\IO;
 use CPSIT\ProjectBuilder\Twig;
 use Symfony\Component\ExpressionLanguage;
 
-use function array_filter;
 use function is_string;
 
 /**
@@ -96,7 +95,7 @@ final class SelectInteraction implements InteractionInterface
             }
         }
 
-        return array_filter($processedOptions);
+        return $processedOptions;
     }
 
     /**

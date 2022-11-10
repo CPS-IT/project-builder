@@ -138,8 +138,8 @@ final class InputReader
     }
 
     /**
-     * @param list<string|int> $answers
-     * @param list<string>     $choices
+     * @param string[]     $answers
+     * @param list<string> $choices
      *
      * @return list<string>
      */
@@ -156,7 +156,7 @@ final class InputReader
         }
         // @codeCoverageIgnoreEnd
 
-        return $selections;
+        return array_values($selections);
     }
 
     /**

@@ -42,7 +42,8 @@
 		{
 			"identifier": "foo",
 			"name": "Foo",
-			"value": "foo"
+			"value": "foo",
+			"if": "false"
 		},
 		{
 			"identifier": "bar",
