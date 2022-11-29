@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "701092e42a279715e178f57365aa1ee6",
+    "content-hash": "b1e582b3860fe383379e817521030a4d",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -79,393 +79,6 @@
                 "source": "https://github.com/cocur/slugify/tree/v4.2.0"
             },
             "time": "2022-08-13T15:23:32+00:00"
-        },
-        {
-            "name": "composer/installers",
-            "version": "v2.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/composer/installers.git",
-                "reference": "c29dc4b93137acb82734f672c37e029dfbd95b35"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/c29dc4b93137acb82734f672c37e029dfbd95b35",
-                "reference": "c29dc4b93137acb82734f672c37e029dfbd95b35",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0 || ^2.0",
-                "php": "^7.2 || ^8.0"
-            },
-            "require-dev": {
-                "composer/composer": "1.6.* || ^2.0",
-                "composer/semver": "^1 || ^3",
-                "phpstan/phpstan": "^0.12.55",
-                "phpstan/phpstan-phpunit": "^0.12.16",
-                "symfony/phpunit-bridge": "^5.3",
-                "symfony/process": "^5"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Composer\\Installers\\Plugin",
-                "branch-alias": {
-                    "dev-main": "2.x-dev"
-                },
-                "plugin-modifies-install-path": true
-            },
-            "autoload": {
-                "psr-4": {
-                    "Composer\\Installers\\": "src/Composer/Installers"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kyle Robinson Young",
-                    "email": "kyle@dontkry.com",
-                    "homepage": "https://github.com/shama"
-                }
-            ],
-            "description": "A multi-framework Composer library installer",
-            "homepage": "https://composer.github.io/installers/",
-            "keywords": [
-                "Dolibarr",
-                "Eliasis",
-                "Hurad",
-                "ImageCMS",
-                "Kanboard",
-                "Lan Management System",
-                "MODX Evo",
-                "MantisBT",
-                "Mautic",
-                "Maya",
-                "OXID",
-                "Plentymarkets",
-                "Porto",
-                "RadPHP",
-                "SMF",
-                "Starbug",
-                "Thelia",
-                "Whmcs",
-                "WolfCMS",
-                "agl",
-                "annotatecms",
-                "attogram",
-                "bitrix",
-                "cakephp",
-                "chef",
-                "cockpit",
-                "codeigniter",
-                "concrete5",
-                "croogo",
-                "dokuwiki",
-                "drupal",
-                "eZ Platform",
-                "elgg",
-                "expressionengine",
-                "fuelphp",
-                "grav",
-                "installer",
-                "itop",
-                "known",
-                "kohana",
-                "laravel",
-                "lavalite",
-                "lithium",
-                "magento",
-                "majima",
-                "mako",
-                "matomo",
-                "mediawiki",
-                "miaoxing",
-                "modulework",
-                "modx",
-                "moodle",
-                "osclass",
-                "pantheon",
-                "phpbb",
-                "piwik",
-                "ppi",
-                "processwire",
-                "puppet",
-                "pxcms",
-                "reindex",
-                "roundcube",
-                "shopware",
-                "silverstripe",
-                "sydes",
-                "sylius",
-                "tastyigniter",
-                "wordpress",
-                "yawik",
-                "zend",
-                "zikula"
-            ],
-            "support": {
-                "issues": "https://github.com/composer/installers/issues",
-                "source": "https://github.com/composer/installers/tree/v2.2.0"
-            },
-            "funding": [
-                {
-                    "url": "https://packagist.com",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/composer",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2022-08-20T06:45:11+00:00"
-        },
-        {
-            "name": "cpsit/project-builder-shared-ddev",
-            "version": "1.2.1",
-            "source": {
-                "type": "git",
-                "url": "ssh://git@gitlab.321.works/DevOps/templates/backend/project-builder/shared/ddev.git",
-                "reference": "a270e67c4b9bc383486f33d1fec7fc2e4980117d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://composer.321.works/dist/cpsit/project-builder-shared-ddev/cpsit-project-builder-shared-ddev-1.2.1-9b0ddd.zip",
-                "reference": "a270e67c4b9bc383486f33d1fec7fc2e4980117d",
-                "shasum": "0de4a9f95f4bb9190b9b9df93dcd6d08d9dda2c8"
-            },
-            "require-dev": {
-                "armin/editorconfig-cli": "^1.5",
-                "ergebnis/composer-normalize": "^2.28",
-                "friendsoftwig/twigcs": "^6.0"
-            },
-            "type": "project-builder-shared",
-            "scripts": {
-                "lint": [
-                    "@lint:composer",
-                    "@lint:editorconfig:fix",
-                    "@lint:twig"
-                ],
-                "lint:composer": [
-                    "@composer normalize --no-check-lock --no-update-lock"
-                ],
-                "lint:editorconfig": [
-                    "ec"
-                ],
-                "lint:editorconfig:fix": [
-                    "@lint:editorconfig --fix"
-                ],
-                "lint:twig": [
-                    "twigcs --exclude=vendor"
-                ]
-            },
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Sammy Baghdadi",
-                    "email": "s.baghdadi@familie-redlich.de",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Elias Häußler",
-                    "email": "e.haeussler@familie-redlich.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Shared DDEV templates for project builder project types",
-            "time": "2022-11-02T12:06:44+00:00"
-        },
-        {
-            "name": "cpsit/project-builder-shared-deployment",
-            "version": "2.0.2",
-            "source": {
-                "type": "git",
-                "url": "ssh://git@gitlab.321.works/DevOps/templates/backend/project-builder/shared/deployment.git",
-                "reference": "06a2a9b343ac7a694d128161e25c6016ffc904c3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://composer.321.works/dist/cpsit/project-builder-shared-deployment/cpsit-project-builder-shared-deployment-2.0.2-fa8d09.zip",
-                "reference": "06a2a9b343ac7a694d128161e25c6016ffc904c3",
-                "shasum": "54885dd8f6a35f1baf8882129aba57a49719481c"
-            },
-            "require-dev": {
-                "armin/editorconfig-cli": "^1.5",
-                "ergebnis/composer-normalize": "^2.28",
-                "friendsoftwig/twigcs": "^6.0"
-            },
-            "type": "project-builder-shared",
-            "scripts": {
-                "lint": [
-                    "@lint:composer",
-                    "@lint:editorconfig:fix",
-                    "@lint:twig"
-                ],
-                "lint:composer": [
-                    "@composer normalize --no-check-lock --no-update-lock"
-                ],
-                "lint:editorconfig": [
-                    "ec"
-                ],
-                "lint:editorconfig:fix": [
-                    "@lint:editorconfig --fix"
-                ],
-                "lint:twig": [
-                    "twigcs --exclude=vendor"
-                ]
-            },
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Sammy Baghdadi",
-                    "email": "s.baghdadi@familie-redlich.de",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Elias Häußler",
-                    "email": "e.haeussler@familie-redlich.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Shared deployment templates for project builder project types",
-            "time": "2022-10-21T11:43:58+00:00"
-        },
-        {
-            "name": "cpsit/project-builder-template-typo3-cms-bundle",
-            "version": "1.7.0",
-            "source": {
-                "type": "git",
-                "url": "ssh://git@gitlab.321.works/DevOps/templates/backend/project-builder/typo3-cms-bundle.git",
-                "reference": "377c002158e9e12a6fc30ce1ec3ddb1770d51eba"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://composer.321.works/dist/cpsit/project-builder-template-typo3-cms-bundle/cpsit-project-builder-template-typo3-cms-bundle-1.7.0-0f09fb.zip",
-                "reference": "377c002158e9e12a6fc30ce1ec3ddb1770d51eba",
-                "shasum": "981578bbac5b712ba12c789807468fdb850e34ab"
-            },
-            "require": {
-                "cpsit/project-builder-shared-ddev": "^1.0",
-                "cpsit/project-builder-shared-deployment": "^2.0",
-                "cuyz/valinor": "^0.12.0 || ^0.13.0 || ^0.14.0 || ^0.15.0 || ^0.16.0",
-                "guzzlehttp/guzzle": "^7.0",
-                "nyholm/psr7": "^1.5",
-                "oomphinc/composer-installers-extender": "^2.0",
-                "php": ">= 7.4 < 8.2",
-                "psr/http-client": "^1.0",
-                "psr/http-factory": "^1.0",
-                "psr/http-message": "^1.0",
-                "symfony/filesystem": "^5.4 || ^6.0",
-                "webmozart/assert": "^1.11"
-            },
-            "require-dev": {
-                "armin/editorconfig-cli": "^1.5",
-                "composer/composer": "^2.1",
-                "cpsit/project-builder": "^0.3.0",
-                "ergebnis/composer-normalize": "^2.27",
-                "friendsofphp/php-cs-fixer": "^3.8",
-                "friendsoftwig/twigcs": "^6.0",
-                "j13k/yaml-lint": "^1.1",
-                "phpstan/phpstan": "^1.7",
-                "phpstan/phpstan-phpunit": "^1.1",
-                "phpstan/phpstan-strict-rules": "^1.2",
-                "phpstan/phpstan-symfony": "^1.2",
-                "phpstan/phpstan-webmozart-assert": "^1.2",
-                "phpunit/phpunit": "^9.5"
-            },
-            "type": "project-builder-template",
-            "extra": {
-                "installer-paths": {
-                    "templates/shared/.ddev/": [
-                        "cpsit/project-builder-shared-ddev"
-                    ],
-                    "templates/shared/.deployment/": [
-                        "cpsit/project-builder-shared-deployment"
-                    ]
-                },
-                "installer-types": [
-                    "project-builder-shared"
-                ]
-            },
-            "autoload": {
-                "psr-4": {
-                    "CPSIT\\ProjectBuilderTemplate\\Typo3CmsBundle\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "CPSIT\\ProjectBuilderTemplate\\Typo3CmsBundle\\Tests\\": "tests/src/"
-                }
-            },
-            "scripts": {
-                "lint": [
-                    "@lint:composer",
-                    "@lint:editorconfig:fix",
-                    "@lint:php",
-                    "@lint:twig",
-                    "@lint:yaml"
-                ],
-                "lint:composer": [
-                    "@composer normalize --no-check-lock --no-update-lock"
-                ],
-                "lint:editorconfig": [
-                    "ec -e shared"
-                ],
-                "lint:editorconfig:fix": [
-                    "@lint:editorconfig --fix"
-                ],
-                "lint:php": [
-                    "php-cs-fixer fix"
-                ],
-                "lint:twig": [
-                    "twigcs templates"
-                ],
-                "lint:yaml": [
-                    "yaml-lint config.yml"
-                ],
-                "sca": [
-                    "@sca:php"
-                ],
-                "sca:php": [
-                    "@php tests/bootstrap.php",
-                    "phpstan analyse -c phpstan.neon"
-                ],
-                "test": [
-                    "phpunit -c phpunit.xml"
-                ],
-                "test:coverage": [
-                    "phpunit -c phpunit.coverage.xml"
-                ],
-                "validate-schema": [
-                    "bin/validate-schema.sh"
-                ]
-            },
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Sammy Baghdadi",
-                    "email": "s.baghdadi@familie-redlich.de",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Elias Häußler",
-                    "email": "e.haeussler@familie-redlich.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Project builder template package for TYPO3 CMS bundles",
-            "time": "2022-11-04T09:47:36+00:00"
         },
         {
             "name": "cuyz/valinor",
@@ -1091,63 +704,6 @@
                 }
             ],
             "time": "2022-06-22T07:13:36+00:00"
-        },
-        {
-            "name": "oomphinc/composer-installers-extender",
-            "version": "2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/oomphinc/composer-installers-extender.git",
-                "reference": "cbf4b6f9a24153b785d09eee755b995ba87bd5f9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/oomphinc/composer-installers-extender/zipball/cbf4b6f9a24153b785d09eee755b995ba87bd5f9",
-                "reference": "cbf4b6f9a24153b785d09eee755b995ba87bd5f9",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.1 || ^2.0",
-                "composer/installers": "^1.0 || ^2.0",
-                "php": ">=7.1"
-            },
-            "require-dev": {
-                "composer/composer": "^2.0",
-                "phpunit/phpunit": "^7.2",
-                "squizlabs/php_codesniffer": "^3.3"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "OomphInc\\ComposerInstallersExtender\\Plugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "OomphInc\\ComposerInstallersExtender\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Stephen Beemsterboer",
-                    "email": "stephen@oomphinc.com",
-                    "homepage": "https://github.com/balbuf"
-                },
-                {
-                    "name": "Nathan Dentzau",
-                    "email": "nate@oomphinc.com",
-                    "homepage": "http://oomph.is/ndentzau"
-                }
-            ],
-            "description": "Extend the composer/installers plugin to accept any arbitrary package type.",
-            "homepage": "http://www.oomphinc.com/",
-            "support": {
-                "issues": "https://github.com/oomphinc/composer-installers-extender/issues",
-                "source": "https://github.com/oomphinc/composer-installers-extender/tree/2.0.1"
-            },
-            "time": "2021-12-15T12:32:42+00:00"
         },
         {
             "name": "opis/json-schema",
@@ -3624,59 +3180,6 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
-        },
-        {
-            "name": "wikimedia/composer-merge-plugin",
-            "version": "v2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wikimedia/composer-merge-plugin.git",
-                "reference": "8ca2ed8ab97c8ebce6b39d9943e9909bb4f18912"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wikimedia/composer-merge-plugin/zipball/8ca2ed8ab97c8ebce6b39d9943e9909bb4f18912",
-                "reference": "8ca2ed8ab97c8ebce6b39d9943e9909bb4f18912",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.1||^2.0",
-                "php": ">=7.2.0"
-            },
-            "require-dev": {
-                "composer/composer": "^1.1||^2.0",
-                "php-parallel-lint/php-parallel-lint": "~1.1.0",
-                "phpunit/phpunit": "^8.5||^9.0",
-                "squizlabs/php_codesniffer": "~3.5.4"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                },
-                "class": "Wikimedia\\Composer\\Merge\\V2\\MergePlugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "Wikimedia\\Composer\\Merge\\V2\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bryan Davis",
-                    "email": "bd808@wikimedia.org"
-                }
-            ],
-            "description": "Composer plugin to merge multiple composer.json files",
-            "support": {
-                "issues": "https://github.com/wikimedia/composer-merge-plugin/issues",
-                "source": "https://github.com/wikimedia/composer-merge-plugin/tree/v2.0.1"
-            },
-            "time": "2021-02-24T05:28:06+00:00"
         }
     ],
     "packages-dev": [
@@ -4435,6 +3938,66 @@
                 }
             ],
             "time": "2022-03-03T08:28:38+00:00"
+        },
+        {
+            "name": "donatj/mock-webserver",
+            "version": "v2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/donatj/mock-webserver.git",
+                "reference": "2850c4647e14335cf3e728cad525b701e3a2aecc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/donatj/mock-webserver/zipball/2850c4647e14335cf3e728cad525b701e3a2aecc",
+                "reference": "2850c4647e14335cf3e728cad525b701e3a2aecc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-sockets": "*",
+                "php": ">=5.4",
+                "ralouphie/getallheaders": "~2.0 || ~3.0"
+            },
+            "require-dev": {
+                "donatj/drop": "^1.0",
+                "ext-curl": "*",
+                "phpunit/phpunit": "~4|~9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "donatj\\MockWebServer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jesse G. Donat",
+                    "email": "donatj@gmail.com",
+                    "homepage": "https://donatstudios.com",
+                    "role": "Lead"
+                }
+            ],
+            "description": "Simple mock web server for unit testing",
+            "support": {
+                "issues": "https://github.com/donatj/mock-webserver/issues",
+                "source": "https://github.com/donatj/mock-webserver/tree/v2.5.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/donatj/15",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/donatj",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-07-17T04:27:21+00:00"
         },
         {
             "name": "ergebnis/composer-normalize",

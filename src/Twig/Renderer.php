@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Twig;
 
 use CPSIT\ProjectBuilder\Builder;
-use CPSIT\ProjectBuilder\Event\BeforeTemplateRenderedEvent;
+use CPSIT\ProjectBuilder\Event;
 use CPSIT\ProjectBuilder\Exception;
 use Symfony\Component\EventDispatcher;
 use Twig\Environment;
@@ -60,7 +60,7 @@ final class Renderer
         array $variables = []
     ): string {
         $mergedVariables = array_replace_recursive($instructions->getTemplateVariables(), $variables);
-        $event = new BeforeTemplateRenderedEvent($this->twig, $instructions, $mergedVariables);
+        $event = new Event\BeforeTemplateRenderedEvent($this->twig, $instructions, $mergedVariables);
         $template ??= $this->defaultTemplate;
 
         if (null === $template) {

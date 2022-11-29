@@ -21,11 +21,11 @@ Example `composer.json`:
 }
 ```
 
-Additionally, the packages need to be required in the
-[`composer.templates.json`](../composer.templates.json) file of this
-repository. As a consequence, the package must also be installable via
-Composer. In order to make it installable, either register it on Packagist
-or add it to our Satis configuration at <https://composer.321.works>.
+Additionally, the packages must be installable via Composer. In order to make
+a package installable, either register it on Packagist or use any other
+Composer registry (e.g. self-hosted [Satis][4] instance) to make your package
+available. Once you use the project builder to create a new project, you can
+select the appropriate provider that hosts your template package.
 
 ## Structure
 
@@ -269,3 +269,4 @@ Example `composer.json`:
 [1]: https://github.com/CuyZ/Valinor
 [2]: https://github.com/justinrainbow/json-schema
 [3]: https://packagist.org/packages/oomphinc/composer-installers-extender
+[4]: https://github.com/composer/satis

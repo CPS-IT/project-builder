@@ -49,6 +49,8 @@ final class InputReader
     }
 
     /**
+     * @return ($required is true ? string : string|null)
+     *
      * @throws Exception\IOException
      */
     public function staticValue(

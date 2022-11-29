@@ -48,6 +48,35 @@ final class ConfigReaderTest extends TestCase
     /**
      * @test
      */
+    public function createCreatesTemplateDirectoryIfItDoesNotExist(): void
+    {
+        $templateDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
+
+        self::assertDirectoryDoesNotExist($templateDirectory);
+
+        Src\Builder\Config\ConfigReader::create($templateDirectory);
+
+        self::assertDirectoryExists($templateDirectory);
+    }
+
+    /**
+     * @test
+     */
+    public function readConfigThrowsExceptionIfTemplateHasNoComposerJson(): void
+    {
+        $templateDirectory = dirname(__DIR__, 2).'/Fixtures';
+        $subject = Src\Builder\Config\ConfigReader::create($templateDirectory);
+
+        $this->expectExceptionObject(
+            Src\Exception\InvalidConfigurationException::forMissingManifestFile($templateDirectory.'/Files/config.json')
+        );
+
+        $subject->readConfig('foo');
+    }
+
+    /**
+     * @test
+     */
     public function readConfigThrowsExceptionIfTemplateWithGivenIdentifierDoesNotExist(): void
     {
         $this->expectException(Src\Exception\InvalidConfigurationException::class);

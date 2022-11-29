@@ -32,8 +32,6 @@ jobs:
           coverage: none
 
       # Install dependencies
-      - name: Remove wikimedia/composer-merge-plugin
-        run: composer remove wikimedia/composer-merge-plugin --no-progress --no-plugins --no-install --no-update
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
         with:
@@ -60,8 +58,6 @@ jobs:
           coverage: pcov
 
       # Install dependencies
-      - name: Remove wikimedia/composer-merge-plugin
-        run: composer remove wikimedia/composer-merge-plugin --no-progress --no-plugins --no-install --no-update
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
         with:

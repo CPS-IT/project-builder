@@ -1,0 +1,40 @@
+{
+	"name": "cpsit/project-builder-template-installer",
+	"description": "Template installer for cpsit/project-builder",
+	"license": "GPL-3.0-or-later",
+	"require": {
+		"php": ">= 7.4 < 8.2",
+		"composer/installers": "^2.0",
+		"oomphinc/composer-installers-extender": "^2.0",
+{% for templateSource in templateSources %}
+		"{{ templateSource.package.name }}": "*"
+{% endfor %}
+	},
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "{{ providerUrl }}"
+		}
+	],
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true,
+			"oomphinc/composer-installers-extender": true
+		},
+{% if acceptInsecureConnections %}
+		"secure-http": false,
+{% endif %}
+		"sort-packages": true,
+		"vendor-dir": "{{ tempDir }}/vendor"
+	},
+	"extra": {
+		"installer-paths": {
+			"{{ rootDir }}/.build/templates/{$name}": [
+				"type:project-builder-template"
+			]
+		},
+		"installer-types": [
+			"project-builder-template"
+		]
+	}
+}
