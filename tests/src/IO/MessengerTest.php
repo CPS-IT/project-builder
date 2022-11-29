@@ -92,11 +92,13 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
 
     /**
      * @test
+     *
+     * @dataProvider selectTemplateSourceReturnsSelectedTemplateSourceDataProvider
      */
-    public function selectTemplateSourceReturnsSelectedTemplateSource(): void
-    {
-        $package = new Package\CompletePackage('foo/baz', '1.0.0', '1.0.0');
-        $package->setDescription('foo baz');
+    public function selectTemplateSourceReturnsSelectedTemplateSource(
+        Package\PackageInterface $package,
+        string $expected
+    ): void {
         $provider = new Tests\Fixtures\DummyProvider();
         $templateSource = new Src\Template\TemplateSource($provider, $package);
         $provider->templateSources = [$templateSource];
@@ -104,7 +106,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         self::$io->setUserInputs(['']);
 
         self::assertSame($templateSource, $this->subject->selectTemplateSource($provider));
-        self::assertStringContainsString('foo baz (foo/baz)', self::$io->getOutput());
+        self::assertStringContainsString($expected, self::$io->getOutput());
     }
 
     /**
@@ -129,6 +131,24 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
             ]),
             self::$io->getOutput()
         );
+    }
+
+    /**
+     * @return Generator<string, array{Package\PackageInterface, string}>
+     */
+    public function selectTemplateSourceReturnsSelectedTemplateSourceDataProvider(): Generator
+    {
+        $package = new Package\Package('foo/baz', '1.0.0', '1.0.0');
+
+        $completePackage = new Package\CompletePackage('foo/baz', '1.0.0', '1.0.0');
+        $completePackage->setDescription('foo baz');
+
+        $completePackageWithoutDescription = clone $completePackage;
+        $completePackageWithoutDescription->setDescription(null);
+
+        yield 'package' => [$package, 'foo/baz'];
+        yield 'complete package' => [$completePackage, 'foo baz (foo/baz)'];
+        yield 'complete package without description' => [$completePackageWithoutDescription, 'foo/baz'];
     }
 
     /**
