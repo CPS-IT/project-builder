@@ -35,6 +35,11 @@ use CPSIT\ProjectBuilder\Template;
  */
 final class DummyProvider implements Template\Provider\ProviderInterface
 {
+    /**
+     * @var list<Template\TemplateSource>
+     */
+    public array $templateSources = [];
+
     public function getName(): string
     {
         return 'dummy';
@@ -47,7 +52,7 @@ final class DummyProvider implements Template\Provider\ProviderInterface
 
     public function listTemplateSources(): array
     {
-        return [];
+        return $this->templateSources;
     }
 
     public function installTemplateSource(Template\TemplateSource $templateSource): void
