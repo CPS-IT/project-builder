@@ -26,10 +26,10 @@ namespace CPSIT\ProjectBuilder;
 use Composer\Factory;
 use Composer\Script;
 use Composer\XdebugHandler;
-use Exception;
 use Symfony\Component\Console;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
+use Throwable;
 
 use function chdir;
 use function dirname;
@@ -203,11 +203,7 @@ final class Bootstrap
         $this->messenger->welcome();
 
         try {
-            $templateProvider = $this->messenger->selectProvider([
-                new Template\Provider\PackagistProvider($this->messenger, $this->filesystem),
-                new Template\Provider\CustomComposerProvider($this->messenger, $this->filesystem),
-            ]);
-            $templateSource = $this->messenger->selectTemplateSource($templateProvider);
+            $templateSource = $this->selectTemplateSource();
             $templateSource->getProvider()->installTemplateSource($templateSource);
             $templateIdentifier = $templateSource->getPackage()->getName();
 
@@ -224,7 +220,7 @@ final class Bootstrap
             }
 
             $generator->cleanUp($result);
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             $this->errorHandler->handleException($exception);
 
             return 1;
@@ -241,6 +237,32 @@ final class Bootstrap
         $this->filesystem->mirror($sourceDirectory, $targetDirectory);
 
         return $targetDirectory;
+    }
+
+    /**
+     * @throws Exception\InvalidTemplateSourceException
+     */
+    private function selectTemplateSource(): Template\TemplateSource
+    {
+        try {
+            $templateProvider = $this->messenger->selectProvider([
+                new Template\Provider\PackagistProvider($this->messenger, $this->filesystem),
+                new Template\Provider\CustomComposerProvider($this->messenger, $this->filesystem),
+            ]);
+            $templateSource = $this->messenger->selectTemplateSource($templateProvider);
+        } catch (Exception\InvalidTemplateSourceException $exception) {
+            $retry = $this->messenger->confirmTemplateSourceRetry($exception);
+
+            $this->messenger->newLine();
+
+            if ($retry) {
+                return $this->selectTemplateSource();
+            }
+
+            throw $exception;
+        }
+
+        return $templateSource;
     }
 
     private function buildContainer(Builder\Config\Config $config): \Symfony\Component\DependencyInjection\ContainerInterface

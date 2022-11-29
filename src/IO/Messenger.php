@@ -137,6 +137,9 @@ final class Messenger
         return $selectedProvider;
     }
 
+    /**
+     * @throws Exception\InvalidTemplateSourceException
+     */
     public function selectTemplateSource(Template\Provider\ProviderInterface $provider): Template\TemplateSource
     {
         $this->progress('Fetching available template sources...', IO\IOInterface::NORMAL);
@@ -162,6 +165,23 @@ final class Messenger
         $this->newLine();
 
         return $templateSources[(int) $index];
+    }
+
+    public function confirmTemplateSourceRetry(\Exception $exception): bool
+    {
+        $this->getIO()->write([
+            '<error>'.$exception->getMessage().'</error>',
+            'You can go one step back and select another template provider.',
+            sprintf(
+                'For more information, take a look at the <href=%s>documentation</>.',
+                'https://github.com/CPS-IT/project-builder/blob/main/docs/configuration.md'
+            ),
+            '',
+        ]);
+
+        $label = self::decorateLabel('Continue?', 'Y', true, ['n']);
+
+        return $this->getIO()->askConfirmation($label);
     }
 
     public function confirmOverwrite(string $directory): bool
