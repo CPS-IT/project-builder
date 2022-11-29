@@ -106,7 +106,7 @@ final class Messenger
     }
 
     /**
-     * @param list<Template\Provider\ProviderInterface> $providers
+     * @param non-empty-list<Template\Provider\ProviderInterface> $providers
      */
     public function selectProvider(array $providers): Template\Provider\ProviderInterface
     {
