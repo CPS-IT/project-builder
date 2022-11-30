@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder\Builder;
 use CPSIT\ProjectBuilder\IO;
+use CPSIT\ProjectBuilder\Paths;
 use CPSIT\ProjectBuilder\Resource;
 use Symfony\Component\ExpressionLanguage;
 use Symfony\Component\Filesystem;
@@ -92,11 +93,18 @@ final class ProcessSharedSourceFilesStep extends AbstractStep implements Process
 
     private function listSharedSourceFiles(Builder\BuildInstructions $instructions): Finder\Finder
     {
+        $basePath = Filesystem\Path::join(
+            $instructions->getSharedSourceDirectory(),
+            // Include all installed shared source packages
+            '*',
+            Paths::TEMPLATE_SOURCES
+        );
+
         return Finder\Finder::create()
             ->files()
             ->ignoreDotFiles(false)
             ->ignoreVCS(true)
-            ->in($instructions->getSharedSourceDirectory())
+            ->in($basePath)
             ->filter(fn (Finder\SplFileInfo $file): bool => $this->shouldProcessFile($file, $instructions))
             ->sortByName()
         ;
