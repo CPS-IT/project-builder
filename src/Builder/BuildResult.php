@@ -26,7 +26,6 @@ namespace CPSIT\ProjectBuilder\Builder;
 use CPSIT\ProjectBuilder\Resource;
 use Symfony\Component\Filesystem;
 
-use function array_merge;
 use function array_values;
 
 /**
@@ -101,7 +100,7 @@ final class BuildResult
 
         foreach ($this->appliedSteps as $appliedStep) {
             if ($appliedStep instanceof Generator\Step\ProcessingStepInterface) {
-                $files = array_merge($files, $appliedStep->getProcessedFiles());
+                $files = [...$files, ...$appliedStep->getProcessedFiles()];
             }
         }
 
