@@ -55,3 +55,7 @@ jobs:
       # SCA
       - name: SCA PHP
         run: composer sca:php -- --error-format github
+
+      # Migration
+      - name: Rector migration
+        run: composer migration:rector -- --dry-run

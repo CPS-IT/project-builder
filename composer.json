@@ -52,6 +52,7 @@
 		"phpstan/phpstan-symfony": "^1.2",
 		"phpstan/phpstan-webmozart-assert": "^1.2",
 		"phpunit/phpunit": "^9.5.5",
+		"rector/rector": "^0.14.8",
 		"seld/jsonlint": "^1.9"
 	},
 	"autoload": {
@@ -90,6 +91,10 @@
 		"lint:editorconfig:fix": "@lint:editorconfig --fix",
 		"lint:json": "jsonlint resources/config.schema.json",
 		"lint:php": "php-cs-fixer fix",
+		"migration": [
+			"@migration:rector"
+		],
+		"migration:rector": "rector process",
 		"sca": [
 			"@sca:php"
 		],
