@@ -1,9 +1,5 @@
 includes:
     - .build/vendor/phpstan/phpstan/conf/bleedingEdge.neon
-    - .build/vendor/phpstan/phpstan-phpunit/extension.neon
-    - .build/vendor/phpstan/phpstan-strict-rules/rules.neon
-    - .build/vendor/phpstan/phpstan-symfony/extension.neon
-    - .build/vendor/phpstan/phpstan-webmozart-assert/extension.neon
 parameters:
     level: max
     paths:

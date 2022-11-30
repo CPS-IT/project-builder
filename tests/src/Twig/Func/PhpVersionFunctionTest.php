@@ -61,21 +61,21 @@ final class PhpVersionFunctionTest extends Tests\ContainerAwareTestCase
         self::$mockHandler->append(self::createJsonResponse(['version' => '8.0.10']));
         self::$mockHandler->append(self::createJsonResponse(['version' => '8.1.4']));
 
-        self::assertSame(2, self::$mockHandler->count());
+        self::assertCount(2, self::$mockHandler);
 
         $actual = ($this->subject)('8.0');
 
         self::assertSame('8.0.10', $actual);
-        self::assertSame(1, self::$mockHandler->count());
+        self::assertCount(1, self::$mockHandler);
 
         $actual = ($this->subject)('8.0');
 
         self::assertSame('8.0.10', $actual);
-        self::assertSame(1, self::$mockHandler->count());
+        self::assertCount(1, self::$mockHandler);
 
         $actual = ($this->subject)('8.1');
 
         self::assertSame('8.1.4', $actual);
-        self::assertSame(0, self::$mockHandler->count());
+        self::assertCount(0, self::$mockHandler);
     }
 }
