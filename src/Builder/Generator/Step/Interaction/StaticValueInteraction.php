@@ -39,23 +39,16 @@ final class StaticValueInteraction implements InteractionInterface
 {
     private const TYPE = 'staticValue';
 
-    private IO\InputReader $reader;
-    private Twig\Renderer $renderer;
-    private IO\Validator\ValidatorFactory $validatorFactory;
-
     public function __construct(
-        IO\InputReader $reader,
-        Twig\Renderer $renderer,
-        IO\Validator\ValidatorFactory $validatorFactory
+        private IO\InputReader $reader,
+        private Twig\Renderer $renderer,
+        private IO\Validator\ValidatorFactory $validatorFactory,
     ) {
-        $this->reader = $reader;
-        $this->renderer = $renderer;
-        $this->validatorFactory = $validatorFactory;
     }
 
     public function interact(
         Builder\Config\ValueObject\CustomizableInterface $subject,
-        Builder\BuildInstructions $instructions
+        Builder\BuildInstructions $instructions,
     ): ?string {
         $validator = $this->validatorFactory->getAll($subject->getValidators());
         $defaultValue = $this->renderDefaultValue($subject->getDefaultValue(), $instructions);
@@ -64,7 +57,7 @@ final class StaticValueInteraction implements InteractionInterface
             $subject->getName(),
             $defaultValue,
             $subject->isRequired(),
-            $validator
+            $validator,
         );
     }
 
@@ -78,10 +71,7 @@ final class StaticValueInteraction implements InteractionInterface
         return self::TYPE === $type;
     }
 
-    /**
-     * @param mixed $defaultValue
-     */
-    private function renderDefaultValue($defaultValue, Builder\BuildInstructions $instructions): ?string
+    private function renderDefaultValue(mixed $defaultValue, Builder\BuildInstructions $instructions): ?string
     {
         if (!is_string($defaultValue)) {
             return null;

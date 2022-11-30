@@ -35,16 +35,11 @@ use CPSIT\ProjectBuilder\Exception;
 final class ValidatorFactory
 {
     /**
-     * @var list<class-string<ValidatorInterface>>
-     */
-    private array $validators;
-
-    /**
      * @param list<class-string<ValidatorInterface>> $validators
      */
-    public function __construct(array $validators)
-    {
-        $this->validators = $validators;
+    public function __construct(
+        private array $validators,
+    ) {
     }
 
     public function get(Builder\Config\ValueObject\PropertyValidator $validator): ValidatorInterface

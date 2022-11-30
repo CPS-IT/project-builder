@@ -37,7 +37,7 @@ final class HttpException extends Exception
     {
         return new self(
             sprintf('Error from request to "%s" (%d): %s', $request->getUri(), $response->getStatusCode(), $response->getBody()),
-            1652861804
+            1652861804,
         );
     }
 }

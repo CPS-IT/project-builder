@@ -41,14 +41,12 @@ use function array_replace_recursive;
  */
 final class Renderer
 {
-    private Environment $twig;
-    private EventDispatcher\EventDispatcherInterface $eventDispatcher;
     private ?string $defaultTemplate = null;
 
-    public function __construct(Environment $twig, EventDispatcher\EventDispatcherInterface $eventDispatcher)
-    {
-        $this->twig = $twig;
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(
+        private Environment $twig,
+        private EventDispatcher\EventDispatcherInterface $eventDispatcher,
+    ) {
     }
 
     /**
@@ -57,7 +55,7 @@ final class Renderer
     public function render(
         Builder\BuildInstructions $instructions,
         string $template = null,
-        array $variables = []
+        array $variables = [],
     ): string {
         $mergedVariables = array_replace_recursive($instructions->getTemplateVariables(), $variables);
         $event = new Event\BeforeTemplateRenderedEvent($this->twig, $instructions, $mergedVariables);
@@ -83,7 +81,7 @@ final class Renderer
     {
         try {
             $this->twig->load($template);
-        } catch (Error\Error $error) {
+        } catch (Error\Error) {
             return false;
         }
 

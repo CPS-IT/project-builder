@@ -41,7 +41,7 @@ final class ConfigReaderTest extends TestCase
     protected function setUp(): void
     {
         $this->subject = Src\Builder\Config\ConfigReader::create(
-            dirname(__DIR__, 2).'/Fixtures/Templates'
+            dirname(__DIR__, 2).'/Fixtures/Templates',
         );
     }
 
@@ -68,7 +68,7 @@ final class ConfigReaderTest extends TestCase
         $subject = Src\Builder\Config\ConfigReader::create($templateDirectory);
 
         $this->expectExceptionObject(
-            Src\Exception\InvalidConfigurationException::forMissingManifestFile($templateDirectory.'/Files/config.json')
+            Src\Exception\InvalidConfigurationException::forMissingManifestFile($templateDirectory.'/Files/config.json'),
         );
 
         $subject->readConfig('foo');
@@ -92,7 +92,7 @@ final class ConfigReaderTest extends TestCase
     public function readConfigThrowsExceptionIfTemplateContainsMultipleConfigFiles(): void
     {
         $subject = Src\Builder\Config\ConfigReader::create(
-            dirname(__DIR__, 2).'/Fixtures/Files'
+            dirname(__DIR__, 2).'/Fixtures/Files',
         );
 
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
@@ -112,7 +112,7 @@ final class ConfigReaderTest extends TestCase
         self::assertSame('cpsit/project-builder-template-yaml', $actual->getIdentifier());
         self::assertSame(
             dirname(__DIR__, 2).'/Fixtures/Templates/yaml-template/config.yaml',
-            $actual->getDeclaringFile()
+            $actual->getDeclaringFile(),
         );
     }
 

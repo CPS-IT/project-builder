@@ -53,7 +53,7 @@ final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
     {
         $this->subject = new Tests\Fixtures\DummyComposerProvider(
             self::$container->get('app.messenger'),
-            self::$container->get(Filesystem\Filesystem::class)
+            self::$container->get(Filesystem\Filesystem::class),
         );
         $this->server = new MockWebServer\MockWebServer();
         $this->server->start();
@@ -75,7 +75,7 @@ final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
 
         $expectedTemplateSources = array_map(
             fn (Package\PackageInterface $package) => new Template\TemplateSource($this->subject, $package),
-            $expected
+            $expected,
         );
 
         self::assertEquals($expectedTemplateSources, $this->subject->listTemplateSources());
@@ -113,11 +113,11 @@ final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
                             ],
                         ],
                     ],
-                    JSON_THROW_ON_ERROR),
+                    JSON_THROW_ON_ERROR, ),
                 [
                     'Content-Type' => 'application/json',
-                ]
-            )
+                ],
+            ),
         );
 
         $this->subject->installTemplateSource($templateSource);

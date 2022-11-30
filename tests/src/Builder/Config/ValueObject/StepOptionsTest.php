@@ -42,7 +42,7 @@ final class StepOptionsTest extends TestCase
             [
                 new Src\Builder\Config\ValueObject\FileCondition('foo', 'bar'),
             ],
-            'foo'
+            'foo',
         );
     }
 
@@ -55,7 +55,7 @@ final class StepOptionsTest extends TestCase
             [
                 new Src\Builder\Config\ValueObject\FileCondition('foo', 'bar'),
             ],
-            $this->subject->getFileConditions()
+            $this->subject->getFileConditions(),
         );
     }
 

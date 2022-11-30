@@ -49,17 +49,15 @@ use function putenv;
  */
 final class Composer
 {
-    private Filesystem\Filesystem $filesystem;
-
-    public function __construct(Filesystem\Filesystem $filesystem)
-    {
-        $this->filesystem = $filesystem;
+    public function __construct(
+        private Filesystem\Filesystem $filesystem,
+    ) {
     }
 
     public function install(
         string $composerJson,
         bool $includeDevDependencies = false,
-        SymfonyConsole\Output\OutputInterface &$output = null
+        SymfonyConsole\Output\OutputInterface &$output = null,
     ): int {
         if (!$this->filesystem->exists($composerJson)) {
             throw Exception\IOException::forMissingFile($composerJson);
@@ -107,7 +105,7 @@ final class Composer
         $templatePackages = InstalledVersions::getInstalledPackagesByType('project-builder-template');
         $packages = array_filter(
             $repository->getPackages(),
-            fn (Package\BasePackage $package): bool => in_array($package->getName(), $templatePackages, true)
+            fn (Package\BasePackage $package): bool => in_array($package->getName(), $templatePackages, true),
         );
         $packages[] = $composer->getPackage();
 
@@ -131,7 +129,7 @@ final class Composer
 
         return $factory->createComposer(
             new IO\NullIO(),
-            Filesystem\Path::join($rootPath, 'composer.json')
+            Filesystem\Path::join($rootPath, 'composer.json'),
         );
     }
 }

@@ -108,7 +108,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertCount(1, $this->subject->getRevertedSteps());
         self::assertInstanceOf(
             Src\Builder\Generator\Step\CollectBuildInstructionsStep::class,
-            $this->subject->getRevertedSteps()[0]
+            $this->subject->getRevertedSteps()[0],
         );
 
         self::assertCount(3, $this->eventListener->dispatchedEvents);
@@ -150,7 +150,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
 
         return $configReader->buildFromFile(
             dirname(__DIR__, 2).'/Fixtures/Templates/yaml-template/config.yaml',
-            'yaml'
+            'yaml',
         );
     }
 

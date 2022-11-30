@@ -41,7 +41,7 @@ final class CustomComposerProviderTest extends Tests\ContainerAwareTestCase
     {
         $this->subject = new Src\Template\Provider\CustomComposerProvider(
             self::$container->get('app.messenger'),
-            self::$container->get(Filesystem\Filesystem::class)
+            self::$container->get(Filesystem\Filesystem::class),
         );
     }
 

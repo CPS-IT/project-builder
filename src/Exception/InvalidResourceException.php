@@ -35,7 +35,7 @@ final class InvalidResourceException extends Exception
     {
         return new self(
             sprintf('The requested resource "%s" is invalid or does not exist.', $name),
-            1664546950
+            1664546950,
         );
     }
 }

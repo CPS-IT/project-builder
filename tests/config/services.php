@@ -29,7 +29,7 @@ use Symfony\Component\DependencyInjection as SymfonyDI;
 
 return static function (
     SymfonyDI\Loader\Configurator\ContainerConfigurator $configurator,
-    SymfonyDI\ContainerBuilder $container
+    SymfonyDI\ContainerBuilder $container,
 ): void {
     $container->addCompilerPass(new DependencyInjection\CompilerPass\PublicServicePass());
 

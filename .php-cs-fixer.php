@@ -38,6 +38,14 @@ $config
                 'function',
             ],
         ],
+        'trailing_comma_in_multiline' => [
+            'elements' => [
+                'arguments',
+                'arrays',
+                'match',
+                'parameters',
+            ],
+        ],
     ])
 ;
 

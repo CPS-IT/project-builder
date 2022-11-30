@@ -34,17 +34,13 @@ final class PropertyValidator
     use TypeTrait;
 
     /**
-     * @var array<string, int|float|string|bool>
-     */
-    private array $options;
-
-    /**
      * @param array<string, int|float|string|bool> $options
      */
-    public function __construct(string $type, array $options = [])
-    {
+    public function __construct(
+        string $type,
+        private array $options = [],
+    ) {
         $this->type = $type;
-        $this->options = $options;
     }
 
     /**

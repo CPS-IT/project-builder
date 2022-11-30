@@ -35,11 +35,9 @@ use function trim;
  */
 final class Git
 {
-    private Cli\Command\Runner $runner;
-
-    public function __construct(Cli\Command\Runner $runner)
-    {
-        $this->runner = $runner;
+    public function __construct(
+        private Cli\Command\Runner $runner,
+    ) {
     }
 
     public function getAuthorName(): ?string

@@ -43,19 +43,12 @@ final class ShowNextStepsStep extends AbstractStep
 {
     private const TYPE = 'showNextSteps';
 
-    private Filesystem\Filesystem $filesystem;
-    private IO\Messenger $messenger;
-    private Twig\Renderer $renderer;
-
     public function __construct(
-        Filesystem\Filesystem $filesystem,
-        IO\Messenger $messenger,
-        Twig\Renderer $renderer
+        private Filesystem\Filesystem $filesystem,
+        private IO\Messenger $messenger,
+        private Twig\Renderer $renderer,
     ) {
         parent::__construct();
-        $this->filesystem = $filesystem;
-        $this->messenger = $messenger;
-        $this->renderer = $renderer;
     }
 
     public function run(Builder\BuildResult $buildResult): bool
@@ -105,7 +98,7 @@ final class ShowNextStepsStep extends AbstractStep
 
         $templateFilePath = Filesystem\Path::makeAbsolute(
             $templateFile,
-            $buildResult->getInstructions()->getTemplateDirectory()
+            $buildResult->getInstructions()->getTemplateDirectory(),
         );
 
         if (!$this->filesystem->exists($templateFilePath)) {

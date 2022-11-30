@@ -46,7 +46,7 @@ final class ConfigTest extends TestCase
             ],
             [
                 new Src\Builder\Config\ValueObject\Property('identifier', 'name'),
-            ]
+            ],
         );
     }
 
@@ -75,7 +75,7 @@ final class ConfigTest extends TestCase
             [
                 new Src\Builder\Config\ValueObject\Step('type'),
             ],
-            $this->subject->getSteps()
+            $this->subject->getSteps(),
         );
     }
 
@@ -88,7 +88,7 @@ final class ConfigTest extends TestCase
             [
                 new Src\Builder\Config\ValueObject\Property('identifier', 'name'),
             ],
-            $this->subject->getProperties()
+            $this->subject->getProperties(),
         );
     }
 

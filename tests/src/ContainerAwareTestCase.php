@@ -79,11 +79,11 @@ abstract class ContainerAwareTestCase extends TestCase
                         new Src\Builder\Config\ValueObject\SubProperty(
                             'bar',
                             'Bar',
-                            'staticValue'
+                            'staticValue',
                         ),
                     ],
                 ),
-            ]
+            ],
         );
         $config->setDeclaringFile(__FILE__);
 
@@ -113,7 +113,7 @@ abstract class ContainerAwareTestCase extends TestCase
             200,
             null,
             ['Content-Type' => 'application/json'],
-            Utils::jsonEncode($json)
+            Utils::jsonEncode($json),
         );
     }
 

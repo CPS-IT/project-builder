@@ -44,7 +44,7 @@ final class NameVariantFunction implements TwigFunctionInterface
      * @param Naming\NameVariant::*|null $variant
      * @param StringCase::*|null         $case
      *
-     * @throws Exception\UnsupportedTypeException
+     * @throws Exception\StringConversionException
      */
     public function __invoke(array $context = [], string $variant = null, string $case = null): string
     {

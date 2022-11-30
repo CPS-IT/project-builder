@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Naming;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Generator;
+use UnhandledMatchError;
 use Webmozart\Assert;
 
 /**
@@ -43,7 +44,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
     {
         $this->instructions = new Src\Builder\BuildInstructions(
             self::$container->get('app.config'),
-            'foo'
+            'foo',
         );
         $this->subject = new Src\Naming\NameVariantBuilder($this->instructions);
     }
@@ -53,9 +54,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
      */
     public function createVariantThrowsExceptionIfGivenVariantIsUnsupported(): void
     {
-        $this->expectException(Src\Exception\UnsupportedTypeException::class);
-        $this->expectExceptionCode(1652800199);
-        $this->expectExceptionMessage('The type "foo" is not supported.');
+        $this->expectException(UnhandledMatchError::class);
 
         /* @phpstan-ignore-next-line */
         $this->subject->createVariant('foo');

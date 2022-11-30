@@ -36,7 +36,9 @@ interface ValidatorInterface
     /**
      * @param array<string, mixed> $options
      */
-    public function __construct(array $options = []);
+    public function __construct(
+        array $options = [],
+    );
 
     /**
      * @throws Exception\ValidationException

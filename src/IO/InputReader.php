@@ -41,11 +41,9 @@ use function trim;
  */
 final class InputReader
 {
-    private IO\IOInterface $io;
-
-    public function __construct(IO\IOInterface $io)
-    {
-        $this->io = $io;
+    public function __construct(
+        private IO\IOInterface $io,
+    ) {
     }
 
     /**
@@ -57,7 +55,7 @@ final class InputReader
         string $label,
         string $default = null,
         bool $required = false,
-        Validator\ValidatorInterface $validator = null
+        Validator\ValidatorInterface $validator = null,
     ): ?string {
         $label = Messenger::decorateLabel($label, $default, $required);
         $validator = $this->makeValidator($validator, $required);
@@ -79,8 +77,7 @@ final class InputReader
     }
 
     /**
-     * @param list<string>     $choices
-     * @param bool|string|null $default
+     * @param list<string> $choices
      *
      * @return string|list<string>|null
      *
@@ -91,10 +88,10 @@ final class InputReader
     public function choices(
         string $label,
         array $choices,
-        $default = null,
+        bool|string|null $default = null,
         bool $required = false,
-        bool $multiple = false
-    ) {
+        bool $multiple = false,
+    ): string|array|null {
         $noSelectionIndex = null;
 
         if (!$required) {
@@ -149,7 +146,7 @@ final class InputReader
     {
         $selections = array_map(
             fn ($answer): string => $choices[(int) $answer],
-            array_filter($answers, fn ($answer): bool => $noSelectionIndex !== (int) $answer)
+            array_filter($answers, fn ($answer): bool => $noSelectionIndex !== (int) $answer),
         );
 
         // @codeCoverageIgnoreStart
@@ -187,7 +184,7 @@ final class InputReader
 
     private function makeValidator(
         Validator\ValidatorInterface $validator = null,
-        bool $required = false
+        bool $required = false,
     ): Validator\ChainedValidator {
         $chainedValidator = new Validator\ChainedValidator();
 

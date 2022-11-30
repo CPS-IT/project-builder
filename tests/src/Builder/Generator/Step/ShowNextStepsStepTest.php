@@ -43,7 +43,7 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
     {
         $this->subject = self::$container->get(Src\Builder\Generator\Step\ShowNextStepsStep::class);
         $this->result = new Src\Builder\BuildResult(
-            new Src\Builder\BuildInstructions(self::$config, 'foo')
+            new Src\Builder\BuildInstructions(self::$config, 'foo'),
         );
     }
 
@@ -67,8 +67,8 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
         $this->subject->setConfig(
             new Src\Builder\Config\ValueObject\Step(
                 Src\Builder\Generator\Step\ShowNextStepsStep::getType(),
-                new Src\Builder\Config\ValueObject\StepOptions([], 'foo')
-            )
+                new Src\Builder\Config\ValueObject\StepOptions([], 'foo'),
+            ),
         );
 
         $this->expectException(Src\Exception\IOException::class);
@@ -88,9 +88,9 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
                 Src\Builder\Generator\Step\ShowNextStepsStep::getType(),
                 new Src\Builder\Config\ValueObject\StepOptions(
                     [],
-                    dirname(__DIR__, 3).'/Fixtures/Files/invalid-template.twig'
-                )
-            )
+                    dirname(__DIR__, 3).'/Fixtures/Files/invalid-template.twig',
+                ),
+            ),
         );
 
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
@@ -110,9 +110,9 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
                 Src\Builder\Generator\Step\ShowNextStepsStep::getType(),
                 new Src\Builder\Config\ValueObject\StepOptions(
                     [],
-                    dirname(__DIR__, 3).'/Fixtures/Templates/yaml-template/templates/next-steps.html.twig'
-                )
-            )
+                    dirname(__DIR__, 3).'/Fixtures/Templates/yaml-template/templates/next-steps.html.twig',
+                ),
+            ),
         );
 
         $actual = $this->subject->run($this->result);

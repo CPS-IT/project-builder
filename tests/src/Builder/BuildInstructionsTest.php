@@ -43,7 +43,7 @@ final class BuildInstructionsTest extends Tests\ContainerAwareTestCase
     {
         $this->subject = new Src\Builder\BuildInstructions(
             self::$container->get('app.config'),
-            'foo'
+            'foo',
         );
     }
 

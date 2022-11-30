@@ -48,7 +48,7 @@ final class InstallComposerDependenciesStepTest extends Tests\ContainerAwareTest
     {
         $this->subject = self::$container->get(Src\Builder\Generator\Step\InstallComposerDependenciesStep::class);
         $this->buildResult = new Src\Builder\BuildResult(
-            new Src\Builder\BuildInstructions(self::$config, 'foo')
+            new Src\Builder\BuildInstructions(self::$config, 'foo'),
         );
     }
 
@@ -72,13 +72,13 @@ final class InstallComposerDependenciesStepTest extends Tests\ContainerAwareTest
         self::$filesystem->copy(
             dirname(__DIR__, 3).'/Fixtures/Files/invalid-composer.json',
             self::$temporaryDirectory.'/composer.json',
-            true
+            true,
         );
 
         self::assertFalse($this->subject->run($this->buildResult));
         self::assertStringContainsString(
             'Your requirements could not be resolved to an installable set of packages.',
-            self::$io->getOutput()
+            self::$io->getOutput(),
         );
     }
 

@@ -40,7 +40,7 @@ final class InvalidConfigurationException extends Exception
     {
         return new self(
             sprintf('The config for "%s" does not exist or is not valid.', $identifier),
-            1652952150
+            1652952150,
         );
     }
 
@@ -50,9 +50,9 @@ final class InvalidConfigurationException extends Exception
             sprintf(
                 'Configuration for "%s" already exists as "%s". Please use only one config file per template!',
                 $identifier,
-                $file
+                $file,
             ),
-            1652950002
+            1652950002,
         );
     }
 
@@ -60,7 +60,7 @@ final class InvalidConfigurationException extends Exception
     {
         return new self(
             sprintf('The config file "%s" is invalid and cannot be processed.', $file),
-            1652950625
+            1652950625,
         );
     }
 
@@ -68,7 +68,7 @@ final class InvalidConfigurationException extends Exception
     {
         return new self(
             sprintf('The config source "%s" is invalid and cannot be processed.', mb_strimwidth($source, 0, 100, '…')),
-            1653058480
+            1653058480,
         );
     }
 
@@ -76,7 +76,7 @@ final class InvalidConfigurationException extends Exception
     {
         return new self(
             sprintf('Found conflicting properties "%s".', implode('", "', $properties)),
-            1652956541
+            1652956541,
         );
     }
 
@@ -95,7 +95,7 @@ final class InvalidConfigurationException extends Exception
 
         return new self(
             sprintf('The given config source does not match the config schema.%s', $decoratedErrors),
-            1653303396
+            1653303396,
         );
     }
 
@@ -103,7 +103,7 @@ final class InvalidConfigurationException extends Exception
     {
         return new self(
             sprintf('The config file for "%s" could not be determined.', $identifier),
-            1653424186
+            1653424186,
         );
     }
 
@@ -111,7 +111,7 @@ final class InvalidConfigurationException extends Exception
     {
         return new self(
             sprintf('The Composer manifest file for "%s" could not be found.', $file),
-            1664558700
+            1664558700,
         );
     }
 }

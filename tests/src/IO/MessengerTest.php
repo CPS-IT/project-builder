@@ -54,7 +54,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     {
         $packagistProvider = new Src\Template\Provider\PackagistProvider(
             $this->subject,
-            self::$container->get(Filesystem\Filesystem::class)
+            self::$container->get(Filesystem\Filesystem::class),
         );
 
         self::$io->setUserInputs(['']);
@@ -69,7 +69,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     {
         $customProvider = new Src\Template\Provider\CustomComposerProvider(
             $this->subject,
-            self::$container->get(Filesystem\Filesystem::class)
+            self::$container->get(Filesystem\Filesystem::class),
         );
 
         self::$io->setUserInputs(['', 'https://www.example.com']);
@@ -97,7 +97,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
      */
     public function selectTemplateSourceReturnsSelectedTemplateSource(
         Package\PackageInterface $package,
-        string $expected
+        string $expected,
     ): void {
         $provider = new Tests\Fixtures\DummyProvider();
         $templateSource = new Src\Template\TemplateSource($provider, $package);
@@ -129,7 +129,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
                 '',
                 'Continue? [Y/n]',
             ]),
-            self::$io->getOutput()
+            self::$io->getOutput(),
         );
     }
 

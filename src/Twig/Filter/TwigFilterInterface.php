@@ -31,12 +31,7 @@ namespace CPSIT\ProjectBuilder\Twig\Filter;
  */
 interface TwigFilterInterface
 {
-    /**
-     * @param mixed $input
-     *
-     * @return mixed
-     */
-    public function __invoke($input);
+    public function __invoke(mixed $input): mixed;
 
     public function getName(): string;
 

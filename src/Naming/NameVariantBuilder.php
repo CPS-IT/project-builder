@@ -39,40 +39,30 @@ use function is_string;
  */
 final class NameVariantBuilder
 {
-    private Builder\BuildInstructions $instructions;
-
-    public function __construct(Builder\BuildInstructions $instructions)
-    {
-        $this->instructions = $instructions;
+    public function __construct(
+        private Builder\BuildInstructions $instructions,
+    ) {
     }
 
     /**
      * @param NameVariant::*     $variant
      * @param StringCase::*|null $case
      *
-     * @throws Exception\UnsupportedTypeException
+     * @throws Exception\StringConversionException
      */
     public function createVariant(string $variant, string $case = null): string
     {
-        switch ($variant) {
-            case NameVariant::ABBREVIATION:
-                return $this->createAbbreviationVariant($case);
-
-            case NameVariant::SHORT_NAME:
-                return $this->createShortVariant($case);
-
-            case NameVariant::FULL_NAME:
-                return $this->createFullVariant($case);
-        }
-
-        /* @phpstan-ignore-next-line */
-        throw Exception\UnsupportedTypeException::create($variant);
+        return match ($variant) {
+            NameVariant::ABBREVIATION => $this->createAbbreviationVariant($case),
+            NameVariant::SHORT_NAME => $this->createShortVariant($case),
+            NameVariant::FULL_NAME => $this->createFullVariant($case),
+        };
     }
 
     /**
      * @param StringCase::*|null $case
      *
-     * @throws Exception\UnsupportedTypeException
+     * @throws Exception\StringConversionException
      */
     public function createShortVariant(string $case = null): string
     {
@@ -97,7 +87,7 @@ final class NameVariantBuilder
     /**
      * @param StringCase::*|null $case
      *
-     * @throws Exception\UnsupportedTypeException
+     * @throws Exception\StringConversionException
      */
     public function createAbbreviationVariant(string $case = null): string
     {
@@ -122,7 +112,7 @@ final class NameVariantBuilder
     /**
      * @param StringCase::*|null $case
      *
-     * @throws Exception\UnsupportedTypeException
+     * @throws Exception\StringConversionException
      */
     public function createFullVariant(string $case = null): string
     {

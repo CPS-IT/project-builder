@@ -37,7 +37,7 @@ final class InvalidTemplateSourceException extends Exception
     {
         return new self(
             sprintf('The provider "%s" does not provide any template sources.', self::decorateProvider($provider)),
-            1664557140
+            1664557140,
         );
     }
 
@@ -47,9 +47,9 @@ final class InvalidTemplateSourceException extends Exception
             sprintf(
                 'Installation of template source "%s" from provider "%s" failed.',
                 $templateSource->getPackage()->getName(),
-                self::decorateProvider($templateSource->getProvider())
+                self::decorateProvider($templateSource->getProvider()),
             ),
-            1664557307
+            1664557307,
         );
     }
 

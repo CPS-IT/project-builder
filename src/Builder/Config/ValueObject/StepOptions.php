@@ -32,18 +32,12 @@ namespace CPSIT\ProjectBuilder\Builder\Config\ValueObject;
 final class StepOptions
 {
     /**
-     * @var list<FileCondition>
-     */
-    private array $fileConditions;
-    private ?string $templateFile;
-
-    /**
      * @param list<FileCondition> $fileConditions
      */
-    public function __construct(array $fileConditions = [], string $templateFile = null)
-    {
-        $this->fileConditions = $fileConditions;
-        $this->templateFile = $templateFile;
+    public function __construct(
+        private array $fileConditions = [],
+        private ?string $templateFile = null,
+    ) {
     }
 
     /**

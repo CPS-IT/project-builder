@@ -40,8 +40,10 @@ final class CustomComposerProvider extends BaseComposerProvider implements Custo
 {
     private ?string $url = null;
 
-    public function __construct(IO\Messenger $messenger, Filesystem\Filesystem $filesystem)
-    {
+    public function __construct(
+        IO\Messenger $messenger,
+        Filesystem\Filesystem $filesystem,
+    ) {
         parent::__construct($messenger, $filesystem);
 
         $this->io = new ComposerIO\ConsoleIO(
@@ -49,7 +51,7 @@ final class CustomComposerProvider extends BaseComposerProvider implements Custo
             Factory::createOutput(),
             new Console\Helper\HelperSet([
                 new Console\Helper\QuestionHelper(),
-            ])
+            ]),
         );
     }
 
@@ -69,7 +71,7 @@ final class CustomComposerProvider extends BaseComposerProvider implements Custo
             new IO\Validator\ChainedValidator([
                 new IO\Validator\NotEmptyValidator(),
                 new IO\Validator\UrlValidator(),
-            ])
+            ]),
         );
     }
 

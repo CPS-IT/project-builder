@@ -34,16 +34,11 @@ use CPSIT\ProjectBuilder\Exception;
 final class WriterFactory
 {
     /**
-     * @var iterable<WriterInterface>
-     */
-    private iterable $writers;
-
-    /**
      * @param iterable<WriterInterface> $writers
      */
-    public function __construct(iterable $writers)
-    {
-        $this->writers = $writers;
+    public function __construct(
+        private iterable $writers,
+    ) {
     }
 
     public function get(string $file): WriterInterface

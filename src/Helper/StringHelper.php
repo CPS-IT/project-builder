@@ -40,29 +40,16 @@ final class StringHelper
      * @param StringCase::* $case
      *
      * @throws Exception\StringConversionException
-     * @throws Exception\UnsupportedTypeException
      */
     public static function convertCase(string $string, string $case): string
     {
-        switch ($case) {
-            case StringCase::LOWER:
-                return strtolower($string);
-
-            case StringCase::UPPER:
-                return strtoupper($string);
-
-            case StringCase::SNAKE:
-                return strtolower(implode('_', self::splitStringIntoChunks($string)));
-
-            case StringCase::UPPER_CAMEL:
-                return str_replace(' ', '', ucwords($string));
-
-            case StringCase::LOWER_CAMEL:
-                return str_replace(' ', '', lcfirst(ucwords($string)));
-        }
-
-        /* @phpstan-ignore-next-line */
-        throw Exception\UnsupportedTypeException::create($case);
+        return match ($case) {
+            StringCase::LOWER => strtolower($string),
+            StringCase::UPPER => strtoupper($string),
+            StringCase::SNAKE => strtolower(implode('_', self::splitStringIntoChunks($string))),
+            StringCase::UPPER_CAMEL => str_replace(' ', '', ucwords($string)),
+            StringCase::LOWER_CAMEL => str_replace(' ', '', lcfirst(ucwords($string))),
+        };
     }
 
     /**

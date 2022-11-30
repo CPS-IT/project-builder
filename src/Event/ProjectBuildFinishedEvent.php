@@ -33,11 +33,9 @@ use CPSIT\ProjectBuilder\Builder;
  */
 final class ProjectBuildFinishedEvent
 {
-    private Builder\BuildResult $buildResult;
-
-    public function __construct(Builder\BuildResult $buildResult)
-    {
-        $this->buildResult = $buildResult;
+    public function __construct(
+        private Builder\BuildResult $buildResult,
+    ) {
     }
 
     public function getBuildResult(): Builder\BuildResult
