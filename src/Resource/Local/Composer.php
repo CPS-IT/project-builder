@@ -39,7 +39,6 @@ use function basename;
 use function dirname;
 use function getenv;
 use function in_array;
-use function is_string;
 use function putenv;
 
 /**
@@ -119,9 +118,6 @@ final class Composer
 
         // Fetch vendor directory
         $vendorDir = $composer->getConfig()->get('vendor-dir');
-        if (!is_string($vendorDir)) {
-            $vendorDir = null;
-        }
 
         return $autoloadGenerator->createLoader($autoloads, $vendorDir);
     }
