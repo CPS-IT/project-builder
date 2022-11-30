@@ -36,14 +36,12 @@ final class SlugifyFilter implements TwigFilterInterface
 {
     private const NAME = 'slugify';
 
-    private Slugify\Slugify $slugify;
-
-    public function __construct(Slugify\Slugify $slugify)
-    {
-        $this->slugify = $slugify;
+    public function __construct(
+        private Slugify\Slugify $slugify,
+    ) {
     }
 
-    public function __invoke($input, string $separator = null): string
+    public function __invoke(mixed $input, string $separator = null): string
     {
         Assert\Assert::string($input);
 

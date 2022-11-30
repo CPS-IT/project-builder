@@ -72,7 +72,7 @@ trait ProcessingFilesTrait
             return $fileCondition->conditionMatches(
                 $this->expressionLanguage,
                 $instructions->getTemplateVariables(),
-                true
+                true,
             );
         }
 

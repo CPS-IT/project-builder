@@ -40,27 +40,8 @@ final class SubProperty implements CustomizableInterface
     use ValueTrait;
 
     /**
-     * @var list<PropertyOption>
-     */
-    private array $options;
-    private bool $multiple;
-
-    /**
-     * @var int|float|string|bool|null
-     */
-    private $defaultValue;
-
-    /**
-     * @var list<PropertyValidator>
-     */
-    private array $validators;
-    private ?Property $parent;
-
-    /**
-     * @param int|float|string|bool|null $value
-     * @param list<PropertyOption>       $options
-     * @param int|float|string|bool|null $defaultValue
-     * @param list<PropertyValidator>    $validators
+     * @param list<PropertyOption>    $options
+     * @param list<PropertyValidator> $validators
      */
     public function __construct(
         string $identifier,
@@ -68,12 +49,12 @@ final class SubProperty implements CustomizableInterface
         string $type,
         string $path = null,
         string $if = null,
-        $value = null,
-        array $options = [],
-        bool $multiple = false,
-        $defaultValue = null,
-        array $validators = [],
-        ?Property $parent = null
+        int|float|string|bool|null $value = null,
+        private array $options = [],
+        private bool $multiple = false,
+        private int|float|string|bool|null $defaultValue = null,
+        private array $validators = [],
+        private ?Property $parent = null,
     ) {
         $this->identifier = $identifier;
         $this->name = $name;
@@ -81,11 +62,6 @@ final class SubProperty implements CustomizableInterface
         $this->path = $path;
         $this->if = $if;
         $this->value = $value;
-        $this->options = $options;
-        $this->multiple = $multiple;
-        $this->defaultValue = $defaultValue;
-        $this->validators = $validators;
-        $this->parent = $parent;
     }
 
     public function getPath(): string
@@ -113,7 +89,7 @@ final class SubProperty implements CustomizableInterface
         return $this->multiple;
     }
 
-    public function getDefaultValue()
+    public function getDefaultValue(): int|float|string|bool|null
     {
         return $this->defaultValue;
     }

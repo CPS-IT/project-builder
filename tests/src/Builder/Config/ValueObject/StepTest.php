@@ -40,7 +40,7 @@ final class StepTest extends TestCase
     {
         $this->subject = new Src\Builder\Config\ValueObject\Step(
             'foo',
-            new Src\Builder\Config\ValueObject\StepOptions()
+            new Src\Builder\Config\ValueObject\StepOptions(),
         );
     }
 
@@ -51,7 +51,7 @@ final class StepTest extends TestCase
     {
         self::assertEquals(
             new Src\Builder\Config\ValueObject\StepOptions(),
-            $this->subject->getOptions()
+            $this->subject->getOptions(),
         );
     }
 }

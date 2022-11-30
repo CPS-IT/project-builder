@@ -49,13 +49,10 @@ final class ConfigFactory
 {
     private static ?string $cacheDirectory = null;
 
-    private Mapper\TreeMapper $mapper;
-    private JsonSchema\Validator $validator;
-
-    private function __construct(Mapper\TreeMapper $mapper, JsonSchema\Validator $validator)
-    {
-        $this->mapper = $mapper;
-        $this->validator = $validator;
+    private function __construct(
+        private Mapper\TreeMapper $mapper,
+        private JsonSchema\Validator $validator,
+    ) {
     }
 
     public static function create(): self
@@ -122,20 +119,11 @@ final class ConfigFactory
 
     private function generateMapperSource(string $content, string $identifier, string $type): Mapper\Source\Source
     {
-        switch ($type) {
-            case FileType::YAML:
-                $parsedContent = Yaml\Yaml::parse($content);
-
-                break;
-
-            case FileType::JSON:
-                $parsedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-
-                break;
-
-            default:
-                throw Exception\UnsupportedTypeException::create($type); // @codeCoverageIgnore
-        }
+        $parsedContent = match ($type) {
+            FileType::YAML => Yaml\Yaml::parse($content),
+            FileType::JSON => json_decode($content, true, 512, JSON_THROW_ON_ERROR),
+            default => throw Exception\UnsupportedTypeException::create($type),
+        };
 
         // @codeCoverageIgnoreStart
         if (!is_array($parsedContent)) {
@@ -151,18 +139,11 @@ final class ConfigFactory
 
     private function parseContent(string $content, string $type): stdClass
     {
-        switch ($type) {
-            case FileType::YAML:
-                $parsedContent = Yaml\Yaml::parse($content, Yaml\Yaml::PARSE_OBJECT_FOR_MAP);
-                break;
-
-            case FileType::JSON:
-                $parsedContent = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                break;
-
-            default:
-                throw Exception\UnsupportedTypeException::create($type);
-        }
+        $parsedContent = match ($type) {
+            FileType::YAML => Yaml\Yaml::parse($content, Yaml\Yaml::PARSE_OBJECT_FOR_MAP),
+            FileType::JSON => json_decode($content, false, 512, JSON_THROW_ON_ERROR),
+            default => throw Exception\UnsupportedTypeException::create($type),
+        };
 
         if (!($parsedContent instanceof stdClass)) {
             throw Exception\InvalidConfigurationException::forSource($content);
@@ -175,16 +156,11 @@ final class ConfigFactory
     {
         $fileType = Filesystem\Path::getExtension($file, true);
 
-        switch ($fileType) {
-            case 'yml':
-            case 'yaml':
-                return FileType::YAML;
-
-            case 'json':
-                return FileType::JSON;
-        }
-
-        throw Exception\UnsupportedTypeException::create($fileType);
+        return match ($fileType) {
+            'yml', 'yaml' => FileType::YAML,
+            'json' => FileType::JSON,
+            default => throw Exception\UnsupportedTypeException::create($fileType),
+        };
     }
 
     /**

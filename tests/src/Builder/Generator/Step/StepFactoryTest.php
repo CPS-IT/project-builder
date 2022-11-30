@@ -64,7 +64,7 @@ final class StepFactoryTest extends Tests\ContainerAwareTestCase
 
         self::assertInstanceOf(
             Src\Builder\Generator\Step\CollectBuildInstructionsStep::class,
-            $this->subject->get($step)
+            $this->subject->get($step),
         );
     }
 }

@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Helper;
 use CPSIT\ProjectBuilder as Src;
 use Generator;
 use PHPUnit\Framework\TestCase;
+use UnhandledMatchError;
 
 /**
  * StringHelperTest.
@@ -52,9 +53,7 @@ final class StringHelperTest extends TestCase
      */
     public function convertCaseThrowsExceptionWhenConvertingToUnsupportedCase(): void
     {
-        $this->expectException(Src\Exception\UnsupportedTypeException::class);
-        $this->expectExceptionCode(1652800199);
-        $this->expectDeprecationMessage('The type "bar" is not supported.');
+        $this->expectException(UnhandledMatchError::class);
 
         /* @phpstan-ignore-next-line */
         Src\Helper\StringHelper::convertCase('foo', 'bar');

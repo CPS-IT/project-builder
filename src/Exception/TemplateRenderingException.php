@@ -37,7 +37,7 @@ final class TemplateRenderingException extends Exception
     {
         return new self(
             sprintf('A template with identifier "%s" does not exist.', $identifier),
-            1653901911
+            1653901911,
         );
     }
 

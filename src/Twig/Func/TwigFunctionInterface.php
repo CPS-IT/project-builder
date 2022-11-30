@@ -31,10 +31,7 @@ namespace CPSIT\ProjectBuilder\Twig\Func;
  */
 interface TwigFunctionInterface
 {
-    /**
-     * @return mixed
-     */
-    public function __invoke();
+    public function __invoke(): mixed;
 
     public function getName(): string;
 

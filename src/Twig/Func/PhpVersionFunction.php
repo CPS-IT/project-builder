@@ -41,11 +41,9 @@ final class PhpVersionFunction implements TwigFunctionInterface
      */
     private static array $versionCache = [];
 
-    private Resource\Http\PhpApiClient $client;
-
-    public function __construct(Resource\Http\PhpApiClient $client)
-    {
-        $this->client = $client;
+    public function __construct(
+        private Resource\Http\PhpApiClient $client,
+    ) {
     }
 
     public function __invoke(string $branch = null): string

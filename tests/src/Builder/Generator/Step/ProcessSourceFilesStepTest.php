@@ -44,7 +44,7 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\Generator\Step\ProcessSourceFilesStep::class);
         $this->subject->setConfig($step);
         $this->result = new Src\Builder\BuildResult(
-            new Src\Builder\BuildInstructions(self::$config, 'foo')
+            new Src\Builder\BuildInstructions(self::$config, 'foo'),
         );
     }
 
@@ -84,7 +84,7 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
 
         return $configFactory->buildFromFile(
             dirname(__DIR__, 3).'/Fixtures/Templates/yaml-template/config.yaml',
-            'yaml'
+            'yaml',
         );
     }
 

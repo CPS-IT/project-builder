@@ -125,7 +125,7 @@ Example:
 ```php
 /** @var \CPSIT\ProjectBuilder\IO\InputReader $inputReader */
 
-$phpVersion = $inputReader->choices('Which PHP version should be used?', ['8.1', '8.0', '7.4']);
+$phpVersion = $inputReader->choices('Which PHP version should be used?', ['8.1', '8.0']);
 $name = $inputReader->staticValue('What\'s your name?');
 
 if ($inputReader->ask('Confirm project generation?', default: false)) {

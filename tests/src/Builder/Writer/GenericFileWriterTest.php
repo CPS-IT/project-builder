@@ -53,7 +53,7 @@ final class GenericFileWriterTest extends Tests\ContainerAwareTestCase
     {
         $instructions = new Src\Builder\BuildInstructions(
             self::$container->get('app.config'),
-            'foo'
+            'foo',
         );
         $sourceFile = __FILE__;
         $file = new Finder\SplFileInfo($sourceFile, dirname($sourceFile), basename($sourceFile));

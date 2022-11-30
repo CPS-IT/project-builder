@@ -33,13 +33,10 @@ use Symfony\Component\Finder;
  */
 final class ProcessedFile
 {
-    private Finder\SplFileInfo $originalFile;
-    private Finder\SplFileInfo $targetFile;
-
-    public function __construct(Finder\SplFileInfo $originalFile, Finder\SplFileInfo $targetFile)
-    {
-        $this->originalFile = $originalFile;
-        $this->targetFile = $targetFile;
+    public function __construct(
+        private Finder\SplFileInfo $originalFile,
+        private Finder\SplFileInfo $targetFile,
+    ) {
     }
 
     public function getOriginalFile(): Finder\SplFileInfo

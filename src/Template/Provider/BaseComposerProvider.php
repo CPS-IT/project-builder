@@ -48,27 +48,24 @@ use Twig\Loader;
 abstract class BaseComposerProvider implements ProviderInterface
 {
     protected const PACKAGE_TYPE = 'project-builder-template';
-
-    protected IO\Messenger $messenger;
-    protected Filesystem\Filesystem $filesystem;
     protected Resource\Local\Composer $composer;
     protected Environment $renderer;
     protected ComposerIO\IOInterface $io;
     protected ?Repository\RepositoryInterface $repository = null;
     protected bool $acceptInsecureConnections = false;
 
-    public function __construct(IO\Messenger $messenger, Filesystem\Filesystem $filesystem)
-    {
-        $this->messenger = $messenger;
-        $this->filesystem = $filesystem;
+    public function __construct(
+        protected IO\Messenger $messenger,
+        protected Filesystem\Filesystem $filesystem,
+    ) {
         $this->composer = new Resource\Local\Composer($this->filesystem);
         $this->renderer = new Environment(
             new Loader\FilesystemLoader([
                 Filesystem\Path::join(
                     Helper\FilesystemHelper::getProjectRootPath(),
-                    Paths::PROJECT_INSTALLER
+                    Paths::PROJECT_INSTALLER,
                 ),
-            ])
+            ]),
         );
         $this->io = new ComposerIO\BufferIO();
     }
@@ -85,7 +82,7 @@ abstract class BaseComposerProvider implements ProviderInterface
         $searchResult = $this->repository->search(
             '',
             Repository\RepositoryInterface::SEARCH_FULLTEXT,
-            self::PACKAGE_TYPE
+            self::PACKAGE_TYPE,
         );
 
         foreach ($searchResult as ['name' => $packageName]) {

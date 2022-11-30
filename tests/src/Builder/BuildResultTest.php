@@ -45,7 +45,7 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
     {
         $this->instructions = new Src\Builder\BuildInstructions(
             self::$container->get('app.config'),
-            'foo'
+            'foo',
         );
         $this->subject = new Src\Builder\BuildResult($this->instructions);
     }
@@ -96,7 +96,7 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
 
         self::assertFalse($this->subject->isStepApplied('foo'));
         self::assertFalse($this->subject->isStepApplied(
-            self::$container->get(Src\Builder\Generator\Step\InstallComposerDependenciesStep::class)
+            self::$container->get(Src\Builder\Generator\Step\InstallComposerDependenciesStep::class),
         ));
     }
 
@@ -156,7 +156,7 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
     {
         return new Src\Resource\Local\ProcessedFile(
             new Finder\SplFileInfo($sourceFile, dirname($sourceFile), basename($sourceFile)),
-            new Finder\SplFileInfo($targetFile, dirname($targetFile), basename($targetFile))
+            new Finder\SplFileInfo($targetFile, dirname($targetFile), basename($targetFile)),
         );
     }
 }

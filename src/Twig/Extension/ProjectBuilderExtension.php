@@ -37,23 +37,13 @@ use Twig\TwigFunction;
 final class ProjectBuilderExtension extends Extension\AbstractExtension
 {
     /**
-     * @var iterable<Twig\Filter\TwigFilterInterface>
-     */
-    private iterable $filters;
-
-    /**
-     * @var iterable<Twig\Func\TwigFunctionInterface>
-     */
-    private iterable $functions;
-
-    /**
      * @param iterable<Twig\Filter\TwigFilterInterface> $filters
      * @param iterable<Twig\Func\TwigFunctionInterface> $functions
      */
-    public function __construct(iterable $filters, iterable $functions)
-    {
-        $this->filters = $filters;
-        $this->functions = $functions;
+    public function __construct(
+        private iterable $filters,
+        private iterable $functions,
+    ) {
     }
 
     public function getFilters(): array

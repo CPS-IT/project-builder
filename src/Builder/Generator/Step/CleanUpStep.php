@@ -40,12 +40,10 @@ final class CleanUpStep extends AbstractStep
 {
     private const TYPE = 'cleanUp';
 
-    private Filesystem\Filesystem $filesystem;
-
-    public function __construct(Filesystem\Filesystem $filesystem)
-    {
+    public function __construct(
+        private Filesystem\Filesystem $filesystem,
+    ) {
         parent::__construct();
-        $this->filesystem = $filesystem;
     }
 
     public function run(Builder\BuildResult $buildResult): bool
@@ -54,7 +52,7 @@ final class CleanUpStep extends AbstractStep
 
         $directoriesToRemove = array_map(
             fn (string $path): string => Filesystem\Path::makeAbsolute($path, $targetDirectory),
-            Paths::PROTECTED_PATHS
+            Paths::PROTECTED_PATHS,
         );
 
         $this->filesystem->remove($directoriesToRemove);

@@ -33,11 +33,9 @@ use CPSIT\ProjectBuilder\Builder;
  */
 final class ProjectBuildStartedEvent
 {
-    private Builder\BuildInstructions $instructions;
-
-    public function __construct(Builder\BuildInstructions $instructions)
-    {
-        $this->instructions = $instructions;
+    public function __construct(
+        private Builder\BuildInstructions $instructions,
+    ) {
     }
 
     public function getInstructions(): Builder\BuildInstructions

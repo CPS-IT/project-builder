@@ -43,20 +43,15 @@ final class ProcessSharedSourceFilesStep extends AbstractStep implements Process
 
     private const TYPE = 'processSharedSourceFiles';
 
-    private IO\Messenger $messenger;
-    private Builder\Writer\WriterFactory $writerFactory;
-
     public function __construct(
         ExpressionLanguage\ExpressionLanguage $expressionLanguage,
         Filesystem\Filesystem $filesystem,
-        IO\Messenger $messenger,
-        Builder\Writer\WriterFactory $writerFactory
+        private IO\Messenger $messenger,
+        private Builder\Writer\WriterFactory $writerFactory,
     ) {
         parent::__construct();
         $this->expressionLanguage = $expressionLanguage;
         $this->filesystem = $filesystem;
-        $this->messenger = $messenger;
-        $this->writerFactory = $writerFactory;
     }
 
     public function run(Builder\BuildResult $buildResult): bool
@@ -65,7 +60,7 @@ final class ProcessSharedSourceFilesStep extends AbstractStep implements Process
 
         foreach ($this->listSharedSourceFiles($instructions) as $sharedSourceFile) {
             $this->messenger->progress(
-                sprintf('Processing shared source file "%s"...', $sharedSourceFile->getRelativePathname())
+                sprintf('Processing shared source file "%s"...', $sharedSourceFile->getRelativePathname()),
             );
 
             $writer = $this->writerFactory->get($sharedSourceFile->getPathname());
@@ -97,7 +92,7 @@ final class ProcessSharedSourceFilesStep extends AbstractStep implements Process
             $instructions->getSharedSourceDirectory(),
             // Include all installed shared source packages
             '*',
-            Paths::TEMPLATE_SOURCES
+            Paths::TEMPLATE_SOURCES,
         );
 
         return Finder\Finder::create()

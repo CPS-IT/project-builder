@@ -36,7 +36,6 @@ use function array_values;
  */
 final class BuildResult
 {
-    private BuildInstructions $instructions;
     private bool $mirrored = false;
 
     /**
@@ -44,9 +43,9 @@ final class BuildResult
      */
     private array $appliedSteps = [];
 
-    public function __construct(BuildInstructions $instructions)
-    {
-        $this->instructions = $instructions;
+    public function __construct(
+        private BuildInstructions $instructions,
+    ) {
     }
 
     public function getInstructions(): BuildInstructions
@@ -74,10 +73,7 @@ final class BuildResult
         return $this->appliedSteps;
     }
 
-    /**
-     * @param Generator\Step\StepInterface|string $step
-     */
-    public function isStepApplied($step): bool
+    public function isStepApplied(Generator\Step\StepInterface|string $step): bool
     {
         if ($step instanceof Generator\Step\StepInterface) {
             $step = $step::getType();
@@ -109,8 +105,8 @@ final class BuildResult
                 $files,
                 fn (Resource\Local\ProcessedFile $file): bool => Filesystem\Path::isBasePath(
                     $withinPath,
-                    $file->getTargetFile()->getPathname()
-                )
+                    $file->getTargetFile()->getPathname(),
+                ),
             );
         }
 

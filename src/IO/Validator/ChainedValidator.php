@@ -41,8 +41,9 @@ final class ChainedValidator implements ValidatorInterface
     /**
      * @param list<ValidatorInterface> $validators
      */
-    public function __construct(array $validators = [])
-    {
+    public function __construct(
+        array $validators = [],
+    ) {
         foreach ($validators as $validator) {
             $this->add($validator);
         }

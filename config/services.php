@@ -40,7 +40,7 @@ use Twig\Loader;
 
 return static function (
     DependencyInjection\Loader\Configurator\ContainerConfigurator $configurator,
-    DependencyInjection\ContainerBuilder $container
+    DependencyInjection\ContainerBuilder $container,
 ): void {
     $container->registerForAutoconfiguration(Builder\Writer\WriterInterface::class)
         ->addTag('builder.writer')
@@ -65,14 +65,14 @@ return static function (
         new CompilerPass\FactoryServicesPass(
             'io.validator',
             IO\Validator\ValidatorFactory::class,
-            '$validators'
-        )
+            '$validators',
+        ),
     );
     $container->addCompilerPass(
         new CompilerPass\EventListenerPass(
             'event.listener',
-            EventDispatcher\EventDispatcherInterface::class
-        )
+            EventDispatcher\EventDispatcherInterface::class,
+        ),
     );
 
     $services = $configurator->services();

@@ -42,20 +42,15 @@ final class ProcessSourceFilesStep extends AbstractStep implements ProcessingSte
 
     private const TYPE = 'processSourceFiles';
 
-    private IO\Messenger $messenger;
-    private Builder\Writer\WriterFactory $writerFactory;
-
     public function __construct(
         ExpressionLanguage\ExpressionLanguage $expressionLanguage,
         Filesystem\Filesystem $filesystem,
-        IO\Messenger $messenger,
-        Builder\Writer\WriterFactory $writerFactory
+        private IO\Messenger $messenger,
+        private Builder\Writer\WriterFactory $writerFactory,
     ) {
         parent::__construct();
         $this->expressionLanguage = $expressionLanguage;
         $this->filesystem = $filesystem;
-        $this->messenger = $messenger;
-        $this->writerFactory = $writerFactory;
     }
 
     public function run(Builder\BuildResult $buildResult): bool
@@ -64,7 +59,7 @@ final class ProcessSourceFilesStep extends AbstractStep implements ProcessingSte
 
         foreach ($this->listSourceFiles($instructions) as $sourceFile) {
             $this->messenger->progress(
-                sprintf('Processing source file "%s"...', $sourceFile->getRelativePathname())
+                sprintf('Processing source file "%s"...', $sourceFile->getRelativePathname()),
             );
 
             $writer = $this->writerFactory->get($sourceFile->getPathname());

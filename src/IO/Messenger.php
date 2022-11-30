@@ -49,13 +49,10 @@ final class Messenger
 {
     private static ?string $lastProgressOutput = null;
 
-    private IO\IOInterface $io;
-    private Console\Terminal $terminal;
-
-    private function __construct(IO\IOInterface $io, Console\Terminal $terminal)
-    {
-        $this->io = $io;
-        $this->terminal = $terminal;
+    private function __construct(
+        private IO\IOInterface $io,
+        private Console\Terminal $terminal,
+    ) {
     }
 
     public static function create(IO\IOInterface $io): self
@@ -112,14 +109,14 @@ final class Messenger
     {
         $labels = array_map(
             fn (Template\Provider\ProviderInterface $provider) => $provider->getName(),
-            array_values($providers)
+            array_values($providers),
         );
         $defaultIdentifier = array_key_first($providers);
 
         $index = $this->getIO()->select(
             self::decorateLabel('Which platform hosts the project template you want to create?', $defaultIdentifier),
             $labels,
-            (string) $defaultIdentifier
+            (string) $defaultIdentifier,
         );
 
         $selectedProvider = $providers[(int) $index];
@@ -159,7 +156,7 @@ final class Messenger
         $index = $this->getIO()->select(
             self::decorateLabel('Please select a project you would like to create', $defaultIdentifier),
             $labels,
-            (string) $defaultIdentifier
+            (string) $defaultIdentifier,
         );
 
         $this->newLine();
@@ -174,7 +171,7 @@ final class Messenger
             'You can go one step back and select another template provider.',
             sprintf(
                 'For more information, take a look at the <href=%s>documentation</>.',
-                'https://github.com/CPS-IT/project-builder/blob/main/docs/configuration.md'
+                'https://github.com/CPS-IT/project-builder/blob/main/docs/configuration.md',
             ),
             '',
         ]);
@@ -218,7 +215,7 @@ final class Messenger
             $this->writeWithEmoji(
                 Emoji::WHITE_HEAVY_CHECK_MARK,
                 self::$lastProgressOutput.'<info>Done</info>',
-                true
+                true,
             );
         }
     }
@@ -229,7 +226,7 @@ final class Messenger
             $this->writeWithEmoji(
                 Emoji::PROHIBITED,
                 self::$lastProgressOutput.'<error>Failed</error>',
-                true
+                true,
             );
         }
     }
@@ -272,12 +269,12 @@ final class Messenger
         if ($result->isMirrored()) {
             $this->writeWithEmoji(
                 Emoji::PARTY_POPPER,
-                '<info>Congratulations, your new project was successfully built!</info>'
+                '<info>Congratulations, your new project was successfully built!</info>',
             );
         } else {
             $this->writeWithEmoji(
                 Emoji::WOOZY_FACE,
-                '<comment>Project generation was aborted. Please try again.</comment>'
+                '<comment>Project generation was aborted. Please try again.</comment>',
             );
         }
 
@@ -376,15 +373,14 @@ final class Messenger
     }
 
     /**
-     * @param mixed        $default
      * @param list<string> $alternatives
      */
     public static function decorateLabel(
         string $label,
-        $default = null,
+        mixed $default = null,
         bool $required = true,
         array $alternatives = [],
-        bool $multiple = false
+        bool $multiple = false,
     ): string {
         $label = preg_replace('/(\s*:\s*)?$/', '', $label);
 
@@ -436,24 +432,14 @@ final class Messenger
      */
     private function checkVerbosity(int $verbosity): bool
     {
-        switch ($verbosity) {
-            case IO\IOInterface::QUIET:
-                return false;
-
-            case IO\IOInterface::NORMAL:
-                return true;
-
-            case IO\IOInterface::VERBOSE:
-                return $this->io->isVerbose();
-
-            case IO\IOInterface::VERY_VERBOSE:
-                return $this->io->isVeryVerbose();
-
-            case IO\IOInterface::DEBUG:
-                return $this->io->isDebug();
-        }
-
-        return false;
+        return match ($verbosity) {
+            IO\IOInterface::QUIET => false,
+            IO\IOInterface::NORMAL => true,
+            IO\IOInterface::VERBOSE => $this->io->isVerbose(),
+            IO\IOInterface::VERY_VERBOSE => $this->io->isVeryVerbose(),
+            IO\IOInterface::DEBUG => $this->io->isDebug(),
+            default => false,
+        };
     }
 
     private function getIO(): IO\IOInterface

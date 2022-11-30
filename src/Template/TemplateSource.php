@@ -33,13 +33,10 @@ use Composer\Package;
  */
 final class TemplateSource
 {
-    private Provider\ProviderInterface $provider;
-    private Package\PackageInterface $package;
-
-    public function __construct(Provider\ProviderInterface $provider, Package\PackageInterface $package)
-    {
-        $this->provider = $provider;
-        $this->package = $package;
+    public function __construct(
+        private Provider\ProviderInterface $provider,
+        private Package\PackageInterface $package,
+    ) {
     }
 
     public function getProvider(): Provider\ProviderInterface

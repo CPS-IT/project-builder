@@ -35,16 +35,11 @@ use CPSIT\ProjectBuilder\Exception;
 final class StepFactory
 {
     /**
-     * @var iterable<StepInterface>
-     */
-    private iterable $steps;
-
-    /**
      * @param iterable<StepInterface> $steps
      */
-    public function __construct(iterable $steps)
-    {
-        $this->steps = $steps;
+    public function __construct(
+        private iterable $steps,
+    ) {
     }
 
     /**

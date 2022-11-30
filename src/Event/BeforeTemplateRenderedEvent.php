@@ -34,22 +34,14 @@ use Twig\Environment;
  */
 final class BeforeTemplateRenderedEvent
 {
-    private Environment $twig;
-    private Builder\BuildInstructions $instructions;
-
-    /**
-     * @var array<string, mixed>
-     */
-    private array $variables;
-
     /**
      * @param array<string, mixed> $variables
      */
-    public function __construct(Environment $twig, Builder\BuildInstructions $instructions, array $variables)
-    {
-        $this->twig = $twig;
-        $this->instructions = $instructions;
-        $this->variables = $variables;
+    public function __construct(
+        private Environment $twig,
+        private Builder\BuildInstructions $instructions,
+        private array $variables,
+    ) {
     }
 
     public function getTwig(): Environment

@@ -33,18 +33,11 @@ use CPSIT\ProjectBuilder\Builder;
  */
 final class BuildStepProcessedEvent
 {
-    private Builder\Generator\Step\StepInterface $step;
-    private Builder\BuildResult $buildResult;
-    private bool $successful;
-
     public function __construct(
-        Builder\Generator\Step\StepInterface $step,
-        Builder\BuildResult $buildResult,
-        bool $successful
+        private Builder\Generator\Step\StepInterface $step,
+        private Builder\BuildResult $buildResult,
+        private bool $successful,
     ) {
-        $this->step = $step;
-        $this->buildResult = $buildResult;
-        $this->successful = $successful;
     }
 
     public function getStep(): Builder\Generator\Step\StepInterface

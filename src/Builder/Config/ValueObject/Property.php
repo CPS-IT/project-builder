@@ -37,28 +37,21 @@ final class Property
     use ValueTrait;
 
     /**
-     * @var list<SubProperty>
-     */
-    private array $properties;
-
-    /**
-     * @param int|float|string|bool|null $value
-     * @param list<SubProperty>          $properties
+     * @param list<SubProperty> $properties
      */
     public function __construct(
         string $identifier,
         string $name,
         string $path = null,
         string $if = null,
-        $value = null,
-        array $properties = []
+        int|float|string|bool|null $value = null,
+        private array $properties = [],
     ) {
         $this->identifier = $identifier;
         $this->name = $name;
         $this->path = $path;
         $this->if = $if;
         $this->value = $value;
-        $this->properties = $properties;
     }
 
     /**

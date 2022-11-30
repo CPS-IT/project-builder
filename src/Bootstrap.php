@@ -46,23 +46,15 @@ use function uniqid;
  */
 final class Bootstrap
 {
-    private IO\Messenger $messenger;
-    private Builder\Config\ConfigReader $configReader;
-    private Error\ErrorHandler $errorHandler;
-    private Filesystem\Filesystem $filesystem;
     private string $targetDirectory;
 
     private function __construct(
-        IO\Messenger $messenger,
-        Builder\Config\ConfigReader $configReader,
-        Error\ErrorHandler $errorHandler,
-        Filesystem\Filesystem $filesystem,
-        string $targetDirectory = null
+        private IO\Messenger $messenger,
+        private Builder\Config\ConfigReader $configReader,
+        private Error\ErrorHandler $errorHandler,
+        private Filesystem\Filesystem $filesystem,
+        string $targetDirectory = null,
     ) {
-        $this->messenger = $messenger;
-        $this->configReader = $configReader;
-        $this->errorHandler = $errorHandler;
-        $this->filesystem = $filesystem;
         $this->targetDirectory = $targetDirectory ?? Helper\FilesystemHelper::getProjectRootPath();
     }
 
@@ -73,7 +65,7 @@ final class Bootstrap
             Builder\Config\ConfigReader::create(),
             new Error\ErrorHandler($messenger),
             new Filesystem\Filesystem(),
-            $targetDirectory
+            $targetDirectory,
         );
     }
 
@@ -86,7 +78,7 @@ final class Bootstrap
     public static function createProject(
         Script\Event $event,
         string $targetDirectory = null,
-        bool $exitOnFailure = true
+        bool $exitOnFailure = true,
     ): int {
         $messenger = IO\Messenger::create($event->getIO());
         $exitCode = self::create($messenger, $targetDirectory)->run();
@@ -152,7 +144,7 @@ final class Bootstrap
         $exitCode = $composer->install(
             Filesystem\Path::join($targetDirectory, 'composer.json'),
             true,
-            $output
+            $output,
         );
 
         if ($exitCode > 0) {
@@ -180,7 +172,7 @@ final class Bootstrap
             $io->success($message);
         }
         $io->writeln(
-            sprintf('Target directory: <comment>%s</comment>', $targetDirectory)
+            sprintf('Target directory: <comment>%s</comment>', $targetDirectory),
         );
 
         exit($exitCode);

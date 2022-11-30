@@ -37,13 +37,10 @@ use Symfony\Component\Finder;
  */
 final class TemplateWriter implements WriterInterface
 {
-    private Filesystem\Filesystem $filesystem;
-    private Twig\Renderer $renderer;
-
-    public function __construct(Filesystem\Filesystem $filesystem, Twig\Renderer $renderer)
-    {
-        $this->filesystem = $filesystem;
-        $this->renderer = $renderer;
+    public function __construct(
+        private Filesystem\Filesystem $filesystem,
+        private Twig\Renderer $renderer,
+    ) {
     }
 
     /**
@@ -52,13 +49,13 @@ final class TemplateWriter implements WriterInterface
     public function write(
         Builder\BuildInstructions $instructions,
         Finder\SplFileInfo $file,
-        array $variables = []
+        array $variables = [],
     ): Finder\SplFileInfo {
         $renderer = $this->renderer->withRootPath($file->getPath());
         $renderResult = $renderer->render($instructions, $file->getFilename(), $variables);
         $targetFile = Helper\FilesystemHelper::createFileObject(
             $instructions->getTemporaryDirectory(),
-            (string) preg_replace('/\.twig$/', '', $file->getRelativePathname())
+            (string) preg_replace('/\.twig$/', '', $file->getRelativePathname()),
         );
 
         $this->filesystem->dumpFile($targetFile->getPathname(), $renderResult);

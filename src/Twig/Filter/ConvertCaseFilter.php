@@ -41,9 +41,9 @@ final class ConvertCaseFilter implements TwigFilterInterface
     /**
      * @param StringCase::*|null $case
      *
-     * @throws Exception\UnsupportedTypeException
+     * @throws Exception\StringConversionException
      */
-    public function __invoke($input, string $case = null): string
+    public function __invoke(mixed $input, string $case = null): string
     {
         Assert\Assert::string($input);
         Assert\Assert::string($case);

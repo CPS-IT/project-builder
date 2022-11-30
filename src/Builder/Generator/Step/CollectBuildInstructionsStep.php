@@ -38,19 +38,12 @@ final class CollectBuildInstructionsStep extends AbstractStep
 {
     private const TYPE = 'collectBuildInstructions';
 
-    private ExpressionLanguage\ExpressionLanguage $expressionLanguage;
-    private IO\Messenger $messenger;
-    private Interaction\InteractionFactory $interactionFactory;
-
     public function __construct(
-        ExpressionLanguage\ExpressionLanguage $expressionLanguage,
-        IO\Messenger $messenger,
-        Interaction\InteractionFactory $interactionFactory
+        private ExpressionLanguage\ExpressionLanguage $expressionLanguage,
+        private IO\Messenger $messenger,
+        private Interaction\InteractionFactory $interactionFactory,
     ) {
         parent::__construct();
-        $this->expressionLanguage = $expressionLanguage;
-        $this->messenger = $messenger;
-        $this->interactionFactory = $interactionFactory;
     }
 
     public function run(Builder\BuildResult $buildResult): bool
@@ -133,10 +126,7 @@ final class CollectBuildInstructionsStep extends AbstractStep
         $this->apply($subProperty->getPath(), $value, $buildResult);
     }
 
-    /**
-     * @param mixed $value
-     */
-    private function apply(string $path, $value, Builder\BuildResult $buildResult): void
+    private function apply(string $path, mixed $value, Builder\BuildResult $buildResult): void
     {
         $buildResult->getInstructions()->addTemplateVariable($path, $value);
         $buildResult->applyStep($this);
@@ -144,10 +134,8 @@ final class CollectBuildInstructionsStep extends AbstractStep
 
     /**
      * @param list<Builder\Config\ValueObject\PropertyOption> $options
-     *
-     * @return int|float|string|null
      */
-    private function processOptions(array $options, Builder\BuildInstructions $instructions)
+    private function processOptions(array $options, Builder\BuildInstructions $instructions): mixed
     {
         foreach ($options as $option) {
             // A condition is required for dynamic selections

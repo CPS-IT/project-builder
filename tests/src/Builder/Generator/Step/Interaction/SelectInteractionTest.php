@@ -123,7 +123,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         array $options = [],
         bool $multiple = false,
         $defaultValue = null,
-        bool $required = false
+        bool $required = false,
     ): Src\Builder\Config\ValueObject\CustomizableInterface {
         $validators = [];
 
@@ -141,7 +141,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
             $options,
             $multiple,
             $defaultValue,
-            $validators
+            $validators,
         );
     }
 }

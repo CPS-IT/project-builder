@@ -42,29 +42,18 @@ use function sprintf;
  */
 final class Generator
 {
-    private Builder\Config\Config $config;
-    private IO\Messenger $messenger;
-    private Step\StepFactory $stepFactory;
-    private Filesystem\Filesystem $filesystem;
-    private EventDispatcher\EventDispatcherInterface $eventDispatcher;
-
     /**
      * @var list<Step\StepInterface>
      */
     private array $revertedSteps = [];
 
     public function __construct(
-        Builder\Config\Config $config,
-        IO\Messenger $messenger,
-        Builder\Generator\Step\StepFactory $stepFactory,
-        Filesystem\Filesystem $filesystem,
-        EventDispatcher\EventDispatcherInterface $eventDispatcher
+        private Builder\Config\Config $config,
+        private IO\Messenger $messenger,
+        private Builder\Generator\Step\StepFactory $stepFactory,
+        private Filesystem\Filesystem $filesystem,
+        private EventDispatcher\EventDispatcherInterface $eventDispatcher,
     ) {
-        $this->config = $config;
-        $this->messenger = $messenger;
-        $this->stepFactory = $stepFactory;
-        $this->filesystem = $filesystem;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function run(string $targetDirectory): Builder\BuildResult
@@ -83,7 +72,7 @@ final class Generator
             $exception = null;
 
             $this->messenger->comment(
-                sprintf('Running step #%d "%s"...', $index + 1, $step->getType())
+                sprintf('Running step #%d "%s"...', $index + 1, $step->getType()),
             );
 
             try {
@@ -95,7 +84,7 @@ final class Generator
 
             if (null !== $currentStep) {
                 $this->eventDispatcher->dispatch(
-                    new Event\BuildStepProcessedEvent($currentStep, $result, $successful)
+                    new Event\BuildStepProcessedEvent($currentStep, $result, $successful),
                 );
             }
 
@@ -123,7 +112,7 @@ final class Generator
         Builder\BuildResult $result,
         string $stepType,
         Step\StepInterface $step = null,
-        Throwable $exception = null
+        Throwable $exception = null,
     ): void {
         $this->messenger->error('Project generation failed. All processed steps will be reverted.');
         $this->messenger->newLine();
