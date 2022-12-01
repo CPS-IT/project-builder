@@ -65,8 +65,7 @@ final class ErrorHandler
 
     private function formatMappingErrors(Mapper\Tree\Node $node): void
     {
-        $flattener = new Mapper\Tree\Message\MessagesFlattener($node);
-        $errors = $flattener->errors();
+        $errors = Mapper\Tree\Message\Messages::flattenFromNode($node)->errors();
 
         foreach ($errors as $error) {
             $this->messenger->error('- '.$error);
