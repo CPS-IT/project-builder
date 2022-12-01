@@ -37,7 +37,7 @@ final class IOException extends Exception
     {
         return new self(
             sprintf('The file "%s" does not exist.', $file),
-            1653394006
+            1653394006,
         );
     }
 }

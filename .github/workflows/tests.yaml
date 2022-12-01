@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ["7.4", "8.0", "8.1"]
+        php-version: ["8.0", "8.1", "8.2"]
         composer-version: ["2.1", "2.2", "2.3", "2.4"]
         dependencies: ["highest", "lowest"]
     steps:
@@ -32,8 +32,6 @@ jobs:
           coverage: none
 
       # Install dependencies
-      - name: Remove wikimedia/composer-merge-plugin
-        run: composer remove wikimedia/composer-merge-plugin --no-progress --no-plugins --no-install --no-update
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
         with:
@@ -60,8 +58,6 @@ jobs:
           coverage: pcov
 
       # Install dependencies
-      - name: Remove wikimedia/composer-merge-plugin
-        run: composer remove wikimedia/composer-merge-plugin --no-progress --no-plugins --no-install --no-update
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
         with:

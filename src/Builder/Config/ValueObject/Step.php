@@ -35,8 +35,10 @@ final class Step
 
     private StepOptions $options;
 
-    public function __construct(string $type, StepOptions $options = null)
-    {
+    public function __construct(
+        string $type,
+        StepOptions $options = null,
+    ) {
         $this->type = $type;
         $this->options = $options ?? new StepOptions();
     }

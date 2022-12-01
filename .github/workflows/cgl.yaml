@@ -30,15 +30,15 @@ jobs:
 
       # Install dependencies
       - name: Install Composer dependencies
-        run: composer require --no-progress --no-plugins composer/composer:"^2.1" composer/xdebug-handler:"^3.0"
+        run: composer require --no-progress composer/composer:"^2.1" composer/semver:"^3.0" composer/xdebug-handler:"^3.0"
 
       # Check Composer dependencies
       - name: Check dependencies
         run: composer-require-checker check --config-file dependency-checker.json
       - name: Reset composer.json
-        run: |
-          git checkout composer.json
-          composer update --no-progress --no-plugins
+        run: git checkout composer.json
+      - name: Re-install Composer dependencies
+        uses: ramsey/composer-install@v2
       - name: Check for unused dependencies
         run: composer-unused --excludePackage=symfony/polyfill-php80
 
@@ -55,3 +55,7 @@ jobs:
       # SCA
       - name: SCA PHP
         run: composer sca:php -- --error-format github
+
+      # Migration
+      - name: Rector migration
+        run: composer migration:rector -- --dry-run

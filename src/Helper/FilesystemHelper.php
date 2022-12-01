@@ -43,7 +43,7 @@ final class FilesystemHelper
         return new Finder\SplFileInfo(
             Filesystem\Path::join($baseDir, $relativePathname),
             dirname($relativePathname),
-            $relativePathname
+            $relativePathname,
         );
     }
 

@@ -48,9 +48,9 @@ final class PropertyTest extends TestCase
                 new Src\Builder\Config\ValueObject\SubProperty(
                     'identifier',
                     'name',
-                    'type'
+                    'type',
                 ),
-            ]
+            ],
         );
     }
 
@@ -64,10 +64,10 @@ final class PropertyTest extends TestCase
                 new Src\Builder\Config\ValueObject\SubProperty(
                     'identifier',
                     'name',
-                    'type'
+                    'type',
                 ),
             ],
-            $this->subject->getSubProperties()
+            $this->subject->getSubProperties(),
         );
     }
 

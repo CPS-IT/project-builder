@@ -47,8 +47,6 @@ final class ConfigReader
         'config.json',
     ];
 
-    private ConfigFactory $factory;
-    private string $templateDirectory;
     private Finder\Finder $finder;
     private bool $parsed = false;
 
@@ -57,10 +55,10 @@ final class ConfigReader
      */
     private array $parsedConfig = [];
 
-    private function __construct(ConfigFactory $factory, string $templateDirectory)
-    {
-        $this->factory = $factory;
-        $this->templateDirectory = $templateDirectory;
+    private function __construct(
+        private ConfigFactory $factory,
+        private string $templateDirectory,
+    ) {
         $this->finder = $this->createFinder();
     }
 
@@ -131,7 +129,7 @@ final class ConfigReader
     {
         try {
             $composer = Resource\Local\Composer::createComposer(dirname($configFile));
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             throw Exception\InvalidConfigurationException::forMissingManifestFile($configFile);
         }
 
@@ -140,6 +138,13 @@ final class ConfigReader
 
     private function createFinder(): Finder\Finder
     {
+        $filesystem = new Filesystem\Filesystem();
+
+        // Ensure template directory exists
+        if (!$filesystem->exists($this->templateDirectory)) {
+            $filesystem->mkdir($this->templateDirectory);
+        }
+
         $finder = Finder\Finder::create()
             ->files()
             ->in($this->templateDirectory)

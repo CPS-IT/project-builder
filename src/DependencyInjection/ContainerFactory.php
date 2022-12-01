@@ -50,20 +50,13 @@ use function iterator_to_array;
 final class ContainerFactory
 {
     /**
-     * @var list<Finder\SplFileInfo>
-     */
-    private array $resources;
-    private ?string $containerPath;
-    private bool $debug;
-
-    /**
      * @param list<Finder\SplFileInfo> $resources
      */
-    private function __construct(array $resources, string $containerPath = null, bool $debug = false)
-    {
-        $this->resources = $resources;
-        $this->containerPath = $containerPath;
-        $this->debug = $debug;
+    private function __construct(
+        private array $resources,
+        private ?string $containerPath = null,
+        private bool $debug = false,
+    ) {
     }
 
     /**
@@ -81,7 +74,7 @@ final class ContainerFactory
                 Helper\FilesystemHelper::getProjectRootPath(),
                 Paths::PROJECT_TEMPLATES,
                 basename(dirname($config->getDeclaringFile())),
-                Paths::TEMPLATE_SERVICE_CONFIG
+                Paths::TEMPLATE_SERVICE_CONFIG,
             ),
         ];
 
@@ -93,20 +86,20 @@ final class ContainerFactory
         if (!Filesystem\Path::isAbsolute($testsRootPath)) {
             $testsRootPath = Filesystem\Path::join(
                 Helper\FilesystemHelper::getProjectRootPath(),
-                $testsRootPath
+                $testsRootPath,
             );
         }
         $resources = self::locateResources([
             Filesystem\Path::join(
                 $testsRootPath,
-                'config'
+                'config',
             ),
         ]);
         $containerPath = Filesystem\Path::join(
             Helper\FilesystemHelper::getProjectRootPath(),
             'var',
             'cache',
-            'test-container.php'
+            'test-container.php',
         );
 
         $filesystem = new Filesystem\Filesystem();
@@ -154,20 +147,15 @@ final class ContainerFactory
 
     private function createLoader(
         Finder\SplFileInfo $resource,
-        DependencyInjection\ContainerBuilder $container
+        DependencyInjection\ContainerBuilder $container,
     ): Config\Loader\LoaderInterface {
         $locator = new Config\FileLocator($resource->getPath());
 
-        switch ($resource->getExtension()) {
-            case 'yaml':
-            case 'yml':
-                return new DependencyInjection\Loader\YamlFileLoader($container, $locator);
-
-            case 'php':
-                return new DependencyInjection\Loader\PhpFileLoader($container, $locator);
-        }
-
-        throw Exception\UnsupportedTypeException::create($resource->getExtension());
+        return match ($resource->getExtension()) {
+            'yaml', 'yml' => new DependencyInjection\Loader\YamlFileLoader($container, $locator),
+            'php' => new DependencyInjection\Loader\PhpFileLoader($container, $locator),
+            default => throw Exception\UnsupportedTypeException::create($resource->getExtension()),
+        };
     }
 
     /**

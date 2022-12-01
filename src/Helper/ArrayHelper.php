@@ -35,10 +35,8 @@ final class ArrayHelper
 {
     /**
      * @param iterable<string, mixed> $subject
-     *
-     * @return mixed
      */
-    public static function getValueByPath(iterable $subject, string $path)
+    public static function getValueByPath(iterable $subject, string $path): mixed
     {
         $pathSegments = array_filter(explode('.', $path));
         $reference = &$subject;
@@ -56,9 +54,8 @@ final class ArrayHelper
 
     /**
      * @param iterable<string, mixed> $subject
-     * @param mixed                   $value
      */
-    public static function setValueByPath(iterable &$subject, string $path, $value): void
+    public static function setValueByPath(iterable &$subject, string $path, mixed $value): void
     {
         $pathSegments = array_filter(explode('.', $path));
         $reference = &$subject;
@@ -74,10 +71,7 @@ final class ArrayHelper
         $reference = $value;
     }
 
-    /**
-     * @param mixed $subject
-     */
-    private static function pathSegmentExists($subject, string $pathSegment): bool
+    private static function pathSegmentExists(mixed $subject, string $pathSegment): bool
     {
         if (!is_array($subject) && !($subject instanceof ArrayObject)) {
             return false;

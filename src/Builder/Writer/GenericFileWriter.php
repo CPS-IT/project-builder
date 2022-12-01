@@ -36,11 +36,9 @@ use Symfony\Component\Finder;
  */
 final class GenericFileWriter implements WriterInterface
 {
-    private Filesystem\Filesystem $filesystem;
-
-    public function __construct(Filesystem\Filesystem $filesystem)
-    {
-        $this->filesystem = $filesystem;
+    public function __construct(
+        private Filesystem\Filesystem $filesystem,
+    ) {
     }
 
     public function write(Builder\BuildInstructions $instructions, Finder\SplFileInfo $file): Finder\SplFileInfo

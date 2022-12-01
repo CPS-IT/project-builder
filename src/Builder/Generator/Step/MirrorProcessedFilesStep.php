@@ -45,18 +45,16 @@ final class MirrorProcessedFilesStep extends AbstractStep implements ProcessingS
 
     private const TYPE = 'mirrorProcessedFiles';
 
-    private IO\Messenger $messenger;
     private bool $stopped = false;
 
     public function __construct(
         ExpressionLanguage\ExpressionLanguage $expressionLanguage,
         Filesystem\Filesystem $filesystem,
-        IO\Messenger $messenger
+        private IO\Messenger $messenger,
     ) {
         parent::__construct();
         $this->expressionLanguage = $expressionLanguage;
         $this->filesystem = $filesystem;
-        $this->messenger = $messenger;
     }
 
     public function run(Builder\BuildResult $buildResult): bool
@@ -75,7 +73,7 @@ final class MirrorProcessedFilesStep extends AbstractStep implements ProcessingS
 
         foreach ($this->listFilesInTargetDirectory($instructions) as $file) {
             $this->messenger->progress(
-                sprintf('Removing "%s" in target directory...', $file->getRelativePathname())
+                sprintf('Removing "%s" in target directory...', $file->getRelativePathname()),
             );
 
             $this->filesystem->remove($file->getPathname());
@@ -116,13 +114,13 @@ final class MirrorProcessedFilesStep extends AbstractStep implements ProcessingS
     private function mirrorFile(Finder\SplFileInfo $file, Builder\BuildResult $result): Finder\SplFileInfo
     {
         $this->messenger->progress(
-            sprintf('Mirroring "%s" to target directory...', $file->getRelativePathname())
+            sprintf('Mirroring "%s" to target directory...', $file->getRelativePathname()),
         );
 
         $sourceFile = $file->getPathname();
         $targetFile = Helper\FilesystemHelper::createFileObject(
             $result->getInstructions()->getTargetDirectory(),
-            $file->getRelativePathname()
+            $file->getRelativePathname(),
         );
 
         $this->filesystem->copy($sourceFile, $targetFile->getPathname(), true);

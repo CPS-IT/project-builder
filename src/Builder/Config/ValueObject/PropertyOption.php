@@ -34,25 +34,11 @@ final class PropertyOption
     use ConditionTrait;
     use ValueTrait;
 
-    /**
-     * @var int|float|string
-     */
-    protected $value;
-
-    /**
-     * @param int|float|string $value
-     */
-    public function __construct($value, string $if = null)
-    {
+    public function __construct(
+        int|float|string $value,
+        string $if = null,
+    ) {
         $this->value = $value;
         $this->if = $if;
-    }
-
-    /**
-     * @return int|float|string
-     */
-    public function getValue()
-    {
-        return $this->value;
     }
 }

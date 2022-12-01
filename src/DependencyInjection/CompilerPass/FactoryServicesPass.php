@@ -40,15 +40,11 @@ use function ltrim;
  */
 final class FactoryServicesPass implements DependencyInjection\Compiler\CompilerPassInterface
 {
-    private string $tagName;
-    private string $factoryService;
-    private string $argumentName;
-
-    public function __construct(string $tagName, string $factoryService, string $argumentName)
-    {
-        $this->tagName = $tagName;
-        $this->factoryService = $factoryService;
-        $this->argumentName = $argumentName;
+    public function __construct(
+        private string $tagName,
+        private string $factoryService,
+        private string $argumentName,
+    ) {
     }
 
     public function process(DependencyInjection\ContainerBuilder $container): void
@@ -74,7 +70,7 @@ final class FactoryServicesPass implements DependencyInjection\Compiler\Compiler
 
         $container->findDefinition($this->factoryService)->setArgument(
             '$'.ltrim($this->argumentName, '$'),
-            $services
+            $services,
         );
     }
 }

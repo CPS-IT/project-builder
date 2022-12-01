@@ -42,13 +42,10 @@ use function class_exists;
  */
 final class EventListenerPass implements DependencyInjection\Compiler\CompilerPassInterface
 {
-    private string $tagName;
-    private string $dispatcherId;
-
-    public function __construct(string $tagName, string $dispatcherId)
-    {
-        $this->tagName = $tagName;
-        $this->dispatcherId = $dispatcherId;
+    public function __construct(
+        private string $tagName,
+        private string $dispatcherId,
+    ) {
     }
 
     public function process(DependencyInjection\ContainerBuilder $container): void
@@ -80,7 +77,7 @@ final class EventListenerPass implements DependencyInjection\Compiler\CompilerPa
                     [
                         $event,
                         [new DependencyInjection\Reference($id), $method],
-                    ]
+                    ],
                 );
             }
         }

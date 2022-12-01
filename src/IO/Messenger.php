@@ -24,8 +24,11 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\IO;
 
 use Composer\IO;
+use Composer\Package;
 use CPSIT\ProjectBuilder\Builder;
+use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\Resource;
+use CPSIT\ProjectBuilder\Template;
 use Symfony\Component\Console;
 
 use function count;
@@ -46,13 +49,10 @@ final class Messenger
 {
     private static ?string $lastProgressOutput = null;
 
-    private IO\IOInterface $io;
-    private Console\Terminal $terminal;
-
-    private function __construct(IO\IOInterface $io, Console\Terminal $terminal)
-    {
-        $this->io = $io;
-        $this->terminal = $terminal;
+    private function __construct(
+        private IO\IOInterface $io,
+        private Console\Terminal $terminal,
+    ) {
     }
 
     public static function create(IO\IOInterface $io): self
@@ -103,23 +103,82 @@ final class Messenger
     }
 
     /**
-     * @param array<string, string> $templates
+     * @param non-empty-list<Template\Provider\ProviderInterface> $providers
      */
-    public function selectTemplate(array $templates): string
+    public function selectProvider(array $providers): Template\Provider\ProviderInterface
     {
-        $identifiers = array_keys($templates);
-        $labels = array_values($templates);
-        $defaultIdentifier = array_key_first($identifiers);
+        $labels = array_map(
+            fn (Template\Provider\ProviderInterface $provider) => $provider->getName(),
+            array_values($providers),
+        );
+        $defaultIdentifier = array_key_first($providers);
+
+        $index = $this->getIO()->select(
+            self::decorateLabel('Which platform hosts the project template you want to create?', $defaultIdentifier),
+            $labels,
+            (string) $defaultIdentifier,
+        );
+
+        $selectedProvider = $providers[(int) $index];
+
+        if (!($selectedProvider instanceof Template\Provider\CustomProviderInterface)) {
+            $this->newLine();
+
+            return $selectedProvider;
+        }
+
+        $selectedProvider->requestCustomOptions($this);
+
+        $this->newLine();
+
+        return $selectedProvider;
+    }
+
+    /**
+     * @throws Exception\InvalidTemplateSourceException
+     */
+    public function selectTemplateSource(Template\Provider\ProviderInterface $provider): Template\TemplateSource
+    {
+        $this->progress('Fetching available template sources...', IO\IOInterface::NORMAL);
+
+        $templateSources = $provider->listTemplateSources();
+
+        $this->done();
+        $this->newLine();
+
+        if ([] === $templateSources) {
+            throw Exception\InvalidTemplateSourceException::forProvider($provider);
+        }
+
+        $labels = array_map([$this, 'decorateTemplateSource'], $templateSources);
+        $defaultIdentifier = array_key_first($templateSources);
 
         $index = $this->getIO()->select(
             self::decorateLabel('Please select a project you would like to create', $defaultIdentifier),
             $labels,
-            (string) $defaultIdentifier
+            (string) $defaultIdentifier,
         );
 
         $this->newLine();
 
-        return $identifiers[(int) $index];
+        return $templateSources[(int) $index];
+    }
+
+    public function confirmTemplateSourceRetry(\Exception $exception): bool
+    {
+        $this->getIO()->write([
+            '<error>'.$exception->getMessage().'</error>',
+            'You can go one step back and select another template provider.',
+            sprintf(
+                'For more information, take a look at the <href=%s>documentation</>.',
+                'https://github.com/CPS-IT/project-builder/blob/main/docs/configuration.md',
+            ),
+            '',
+        ]);
+
+        $label = self::decorateLabel('Continue?', 'Y', true, ['n']);
+
+        return $this->getIO()->askConfirmation($label);
     }
 
     public function confirmOverwrite(string $directory): bool
@@ -156,7 +215,7 @@ final class Messenger
             $this->writeWithEmoji(
                 Emoji::WHITE_HEAVY_CHECK_MARK,
                 self::$lastProgressOutput.'<info>Done</info>',
-                true
+                true,
             );
         }
     }
@@ -167,7 +226,7 @@ final class Messenger
             $this->writeWithEmoji(
                 Emoji::PROHIBITED,
                 self::$lastProgressOutput.'<error>Failed</error>',
-                true
+                true,
             );
         }
     }
@@ -210,12 +269,12 @@ final class Messenger
         if ($result->isMirrored()) {
             $this->writeWithEmoji(
                 Emoji::PARTY_POPPER,
-                '<info>Congratulations, your new project was successfully built!</info>'
+                '<info>Congratulations, your new project was successfully built!</info>',
             );
         } else {
             $this->writeWithEmoji(
                 Emoji::WOOZY_FACE,
-                '<comment>Project generation was aborted. Please try again.</comment>'
+                '<comment>Project generation was aborted. Please try again.</comment>',
             );
         }
 
@@ -314,15 +373,14 @@ final class Messenger
     }
 
     /**
-     * @param mixed        $default
      * @param list<string> $alternatives
      */
     public static function decorateLabel(
         string $label,
-        $default = null,
+        mixed $default = null,
         bool $required = true,
         array $alternatives = [],
-        bool $multiple = false
+        bool $multiple = false,
     ): string {
         $label = preg_replace('/(\s*:\s*)?$/', '', $label);
 
@@ -351,29 +409,37 @@ final class Messenger
         return $label;
     }
 
+    private function decorateTemplateSource(Template\TemplateSource $templateSource): string
+    {
+        $package = $templateSource->getPackage();
+        $name = $package->getPrettyName();
+
+        if (!($package instanceof Package\CompletePackageInterface)) {
+            return $name;
+        }
+
+        $description = $package->getDescription();
+
+        if (null === $description || '' === trim($description)) {
+            return $name;
+        }
+
+        return sprintf('%s (<comment>%s</comment>)', $description, $name);
+    }
+
     /**
      * @param int-mask-of<IO\IOInterface::*> $verbosity
      */
     private function checkVerbosity(int $verbosity): bool
     {
-        switch ($verbosity) {
-            case IO\IOInterface::QUIET:
-                return false;
-
-            case IO\IOInterface::NORMAL:
-                return true;
-
-            case IO\IOInterface::VERBOSE:
-                return $this->io->isVerbose();
-
-            case IO\IOInterface::VERY_VERBOSE:
-                return $this->io->isVeryVerbose();
-
-            case IO\IOInterface::DEBUG:
-                return $this->io->isDebug();
-        }
-
-        return false;
+        return match ($verbosity) {
+            IO\IOInterface::QUIET => false,
+            IO\IOInterface::NORMAL => true,
+            IO\IOInterface::VERBOSE => $this->io->isVerbose(),
+            IO\IOInterface::VERY_VERBOSE => $this->io->isVeryVerbose(),
+            IO\IOInterface::DEBUG => $this->io->isDebug(),
+            default => false,
+        };
     }
 
     private function getIO(): IO\IOInterface

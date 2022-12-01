@@ -34,16 +34,11 @@ use CPSIT\ProjectBuilder\Exception;
 final class InteractionFactory
 {
     /**
-     * @var iterable<InteractionInterface>
-     */
-    private iterable $interactions;
-
-    /**
      * @param iterable<InteractionInterface> $interactions
      */
-    public function __construct(iterable $interactions)
-    {
-        $this->interactions = $interactions;
+    public function __construct(
+        private iterable $interactions,
+    ) {
     }
 
     public function get(string $type): InteractionInterface

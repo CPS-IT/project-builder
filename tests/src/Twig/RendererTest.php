@@ -49,7 +49,7 @@ final class RendererTest extends Tests\ContainerAwareTestCase
         ;
         $this->instructions = new Src\Builder\BuildInstructions(
             self::$container->get('app.config'),
-            'foo'
+            'foo',
         );
         $this->eventListener = self::$container->get(Tests\Fixtures\DummyTemplateRenderingEventListener::class);
     }

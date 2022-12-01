@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Twig;
 
 use CPSIT\ProjectBuilder\Builder;
-use CPSIT\ProjectBuilder\Event\BeforeTemplateRenderedEvent;
+use CPSIT\ProjectBuilder\Event;
 use CPSIT\ProjectBuilder\Exception;
 use Symfony\Component\EventDispatcher;
 use Twig\Environment;
@@ -41,14 +41,12 @@ use function array_replace_recursive;
  */
 final class Renderer
 {
-    private Environment $twig;
-    private EventDispatcher\EventDispatcherInterface $eventDispatcher;
     private ?string $defaultTemplate = null;
 
-    public function __construct(Environment $twig, EventDispatcher\EventDispatcherInterface $eventDispatcher)
-    {
-        $this->twig = $twig;
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(
+        private Environment $twig,
+        private EventDispatcher\EventDispatcherInterface $eventDispatcher,
+    ) {
     }
 
     /**
@@ -57,10 +55,10 @@ final class Renderer
     public function render(
         Builder\BuildInstructions $instructions,
         string $template = null,
-        array $variables = []
+        array $variables = [],
     ): string {
         $mergedVariables = array_replace_recursive($instructions->getTemplateVariables(), $variables);
-        $event = new BeforeTemplateRenderedEvent($this->twig, $instructions, $mergedVariables);
+        $event = new Event\BeforeTemplateRenderedEvent($this->twig, $instructions, $mergedVariables);
         $template ??= $this->defaultTemplate;
 
         if (null === $template) {
@@ -83,7 +81,7 @@ final class Renderer
     {
         try {
             $this->twig->load($template);
-        } catch (Error\Error $error) {
+        } catch (Error\Error) {
             return false;
         }
 

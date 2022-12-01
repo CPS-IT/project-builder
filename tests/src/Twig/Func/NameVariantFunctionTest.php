@@ -78,7 +78,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
     {
         $instructions = new Src\Builder\BuildInstructions(
             self::$container->get('app.config'),
-            'foo'
+            'foo',
         );
         $instructions->addTemplateVariable('project', [
             'customer_name' => 'Foo Customer',

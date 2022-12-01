@@ -54,7 +54,7 @@ final class SubPropertyTest extends TestCase
             [
                 new Src\Builder\Config\ValueObject\PropertyValidator('type'),
             ],
-            new Src\Builder\Config\ValueObject\Property('parent-identifier', 'name')
+            new Src\Builder\Config\ValueObject\Property('parent-identifier', 'name'),
         );
     }
 
@@ -85,7 +85,7 @@ final class SubPropertyTest extends TestCase
             [
                 new Src\Builder\Config\ValueObject\PropertyOption('value'),
             ],
-            $this->subject->getOptions()
+            $this->subject->getOptions(),
         );
     }
 
@@ -114,7 +114,7 @@ final class SubPropertyTest extends TestCase
             [
                 new Src\Builder\Config\ValueObject\PropertyValidator('type'),
             ],
-            $this->subject->getValidators()
+            $this->subject->getValidators(),
         );
     }
 
@@ -139,7 +139,7 @@ final class SubPropertyTest extends TestCase
     {
         self::assertEquals(
             new Src\Builder\Config\ValueObject\Property('parent-identifier', 'name'),
-            $this->subject->getParent()
+            $this->subject->getParent(),
         );
     }
 
@@ -153,10 +153,7 @@ final class SubPropertyTest extends TestCase
         self::assertSame($newParent, $this->subject->setParent($newParent)->getParent());
     }
 
-    /**
-     * @param mixed $value
-     */
-    private function modifySubject(string $property, $value): void
+    private function modifySubject(string $property, mixed $value): void
     {
         $reflection = new ReflectionObject($this->subject);
 

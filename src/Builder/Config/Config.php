@@ -33,30 +33,18 @@ use CPSIT\ProjectBuilder\Exception;
  */
 final class Config
 {
-    private string $identifier;
-    private string $name;
-
-    /**
-     * @var non-empty-list<ValueObject\Step>
-     */
-    private array $steps;
-
-    /**
-     * @var list<ValueObject\Property>
-     */
-    private array $properties;
     private ?string $declaringFile = null;
 
     /**
      * @param non-empty-list<ValueObject\Step> $steps
      * @param list<ValueObject\Property>       $properties
      */
-    public function __construct(string $identifier, string $name, array $steps, array $properties = [])
-    {
-        $this->identifier = $identifier;
-        $this->name = $name;
-        $this->steps = $steps;
-        $this->properties = $properties;
+    public function __construct(
+        private string $identifier,
+        private string $name,
+        private array $steps,
+        private array $properties = [],
+    ) {
     }
 
     public function getIdentifier(): string

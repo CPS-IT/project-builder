@@ -8,8 +8,14 @@ jobs:
     if: ${{ github.actor == 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ahmadnassri/action-dependabot-auto-merge@v2
+      - name: Fetch metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v1
         with:
-          target: minor
           github-token: ${{ secrets.MERGE_TOKEN }}
+      - name: Comment with merge instructions
+        if: ${{ steps.dependabot-metadata.outputs.update-type != 'version-update:semver-major' }}
+        uses: mshick/add-pr-comment@v2
+        with:
+          repo-token: ${{ secrets.MERGE_TOKEN }}
+          message: '@dependabot merge'

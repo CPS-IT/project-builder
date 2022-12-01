@@ -76,7 +76,7 @@ final class ArrayHelperTest extends TestCase
                 ],
                 'bar' => 'hello world!',
             ],
-            $subject
+            $subject,
         );
     }
 }

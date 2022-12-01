@@ -60,15 +60,15 @@ final class InteractionFactoryTest extends Tests\ContainerAwareTestCase
     {
         self::assertInstanceOf(
             Src\Builder\Generator\Step\Interaction\QuestionInteraction::class,
-            $this->subject->get('question')
+            $this->subject->get('question'),
         );
         self::assertInstanceOf(
             Src\Builder\Generator\Step\Interaction\SelectInteraction::class,
-            $this->subject->get('select')
+            $this->subject->get('select'),
         );
         self::assertInstanceOf(
             Src\Builder\Generator\Step\Interaction\StaticValueInteraction::class,
-            $this->subject->get('staticValue')
+            $this->subject->get('staticValue'),
         );
     }
 }

@@ -26,10 +26,10 @@ namespace CPSIT\ProjectBuilder;
 use Composer\Factory;
 use Composer\Script;
 use Composer\XdebugHandler;
-use Exception;
 use Symfony\Component\Console;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
+use Throwable;
 
 use function chdir;
 use function dirname;
@@ -46,23 +46,15 @@ use function uniqid;
  */
 final class Bootstrap
 {
-    private IO\Messenger $messenger;
-    private Builder\Config\ConfigReader $configReader;
-    private Error\ErrorHandler $errorHandler;
-    private Filesystem\Filesystem $filesystem;
     private string $targetDirectory;
 
     private function __construct(
-        IO\Messenger $messenger,
-        Builder\Config\ConfigReader $configReader,
-        Error\ErrorHandler $errorHandler,
-        Filesystem\Filesystem $filesystem,
-        string $targetDirectory = null
+        private IO\Messenger $messenger,
+        private Builder\Config\ConfigReader $configReader,
+        private Error\ErrorHandler $errorHandler,
+        private Filesystem\Filesystem $filesystem,
+        string $targetDirectory = null,
     ) {
-        $this->messenger = $messenger;
-        $this->configReader = $configReader;
-        $this->errorHandler = $errorHandler;
-        $this->filesystem = $filesystem;
         $this->targetDirectory = $targetDirectory ?? Helper\FilesystemHelper::getProjectRootPath();
     }
 
@@ -73,7 +65,7 @@ final class Bootstrap
             Builder\Config\ConfigReader::create(),
             new Error\ErrorHandler($messenger),
             new Filesystem\Filesystem(),
-            $targetDirectory
+            $targetDirectory,
         );
     }
 
@@ -86,7 +78,7 @@ final class Bootstrap
     public static function createProject(
         Script\Event $event,
         string $targetDirectory = null,
-        bool $exitOnFailure = true
+        bool $exitOnFailure = true,
     ): int {
         $messenger = IO\Messenger::create($event->getIO());
         $exitCode = self::create($messenger, $targetDirectory)->run();
@@ -152,7 +144,7 @@ final class Bootstrap
         $exitCode = $composer->install(
             Filesystem\Path::join($targetDirectory, 'composer.json'),
             true,
-            $output
+            $output,
         );
 
         if ($exitCode > 0) {
@@ -180,7 +172,7 @@ final class Bootstrap
             $io->success($message);
         }
         $io->writeln(
-            sprintf('Target directory: <comment>%s</comment>', $targetDirectory)
+            sprintf('Target directory: <comment>%s</comment>', $targetDirectory),
         );
 
         exit($exitCode);
@@ -203,7 +195,10 @@ final class Bootstrap
         $this->messenger->welcome();
 
         try {
-            $templateIdentifier = $this->messenger->selectTemplate($this->configReader->listTemplates());
+            $templateSource = $this->selectTemplateSource();
+            $templateSource->getProvider()->installTemplateSource($templateSource);
+            $templateIdentifier = $templateSource->getPackage()->getName();
+
             $config = $this->configReader->readConfig($templateIdentifier);
             $container = $this->buildContainer($config);
 
@@ -217,7 +212,7 @@ final class Bootstrap
             }
 
             $generator->cleanUp($result);
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             $this->errorHandler->handleException($exception);
 
             return 1;
@@ -234,6 +229,32 @@ final class Bootstrap
         $this->filesystem->mirror($sourceDirectory, $targetDirectory);
 
         return $targetDirectory;
+    }
+
+    /**
+     * @throws Exception\InvalidTemplateSourceException
+     */
+    private function selectTemplateSource(): Template\TemplateSource
+    {
+        try {
+            $templateProvider = $this->messenger->selectProvider([
+                new Template\Provider\PackagistProvider($this->messenger, $this->filesystem),
+                new Template\Provider\CustomComposerProvider($this->messenger, $this->filesystem),
+            ]);
+            $templateSource = $this->messenger->selectTemplateSource($templateProvider);
+        } catch (Exception\InvalidTemplateSourceException $exception) {
+            $retry = $this->messenger->confirmTemplateSourceRetry($exception);
+
+            $this->messenger->newLine();
+
+            if ($retry) {
+                return $this->selectTemplateSource();
+            }
+
+            throw $exception;
+        }
+
+        return $templateSource;
     }
 
     private function buildContainer(Builder\Config\Config $config): \Symfony\Component\DependencyInjection\ContainerInterface

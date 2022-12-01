@@ -42,10 +42,7 @@ interface CustomizableInterface
 
     public function canHaveMultipleValues(): bool;
 
-    /**
-     * @return int|float|string|bool|null
-     */
-    public function getDefaultValue();
+    public function getDefaultValue(): int|float|string|bool|null;
 
     /**
      * @return list<PropertyValidator>

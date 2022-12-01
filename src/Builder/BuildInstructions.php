@@ -40,17 +40,14 @@ use function dirname;
  */
 final class BuildInstructions extends ArrayObject
 {
-    private Config\Config $config;
     private string $temporaryDirectory;
-    private string $targetDirectory;
 
-    public function __construct(Config\Config $config, string $targetDirectory)
-    {
+    public function __construct(
+        private Config\Config $config,
+        private string $targetDirectory,
+    ) {
         parent::__construct();
-
-        $this->config = $config;
         $this->temporaryDirectory = Helper\FilesystemHelper::getNewTemporaryDirectory();
-        $this->targetDirectory = $targetDirectory;
     }
 
     public function getConfig(): Config\Config
@@ -91,18 +88,12 @@ final class BuildInstructions extends ArrayObject
         return (array) $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTemplateVariable(string $path)
+    public function getTemplateVariable(string $path): mixed
     {
         return Helper\ArrayHelper::getValueByPath($this, $path);
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function addTemplateVariable(string $path, $value): void
+    public function addTemplateVariable(string $path, mixed $value): void
     {
         Helper\ArrayHelper::setValueByPath($this, $path, $value);
     }

@@ -40,15 +40,10 @@ use function assert;
  */
 final class PhpApiClient
 {
-    private Client\ClientInterface $client;
-    private Message\RequestFactoryInterface $requestFactory;
-
     public function __construct(
-        Client\ClientInterface $client,
-        Message\RequestFactoryInterface $requestFactory
+        private Client\ClientInterface $client,
+        private Message\RequestFactoryInterface $requestFactory,
     ) {
-        $this->client = $client;
-        $this->requestFactory = $requestFactory;
     }
 
     /**
@@ -60,7 +55,7 @@ final class PhpApiClient
         $requestUrl = Helper\StringHelper::interpolate(
             'https://www.php.net/releases/?json&version={branch}', [
                 'branch' => $branch,
-            ]
+            ],
         );
         $request = $this->requestFactory->createRequest('GET', $requestUrl);
         $response = $this->client->sendRequest($request);

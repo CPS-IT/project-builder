@@ -12,7 +12,7 @@ There are two ways this project can be used:
 ### Requirements
 
 * Composer >= 2.1
-* PHP >= 7.4
+* PHP >= 8.0
 
 ### Basic usage
 

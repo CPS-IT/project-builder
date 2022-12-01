@@ -33,13 +33,10 @@ use CPSIT\ProjectBuilder\Builder;
  */
 final class BuildStepRevertedEvent
 {
-    private Builder\Generator\Step\StepInterface $step;
-    private Builder\BuildResult $buildResult;
-
-    public function __construct(Builder\Generator\Step\StepInterface $step, Builder\BuildResult $buildResult)
-    {
-        $this->step = $step;
-        $this->buildResult = $buildResult;
+    public function __construct(
+        private Builder\Generator\Step\StepInterface $step,
+        private Builder\BuildResult $buildResult,
+    ) {
     }
 
     public function getStep(): Builder\Generator\Step\StepInterface

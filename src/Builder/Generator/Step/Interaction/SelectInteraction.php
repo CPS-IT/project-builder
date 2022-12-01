@@ -40,18 +40,11 @@ final class SelectInteraction implements InteractionInterface
 {
     private const TYPE = 'select';
 
-    private ExpressionLanguage\ExpressionLanguage $expressionLanguage;
-    private IO\InputReader $reader;
-    private Twig\Renderer $renderer;
-
     public function __construct(
-        ExpressionLanguage\ExpressionLanguage $expressionLanguage,
-        IO\InputReader $reader,
-        Twig\Renderer $renderer
+        private ExpressionLanguage\ExpressionLanguage $expressionLanguage,
+        private IO\InputReader $reader,
+        private Twig\Renderer $renderer,
     ) {
-        $this->expressionLanguage = $expressionLanguage;
-        $this->reader = $reader;
-        $this->renderer = $renderer;
     }
 
     /**
@@ -59,14 +52,14 @@ final class SelectInteraction implements InteractionInterface
      */
     public function interact(
         Builder\Config\ValueObject\CustomizableInterface $subject,
-        Builder\BuildInstructions $instructions
-    ) {
+        Builder\BuildInstructions $instructions,
+    ): string|array|null {
         return $this->reader->choices(
             $subject->getName(),
             $this->processOptions($subject->getOptions(), $instructions),
             $this->renderValue($subject->getDefaultValue(), $instructions),
             $subject->isRequired(),
-            $subject->canHaveMultipleValues()
+            $subject->canHaveMultipleValues(),
         );
     }
 
@@ -99,11 +92,9 @@ final class SelectInteraction implements InteractionInterface
     }
 
     /**
-     * @param int|float|string|bool|null $value
-     *
      * @phpstan-return ($value is string ? string : null)
      */
-    private function renderValue($value, Builder\BuildInstructions $instructions): ?string
+    private function renderValue(mixed $value, Builder\BuildInstructions $instructions): ?string
     {
         if (!is_string($value)) {
             return null;

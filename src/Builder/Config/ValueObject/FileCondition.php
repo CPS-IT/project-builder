@@ -33,11 +33,10 @@ final class FileCondition
 {
     use ConditionTrait;
 
-    private string $path;
-
-    public function __construct(string $path, string $if)
-    {
-        $this->path = $path;
+    public function __construct(
+        private string $path,
+        string $if,
+    ) {
         $this->if = $if;
     }
 

@@ -52,7 +52,7 @@ final class DummyRunner implements Cli\Command\Runner
         }
 
         return new Cli\Command\Runner\Result(
-            new Cli\Command\Result($command->getCommand(), $expectedResult[1] ?? 0, $expectedResult[0])
+            new Cli\Command\Result($command->getCommand(), $expectedResult[1] ?? 0, $expectedResult[0]),
         );
     }
 }

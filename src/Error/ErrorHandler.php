@@ -35,11 +35,9 @@ use Throwable;
  */
 final class ErrorHandler
 {
-    private IO\Messenger $messenger;
-
-    public function __construct(IO\Messenger $messenger)
-    {
-        $this->messenger = $messenger;
+    public function __construct(
+        private IO\Messenger $messenger,
+    ) {
     }
 
     public function handleException(Throwable $exception): void
@@ -54,7 +52,7 @@ final class ErrorHandler
 
         if (null !== $previousException) {
             $this->messenger->error(
-                'Caused by: '.$previousException->getMessage().$this->formatExceptionCode($previousException)
+                'Caused by: '.$previousException->getMessage().$this->formatExceptionCode($previousException),
             );
         }
 
@@ -67,8 +65,7 @@ final class ErrorHandler
 
     private function formatMappingErrors(Mapper\Tree\Node $node): void
     {
-        $flattener = new Mapper\Tree\Message\MessagesFlattener($node);
-        $errors = $flattener->errors();
+        $errors = Mapper\Tree\Message\Messages::flattenFromNode($node)->errors();
 
         foreach ($errors as $error) {
             $this->messenger->error('- '.$error);

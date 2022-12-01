@@ -54,7 +54,7 @@ trait ConditionTrait
     public function conditionMatches(
         ExpressionLanguage\ExpressionLanguage $expressionLanguage,
         array $additionalVariables = [],
-        bool $default = false
+        bool $default = false,
     ): bool {
         if (!$this->hasCondition()) {
             return $default;

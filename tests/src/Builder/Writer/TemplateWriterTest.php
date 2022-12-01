@@ -53,7 +53,7 @@ final class TemplateWriterTest extends Tests\ContainerAwareTestCase
     {
         $instructions = new Src\Builder\BuildInstructions(
             self::$container->get('app.config'),
-            'foo'
+            'foo',
         );
         $instructions->addTemplateVariable('foo', 'foo');
         $instructions->addTemplateVariable('bar', 'foo');

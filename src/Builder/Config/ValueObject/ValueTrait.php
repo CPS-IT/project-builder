@@ -31,15 +31,9 @@ namespace CPSIT\ProjectBuilder\Builder\Config\ValueObject;
  */
 trait ValueTrait
 {
-    /**
-     * @var int|float|string|bool|null
-     */
-    protected $value;
+    protected int|float|string|bool|null $value;
 
-    /**
-     * @return int|float|string|bool|null
-     */
-    public function getValue()
+    public function getValue(): int|float|string|bool|null
     {
         return $this->value;
     }

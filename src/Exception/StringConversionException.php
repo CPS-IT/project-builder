@@ -35,7 +35,7 @@ final class StringConversionException extends Exception
     {
         return new self(
             sprintf('Cannot convert "%s" since it seems not to be supported for conversion.', $string),
-            1653317297
+            1653317297,
         );
     }
 }

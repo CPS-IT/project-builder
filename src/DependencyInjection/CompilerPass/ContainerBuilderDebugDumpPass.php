@@ -41,11 +41,9 @@ use Symfony\Component\DependencyInjection;
  */
 final class ContainerBuilderDebugDumpPass implements DependencyInjection\Compiler\CompilerPassInterface
 {
-    private string $cachePath;
-
-    public function __construct(string $cachePath)
-    {
-        $this->cachePath = $cachePath;
+    public function __construct(
+        private string $cachePath,
+    ) {
     }
 
     public function process(DependencyInjection\ContainerBuilder $container): void

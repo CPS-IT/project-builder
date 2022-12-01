@@ -33,13 +33,10 @@ use CPSIT\ProjectBuilder\Builder;
  */
 interface InteractionInterface
 {
-    /**
-     * @return mixed
-     */
     public function interact(
         Builder\Config\ValueObject\CustomizableInterface $subject,
-        Builder\BuildInstructions $instructions
-    );
+        Builder\BuildInstructions $instructions,
+    ): mixed;
 
     public static function getType(): string;
 

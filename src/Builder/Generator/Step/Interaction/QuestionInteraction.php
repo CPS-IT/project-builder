@@ -38,34 +38,24 @@ final class QuestionInteraction implements InteractionInterface
 {
     private const TYPE = 'question';
 
-    private ExpressionLanguage\ExpressionLanguage $expressionLanguage;
-    private IO\InputReader $reader;
-    private Twig\Renderer $renderer;
-
     public function __construct(
-        ExpressionLanguage\ExpressionLanguage $expressionLanguage,
-        IO\InputReader $reader,
-        Twig\Renderer $renderer
+        private ExpressionLanguage\ExpressionLanguage $expressionLanguage,
+        private IO\InputReader $reader,
+        private Twig\Renderer $renderer,
     ) {
-        $this->expressionLanguage = $expressionLanguage;
-        $this->reader = $reader;
-        $this->renderer = $renderer;
     }
 
-    /**
-     * @return string|bool
-     */
     public function interact(
         Builder\Config\ValueObject\CustomizableInterface $subject,
-        Builder\BuildInstructions $instructions
-    ) {
+        Builder\BuildInstructions $instructions,
+    ): string|bool {
         [$yesValue, $noValue] = $this->processOptions($subject->getOptions(), $instructions);
 
         return $this->reader->ask(
             $subject->getName(),
             $yesValue,
             $noValue,
-            (bool) $subject->getDefaultValue()
+            (bool) $subject->getDefaultValue(),
         );
     }
 
@@ -90,7 +80,7 @@ final class QuestionInteraction implements InteractionInterface
         $noValue = false;
         $matches = fn (string $condition, bool $selected): bool => (bool) $this->expressionLanguage->evaluate(
             $condition,
-            array_merge($instructions->getTemplateVariables(), ['selected' => $selected])
+            array_merge($instructions->getTemplateVariables(), ['selected' => $selected]),
         );
 
         foreach ($options as $option) {

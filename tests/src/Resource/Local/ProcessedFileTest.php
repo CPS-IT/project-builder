@@ -27,8 +27,6 @@ use CPSIT\ProjectBuilder as Src;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder;
 
-use function dirname;
-
 /**
  * ProcessedFileTest.
  *
@@ -43,7 +41,7 @@ final class ProcessedFileTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->originalFile = new Finder\SplFileInfo(__FILE__, dirname(__FILE__), __FILE__);
+        $this->originalFile = new Finder\SplFileInfo(__FILE__, __DIR__, __FILE__);
         $this->targetFile = clone $this->originalFile;
         $this->subject = new Src\Resource\Local\ProcessedFile($this->originalFile, $this->targetFile);
     }

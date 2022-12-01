@@ -38,7 +38,7 @@ final class StepFailureException extends Exception
         return new self(
             sprintf('Running step "%s" failed. All applied steps were reverted.', $type),
             1652954290,
-            $previous
+            $previous,
         );
     }
 }

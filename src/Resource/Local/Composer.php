@@ -39,7 +39,6 @@ use function basename;
 use function dirname;
 use function getenv;
 use function in_array;
-use function is_string;
 use function putenv;
 
 /**
@@ -50,17 +49,15 @@ use function putenv;
  */
 final class Composer
 {
-    private Filesystem\Filesystem $filesystem;
-
-    public function __construct(Filesystem\Filesystem $filesystem)
-    {
-        $this->filesystem = $filesystem;
+    public function __construct(
+        private Filesystem\Filesystem $filesystem,
+    ) {
     }
 
     public function install(
         string $composerJson,
         bool $includeDevDependencies = false,
-        SymfonyConsole\Output\OutputInterface &$output = null
+        SymfonyConsole\Output\OutputInterface &$output = null,
     ): int {
         if (!$this->filesystem->exists($composerJson)) {
             throw Exception\IOException::forMissingFile($composerJson);
@@ -98,9 +95,9 @@ final class Composer
     /**
      * @internal
      */
-    public static function createClassLoader(): Autoload\ClassLoader
+    public static function createClassLoader(string $rootPath = null): Autoload\ClassLoader
     {
-        $rootPath = Helper\FilesystemHelper::getProjectRootPath();
+        $rootPath ??= Helper\FilesystemHelper::getProjectRootPath();
         $composer = self::createComposer($rootPath);
 
         // Get all packages of type "project-builder-template"
@@ -108,7 +105,7 @@ final class Composer
         $templatePackages = InstalledVersions::getInstalledPackagesByType('project-builder-template');
         $packages = array_filter(
             $repository->getPackages(),
-            fn (Package\BasePackage $package): bool => in_array($package->getName(), $templatePackages, true)
+            fn (Package\BasePackage $package): bool => in_array($package->getName(), $templatePackages, true),
         );
         $packages[] = $composer->getPackage();
 
@@ -119,9 +116,6 @@ final class Composer
 
         // Fetch vendor directory
         $vendorDir = $composer->getConfig()->get('vendor-dir');
-        if (!is_string($vendorDir)) {
-            $vendorDir = null;
-        }
 
         return $autoloadGenerator->createLoader($autoloads, $vendorDir);
     }
@@ -135,7 +129,7 @@ final class Composer
 
         return $factory->createComposer(
             new IO\NullIO(),
-            Filesystem\Path::join($rootPath, 'composer.json')
+            Filesystem\Path::join($rootPath, 'composer.json'),
         );
     }
 }
