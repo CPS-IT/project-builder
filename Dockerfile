@@ -12,7 +12,7 @@ WORKDIR /project-builder
 # Install Git and php-zip extension
 RUN apk update \
     && apk add git libzip-dev zip \
-    && docker-php-ext-install zip
+    && docker-php-ext-install zip sockets
 
 # Build project-builder artifact for later use in entrypoint
 ARG PROJECT_BUILDER_VERSION=0.0.0
