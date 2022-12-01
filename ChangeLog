@@ -1,3 +1,7 @@
+2022-12-01         [RELEASE] Release of project-builder 1.0.1 (Elias Häußler)
+2022-12-01 494acf5 [TASK] Upgrade to Composer 2.4 in Dockerfile (Elias Häußler)
+2022-12-01 a00572f [BUGFIX] Satisfy PHP extension requirements in Dockerfile (Elias Häußler)
+
 2022-12-01         [RELEASE] Release of project-builder 1.0.0 (Elias Häußler)
 2022-12-01 6c59212 [DOCS] Update header image (Elias Häußler)
 2022-11-30 60e586f [FEATURE] Add support for PHP 8.2 (Elias Häußler)

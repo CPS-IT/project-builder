@@ -1,4 +1,4 @@
-FROM composer:2.3 AS composer
+FROM composer:2.4 AS composer
 LABEL maintainer="Elias Häußler <e.haeussler@familie-redlich.de>"
 
 FROM php:8.1-alpine
@@ -12,7 +12,7 @@ WORKDIR /project-builder
 # Install Git and php-zip extension
 RUN apk update \
     && apk add git libzip-dev zip \
-    && docker-php-ext-install zip
+    && docker-php-ext-install zip sockets
 
 # Build project-builder artifact for later use in entrypoint
 ARG PROJECT_BUILDER_VERSION=0.0.0
