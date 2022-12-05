@@ -68,7 +68,7 @@ final class MyEventListener
 }
 ```
 
-:bulb: You can also omit the `method` and `event` configuration if your event
+You can also omit the `method` and `event` configuration if your event
 listener contains an `__invoke` method with the event type-hinted as first
 parameter:
 

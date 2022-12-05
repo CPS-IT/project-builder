@@ -26,8 +26,8 @@ composer create-project cpsit/project-builder <projectname>
 Replace `<projectname>` with the actual name of your new project. This will
 be the folder name where to install and set up your project.
 
-:bulb: For more command options, refer to the documentation of the
-[`create-project`][1] command.
+> :bulb: For more command options, refer to the documentation of the
+> [`create-project`][1] command.
 
 ### Recommended usage
 
@@ -47,8 +47,8 @@ This implies usage of the following options:
 * **`--no-dev`** speeds up the installation process by skipping
   dev-requirements (those are only required for development purposes)
 
-:bulb: Tip: Add the `-v` (or `--verbose`) command option to get a verbose
-output of processing steps.
+> :bulb: Add the `-v` (or `--verbose`) command option to get a verbose
+> output of processing steps.
 
 ## Usage with Docker
 
@@ -69,8 +69,8 @@ Replace `<target-dir>` with an absolute or relative path to the directory
 where to install and set up your new project. Make sure to always mount
 the volume to `/app`.
 
-:bulb: In the entrypoint, `composer create-project` is executed. It already
-contains all [recommended command options](#recommended-usage).
+> :bulb: In the entrypoint, `composer create-project` is executed. It already
+> contains all [recommended command options](#recommended-usage).
 
 ### Available image tags
 
@@ -104,9 +104,9 @@ pstorm .
 code .
 ```
 
-:bulb: Normally, each project builder will show you the next steps
-after successful project creation. Those steps highly depend on the
-project type. Read more at [Processing build steps#Show next steps](processing-build-steps.md#show-next-steps).
+> :bulb: Normally, each project builder will show you the next steps
+> after successful project creation. Those steps highly depend on the
+> project type. Read more at [Processing build steps#Show next steps](processing-build-steps.md#show-next-steps).
 
 [1]: https://getcomposer.org/doc/03-cli.md#create-project
 [2]: https://hub.docker.com/r/cpsit/project-builder

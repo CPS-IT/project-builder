@@ -2,13 +2,14 @@
 
 ## Core concept
 
-This project serves as template repository for new projects. It is built on top of
+This project serves as entrypoint for kickstarting new projects. It is built on top of
 these three concepts:
 
-* Each project type is described by a [**template configuration**](#configuration) file
+* Each project type resides in an external template package and is described by a
+  [**template configuration**](#configuration) file
 * Config files contains [**build steps**](#project-generation) to be processed
 * Project templates can be defined as a set of
-  - Generic files
+  - Static files
   - [Twig template files](#template-rendering)
   - External files, included as Composer dependencies
 
@@ -143,20 +144,21 @@ As an additional I/O component, some **validators** exist, ready to be used by t
 | `notEmpty` | [`NotEmptyValidator`](../src/IO/Validator/NotEmptyValidator.php) | User input must not be empty (strict mode available) |
 | `url`      | [`UrlValidator`](../src/IO/Validator/UrlValidator.php)           | User input must be a valid URL                       |
 
-Each validator implements [`ValidatorInterface`](../src/IO/Validator/ValidatorInterface.php).
+Each validator implements the [`ValidatorInterface`](../src/IO/Validator/ValidatorInterface.php).
 
-:bulb: Not all validators can be used for each interaction with the `InputReader`.
+> :bulb: Not all validators can be used for each interaction with the `InputReader`.
 
 ### Naming
 
 With the [**`Naming\NameVariantBuilder`**](../src/Naming/NameVariantBuilder.php)
-component, it is possible to **create variants of project and customer names**. For
-this, the current build instructions are used. All available name variants are
-described in the [**`Naming\NameVariant`**](../src/Naming/NameVariant.php) class.
+component, it is possible to **create variants of various names**, e.g. project or
+customer names. For this, the current build instructions are used. All available name
+variants are described in the [**`Naming\NameVariant`**](../src/Naming/NameVariant.php)
+class.
 
 ### Template rendering
 
-Project templates must be written as [Twig][2] template files.
+Dynamic project template files must be written as [Twig][2] templates.
 
 Each template file is **rendered** by the [**`Twig\Renderer`**](../src/Twig/Renderer.php)
 component. The `Renderer` internally heavily makes use of a custom Twig extension, the
@@ -173,7 +175,7 @@ The following Twig filters currently exist:
 | `convert_case` | [`ConvertCaseFilter`](../src/Twig/Filter/ConvertCaseFilter.php) | Convert string to a given [`string case`](../src/StringCase.php) |
 | `slugify`      | [`SlugifyFilter`](../src/Twig/Filter/SlugifyFilter.php)         | Generate slug from given string by using [`cocur/slugify`][3]    |
 
-Each Twig filter implements [`TwigFilterInterface`](../src/Twig/Filter/TwigFilterInterface.php).
+Each Twig filter implements the [`TwigFilterInterface`](../src/Twig/Filter/TwigFilterInterface.php).
 
 #### Twig functions
 
@@ -188,7 +190,7 @@ The following Twig functions currently exist:
 | `name_variant`                  | [`NameVariantFunction`](../src/Twig/Func/NameVariantFunction.php)               | Create name variant with [`NameVariantBuilder::createVariant()`](../src/Naming/NameVariantBuilder.php)                                                       |
 | `resolve_ip`                    | [`ResolveIpFunction`](../src/Twig/Func/ResolveIpFunction.php)                   | Resolve IP address for a given hostname or URL                                                                                                               |
 
-Each Twig function implements [`TwigFunctionInterface`](../src/Twig/Func/TwigFunctionInterface.php).
+Each Twig function implements the [`TwigFunctionInterface`](../src/Twig/Func/TwigFunctionInterface.php).
 
 [1]: https://github.com/composer/composer/blob/main/src/Composer/IO/IOInterface.php
 [2]: https://twig.symfony.com/

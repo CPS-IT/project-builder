@@ -20,12 +20,11 @@
 
 </div>
 
-The CPS Project Builder serves as a template repository providing a generic way to create
-a various set of project types developed at [coding. powerful. systems. CPS GmbH][1]. The
-project comes with a powerful configuration and templating system that allows to kickstart
-a new project in seconds.
+The CPS Project Builder is a Composer package that serves as a generic solution to kickstart
+new projects in seconds. It comes with a powerful configuration and templating system that
+can even be used to create custom project types to meet your own requirements for new projects.
 
-By simply using the Composer command [`create-project`][2] it was never easier to create
+By simply using the Composer command [`create-project`][1] it was never easier to create
 new project repositories from command line.
 
 ## :rocket: Features
@@ -37,7 +36,7 @@ new project repositories from command line.
 
 ## :zap: Usage
 
-Usage with [Composer][3]:
+Usage with [Composer][2]:
 
 ```bash
 composer create-project cpsit/project-builder <projectname>
@@ -51,7 +50,22 @@ docker run --rm -it -v <target-dir>:/app cpsit/project-builder
 
 Please have a look at [`Usage`](docs/usage.md) for an extended overview.
 
+## :package: Ready-to-use packages
+
+Currently, the following template packages are available:
+
+* [TYPO3 CMS project template][3] (`cpsit/typo3-project-template`)
+
+You can explore all publicly available template packages on [Packagist][4].
+
+> :bulb: If you would like your package to be listed here, feel free to create a
+> [pull request][5].
+
+Learn how to create your own template package in
+[`Custom project types`](docs/custom-project-types.md).
+
 ## :open_file_folder: Configuration
+
 The configuration describes how to build a project, e.g. which steps are necessary and what
 properties are required when rendering project templates.
 
@@ -70,6 +84,8 @@ Please have a look at [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 This project is licensed under [GNU General Public License 3.0 (or later)](LICENSE).
 
-[1]: https://www.cps-it.de
-[2]: https://getcomposer.org/doc/03-cli.md#create-project
-[3]: https://getcomposer.org/
+[1]: https://getcomposer.org/doc/03-cli.md#create-project
+[2]: https://getcomposer.org/
+[3]: https://github.com/CPS-IT/typo3-project-template
+[4]: https://packagist.org/?type=project-builder-template
+[5]: https://github.com/CPS-IT/project-builder/pulls

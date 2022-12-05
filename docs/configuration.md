@@ -51,13 +51,13 @@ supported by your package:
 
 ## Structure
 
-Within the external Composer template package, the following file
-structure must exist:
+Within the external Composer template package, the project builder expects the
+following file structure:
 
 ```
 my-fancy-project
 ├── composer.json
-├── config.yml
+├── config.yaml
 ├── config
 │   └── services.yaml
 ├── src
@@ -80,22 +80,23 @@ my-fancy-project
 ```
 
 In this example, the project type `my-fancy-project` is configured and
-distributed through the package `cpsit/project-builder-template-my-fancy-project`.
-It contains the following files and directories:
+contains the following files and directories:
 
-* **`composer.json`** (optional) defines additional template dependencies.
-  Those are installed by the build step `installComposerDependencies`.
-  Read more at [`Processing build steps#Install Composer dependencies`](processing-build-steps.md#install-composer-dependencies).
-* **`config.yml`** is the main configuration file. It contains all
+* **`composer.json`** describes the project and its dependencies. It can
+  also define additional template dependencies. Those are installed by the
+  build step `installComposerDependencies`. Read more at
+  [`Processing build steps#Install Composer dependencies`](processing-build-steps.md#install-composer-dependencies).
+* **`config.yaml`** is the main configuration file. It contains all
   instructions on how to build new projects of this project type. Read more
   at [`Config file`](#config-file).
 * **`config`** (optional) contains additional service configuration files,
   e.g. `services.yaml` or `services.php`. Read more at
   [`Dependency injection#Extending service configuration`](dependency-injection.md#extending-service-configuration).
-* **`src`** (optional) may contain additional PHP classes. Normally, these
-  require an additional service configuration as described before.
-* **`templates`** (optional) contains various project source files. The
-  following sub-folders are supported:
+* **`src`** (optional) may contain additional PHP classes used to properly
+  build the new project. Normally, these require an additional service
+  configuration as described before.
+* **`templates`** contains various project template files. The following
+  sub-folders are supported:
   - **`shared`** (optional) should contain shared source files. Those are
     normally created when installing Composer dependencies defined by
     `composer.json`. Read more at [`Shared source files`](#shared-source-files).
@@ -116,15 +117,13 @@ The following filename variants are supported:
 2. `config.yaml`
 3. `config.json`
 
-:bulb: See [`ConfigReader::FILE_VARIANTS`](../src/Builder/Config/ConfigReader.php)
-for an overview of supported filenames.
+> :bulb: See [`ConfigReader::FILE_VARIANTS`](../src/Builder/Config/ConfigReader.php)
+> for an overview of supported filenames.
 
 ### Structure
 
 Each config file should at least contain the following properties:
 
-* **`identifier`** describes the project type. It is used internally to handle
-  project generation while processing the required build steps.
 * **`name`** is kind of a label for the configured project type. It is mainly
   used for communication with the user, keeping the actual project type internal.
 * **`steps`** defines a list of necessary build steps. Those steps are processed
@@ -140,7 +139,6 @@ collect information in form of build instructions from the user. Read more at
 Example:
 
 ```yaml
-identifier: my-fancy-project
 name: My fancy project
 
 steps:
@@ -213,8 +211,8 @@ Each configured property in the config file is now accessible from the
 | `steps`      | `$config->getSteps()`      | [`list<Builder\Config\ValueObject\Step>`](../src/Builder/Config/ValueObject/Step.php)         |
 | `properties` | `$config->getProperties()` | [`list<Builder\Config\ValueObject\Property>`](../src/Builder/Config/ValueObject/Property.php) |
 
-:bulb: All hydrated value objects can be found at
-[`Builder\Config\ValueObject`](../src/Builder/Config/ValueObject).
+> :bulb: All available value objects can be found at
+> [`Builder\Config\ValueObject`](../src/Builder/Config/ValueObject).
 
 ### Validation
 
@@ -260,10 +258,8 @@ Example `composer.json`:
 ### Integration into the template package
 
 The shared source file packages must be required in the `composer.json` file of
-each project type that requires the shared source files. As a consequence, the
-package must be installable via Composer. In order to make it installable, either
-submit it on Packagist or add it to our Satis configuration at
-<https://composer.321.works>.
+each project type that requires them to be installed. As a consequence, the
+package must be installable via Composer.
 
 The project builder expects shared source files to be installed within the
 project type's `templates/shared/<package-name>/templates/src` folder. For this,

@@ -3,9 +3,10 @@
 All services are bundled in a service container. This container is built during
 bootstrapping. It depends on the following resources:
 
-* Default service configuration, located at [`config`](../config) of this package
+* Default service configuration, located at the [`config`](../config) directory
+  of this package
 * [Project type specific](#extending-service-configuration) service configuration,
-  located at `config` within an external template repository
+  located at the `config` directory within an external template package
 
 ## Tagged services
 
@@ -14,7 +15,7 @@ Some special services exist that are tagged during container build-time:
 | Tag name         | Resource                                                                                  |
 |------------------|-------------------------------------------------------------------------------------------|
 | `builder.writer` | [`Builder\Writer\WriterInterface`](../src/Builder/Writer/WriterInterface.php)             |
-| `event.listener` | –                                                                                         |
+| `event.listener` | _any class_                                                                               |
 | `generator.step` | [`Builder\Generator\Step\StepInterface`](../src/Builder/Generator/Step/StepInterface.php) |
 | `io.validator`   | [`IO\Validator\ValidatorInterface`](../src/IO/Validator/ValidatorInterface.php)           |
 | `twig.filter`    | [`Twig\Filter\TwigFilterInterface`](../src/Twig/Filter/TwigFilterInterface.php)           |
@@ -40,4 +41,4 @@ searched for the following resources:
 * `config/services.yaml`
 * `config/services.yml`
 
-:bulb: You can define more than one service configuration per project type.
+> :bulb: You can define more than one service configuration per project type.
