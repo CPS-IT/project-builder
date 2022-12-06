@@ -64,4 +64,14 @@ final class PhpApiClientTest extends Tests\ContainerAwareTestCase
 
         self::assertSame('8.0.10', $this->subject->getLatestStableVersion('8.0'));
     }
+
+    /**
+     * @test
+     */
+    public function getLatestStableVersionFallsBackToDotZeroReleaseIfResponseIsErroneous(): void
+    {
+        self::$mockHandler->append(self::createJsonResponse(['error' => 'Unknown version']));
+
+        self::assertSame('8.2.0', $this->subject->getLatestStableVersion('8.2'));
+    }
 }
