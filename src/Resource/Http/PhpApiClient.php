@@ -30,7 +30,7 @@ use Psr\Http\Client;
 use Psr\Http\Message;
 use stdClass;
 
-use function assert;
+use function property_exists;
 
 /**
  * PhpApiClient.
@@ -53,9 +53,8 @@ final class PhpApiClient
     public function getLatestStableVersion(string $branch): string
     {
         $requestUrl = Helper\StringHelper::interpolate(
-            'https://www.php.net/releases/?json&version={branch}', [
-                'branch' => $branch,
-            ],
+            'https://www.php.net/releases/?json&version={branch}',
+            ['branch' => $branch],
         );
         $request = $this->requestFactory->createRequest('GET', $requestUrl);
         $response = $this->client->sendRequest($request);
@@ -66,7 +65,10 @@ final class PhpApiClient
 
         $json = Utils::jsonDecode((string) $response->getBody());
 
-        assert($json instanceof stdClass);
+        // Fall back to .0 release if version cannot be determined via API
+        if (!($json instanceof stdClass) || !property_exists($json, 'version')) {
+            return $branch.'.0';
+        }
 
         return $json->version;
     }
