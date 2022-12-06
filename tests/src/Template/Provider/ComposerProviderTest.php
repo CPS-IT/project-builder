@@ -28,18 +28,18 @@ use CPSIT\ProjectBuilder\Tests;
 use Symfony\Component\Filesystem;
 
 /**
- * CustomComposerProviderTest.
+ * ComposerProviderTest.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class CustomComposerProviderTest extends Tests\ContainerAwareTestCase
+final class ComposerProviderTest extends Tests\ContainerAwareTestCase
 {
-    private Src\Template\Provider\CustomComposerProvider $subject;
+    private Src\Template\Provider\ComposerProvider $subject;
 
     protected function setUp(): void
     {
-        $this->subject = new Src\Template\Provider\CustomComposerProvider(
+        $this->subject = new Src\Template\Provider\ComposerProvider(
             self::$container->get('app.messenger'),
             self::$container->get(Filesystem\Filesystem::class),
         );

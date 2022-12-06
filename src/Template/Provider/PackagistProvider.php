@@ -23,13 +23,15 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Template\Provider;
 
+use Composer\Repository;
+
 /**
  * PackagistProvider.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class PackagistProvider extends BaseComposerProvider
+final class PackagistProvider extends BaseProvider
 {
     public function getName(): string
     {
@@ -39,5 +41,15 @@ final class PackagistProvider extends BaseComposerProvider
     public function getUrl(): string
     {
         return 'https://packagist.org';
+    }
+
+    protected function getSupportedType(): string
+    {
+        return 'composer';
+    }
+
+    protected function getSupportedRepositoryClass(): string
+    {
+        return Repository\ComposerRepository::class;
     }
 }

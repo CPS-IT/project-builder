@@ -33,7 +33,7 @@ use CPSIT\ProjectBuilder\Template;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class DummyComposerProvider extends Template\Provider\BaseComposerProvider
+final class DummyComposerProvider extends Template\Provider\BaseProvider
 {
     protected bool $acceptInsecureConnections = true;
 
@@ -62,5 +62,15 @@ final class DummyComposerProvider extends Template\Provider\BaseComposerProvider
     public function getUrl(): string
     {
         return $this->url;
+    }
+
+    protected function getSupportedType(): string
+    {
+        return 'composer';
+    }
+
+    protected function getSupportedRepositoryClass(): string
+    {
+        return Repository\ComposerRepository::class;
     }
 }

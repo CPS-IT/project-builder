@@ -11,10 +11,12 @@
 {% endfor %}
 	},
 	"repositories": [
+{% for repository in repositories %}
 		{
-			"type": "composer",
-			"url": "{{ providerUrl }}"
-		}
+			"type": "{{ repository.type }}",
+			"url": "{{ repository.url }}"
+		}{% if not loop.last %},{% endif %}
+{% endfor %}
 	],
 	"config": {
 		"allow-plugins": {

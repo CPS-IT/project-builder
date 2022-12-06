@@ -42,14 +42,15 @@ use Twig\Loader;
 use function sprintf;
 
 /**
- * BaseComposerProvider.
+ * BaseProvider.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-abstract class BaseComposerProvider implements ProviderInterface
+abstract class BaseProvider implements ProviderInterface
 {
     protected const PACKAGE_TYPE = 'project-builder-template';
+
     protected Resource\Local\Composer $composer;
     protected Environment $renderer;
     protected ComposerIO\IOInterface $io;
@@ -115,7 +116,7 @@ abstract class BaseComposerProvider implements ProviderInterface
             $this->requestPackageVersionConstraint($templateSource);
         }
 
-        $composerJson = $this->createComposerJson($templateSource);
+        $composerJson = $this->createComposerJson([$templateSource]);
         $output = new Console\Output\BufferedOutput();
 
         $this->messenger->progress(
@@ -186,15 +187,27 @@ abstract class BaseComposerProvider implements ProviderInterface
         return new Template\TemplateSource($this, $package);
     }
 
-    protected function createComposerJson(Template\TemplateSource $templateSource): string
+    /**
+     * @param list<Template\TemplateSource>          $templateSources
+     * @param list<array{type: string, url: string}> $repositories
+     */
+    protected function createComposerJson(array $templateSources, array $repositories = []): string
     {
+        $repositories = [
+            [
+                'type' => $this->getSupportedType(),
+                'url' => $this->getUrl(),
+            ],
+            ...$repositories,
+        ];
+
         $targetDirectory = Helper\FilesystemHelper::getNewTemporaryDirectory();
         $targetFile = Filesystem\Path::join($targetDirectory, 'composer.json');
         $composerJson = $this->renderer->render('composer.json.twig', [
-            'templateSources' => [$templateSource],
+            'templateSources' => $templateSources,
             'rootDir' => Helper\FilesystemHelper::getProjectRootPath(),
             'tempDir' => $targetDirectory,
-            'providerUrl' => $this->getUrl(),
+            'repositories' => $repositories,
             'acceptInsecureConnections' => $this->acceptInsecureConnections,
         ]);
 
@@ -207,13 +220,23 @@ abstract class BaseComposerProvider implements ProviderInterface
     {
         $config = Factory::createConfig($this->io);
         $repositoryManager = new Repository\RepositoryManager($this->io, $config, Factory::createHttpDownloader($this->io, $config));
-        $repositoryManager->setRepositoryClass('composer', Repository\ComposerRepository::class);
+        $repositoryManager->setRepositoryClass(
+            $this->getSupportedType(),
+            $this->getSupportedRepositoryClass(),
+        );
 
         $repoConfig = [
-            'type' => 'composer',
+            'type' => $this->getSupportedType(),
             'url' => $this->getUrl(),
         ];
 
         return Repository\RepositoryFactory::createRepo($this->io, $config, $repoConfig, $repositoryManager);
     }
+
+    abstract protected function getSupportedType(): string;
+
+    /**
+     * @return class-string<Repository\RepositoryInterface>
+     */
+    abstract protected function getSupportedRepositoryClass(): string;
 }

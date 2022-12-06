@@ -252,7 +252,8 @@ final class Bootstrap
         try {
             $templateProvider = $this->messenger->selectProvider([
                 new Template\Provider\PackagistProvider($this->messenger, $this->filesystem),
-                new Template\Provider\CustomComposerProvider($this->messenger, $this->filesystem),
+                new Template\Provider\ComposerProvider($this->messenger, $this->filesystem),
+                new Template\Provider\VcsProvider($this->messenger, $this->filesystem),
             ]);
             $templateSource = $this->messenger->selectTemplateSource($templateProvider);
         } catch (Exception\InvalidTemplateSourceException $exception) {

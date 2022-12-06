@@ -43,12 +43,12 @@ use function reset;
 use function sprintf;
 
 /**
- * BaseComposerProviderTest.
+ * BaseProviderTest.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
+final class BaseProviderTest extends Tests\ContainerAwareTestCase
 {
     private Tests\Fixtures\DummyComposerProvider $subject;
     private MockWebServer\MockWebServer $server;
