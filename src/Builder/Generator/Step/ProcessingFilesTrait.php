@@ -29,6 +29,8 @@ use Symfony\Component\ExpressionLanguage;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
 
+use function fnmatch;
+
 /**
  * ProcessingFilesTrait.
  *
@@ -77,5 +79,16 @@ trait ProcessingFilesTrait
         }
 
         return true;
+    }
+
+    protected function findTargetFile(Finder\SplFileInfo $file): ?string
+    {
+        foreach ($this->config->getOptions()->getFileConditions() as $fileCondition) {
+            if (fnmatch($fileCondition->getPath(), $file->getRelativePathname())) {
+                return $fileCondition->getTarget();
+            }
+        }
+
+        return null;
     }
 }

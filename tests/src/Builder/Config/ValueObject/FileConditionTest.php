@@ -39,7 +39,7 @@ final class FileConditionTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->subject = new Src\Config\ValueObject\FileCondition('foo', 'bar');
+        $this->subject = new Src\Config\ValueObject\FileCondition('foo', 'bar', 'target');
     }
 
     /**
@@ -75,5 +75,13 @@ final class FileConditionTest extends TestCase
 
         self::assertFalse($this->subject->conditionMatches($expressionLanguage, ['bar' => false]));
         self::assertTrue($this->subject->conditionMatches($expressionLanguage, ['bar' => true]));
+    }
+
+    /**
+     * @test
+     */
+    public function getTargetReturnsTarget(): void
+    {
+        self::assertSame('target', $this->subject->getTarget());
     }
 }

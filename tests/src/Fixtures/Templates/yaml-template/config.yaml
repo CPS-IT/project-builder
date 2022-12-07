@@ -9,6 +9,9 @@ steps:
           if: 'false'
         - path: '*-3.yaml'
           if: 'false'
+        - path: dummy-4.yaml
+          if: 'true'
+          target: 'overrides/dummy-4.yaml'
   - type: processSharedSourceFiles
     options:
       fileConditions:
@@ -16,6 +19,9 @@ steps:
           if: 'false'
         - path: 'shared-*-3.yaml'
           if: 'false'
+        - path: shared-dummy-4.yaml
+          if: 'true'
+          target: 'overrides/shared-dummy-4.yaml'
   - type: mirrorProcessedFiles
 
 properties:
