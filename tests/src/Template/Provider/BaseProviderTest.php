@@ -144,7 +144,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
 
         $output = self::$io->getOutput();
 
-        self::assertStringContainsString('Installing template source (1.0.0)... Done', $output);
+        self::assertStringContainsString('Installing project template (1.0.0)... Done', $output);
     }
 
     /**
@@ -172,7 +172,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         $output = self::$io->getOutput();
 
         self::assertStringContainsString(
-            sprintf('Installing template source (%s)... Done', $expected),
+            sprintf('Installing project template (%s)... Done', $expected),
             $output,
         );
     }

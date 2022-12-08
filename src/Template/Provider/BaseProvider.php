@@ -120,7 +120,7 @@ abstract class BaseProvider implements ProviderInterface
         $output = new Console\Output\BufferedOutput();
 
         $this->messenger->progress(
-            sprintf('Installing template source (<info>%s</info>)...', $templateSource->getPackage()->getPrettyVersion()),
+            sprintf('Installing project template (<info>%s</info>)...', $templateSource->getPackage()->getPrettyVersion()),
             ComposerIO\IOInterface::NORMAL,
         );
 

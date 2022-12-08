@@ -114,7 +114,7 @@ final class Messenger
         $defaultIdentifier = array_key_first($providers);
 
         $index = $this->getIO()->select(
-            self::decorateLabel('Which platform hosts the project template you want to create?', $defaultIdentifier),
+            self::decorateLabel('Where can we find the project template?', $defaultIdentifier),
             $labels,
             (string) $defaultIdentifier,
         );
@@ -139,7 +139,7 @@ final class Messenger
      */
     public function selectTemplateSource(Template\Provider\ProviderInterface $provider): Template\TemplateSource
     {
-        $this->progress('Fetching available template sources...', IO\IOInterface::NORMAL);
+        $this->progress('Fetching project templates...', IO\IOInterface::NORMAL);
 
         $templateSources = $provider->listTemplateSources();
 
@@ -154,7 +154,7 @@ final class Messenger
         $defaultIdentifier = array_key_first($templateSources);
 
         $index = $this->getIO()->select(
-            self::decorateLabel('Please select a project you would like to create', $defaultIdentifier),
+            self::decorateLabel('Select a project template', $defaultIdentifier),
             $labels,
             (string) $defaultIdentifier,
         );
