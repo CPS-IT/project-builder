@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the TYPO3 CMS extension "cpsit/project-builder".
+ * This file is part of the Composer package "cpsit/project-builder".
  *
  * Copyright (C) 2022 Martin Adler <m.adler@familie-redlich.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
