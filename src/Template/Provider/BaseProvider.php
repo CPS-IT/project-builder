@@ -219,6 +219,12 @@ abstract class BaseProvider implements ProviderInterface
     protected function createRepository(): Repository\RepositoryInterface
     {
         $config = Factory::createConfig($this->io);
+        $config->merge([
+            'config' => [
+                'secure-http' => !$this->acceptInsecureConnections,
+            ],
+        ]);
+
         $repositoryManager = new Repository\RepositoryManager($this->io, $config, Factory::createHttpDownloader($this->io, $config));
         $repositoryManager->setRepositoryClass(
             $this->getSupportedType(),
