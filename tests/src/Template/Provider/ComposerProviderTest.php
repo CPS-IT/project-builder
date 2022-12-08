@@ -25,6 +25,8 @@ namespace CPSIT\ProjectBuilder\Tests\Template\Provider;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use donatj\MockWebServer;
+use ReflectionObject;
 use Symfony\Component\Filesystem;
 
 /**
@@ -36,6 +38,7 @@ use Symfony\Component\Filesystem;
 final class ComposerProviderTest extends Tests\ContainerAwareTestCase
 {
     private Src\Template\Provider\ComposerProvider $subject;
+    private MockWebServer\MockWebServer $server;
 
     protected function setUp(): void
     {
@@ -43,6 +46,11 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
             self::$container->get('app.messenger'),
             self::$container->get(Filesystem\Filesystem::class),
         );
+        $this->server = new MockWebServer\MockWebServer();
+        $this->server->start();
+
+        $this->overwriteIO();
+        $this->acceptInsecureConnections();
     }
 
     /**
@@ -75,5 +83,48 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
         $this->subject->setUrl('https://example.org');
 
         self::assertSame('https://example.org', $this->subject->getUrl());
+    }
+
+    /**
+     * @test
+     */
+    public function listTemplateSourcesConnectsToComposerHostToFetchAvailablePackages(): void
+    {
+        $serverUrl = sprintf('http://%s:%s', $this->server->getHost(), $this->server->getPort());
+
+        $this->subject->setUrl($serverUrl);
+
+        $this->subject->listTemplateSources();
+
+        $lastRequest = $this->server->getLastRequest();
+
+        self::assertNotNull($lastRequest);
+        self::assertSame('/packages.json', $lastRequest->getRequestUri());
+    }
+
+    private function overwriteIO(): void
+    {
+        $this->setPropertyValueOnObject($this->subject, 'io', self::$io);
+    }
+
+    private function acceptInsecureConnections(): void
+    {
+        $this->setPropertyValueOnObject($this->subject, 'acceptInsecureConnections', true);
+    }
+
+    private function setPropertyValueOnObject(object $object, string $propertyName, mixed $value): void
+    {
+        $reflectionObject = new ReflectionObject($object);
+        $reflectionProperty = $reflectionObject->getProperty($propertyName);
+
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($object, $value);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->server->stop();
     }
 }
