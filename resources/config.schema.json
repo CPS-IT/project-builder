@@ -289,6 +289,10 @@
 				"path": {
 					"type": "string",
 					"title": "Relative path to a file, can contain symbols processable by `fnmatch`"
+				},
+				"target": {
+					"type": "string",
+					"title": "Relative path to target file, can be used to override the default path"
 				}
 			},
 			"additionalProperties": false,

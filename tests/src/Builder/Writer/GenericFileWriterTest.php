@@ -66,4 +66,25 @@ final class GenericFileWriterTest extends Tests\ContainerAwareTestCase
 
         (new Filesystem\Filesystem())->remove(dirname($expected));
     }
+
+    /**
+     * @test
+     */
+    public function writeCopiesGivenFileToGivenTargetFile(): void
+    {
+        $instructions = new Src\Builder\BuildInstructions(
+            self::$container->get('app.config'),
+            'foo',
+        );
+        $sourceFile = __FILE__;
+        $file = new Finder\SplFileInfo($sourceFile, dirname($sourceFile), basename($sourceFile));
+
+        $expected = $instructions->getTemporaryDirectory().'/overrides/foo.php';
+        $actual = $this->subject->write($instructions, $file, 'overrides/foo.php');
+
+        self::assertSame($expected, $actual->getPathname());
+        self::assertFileExists($expected);
+
+        (new Filesystem\Filesystem())->remove(dirname($expected));
+    }
 }
