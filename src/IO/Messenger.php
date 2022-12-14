@@ -137,9 +137,12 @@ final class Messenger
     /**
      * @throws Exception\InvalidTemplateSourceException
      */
-    public function selectTemplateSource(Template\Provider\ProviderInterface $provider): Template\TemplateSource
+    public function selectTemplateSource(Template\Provider\ProviderInterface $provider): ?Template\TemplateSource
     {
-        $this->progress('Fetching available template sources...', IO\IOInterface::NORMAL);
+        $this->progress(
+            sprintf('Fetching templates %s ...', 'from '.$provider->getUrl(),
+            ), IO\IOInterface::NORMAL,
+        );
 
         $templateSources = $provider->listTemplateSources();
 
@@ -151,6 +154,8 @@ final class Messenger
         }
 
         $labels = array_map([$this, 'decorateTemplateSource'], $templateSources);
+        $labels[] = 'Try another template provider.';
+
         $defaultIdentifier = array_key_first($templateSources);
 
         $index = $this->getIO()->select(
@@ -158,6 +163,10 @@ final class Messenger
             $labels,
             (string) $defaultIdentifier,
         );
+
+        if (array_key_last($labels) === (int) $index) {
+            return null;
+        }
 
         $this->newLine();
 

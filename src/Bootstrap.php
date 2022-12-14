@@ -208,7 +208,7 @@ final class Bootstrap
         $this->messenger->welcome();
 
         try {
-            $templateSource = $this->selectTemplateSource();
+            $templateSource = $this->selectTemplateSourceFromDefaultProvider();
             $templateSource->getProvider()->installTemplateSource($templateSource);
             $templateIdentifier = $templateSource->getPackage()->getName();
 
@@ -247,12 +247,27 @@ final class Bootstrap
     /**
      * @throws Exception\InvalidTemplateSourceException
      */
+    private function selectTemplateSourceFromDefaultProvider(): Template\TemplateSource
+    {
+        $templateSource = $this->messenger->selectTemplateSource(new Template\Provider\PackagistProvider($this->messenger, $this->filesystem));
+
+        if (null === $templateSource) {
+            return $this->selectTemplateSource();
+        }
+
+        return $templateSource;
+    }
+
+    /**
+     * @throws Exception\InvalidTemplateSourceException
+     */
     private function selectTemplateSource(): Template\TemplateSource
     {
         try {
             $templateProvider = $this->messenger->selectProvider([
                 new Template\Provider\PackagistProvider($this->messenger, $this->filesystem),
                 new Template\Provider\CustomComposerProvider($this->messenger, $this->filesystem),
+                // todo: put VcsProvider #53 here: https://github.com/CPS-IT/project-builder/pull/53
             ]);
             $templateSource = $this->messenger->selectTemplateSource($templateProvider);
         } catch (Exception\InvalidTemplateSourceException $exception) {
@@ -265,6 +280,10 @@ final class Bootstrap
             }
 
             throw $exception;
+        }
+
+        if (null === $templateSource) {
+            return $this->selectTemplateSource();
         }
 
         return $templateSource;
