@@ -1,3 +1,10 @@
+2022-12-16         [RELEASE] Release of project-builder 1.1.0 (Elias Häußler)
+2022-12-07 a4aabed [FEATURE] Introduce target file support for processed source files (Elias Häußler)
+2022-12-08 777e859 [BUGFIX] Use codecov token in CI (Elias Häußler)
+2022-12-08 ef8fc5a [BUGFIX] Harden parameter types within `InputReader::ask()` (Elias Häußler)
+2022-12-08 3b4f51d [FEATURE] Measure type coverage within PHPStan (Elias Häußler)
+2022-12-06 a97d9e4 [BUGFIX] Fall back to dot-zero release if PHP version cannot be determined (Elias Häußler)
+
 2022-12-01         [RELEASE] Release of project-builder 1.0.1 (Elias Häußler)
 2022-12-01 494acf5 [TASK] Upgrade to Composer 2.4 in Dockerfile (Elias Häußler)
 2022-12-01 a00572f [BUGFIX] Satisfy PHP extension requirements in Dockerfile (Elias Häußler)
