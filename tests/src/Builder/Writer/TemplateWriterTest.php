@@ -62,7 +62,43 @@ final class TemplateWriterTest extends Tests\ContainerAwareTestCase
         $file = new Finder\SplFileInfo($templateFile, dirname($templateFile), basename($templateFile));
 
         $expected = $instructions->getTemporaryDirectory().'/dump.json';
-        $actual = $this->subject->write($instructions, $file, ['bar' => 'bar']);
+        $actual = $this->subject->write($instructions, $file, variables: ['bar' => 'bar']);
+
+        self::assertSame($expected, $actual->getPathname());
+        self::assertFileExists($expected);
+
+        $expectedJson = [
+            'instructions' => [
+                'sourceDirectory' => dirname(__DIR__, 2).'/templates/src',
+                'sharedSourceDirectory' => dirname(__DIR__, 2).'/templates/shared',
+            ],
+            'foo' => 'foo',
+            'bar' => 'bar',
+        ];
+
+        self::assertJson($actual->getContents());
+        self::assertSame($expectedJson, json_decode($actual->getContents(), true, 512, JSON_THROW_ON_ERROR));
+
+        (new Filesystem\Filesystem())->remove(dirname($expected));
+    }
+
+    /**
+     * @test
+     */
+    public function writeWritesRenderedTemplateFileToGivenTargetFile(): void
+    {
+        $instructions = new Src\Builder\BuildInstructions(
+            self::$container->get('app.config'),
+            'foo',
+        );
+        $instructions->addTemplateVariable('foo', 'foo');
+        $instructions->addTemplateVariable('bar', 'foo');
+
+        $templateFile = dirname(__DIR__, 3).'/templates/dump.json.twig';
+        $file = new Finder\SplFileInfo($templateFile, dirname($templateFile), basename($templateFile));
+
+        $expected = $instructions->getTemporaryDirectory().'/overrides/dump.json';
+        $actual = $this->subject->write($instructions, $file, 'overrides/dump.json', ['bar' => 'bar']);
 
         self::assertSame($expected, $actual->getPathname());
         self::assertFileExists($expected);

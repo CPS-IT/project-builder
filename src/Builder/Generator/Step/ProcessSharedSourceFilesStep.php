@@ -64,7 +64,7 @@ final class ProcessSharedSourceFilesStep extends AbstractStep implements Process
             );
 
             $writer = $this->writerFactory->get($sharedSourceFile->getPathname());
-            $processedFile = $writer->write($instructions, $sharedSourceFile);
+            $processedFile = $writer->write($instructions, $sharedSourceFile, $this->findTargetFile($sharedSourceFile));
 
             $this->processedFiles[] = new Resource\Local\ProcessedFile($sharedSourceFile, $processedFile);
 

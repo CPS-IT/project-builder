@@ -125,7 +125,7 @@ final class InputReader
      *
      * @return TYes|TNo
      */
-    public function ask(string $question, $yesValue = true, $noValue = false, bool $default = true)
+    public function ask(string $question, mixed $yesValue = true, mixed $noValue = false, bool $default = true): mixed
     {
         $label = Messenger::decorateLabel($question, $default ? 'Y' : 'N', true, [$default ? 'n' : 'y']);
 

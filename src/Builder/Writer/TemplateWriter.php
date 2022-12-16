@@ -49,13 +49,14 @@ final class TemplateWriter implements WriterInterface
     public function write(
         Builder\BuildInstructions $instructions,
         Finder\SplFileInfo $file,
+        ?string $targetFile = null,
         array $variables = [],
     ): Finder\SplFileInfo {
         $renderer = $this->renderer->withRootPath($file->getPath());
         $renderResult = $renderer->render($instructions, $file->getFilename(), $variables);
         $targetFile = Helper\FilesystemHelper::createFileObject(
             $instructions->getTemporaryDirectory(),
-            (string) preg_replace('/\.twig$/', '', $file->getRelativePathname()),
+            $targetFile ?? (string) preg_replace('/\.twig$/', '', $file->getRelativePathname()),
         );
 
         $this->filesystem->dumpFile($targetFile->getPathname(), $renderResult);

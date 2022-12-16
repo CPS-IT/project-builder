@@ -36,6 +36,7 @@ final class FileCondition
     public function __construct(
         private string $path,
         string $if,
+        private ?string $target = null,
     ) {
         $this->if = $if;
     }
@@ -43,5 +44,10 @@ final class FileCondition
     public function getPath(): string
     {
         return $this->path;
+    }
+
+    public function getTarget(): ?string
+    {
+        return $this->target;
     }
 }
