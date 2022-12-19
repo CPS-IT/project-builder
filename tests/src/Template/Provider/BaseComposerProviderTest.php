@@ -194,6 +194,8 @@ final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
 
     protected function tearDown(): void
     {
+        parent::tearDown();
+
         $this->server->stop();
     }
 }

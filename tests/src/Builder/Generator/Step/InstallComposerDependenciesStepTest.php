@@ -102,6 +102,8 @@ final class InstallComposerDependenciesStepTest extends Tests\ContainerAwareTest
 
     protected function tearDown(): void
     {
+        parent::tearDown();
+
         if (self::$filesystem->exists(self::$temporaryDirectory)) {
             self::$filesystem->remove(self::$temporaryDirectory);
         }
