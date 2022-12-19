@@ -34,7 +34,6 @@ use stdClass;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Yaml;
 
-use function dirname;
 use function json_decode;
 
 /**
@@ -101,7 +100,7 @@ final class ConfigFactory
 
     private function validateConfig(stdClass $parsedContent): JsonSchema\ValidationResult
     {
-        $schemaFile = Filesystem\Path::join(dirname(__DIR__, 3), Paths::PROJECT_SCHEMA_CONFIG);
+        $schemaFile = Filesystem\Path::join(Helper\FilesystemHelper::getProjectRootPath(), Paths::PROJECT_SCHEMA_CONFIG);
         $schemaReference = 'file://'.$schemaFile;
         $schemaResolver = $this->validator->resolver();
 
