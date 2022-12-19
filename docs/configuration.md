@@ -117,7 +117,7 @@ The following filename variants are supported:
 2. `config.yaml`
 3. `config.json`
 
-> :bulb: See [`ConfigReader::FILE_VARIANTS`](../src/Builder/Config/ConfigReader.php)
+> 💡 See [`ConfigReader::FILE_VARIANTS`](../src/Builder/Config/ConfigReader.php)
 > for an overview of supported filenames.
 
 ### Structure
@@ -211,7 +211,7 @@ Each configured property in the config file is now accessible from the
 | `steps`      | `$config->getSteps()`      | [`list<Builder\Config\ValueObject\Step>`](../src/Builder/Config/ValueObject/Step.php)         |
 | `properties` | `$config->getProperties()` | [`list<Builder\Config\ValueObject\Property>`](../src/Builder/Config/ValueObject/Property.php) |
 
-> :bulb: All available value objects can be found at
+> 💡 All available value objects can be found at
 > [`Builder\Config\ValueObject`](../src/Builder/Config/ValueObject).
 
 ### Validation
@@ -221,7 +221,7 @@ at [`resources/config.schema.json`](../resources/config.schema.json). Schema
 validation is handled by [`ConfigFactory::isValidConfig()`](../src/Builder/Config/ConfigFactory.php)
 with the help of the great external library [`justinrainbow/json-schema`][2].
 
-:warning: If a config file does not match the required schema, project generation
+⚠️ If a config file does not match the required schema, project generation
 will fail immediately.
 
 ## Source files

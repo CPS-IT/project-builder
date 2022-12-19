@@ -89,7 +89,7 @@ By using this step, it is possible to install additional Composer dependencies. 
 dependencies should provide shared source files. The appropriate `composer.json`
 must be in the project type's template folder.
 
-> :arrow_right: Read more at [`Configuration`](configuration.md).
+> ➡️ Read more at [`Configuration`](configuration.md).
 
 ### Mirror processed files
 
@@ -118,7 +118,7 @@ Each file condition applies to a given path. The specified condition is then use
 in the step to decide whether to include or exclude the appropriate file. All other
 files will always be processed.
 
-> :arrow_right: Read more at [`Configuration#Source files`](configuration.md#source-files)
+> ➡️ Read more at [`Configuration#Source files`](configuration.md#source-files)
 > and [`Architecture#Template rendering`](architecture.md#template-rendering).
 
 ### Process shared source files
@@ -133,7 +133,7 @@ folder of the project type's `templates` directory. These files are normally add
 during runtime by the [`installComposerDependencies`](#install-composer-dependencies)
 step.
 
-> :arrow_right: Read more at [`Configuration#Shared source files`](configuration.md#shared-source-files).
+> ➡️ Read more at [`Configuration#Shared source files`](configuration.md#shared-source-files).
 
 ### Show next steps
 

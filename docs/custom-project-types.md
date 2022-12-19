@@ -20,11 +20,11 @@ type `project-builder-template`:
 }
 ```
 
-> :bulb: You can omit the `cpsit/project-builder` requirement if you're
+> 💡 You can omit the `cpsit/project-builder` requirement if you're
 > not going to add PHP sources that depend on classes provided by the
 > Project Builder.
 
-> :arrow_right: Read more at [`Configuration#External template packages`](configuration.md#external-template-packages).
+> ➡️ Read more at [`Configuration#External template packages`](configuration.md#external-template-packages).
 
 ## 2. Configure the project type
 
@@ -38,7 +38,7 @@ Add a `config.yaml` file and give your project type a meaningful name:
 name: My fancy project
 ```
 
-> :arrow_right: Read more at [`Configuration#Config file`](configuration.md#config-file).
+> ➡️ Read more at [`Configuration#Config file`](configuration.md#config-file).
 
 ### Build steps
 
@@ -90,7 +90,7 @@ steps:
       templateFile: templates/next-steps.html.twig
 ```
 
-> :arrow_right: Read more at [`Processing build steps#Available steps`](processing-build-steps.md#available-steps).
+> ➡️ Read more at [`Processing build steps#Available steps`](processing-build-steps.md#available-steps).
 
 ### Template properties
 
@@ -151,7 +151,7 @@ As you can see, it's also possible to reference other properties in various
 property configurations, e.g. `defaultValue`. Internally, the Symfony Expression
 Language is used to render those values.
 
-> :arrow_right: Have a look at the [configuration schema](../resources/config.schema.json)
+> ➡️ Have a look at the [configuration schema](../resources/config.schema.json)
 > to get an overview about all available configuration options.
 
 ## 3. Add source files
@@ -173,7 +173,7 @@ my-fancy-project
         └── phpunit.xml
 ```
 
-> :arrow_right: Read more at [`Configuration#Source files`](configuration.md#source-files).
+> ➡️ Read more at [`Configuration#Source files`](configuration.md#source-files).
 
 ## 4. Describe next steps
 
@@ -189,7 +189,7 @@ You can also omit this build step if you don't have the need to show next steps.
 keep in mind that it might be necessary for the user to get a project kickstarted as
 easy as possible.
 
-> :arrow_right: Read more at [`Processing build steps#Show next steps`](processing-build-steps.md#show-next-steps).
+> ➡️ Read more at [`Processing build steps#Show next steps`](processing-build-steps.md#show-next-steps).
 
 ## 5. Publish the package
 
@@ -197,7 +197,7 @@ Last but not least, your new project type must be published in order to be usabl
 with the project builder. You can either submit the template package on Packagist.org
 or add it to your self-hosted Composer registry (e.g. self-hosted [Satis][1] instance).
 
-> :arrow_right: Read more at [`Configuration#External template packages`](configuration.md#external-template-packages).
+> ➡️ Read more at [`Configuration#External template packages`](configuration.md#external-template-packages).
 
 ## 6. Create a new project
 
@@ -207,7 +207,7 @@ Now you should be able to create a new project by running the following command:
 composer create-project cpsit/project-builder
 ```
 
-> :arrow_right: Read more at [`Usage`](usage.md).
+> ➡️ Read more at [`Usage`](usage.md).
 
 Now, relax and enjoy a cup of tea. Well done! :tea:
 

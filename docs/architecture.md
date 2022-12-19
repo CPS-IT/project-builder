@@ -22,7 +22,7 @@ This class constructs the [`Application`](../src/Console/Application.php) that
 triggers a new build and handles the build result. When a user executes the
 `composer create-project` command, the bootstrapping process is triggered.
 
-> :bulb: See [`Bootstrap::createProject()`](../src/Bootstrap.php) which is defined as
+> 💡 See [`Bootstrap::createProject()`](../src/Bootstrap.php) which is defined as
 > `post-create-project-cmd` script in [`composer.json`](../composer.json).
 
 ### Configuration
@@ -146,7 +146,7 @@ As an additional I/O component, some **validators** exist, ready to be used by t
 
 Each validator implements the [`ValidatorInterface`](../src/IO/Validator/ValidatorInterface.php).
 
-> :bulb: Not all validators can be used for each interaction with the `InputReader`.
+> 💡 Not all validators can be used for each interaction with the `InputReader`.
 
 ### Naming
 

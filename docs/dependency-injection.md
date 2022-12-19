@@ -41,4 +41,4 @@ searched for the following resources:
 * `config/services.yaml`
 * `config/services.yml`
 
-> :bulb: You can define more than one service configuration per project type.
+> 💡 You can define more than one service configuration per project type.

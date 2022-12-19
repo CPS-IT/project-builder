@@ -14,9 +14,9 @@
 [![Docker](https://img.shields.io/docker/v/cpsit/project-builder?label=docker&sort=semver)](https://hub.docker.com/r/cpsit/project-builder)
 [![License](http://poser.pugx.org/cpsit/project-builder/license)](LICENSE)
 
-:package:&nbsp;[Packagist](https://packagist.org/packages/cpsit/project-builder) |
-:floppy_disk:&nbsp;[Repository](https://github.com/CPS-IT/project-builder) |
-:bug:&nbsp;[Issue tracker](https://github.com/CPS-IT/project-builder/issues)
+📦&nbsp;[Packagist](https://packagist.org/packages/cpsit/project-builder) ·
+💾&nbsp;[Repository](https://github.com/CPS-IT/project-builder) ·
+🐛&nbsp;[Issue tracker](https://github.com/CPS-IT/project-builder/issues)
 
 </div>
 
@@ -27,14 +27,14 @@ can even be used to create custom project types to meet your own requirements fo
 By simply using the Composer command [`create-project`][1] it was never easier to create
 new project repositories from command line.
 
-## :rocket: Features
+## 🚀 Features
 
 * Kickstarter package for new projects
 * Modern configuration and templating system
 * Support for templating of external dependencies
 * Easily extensible for new project types
 
-## :zap: Usage
+## ⚡ Usage
 
 Usage with [Composer][2]:
 
@@ -50,37 +50,38 @@ docker run --rm -it -v <target-dir>:/app cpsit/project-builder
 
 Please have a look at [`Usage`](docs/usage.md) for an extended overview.
 
-## :package: Ready-to-use packages
+## 📦 Ready-to-use packages
 
-Currently, the following template packages are available:
+Currently, the following template packages are available and actively maintained:
 
 * [TYPO3 CMS project template][3] (`cpsit/typo3-project-template`)
 
 You can explore all publicly available template packages on [Packagist][4].
 
-> :bulb: If you would like your package to be listed here, feel free to create a
+> 💡 If you would like your package to be listed here, feel free to create a
 > [pull request][5].
 
-Learn how to create your own template package in
-[`Custom project types`](docs/custom-project-types.md).
+## 🧙 Customized Templates
+Learn how to create your own template package in [`Custom project types`](docs/custom-project-types.md).
 
-## :open_file_folder: Configuration
+## 📂 Configuration
 
 The configuration describes how to build a project, e.g. which steps are necessary and what
 properties are required when rendering project templates.
 
 Explore configuration details and examples in [`Configuration`](docs/configuration.md).
 
-## :roller_coaster: Architecture
+## 🏗️ Architecture
 
 Please have a look at [`Architecture`](docs/architecture.md) which explains
 core concepts and lists all available components.
 
-## :technologist: Contributing
+## 👩‍💻👨‍💻 Contributing
 
-Please have a look at [`CONTRIBUTING.md`](CONTRIBUTING.md).
+We welcome contributions! 💛 If you're considering to contribute to this project please do have a look
+at [`CONTRIBUTING.md`](CONTRIBUTING.md) explaining our attempts to achieve a high quality.
 
-## :star: License
+## ⭐ License
 
 This project is licensed under [GNU General Public License 3.0 (or later)](LICENSE).
 
