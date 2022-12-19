@@ -158,6 +158,8 @@ final class RendererTest extends Tests\ContainerAwareTestCase
 
     protected function tearDown(): void
     {
+        parent::tearDown();
+
         $this->eventListener->dispatched = false;
         $this->eventListener->variables = [];
     }

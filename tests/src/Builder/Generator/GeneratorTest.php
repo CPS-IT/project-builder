@@ -156,6 +156,8 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
 
     protected function tearDown(): void
     {
+        parent::tearDown();
+
         $this->eventListener->dispatchedEvents = [];
 
         $filesystem = new Filesystem\Filesystem();
