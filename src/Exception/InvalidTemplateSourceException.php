@@ -25,6 +25,8 @@ namespace CPSIT\ProjectBuilder\Exception;
 
 use CPSIT\ProjectBuilder\Template;
 
+use function sprintf;
+
 /**
  * InvalidTemplateSourceException.
  *
@@ -50,6 +52,21 @@ final class InvalidTemplateSourceException extends Exception
                 self::decorateProvider($templateSource->getProvider()),
             ),
             1664557307,
+        );
+    }
+
+    public static function forInvalidPackageVersionConstraint(
+        Template\TemplateSource $templateSource,
+        string $constraint,
+    ): self {
+        return new self(
+            sprintf(
+                'Unable to install template package "%s" with version constraint "%s" using provider "%s".',
+                $templateSource->getPackage()->getName(),
+                $constraint,
+                self::decorateProvider($templateSource->getProvider()),
+            ),
+            1671467692,
         );
     }
 

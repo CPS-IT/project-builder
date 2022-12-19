@@ -39,6 +39,8 @@ use Symfony\Component\Filesystem;
 use Twig\Environment;
 use Twig\Loader;
 
+use function sprintf;
+
 /**
  * BaseComposerProvider.
  *
@@ -96,12 +98,30 @@ abstract class BaseComposerProvider implements ProviderInterface
         return $templateSources;
     }
 
+    /**
+     * @throws Exception\IOException
+     * @throws Exception\InvalidTemplateSourceException
+     */
     public function installTemplateSource(Template\TemplateSource $templateSource): void
     {
+        $package = $templateSource->getPackage();
+
+        if ($package instanceof Package\AliasPackage) {
+            $package = $package->getAliasOf();
+            $templateSource->setPackage($package);
+        }
+
+        if ($package instanceof Package\Package) {
+            $this->requestPackageVersionConstraint($templateSource);
+        }
+
         $composerJson = $this->createComposerJson($templateSource);
         $output = new Console\Output\BufferedOutput();
 
-        $this->messenger->progress('Installing template source...', ComposerIO\IOInterface::NORMAL);
+        $this->messenger->progress(
+            sprintf('Installing template source (<info>%s</info>)...', $templateSource->getPackage()->getPrettyVersion()),
+            ComposerIO\IOInterface::NORMAL,
+        );
 
         $exitCode = $this->composer->install($composerJson, false, $output);
 
@@ -118,6 +138,47 @@ abstract class BaseComposerProvider implements ProviderInterface
         // Make sure installed sources are handled by Composer's class loader
         $loader = Resource\Local\Composer::createClassLoader(dirname($composerJson));
         $loader->register(true);
+    }
+
+    /**
+     * @throws Exception\IOException
+     * @throws Exception\InvalidTemplateSourceException
+     */
+    protected function requestPackageVersionConstraint(Template\TemplateSource $templateSource): void
+    {
+        $inputReader = $this->messenger->createInputReader();
+
+        if (null === $this->repository) {
+            $this->repository = $this->createRepository();
+        }
+
+        $constraint = $inputReader->staticValue(
+            'Enter the version constraint to require (or leave blank to use the latest version)',
+        );
+
+        $this->messenger->newLine();
+
+        if (null === $constraint) {
+            $constraint = '*';
+        }
+
+        $package = $this->repository->findPackage($templateSource->getPackage()->getName(), $constraint);
+
+        if ($package instanceof Package\BasePackage) {
+            $templateSource->setPackage($package);
+
+            return;
+        }
+
+        $this->messenger->error('Unable to find a package version for the given constraint.');
+
+        if (!$inputReader->ask('Do you want to try another version constraint instead?')) {
+            throw Exception\InvalidTemplateSourceException::forInvalidPackageVersionConstraint($templateSource, $constraint);
+        }
+
+        $this->messenger->newLine();
+
+        $this->requestPackageVersionConstraint($templateSource);
     }
 
     protected function createTemplateSource(Package\BasePackage $package): Template\TemplateSource
