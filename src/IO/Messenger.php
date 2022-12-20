@@ -164,6 +164,7 @@ final class Messenger
             (string) $defaultIdentifier,
         );
 
+        // Early return if another provider should be used
         if (array_key_last($labels) === (int) $index) {
             return null;
         }

@@ -249,7 +249,8 @@ final class Bootstrap
      */
     private function selectTemplateSourceFromDefaultProvider(): Template\TemplateSource
     {
-        $templateSource = $this->messenger->selectTemplateSource(new Template\Provider\PackagistProvider($this->messenger, $this->filesystem));
+        $defaultProvider = new Template\Provider\PackagistProvider($this->messenger, $this->filesystem);
+        $templateSource = $this->messenger->selectTemplateSource($defaultProvider);
 
         if (null === $templateSource) {
             return $this->selectTemplateSource();
