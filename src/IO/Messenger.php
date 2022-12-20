@@ -140,8 +140,8 @@ final class Messenger
     public function selectTemplateSource(Template\Provider\ProviderInterface $provider): ?Template\TemplateSource
     {
         $this->progress(
-            sprintf('Fetching templates %s ...', 'from '.$provider->getUrl(),
-            ), IO\IOInterface::NORMAL,
+            sprintf('Fetching templates from <href=%s>%s</> ...', $provider->getUrl(), $provider->getUrl()),
+            IO\IOInterface::NORMAL,
         );
 
         $templateSources = $provider->listTemplateSources();
