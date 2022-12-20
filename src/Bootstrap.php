@@ -90,27 +90,13 @@ final class Bootstrap
 
     private static function createApplication(IO\Messenger $messenger, string $targetDirectory): Console\Application
     {
-        $filesystem = new Filesystem\Filesystem();
-
         return new Console\Application(
             $messenger,
             Builder\Config\ConfigReader::create(),
             new Error\ErrorHandler($messenger),
-            $filesystem,
+            new Filesystem\Filesystem(),
             $targetDirectory,
-            self::createTemplateProviders($messenger, $filesystem),
         );
-    }
-
-    /**
-     * @return non-empty-list<Template\Provider\ProviderInterface>
-     */
-    private static function createTemplateProviders(IO\Messenger $messenger, Filesystem\Filesystem $filesystem): array
-    {
-        return [
-            new Template\Provider\PackagistProvider($messenger, $filesystem),
-            new Template\Provider\CustomComposerProvider($messenger, $filesystem),
-        ];
     }
 
     private static function runsOnAnUnsupportedEnvironment(): bool

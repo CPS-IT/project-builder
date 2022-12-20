@@ -49,7 +49,12 @@ final class Application
     private const ABORTED = 2;
 
     /**
-     * @param non-empty-list<Template\Provider\ProviderInterface> $templateProviders
+     * @var non-empty-list<Template\Provider\ProviderInterface>
+     */
+    private array $templateProviders;
+
+    /**
+     * @param list<Template\Provider\ProviderInterface> $templateProviders
      */
     public function __construct(
         private IO\Messenger $messenger,
@@ -57,8 +62,13 @@ final class Application
         private Error\ErrorHandler $errorHandler,
         private Filesystem\Filesystem $filesystem,
         private string $targetDirectory,
-        private array $templateProviders,
+        array $templateProviders = [],
     ) {
+        if ([] === $templateProviders) {
+            $templateProviders = $this->createDefaultTemplateProviders();
+        }
+
+        $this->templateProviders = $templateProviders;
     }
 
     public function run(): int
@@ -149,5 +159,16 @@ final class Application
         $container->set('app.messenger', $this->messenger);
 
         return $container;
+    }
+
+    /**
+     * @return non-empty-list<Template\Provider\ProviderInterface>
+     */
+    private function createDefaultTemplateProviders(): array
+    {
+        return [
+            new Template\Provider\PackagistProvider($this->messenger, $this->filesystem),
+            new Template\Provider\CustomComposerProvider($this->messenger, $this->filesystem),
+        ];
     }
 }
