@@ -48,4 +48,11 @@ final class TemplateSource
     {
         return $this->package;
     }
+
+    public function setPackage(Package\PackageInterface $package): self
+    {
+        $this->package = $package;
+
+        return $this;
+    }
 }
