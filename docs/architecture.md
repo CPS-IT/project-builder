@@ -17,8 +17,9 @@ these three concepts:
 ### Bootstrapping
 
 Each project build is initialized by the [`Bootstrap`](../src/Bootstrap.php) class.
-This class triggers a new build and handles the build result. When a user executes
-the `composer create-project` command, the bootstrapping process is triggered.
+This class constructs the [`Application`](../src/Console/Application.php) that
+triggers a new build and handles the build result. When a user executes the
+`composer create-project` command, the bootstrapping process is triggered.
 
 > :bulb: See [`Bootstrap::createProject()`](../src/Bootstrap.php) which is defined as
 > `post-create-project-cmd` script in [`composer.json`](../composer.json).
