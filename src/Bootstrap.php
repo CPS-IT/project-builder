@@ -49,6 +49,11 @@ final class Bootstrap
 {
     private string $targetDirectory;
 
+    /**
+     * @var non-empty-list<Template\Provider\ProviderInterface>
+     */
+    private array $templateProviders;
+
     private function __construct(
         private IO\Messenger $messenger,
         private Builder\Config\ConfigReader $configReader,
@@ -57,6 +62,7 @@ final class Bootstrap
         string $targetDirectory = null,
     ) {
         $this->targetDirectory = $targetDirectory ?? Helper\FilesystemHelper::getProjectRootPath();
+        $this->templateProviders = $this->createTemplateProviders();
     }
 
     public static function create(IO\Messenger $messenger, string $targetDirectory = null): self
@@ -208,7 +214,8 @@ final class Bootstrap
         $this->messenger->welcome();
 
         try {
-            $templateSource = $this->selectTemplateSourceFromDefaultProvider();
+            $defaultTemplateProvider = reset($this->templateProviders);
+            $templateSource = $this->selectTemplateSource($defaultTemplateProvider);
             $templateSource->getProvider()->installTemplateSource($templateSource);
             $templateIdentifier = $templateSource->getPackage()->getName();
 
@@ -247,28 +254,11 @@ final class Bootstrap
     /**
      * @throws Exception\InvalidTemplateSourceException
      */
-    private function selectTemplateSourceFromDefaultProvider(): Template\TemplateSource
-    {
-        $defaultProvider = new Template\Provider\PackagistProvider($this->messenger, $this->filesystem);
-        $templateSource = $this->messenger->selectTemplateSource($defaultProvider);
-
-        if (null === $templateSource) {
-            return $this->selectTemplateSource();
-        }
-
-        return $templateSource;
-    }
-
-    /**
-     * @throws Exception\InvalidTemplateSourceException
-     */
-    private function selectTemplateSource(): Template\TemplateSource
-    {
+    private function selectTemplateSource(
+        Template\Provider\ProviderInterface $templateProvider = null,
+    ): Template\TemplateSource {
         try {
-            $templateProvider = $this->messenger->selectProvider([
-                new Template\Provider\PackagistProvider($this->messenger, $this->filesystem),
-                new Template\Provider\CustomComposerProvider($this->messenger, $this->filesystem),
-            ]);
+            $templateProvider ??= $this->messenger->selectProvider($this->templateProviders);
             $templateSource = $this->messenger->selectTemplateSource($templateProvider);
         } catch (Exception\InvalidTemplateSourceException $exception) {
             $retry = $this->messenger->confirmTemplateSourceRetry($exception);
@@ -287,6 +277,17 @@ final class Bootstrap
         }
 
         return $templateSource;
+    }
+
+    /**
+     * @return non-empty-list<Template\Provider\ProviderInterface>
+     */
+    private function createTemplateProviders(): array
+    {
+        return [
+            new Template\Provider\PackagistProvider($this->messenger, $this->filesystem),
+            new Template\Provider\CustomComposerProvider($this->messenger, $this->filesystem),
+        ];
     }
 
     private function buildContainer(Builder\Config\Config $config): \Symfony\Component\DependencyInjection\ContainerInterface
