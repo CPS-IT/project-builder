@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Tests;
 
-use Composer\IO;
 use CPSIT\ProjectBuilder as Src;
 use GuzzleHttp\Handler;
 use GuzzleHttp\HandlerStack;
@@ -44,7 +43,7 @@ abstract class ContainerAwareTestCase extends TestCase
 {
     protected static DependencyInjection\ContainerInterface $container;
     protected static Factory\HttplugFactory $factory;
-    protected static IO\BufferIO $io;
+    protected static ClearableBufferIO $io;
     protected static Handler\MockHandler $mockHandler;
     protected static Src\Builder\Config\Config $config;
 
@@ -90,7 +89,7 @@ abstract class ContainerAwareTestCase extends TestCase
         return $config;
     }
 
-    protected static function createIO(): IO\BufferIO
+    protected static function createIO(): ClearableBufferIO
     {
         return new ClearableBufferIO();
     }
@@ -124,8 +123,6 @@ abstract class ContainerAwareTestCase extends TestCase
 
     protected function tearDown(): void
     {
-        if (self::$io instanceof ClearableBufferIO) {
-            self::$io->clear();
-        }
+        self::$io->clear();
     }
 }
