@@ -23,59 +23,20 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder;
 
-use Composer\Factory;
 use Composer\InstalledVersions;
 use Composer\Script;
-use Composer\XdebugHandler;
-use Symfony\Component\Console;
 use Symfony\Component\Filesystem;
-use Symfony\Component\Finder;
-use Throwable;
-
-use function chdir;
-use function dirname;
-use function getcwd;
-use function putenv;
-use function sprintf;
-use function uniqid;
 
 /**
  * Generator.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
+ *
+ * @codeCoverageIgnore
  */
 final class Bootstrap
 {
-    private string $targetDirectory;
-
-    /**
-     * @var non-empty-list<Template\Provider\ProviderInterface>
-     */
-    private array $templateProviders;
-
-    private function __construct(
-        private IO\Messenger $messenger,
-        private Builder\Config\ConfigReader $configReader,
-        private Error\ErrorHandler $errorHandler,
-        private Filesystem\Filesystem $filesystem,
-        string $targetDirectory = null,
-    ) {
-        $this->targetDirectory = $targetDirectory ?? Helper\FilesystemHelper::getProjectRootPath();
-        $this->templateProviders = $this->createTemplateProviders();
-    }
-
-    public static function create(IO\Messenger $messenger, string $targetDirectory = null): self
-    {
-        return new self(
-            $messenger,
-            Builder\Config\ConfigReader::create(),
-            new Error\ErrorHandler($messenger),
-            new Filesystem\Filesystem(),
-            $targetDirectory,
-        );
-    }
-
     /**
      * Create a new project.
      *
@@ -88,13 +49,14 @@ final class Bootstrap
         bool $exitOnFailure = true,
     ): int {
         $messenger = IO\Messenger::create($event->getIO());
+        $targetDirectory ??= Helper\FilesystemHelper::getProjectRootPath();
 
         // Early return if current environment is unsupported
         if (self::runsOnAnUnsupportedEnvironment()) {
             throw Exception\UnsupportedEnvironmentException::forOutdatedComposerInstallation();
         }
 
-        $exitCode = self::create($messenger, $targetDirectory)->run();
+        $exitCode = self::createApplication($messenger, $targetDirectory)->run();
 
         $event->stopPropagation();
 
@@ -103,12 +65,6 @@ final class Bootstrap
         }
 
         return $exitCode;
-    }
-
-    private static function runsOnAnUnsupportedEnvironment(): bool
-    {
-        /* @phpstan-ignore-next-line */
-        return !method_exists(InstalledVersions::class, 'getInstallPath');
     }
 
     /**
@@ -124,180 +80,30 @@ final class Bootstrap
      */
     public static function simulateCreateProject(Script\Event $event): void
     {
-        $output = Factory::createOutput();
-        $io = new Console\Style\SymfonyStyle(new Console\Input\ArgvInput(), $output);
+        $simulation = Console\Simulation::create();
+        $targetDirectory = $simulation->prepare();
 
-        $filesystem = new Filesystem\Filesystem();
-        $rootPath = Helper\FilesystemHelper::getProjectRootPath();
-        $targetDirectory = Filesystem\Path::join($rootPath, '.build', uniqid('simulate_'));
-
-        // Override current root path
-        putenv('PROJECT_BUILDER_ROOT_PATH='.$targetDirectory);
-
-        // Remove old simulations
-        $oldSimulations = Finder\Finder::create()
-            ->directories()
-            ->in(dirname($targetDirectory))
-            ->name('simulate_*')
-            ->depth('== 0')
-        ;
-        $filesystem->remove($oldSimulations);
-
-        // Mirror project files to the simulation directory and install
-        // Composer dependencies. This mimics the behavior of
-        // "composer create-project" installing the repository into the
-        // specified directory.
-        $projectFiles = Finder\Finder::create()
-            ->in($rootPath)
-            ->notPath('.build')
-            ->notPath('vendor')
-            ->notName('composer.lock')
-        ;
-        $filesystem->mirror(dirname(__DIR__), $targetDirectory, $projectFiles);
-        $composer = new Resource\Local\Composer($filesystem);
-
-        // Disable Xdebug
-        XdebugHandler\Process::setEnv('COMPOSER_ALLOW_XDEBUG');
-
-        // Install project
-        $exitCode = $composer->install(
-            Filesystem\Path::join($targetDirectory, 'composer.json'),
-            true,
-            $output,
-        );
-
-        if ($exitCode > 0) {
-            $io->error(
-                sprintf('Unable to install project dependencies. Exit code: %d', $exitCode),
-            );
-
-            exit($exitCode);
-        }
-
-        // Switch to simulation directory
-        $initialWorkingDirectory = false !== getcwd() ? getcwd() : Helper\FilesystemHelper::getProjectRootPath();
-        chdir($targetDirectory);
-
-        // Run project creation
-        $exitCode = self::createProject($event, $targetDirectory, false);
-
-        // Go back to initial working directory
-        chdir($initialWorkingDirectory);
-
-        $message = sprintf('Simulation finished with exit code: %d', $exitCode);
-        if ($exitCode > 0) {
-            $io->error($message);
-        } else {
-            $io->success($message);
-        }
-        $io->writeln(
-            sprintf('Target directory: <comment>%s</comment>', $targetDirectory),
+        $exitCode = $simulation->run(
+            static fn (): int => self::createProject($event, $targetDirectory, false),
         );
 
         exit($exitCode);
     }
 
-    public function run(): int
+    private static function createApplication(IO\Messenger $messenger, string $targetDirectory): Console\Application
     {
-        if (!$this->messenger->isInteractive()) {
-            $this->messenger->error('This command cannot be run in non-interactive mode.');
-
-            return 1;
-        }
-
-        $this->mirrorSourceFiles();
-
-        $loader = Resource\Local\Composer::createClassLoader();
-        $loader->register(true);
-
-        $this->messenger->clearScreen();
-        $this->messenger->welcome();
-
-        try {
-            $defaultTemplateProvider = reset($this->templateProviders);
-            $templateSource = $this->selectTemplateSource($defaultTemplateProvider);
-            $templateSource->getProvider()->installTemplateSource($templateSource);
-            $templateIdentifier = $templateSource->getPackage()->getName();
-
-            $config = $this->configReader->readConfig($templateIdentifier);
-            $container = $this->buildContainer($config);
-
-            $generator = $container->get(Builder\Generator\Generator::class);
-            $result = $generator->run($this->targetDirectory);
-
-            $this->messenger->decorateResult($result);
-
-            if (!$result->isMirrored()) {
-                return 1;
-            }
-
-            $generator->cleanUp($result);
-        } catch (Throwable $exception) {
-            $this->errorHandler->handleException($exception);
-
-            return 1;
-        }
-
-        return 0;
+        return new Console\Application(
+            $messenger,
+            Builder\Config\ConfigReader::create(),
+            new Error\ErrorHandler($messenger),
+            new Filesystem\Filesystem(),
+            $targetDirectory,
+        );
     }
 
-    private function mirrorSourceFiles(): string
+    private static function runsOnAnUnsupportedEnvironment(): bool
     {
-        $sourceDirectory = Filesystem\Path::join($this->targetDirectory, Paths::PROJECT_SOURCES);
-        $targetDirectory = Filesystem\Path::join($this->targetDirectory, '.build', Paths::PROJECT_SOURCES);
-
-        $this->filesystem->mirror($sourceDirectory, $targetDirectory);
-
-        return $targetDirectory;
-    }
-
-    /**
-     * @throws Exception\InvalidTemplateSourceException
-     */
-    private function selectTemplateSource(
-        Template\Provider\ProviderInterface $templateProvider = null,
-    ): Template\TemplateSource {
-        try {
-            $templateProvider ??= $this->messenger->selectProvider($this->templateProviders);
-            $templateSource = $this->messenger->selectTemplateSource($templateProvider);
-        } catch (Exception\InvalidTemplateSourceException $exception) {
-            $retry = $this->messenger->confirmTemplateSourceRetry($exception);
-
-            $this->messenger->newLine();
-
-            if ($retry) {
-                return $this->selectTemplateSource();
-            }
-
-            throw $exception;
-        }
-
-        if (null === $templateSource) {
-            return $this->selectTemplateSource();
-        }
-
-        return $templateSource;
-    }
-
-    /**
-     * @return non-empty-list<Template\Provider\ProviderInterface>
-     */
-    private function createTemplateProviders(): array
-    {
-        return [
-            new Template\Provider\PackagistProvider($this->messenger, $this->filesystem),
-            new Template\Provider\CustomComposerProvider($this->messenger, $this->filesystem),
-        ];
-    }
-
-    private function buildContainer(Builder\Config\Config $config): \Symfony\Component\DependencyInjection\ContainerInterface
-    {
-        $factory = DependencyInjection\ContainerFactory::createFromConfig($config);
-        $container = $factory->get();
-
-        $container->set('app.config', $config);
-        $container->set('app.messenger', $this->messenger);
-
-        return $container;
+        /* @phpstan-ignore-next-line */
+        return !method_exists(InstalledVersions::class, 'getInstallPath');
     }
 }

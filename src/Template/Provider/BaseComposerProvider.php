@@ -144,6 +144,7 @@ abstract class BaseComposerProvider implements ProviderInterface
     protected function requestPackageVersionConstraint(Template\TemplateSource $templateSource): void
     {
         $inputReader = $this->messenger->createInputReader();
+        $repository = $templateSource->getPackage()->getRepository() ?? $this->createRepository();
 
         $constraint = $inputReader->staticValue(
             'Enter the version constraint to require (or leave blank to use the latest version)',
@@ -155,7 +156,7 @@ abstract class BaseComposerProvider implements ProviderInterface
             $constraint = '*';
         }
 
-        $package = $this->createRepository()->findPackage($templateSource->getPackage()->getName(), $constraint);
+        $package = $repository->findPackage($templateSource->getPackage()->getName(), $constraint);
 
         if ($package instanceof Package\BasePackage) {
             $templateSource->setPackage($package);

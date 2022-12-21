@@ -10,6 +10,7 @@ services:
       - '../src/Builder/Config/*'
       - '../src/Builder/BuildInstructions.php'
       - '../src/Builder/BuildResult.php'
+      - '../src/Console/*'
       - '../src/DependencyInjection/*'
       - '../src/Event/*'
       - '../src/Naming/NameVariantBuilder.php'
