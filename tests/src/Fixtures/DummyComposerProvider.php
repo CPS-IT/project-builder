@@ -64,13 +64,8 @@ final class DummyComposerProvider extends Template\Provider\BaseProvider
         return $this->url;
     }
 
-    protected function getSupportedType(): string
+    protected function getType(): string
     {
         return 'composer';
-    }
-
-    protected function getSupportedRepositoryClass(): string
-    {
-        return Repository\ComposerRepository::class;
     }
 }

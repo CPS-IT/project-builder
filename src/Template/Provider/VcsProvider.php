@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Template\Provider;
 
-use Composer\Repository;
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\IO;
 
@@ -85,13 +84,8 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
         return parent::createComposerJson($templateSources, $repositories);
     }
 
-    protected function getSupportedType(): string
+    protected function getType(): string
     {
         return 'vcs';
-    }
-
-    protected function getSupportedRepositoryClass(): string
-    {
-        return Repository\VcsRepository::class;
     }
 }

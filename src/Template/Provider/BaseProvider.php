@@ -195,7 +195,7 @@ abstract class BaseProvider implements ProviderInterface
     {
         $repositories = [
             [
-                'type' => $this->getSupportedType(),
+                'type' => $this->getType(),
                 'url' => $this->getUrl(),
             ],
             ...$repositories,
@@ -225,24 +225,21 @@ abstract class BaseProvider implements ProviderInterface
             ],
         ]);
 
-        $repositoryManager = new Repository\RepositoryManager($this->io, $config, Factory::createHttpDownloader($this->io, $config));
-        $repositoryManager->setRepositoryClass(
-            $this->getSupportedType(),
-            $this->getSupportedRepositoryClass(),
+        return Repository\RepositoryFactory::createRepo(
+            $this->io,
+            $config,
+            [
+                'type' => $this->getType(),
+                'url' => $this->getUrl(),
+            ],
+            Repository\RepositoryFactory::manager($this->io, $config, Factory::createHttpDownloader($this->io, $config)),
         );
-
-        $repoConfig = [
-            'type' => $this->getSupportedType(),
-            'url' => $this->getUrl(),
-        ];
-
-        return Repository\RepositoryFactory::createRepo($this->io, $config, $repoConfig, $repositoryManager);
     }
 
-    abstract protected function getSupportedType(): string;
-
     /**
-     * @return class-string<Repository\RepositoryInterface>
+     * Get supported Composer repository type for the configured URL.
+     *
+     * @see https://getcomposer.org/doc/05-repositories.md#types
      */
-    abstract protected function getSupportedRepositoryClass(): string;
+    abstract protected function getType(): string;
 }

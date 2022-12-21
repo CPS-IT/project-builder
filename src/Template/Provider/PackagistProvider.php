@@ -23,8 +23,6 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Template\Provider;
 
-use Composer\Repository;
-
 /**
  * PackagistProvider.
  *
@@ -43,13 +41,8 @@ final class PackagistProvider extends BaseProvider
         return 'https://packagist.org';
     }
 
-    protected function getSupportedType(): string
+    protected function getType(): string
     {
         return 'composer';
-    }
-
-    protected function getSupportedRepositoryClass(): string
-    {
-        return Repository\ComposerRepository::class;
     }
 }

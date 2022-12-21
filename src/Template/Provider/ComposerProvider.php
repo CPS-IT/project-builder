@@ -25,7 +25,6 @@ namespace CPSIT\ProjectBuilder\Template\Provider;
 
 use Composer\Factory;
 use Composer\IO as ComposerIO;
-use Composer\Repository;
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\IO;
 use Symfony\Component\Console;
@@ -89,13 +88,8 @@ final class ComposerProvider extends BaseProvider implements CustomProviderInter
         $this->url = $url;
     }
 
-    protected function getSupportedType(): string
+    protected function getType(): string
     {
         return 'composer';
-    }
-
-    protected function getSupportedRepositoryClass(): string
-    {
-        return Repository\ComposerRepository::class;
     }
 }
