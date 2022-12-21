@@ -52,7 +52,7 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
 
         $this->url = $inputReader->staticValue('Repository URL', required: true);
 
-        while ($inputReader->ask('Are additional repositories required?', default: false)) {
+        while ($inputReader->ask('Does the repository require additional transitive repositories?', default: false)) {
             $this->repositories[] = [
                 'type' => $inputReader->staticValue('Type', 'vcs', true),
                 'url' => $inputReader->staticValue('URL', required: true),
