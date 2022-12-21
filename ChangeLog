@@ -1,3 +1,10 @@
+2022-12-21         [RELEASE] Release of project-builder 1.2.0 (Elias Häußler)
+2022-12-21 7c7431e [BUGFIX] Use Dependabot's automatic versioning strategy (Elias Häußler)
+2022-12-19 c5cf7df [BUGFIX] Streamline usage of project root paths (Elias Häußler)
+2022-12-19 caffb73 [FEATURE] Allow specifying template package version constraint (Elias Häußler)
+2022-12-19 c68cf88 [BUGFIX] Isolate global IO state from other test cases (Elias Häußler)
+2022-12-09 79908cc [BUGFIX] Exit early if current environment is unsupported (Elias Häußler)
+
 2022-12-16         [RELEASE] Release of project-builder 1.1.0 (Elias Häußler)
 2022-12-07 a4aabed [FEATURE] Introduce target file support for processed source files (Elias Häußler)
 2022-12-08 777e859 [BUGFIX] Use codecov token in CI (Elias Häußler)
