@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Builder\Config;
 
 use CPSIT\ProjectBuilder\Exception;
+use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\Paths;
 use CPSIT\ProjectBuilder\Resource;
 use Symfony\Component\Filesystem;
@@ -64,7 +65,7 @@ final class ConfigReader
 
     public static function create(string $templateDirectory = null): self
     {
-        $templateDirectory ??= Filesystem\Path::join(dirname(__DIR__, 3), Paths::PROJECT_TEMPLATES);
+        $templateDirectory ??= Filesystem\Path::join(Helper\FilesystemHelper::getProjectRootPath(), Paths::PROJECT_TEMPLATES);
 
         return new self(ConfigFactory::create(), $templateDirectory);
     }

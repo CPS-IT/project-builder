@@ -21,38 +21,26 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Template;
+namespace CPSIT\ProjectBuilder\Tests;
 
-use Composer\Package;
+use Composer\IO;
+
+use function fflush;
+use function fseek;
 
 /**
- * TemplateSource.
+ * ClearableBufferIO.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
+ *
+ * @internal
  */
-final class TemplateSource
+final class ClearableBufferIO extends IO\BufferIO
 {
-    public function __construct(
-        private Provider\ProviderInterface $provider,
-        private Package\PackageInterface $package,
-    ) {
-    }
-
-    public function getProvider(): Provider\ProviderInterface
+    public function clear(): void
     {
-        return $this->provider;
-    }
-
-    public function getPackage(): Package\PackageInterface
-    {
-        return $this->package;
-    }
-
-    public function setPackage(Package\PackageInterface $package): self
-    {
-        $this->package = $package;
-
-        return $this;
+        fseek($this->output->getStream(), 0);
+        fflush($this->output->getStream());
     }
 }

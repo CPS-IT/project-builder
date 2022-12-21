@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder;
 
 use Composer\Factory;
+use Composer\InstalledVersions;
 use Composer\Script;
 use Composer\XdebugHandler;
 use Symfony\Component\Console;
@@ -81,6 +82,12 @@ final class Bootstrap
         bool $exitOnFailure = true,
     ): int {
         $messenger = IO\Messenger::create($event->getIO());
+
+        // Early return if current environment is unsupported
+        if (self::runsOnAnUnsupportedEnvironment()) {
+            throw Exception\UnsupportedEnvironmentException::forOutdatedComposerInstallation();
+        }
+
         $exitCode = self::create($messenger, $targetDirectory)->run();
 
         $event->stopPropagation();
@@ -90,6 +97,12 @@ final class Bootstrap
         }
 
         return $exitCode;
+    }
+
+    private static function runsOnAnUnsupportedEnvironment(): bool
+    {
+        /* @phpstan-ignore-next-line */
+        return !method_exists(InstalledVersions::class, 'getInstallPath');
     }
 
     /**

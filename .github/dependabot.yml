@@ -23,4 +23,3 @@ updates:
     labels:
       - dependencies
     open-pull-requests-limit: 10
-    versioning-strategy: widen

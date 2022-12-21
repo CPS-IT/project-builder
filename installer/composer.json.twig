@@ -7,7 +7,7 @@
 		"composer/installers": "^2.0",
 		"oomphinc/composer-installers-extender": "^2.0",
 {% for templateSource in templateSources %}
-		"{{ templateSource.package.name }}": "*"
+		"{{ templateSource.package.name }}": "{{ templateSource.package.prettyVersion }}"
 {% endfor %}
 	},
 	"repositories": [

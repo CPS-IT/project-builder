@@ -92,7 +92,7 @@ abstract class ContainerAwareTestCase extends TestCase
 
     protected static function createIO(): IO\BufferIO
     {
-        return new IO\BufferIO();
+        return new ClearableBufferIO();
     }
 
     protected static function createClient(): Client\ClientInterface
@@ -120,5 +120,12 @@ abstract class ContainerAwareTestCase extends TestCase
     protected static function createErroneousResponse(int $statusCode = 500): Message\ResponseInterface
     {
         return self::$factory->createResponse($statusCode, null, [], 'Something went wrong.');
+    }
+
+    protected function tearDown(): void
+    {
+        if (self::$io instanceof ClearableBufferIO) {
+            self::$io->clear();
+        }
     }
 }

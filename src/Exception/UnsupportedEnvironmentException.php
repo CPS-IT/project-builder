@@ -21,38 +21,25 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Template;
-
-use Composer\Package;
+namespace CPSIT\ProjectBuilder\Exception;
 
 /**
- * TemplateSource.
+ * UnsupportedEnvironmentException.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class TemplateSource
+final class UnsupportedEnvironmentException extends Exception
 {
-    public function __construct(
-        private Provider\ProviderInterface $provider,
-        private Package\PackageInterface $package,
-    ) {
-    }
-
-    public function getProvider(): Provider\ProviderInterface
+    public static function forOutdatedComposerInstallation(): self
     {
-        return $this->provider;
-    }
-
-    public function getPackage(): Package\PackageInterface
-    {
-        return $this->package;
-    }
-
-    public function setPackage(Package\PackageInterface $package): self
-    {
-        $this->package = $package;
-
-        return $this;
+        return new self(
+            implode(PHP_EOL, [
+                'Your global Composer installation is not up to date.',
+                'Make sure that you have at least Composer 2.1 installed.',
+                'Run `composer global update --lock` and then restart project creation.',
+            ]),
+            1670607990,
+        );
     }
 }
