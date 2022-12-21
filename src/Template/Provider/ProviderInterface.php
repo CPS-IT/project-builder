@@ -33,7 +33,7 @@ use CPSIT\ProjectBuilder\Template;
  */
 interface ProviderInterface
 {
-    public function getName(): string;
+    public static function getName(): string;
 
     public function getUrl(): string;
 

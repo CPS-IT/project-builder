@@ -76,6 +76,6 @@ final class InvalidTemplateSourceException extends Exception
             return $provider->getUrl();
         }
 
-        return $provider->getName();
+        return $provider::getName();
     }
 }

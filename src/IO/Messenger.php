@@ -108,7 +108,7 @@ final class Messenger
     public function selectProvider(array $providers): Template\Provider\ProviderInterface
     {
         $labels = array_map(
-            fn (Template\Provider\ProviderInterface $provider) => $provider->getName(),
+            fn (Template\Provider\ProviderInterface $provider) => $provider::getName(),
             array_values($providers),
         );
         $defaultIdentifier = array_key_first($providers);

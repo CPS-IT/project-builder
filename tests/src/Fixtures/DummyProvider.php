@@ -43,7 +43,7 @@ final class DummyProvider implements Template\Provider\ProviderInterface
 
     public ?string $installationPath = null;
 
-    public function getName(): string
+    public static function getName(): string
     {
         return 'dummy';
     }
