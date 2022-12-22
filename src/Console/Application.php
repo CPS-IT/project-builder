@@ -34,6 +34,8 @@ use CPSIT\ProjectBuilder\Template;
 use Symfony\Component\Filesystem;
 use Throwable;
 
+use function reset;
+
 /**
  * Application.
  *
@@ -89,7 +91,8 @@ final class Application
 
         try {
             // Select template source
-            $templateSource = $this->selectTemplateSource();
+            $defaultTemplateProvider = reset($this->templateProviders);
+            $templateSource = $this->selectTemplateSource($defaultTemplateProvider);
             $templateSource->getProvider()->installTemplateSource($templateSource);
             $templateIdentifier = $templateSource->getPackage()->getName();
 
@@ -130,10 +133,11 @@ final class Application
     /**
      * @throws Exception\InvalidTemplateSourceException
      */
-    private function selectTemplateSource(): Template\TemplateSource
-    {
+    private function selectTemplateSource(
+        Template\Provider\ProviderInterface $templateProvider = null,
+    ): Template\TemplateSource {
         try {
-            $templateProvider = $this->messenger->selectProvider($this->templateProviders);
+            $templateProvider ??= $this->messenger->selectProvider($this->templateProviders);
             $templateSource = $this->messenger->selectTemplateSource($templateProvider);
         } catch (Exception\InvalidTemplateSourceException $exception) {
             $retry = $this->messenger->confirmTemplateSourceRetry($exception);
@@ -145,6 +149,10 @@ final class Application
             }
 
             throw $exception;
+        }
+
+        if (null === $templateSource) {
+            return $this->selectTemplateSource();
         }
 
         return $templateSource;

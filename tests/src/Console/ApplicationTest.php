@@ -41,21 +41,23 @@ use function substr_count;
 final class ApplicationTest extends Tests\ContainerAwareTestCase
 {
     private string $targetDirectory;
+    private Src\IO\Messenger $messenger;
     private Filesystem\Filesystem $filesystem;
     private Src\Tests\Fixtures\DummyProvider $templateProvider;
+    private Src\Builder\Config\ConfigReader $configReader;
     private Src\Console\Application $subject;
 
     protected function setUp(): void
     {
-        $messenger = self::$container->get('app.messenger');
-
         $this->targetDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
+        $this->messenger = self::$container->get('app.messenger');
         $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
         $this->templateProvider = new Src\Tests\Fixtures\DummyProvider();
+        $this->configReader = Src\Builder\Config\ConfigReader::create(dirname(__DIR__).'/Fixtures/Templates');
         $this->subject = new Src\Console\Application(
-            $messenger,
-            Src\Builder\Config\ConfigReader::create(dirname(__DIR__).'/Fixtures/Templates'),
-            new Src\Error\ErrorHandler($messenger),
+            $this->messenger,
+            $this->configReader,
+            new Src\Error\ErrorHandler($this->messenger),
             $this->filesystem,
             $this->targetDirectory,
             [$this->templateProvider],
@@ -89,7 +91,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
 
         self::assertDirectoryDoesNotExist($temporaryDirectory);
 
-        self::$io->setUserInputs(['', 'no']);
+        self::$io->setUserInputs(['no']);
 
         $this->subject->run();
 
@@ -101,7 +103,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
      */
     public function runShowsWelcomeScreen(): void
     {
-        self::$io->setUserInputs(['', 'no']);
+        self::$io->setUserInputs(['no']);
 
         $this->subject->run();
 
@@ -115,16 +117,33 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
      */
     public function runAllowsSelectingADifferentTemplateProviderIfTheSelectedProviderProvidesNoTemplates(): void
     {
-        self::$io->setUserInputs(['', 'yes', '', 'no']);
+        self::$io->setUserInputs(['yes', '', 'no']);
 
         $this->subject->run();
 
         $output = self::$io->getOutput();
 
-        self::assertStringContainsStringMultipleTimes(
-            'Which platform hosts the project template you want to create?',
-            $output,
-        );
+        self::assertStringContainsStringMultipleTimes('Fetching templates from https://www.example.com ...', $output);
+        self::assertStringContainsString('Which platform hosts the project template you want to create?', $output);
+    }
+
+    /**
+     * @test
+     */
+    public function runAllowsSelectingADifferentTemplateProviderIfTheSelectedProviderShouldBeChanged(): void
+    {
+        $this->templateProvider->templateSources = [
+            $this->createTemplateSource(),
+        ];
+
+        self::$io->setUserInputs(['1', '']);
+
+        $this->subject->run();
+
+        $output = self::$io->getOutput();
+
+        self::assertStringContainsStringMultipleTimes('Fetching templates from https://www.example.com ...', $output);
+        self::assertStringContainsStringMultipleTimes('Try another template provider.', $output);
     }
 
     /**
@@ -178,6 +197,29 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
             'Congratulations, your new project was successfully built!',
             self::$io->getOutput(),
         );
+    }
+
+    /**
+     * @test
+     */
+    public function runUsesDefaultTemplateProvidersIfNoProvidersAreConfigured(): void
+    {
+        $subject = new Src\Console\Application(
+            $this->messenger,
+            $this->configReader,
+            new Src\Error\ErrorHandler($this->messenger),
+            $this->filesystem,
+            $this->targetDirectory,
+        );
+
+        self::$io->setUserInputs(['Try another template provider.']);
+
+        $subject->run();
+
+        $output = self::$io->getOutput();
+
+        self::assertStringContainsString(Src\Template\Provider\PackagistProvider::getName(), $output);
+        self::assertStringContainsString(Src\Template\Provider\CustomComposerProvider::getName(), $output);
     }
 
     private function createTemplateSource(): Src\Template\TemplateSource
