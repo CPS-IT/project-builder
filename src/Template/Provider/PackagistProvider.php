@@ -31,7 +31,7 @@ namespace CPSIT\ProjectBuilder\Template\Provider;
  */
 final class PackagistProvider extends BaseComposerProvider
 {
-    public function getName(): string
+    public static function getName(): string
     {
         return 'Packagist.org';
     }

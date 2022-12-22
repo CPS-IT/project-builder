@@ -43,4 +43,15 @@ final class ClearableBufferIO extends IO\BufferIO
         fseek($this->output->getStream(), 0);
         fflush($this->output->getStream());
     }
+
+    public function makeInteractive(bool $interactive = true): self
+    {
+        if (null === $this->input->getStream()) {
+            $this->setUserInputs([]);
+        }
+
+        $this->input->setInteractive($interactive);
+
+        return $this;
+    }
 }

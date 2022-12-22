@@ -54,7 +54,7 @@ final class DummyComposerProvider extends Template\Provider\BaseComposerProvider
         return parent::createRepository();
     }
 
-    public function getName(): string
+    public static function getName(): string
     {
         return 'dummy';
     }
