@@ -129,6 +129,27 @@ final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
     /**
      * @test
      */
+    public function installTemplateSourceFailsIfGivenConstraintIsInvalid(): void
+    {
+        $package = $this->createPackageFromTemplateFixture();
+        $templateSource = new Template\TemplateSource($this->subject, $package);
+
+        $this->subject->packages = [$package];
+
+        $this->mockPackagesServerResponse([$package]);
+
+        self::$io->setUserInputs(['^2.0', 'no']);
+
+        $this->expectExceptionObject(
+            Exception\InvalidTemplateSourceException::forInvalidPackageVersionConstraint($templateSource, '^2.0'),
+        );
+
+        $this->subject->installTemplateSource($templateSource);
+    }
+
+    /**
+     * @test
+     */
     public function installTemplateSourceAllowsSpecifyingOtherConstraintIfInstallationFailsWithGivenConstraint(): void
     {
         $package = $this->createPackageFromTemplateFixture();
