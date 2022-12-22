@@ -54,7 +54,6 @@ abstract class BaseProvider implements ProviderInterface
     protected Resource\Local\Composer $composer;
     protected Environment $renderer;
     protected ComposerIO\IOInterface $io;
-    protected ?Repository\RepositoryInterface $repository = null;
     protected bool $acceptInsecureConnections = false;
 
     public function __construct(
@@ -77,19 +76,17 @@ abstract class BaseProvider implements ProviderInterface
     {
         $templateSources = [];
 
-        if (null === $this->repository) {
-            $this->repository = $this->createRepository();
-        }
+        $repository = $this->createRepository();
 
         $constraint = new Semver\Constraint\MatchAllConstraint();
-        $searchResult = $this->repository->search(
+        $searchResult = $repository->search(
             '',
             Repository\RepositoryInterface::SEARCH_FULLTEXT,
             self::PACKAGE_TYPE,
         );
 
         foreach ($searchResult as ['name' => $packageName]) {
-            $package = $this->repository->findPackage($packageName, $constraint);
+            $package = $repository->findPackage($packageName, $constraint);
 
             if (null !== $package && self::PACKAGE_TYPE === $package->getType()) {
                 $templateSources[] = $this->createTemplateSource($package);
@@ -120,7 +117,12 @@ abstract class BaseProvider implements ProviderInterface
         $output = new Console\Output\BufferedOutput();
 
         $this->messenger->progress(
-            sprintf('Installing project template (<info>%s</info>)...', $templateSource->getPackage()->getPrettyVersion()),
+            sprintf(
+                'Installing project template%s...',
+                $templateSource->shouldUseDynamicVersionConstraint()
+                    ? ''
+                    : sprintf(' (<info>%s</info>)', $templateSource->getPackage()->getPrettyVersion()),
+            ),
             ComposerIO\IOInterface::NORMAL,
         );
 
@@ -148,10 +150,7 @@ abstract class BaseProvider implements ProviderInterface
     protected function requestPackageVersionConstraint(Template\TemplateSource $templateSource): void
     {
         $inputReader = $this->messenger->createInputReader();
-
-        if (null === $this->repository) {
-            $this->repository = $this->createRepository();
-        }
+        $repository = $templateSource->getPackage()->getRepository() ?? $this->createRepository();
 
         $constraint = $inputReader->staticValue(
             'Enter the version constraint to require (or leave blank to use the latest version)',
@@ -160,10 +159,12 @@ abstract class BaseProvider implements ProviderInterface
         $this->messenger->newLine();
 
         if (null === $constraint) {
-            $constraint = '*';
+            $templateSource->useDynamicVersionConstraint();
+
+            return;
         }
 
-        $package = $this->repository->findPackage($templateSource->getPackage()->getName(), $constraint);
+        $package = $repository->findPackage($templateSource->getPackage()->getName(), $constraint);
 
         if ($package instanceof Package\BasePackage) {
             $templateSource->setPackage($package);

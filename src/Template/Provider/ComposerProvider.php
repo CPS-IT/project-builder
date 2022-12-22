@@ -55,7 +55,7 @@ final class ComposerProvider extends BaseProvider implements CustomProviderInter
         );
     }
 
-    public function getName(): string
+    public static function getName(): string
     {
         return 'Custom Composer registry';
     }

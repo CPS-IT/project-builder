@@ -108,7 +108,7 @@ final class Messenger
     public function selectProvider(array $providers): Template\Provider\ProviderInterface
     {
         $labels = array_map(
-            fn (Template\Provider\ProviderInterface $provider) => $provider->getName(),
+            fn (Template\Provider\ProviderInterface $provider) => $provider::getName(),
             array_values($providers),
         );
         $defaultIdentifier = array_key_first($providers);
@@ -137,9 +137,12 @@ final class Messenger
     /**
      * @throws Exception\InvalidTemplateSourceException
      */
-    public function selectTemplateSource(Template\Provider\ProviderInterface $provider): Template\TemplateSource
+    public function selectTemplateSource(Template\Provider\ProviderInterface $provider): ?Template\TemplateSource
     {
-        $this->progress('Fetching project templates...', IO\IOInterface::NORMAL);
+        $this->progress(
+            sprintf('Fetching templates from <href=%s>%s</> ...', $provider->getUrl(), $provider->getUrl()),
+            IO\IOInterface::NORMAL,
+        );
 
         $templateSources = $provider->listTemplateSources();
 
@@ -151,6 +154,8 @@ final class Messenger
         }
 
         $labels = array_map([$this, 'decorateTemplateSource'], $templateSources);
+        $labels[] = 'Try another template provider.';
+
         $defaultIdentifier = array_key_first($templateSources);
 
         $index = $this->getIO()->select(
@@ -158,6 +163,11 @@ final class Messenger
             $labels,
             (string) $defaultIdentifier,
         );
+
+        // Early return if another provider should be used
+        if (array_key_last($labels) === (int) $index) {
+            return null;
+        }
 
         $this->newLine();
 

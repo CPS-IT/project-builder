@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Tests\Fixtures;
 
+use Composer\Json;
 use CPSIT\ProjectBuilder\Template;
 
 /**
@@ -40,7 +41,9 @@ final class DummyProvider implements Template\Provider\ProviderInterface
      */
     public array $templateSources = [];
 
-    public function getName(): string
+    public ?string $installationPath = null;
+
+    public static function getName(): string
     {
         return 'dummy';
     }
@@ -57,6 +60,27 @@ final class DummyProvider implements Template\Provider\ProviderInterface
 
     public function installTemplateSource(Template\TemplateSource $templateSource): void
     {
-        // Intentionally left blank.
+        // Early return if installation should not be processed
+        if (null === $this->installationPath) {
+            return;
+        }
+
+        $package = $templateSource->getPackage();
+        $jsonFile = new Json\JsonFile($this->installationPath.'/composer.json');
+        $json = [
+            'require' => [
+                $package->getName() => '*',
+            ],
+            'repositories' => [
+                [
+                    'type' => 'path',
+                    'url' => $package->getSourceUrl(),
+                    'options' => [
+                        'symlink' => false,
+                    ],
+                ],
+            ],
+        ];
+        $jsonFile->write($json);
     }
 }
