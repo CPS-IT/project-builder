@@ -33,6 +33,8 @@ use Composer\Package;
  */
 final class TemplateSource
 {
+    private bool $dynamicVersionConstraint = false;
+
     public function __construct(
         private Provider\ProviderInterface $provider,
         private Package\PackageInterface $package,
@@ -52,6 +54,18 @@ final class TemplateSource
     public function setPackage(Package\PackageInterface $package): self
     {
         $this->package = $package;
+
+        return $this;
+    }
+
+    public function shouldUseDynamicVersionConstraint(): bool
+    {
+        return $this->dynamicVersionConstraint;
+    }
+
+    public function useDynamicVersionConstraint(bool $dynamicVersionConstraint = true): self
+    {
+        $this->dynamicVersionConstraint = $dynamicVersionConstraint;
 
         return $this;
     }

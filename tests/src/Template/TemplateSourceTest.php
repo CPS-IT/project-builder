@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Template;
 use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use Generator;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -61,5 +62,46 @@ final class TemplateSourceTest extends TestCase
     public function getPackageReturnsPackage(): void
     {
         self::assertSame($this->package, $this->subject->getPackage());
+    }
+
+    /**
+     * @test
+     */
+    public function setPackageAppliesGivenPackage(): void
+    {
+        $newPackage = clone $this->package;
+
+        self::assertSame($newPackage, $this->subject->setPackage($newPackage)->getPackage());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUseDynamicVersionConstraintReturnsFalseInitially(): void
+    {
+        self::assertFalse($this->subject->shouldUseDynamicVersionConstraint());
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider useDynamicVersionConstraintDefinesWhetherToUseDynamicVersionConstraintDataProvider
+     */
+    public function useDynamicVersionConstraintDefinesWhetherToUseDynamicVersionConstraint(
+        bool $useDynamicVersionConstraint,
+        bool $expected,
+    ): void {
+        $this->subject->useDynamicVersionConstraint($useDynamicVersionConstraint);
+
+        self::assertSame($expected, $this->subject->shouldUseDynamicVersionConstraint());
+    }
+
+    /**
+     * @return Generator<string, array{bool, bool}>
+     */
+    public function useDynamicVersionConstraintDefinesWhetherToUseDynamicVersionConstraintDataProvider(): Generator
+    {
+        yield 'true' => [true, true];
+        yield 'false' => [false, false];
     }
 }
