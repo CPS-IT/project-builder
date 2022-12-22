@@ -119,9 +119,9 @@ final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
         $package = $this->createPackage('foo/baz');
         $templateSource = new Template\TemplateSource($this->subject, $package);
 
-        self::$io->setUserInputs(['', 'no']);
+        self::$io->setUserInputs(['']);
 
-        $this->expectExceptionObject(Exception\InvalidTemplateSourceException::forInvalidPackageVersionConstraint($templateSource, '*'));
+        $this->expectExceptionObject(Exception\InvalidTemplateSourceException::forFailedInstallation($templateSource));
 
         $this->subject->installTemplateSource($templateSource);
     }
@@ -140,11 +140,14 @@ final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
 
         self::$io->setUserInputs(['^2.0', 'yes', '']);
 
+        self::assertFalse($templateSource->shouldUseDynamicVersionConstraint());
+
         $this->subject->installTemplateSource($templateSource);
 
         $output = self::$io->getOutput();
 
-        self::assertStringContainsString('Installing template source (1.0.0)... Done', $output);
+        self::assertStringContainsString('Installing template source... Done', $output);
+        self::assertTrue($templateSource->shouldUseDynamicVersionConstraint());
     }
 
     /**
@@ -169,12 +172,7 @@ final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
 
         $this->subject->installTemplateSource($templateSource);
 
-        $output = self::$io->getOutput();
-
-        self::assertStringContainsString(
-            sprintf('Installing template source (%s)... Done', $expected),
-            $output,
-        );
+        self::assertStringContainsString($expected, self::$io->getOutput());
     }
 
     /**
@@ -226,13 +224,13 @@ final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
         yield 'no constraint' => [
             [$this->createPackageFromTemplateFixture()],
             '',
-            '1.0.0',
+            'Installing template source... Done',
         ];
 
         yield 'constraint with one package' => [
             [$this->createPackageFromTemplateFixture(prettyVersion: '1.1.0')],
             '^1.0',
-            '1.1.0',
+            'Installing template source (1.1.0)... Done',
         ];
 
         yield 'constraint with multiple packages' => [
@@ -244,7 +242,7 @@ final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
                 $this->createPackageFromTemplateFixture(),
             ],
             '~1.1.0',
-            '1.1.23',
+            'Installing template source (1.1.23)... Done',
         ];
     }
 

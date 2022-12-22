@@ -116,7 +116,12 @@ abstract class BaseComposerProvider implements ProviderInterface
         $output = new Console\Output\BufferedOutput();
 
         $this->messenger->progress(
-            sprintf('Installing template source (<info>%s</info>)...', $templateSource->getPackage()->getPrettyVersion()),
+            sprintf(
+                'Installing template source%s...',
+                $templateSource->shouldUseDynamicVersionConstraint()
+                    ? ''
+                    : sprintf(' (<info>%s</info>)', $templateSource->getPackage()->getPrettyVersion()),
+            ),
             ComposerIO\IOInterface::NORMAL,
         );
 
@@ -153,7 +158,9 @@ abstract class BaseComposerProvider implements ProviderInterface
         $this->messenger->newLine();
 
         if (null === $constraint) {
-            $constraint = '*';
+            $templateSource->useDynamicVersionConstraint();
+
+            return;
         }
 
         $package = $repository->findPackage($templateSource->getPackage()->getName(), $constraint);
