@@ -1,6 +1,6 @@
 <div align="center">
 
-![Logo](docs/assets/header.png)
+![Logo](docs/assets/header.svg)
 
 # CPS Project Builder
 
