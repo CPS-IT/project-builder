@@ -124,7 +124,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         $output = self::$io->getOutput();
 
         self::assertStringContainsStringMultipleTimes('Fetching templates from https://www.example.com ...', $output);
-        self::assertStringContainsString('Which platform hosts the project template you want to create?', $output);
+        self::assertStringContainsString('Where can we find the project template?', $output);
     }
 
     /**
@@ -219,7 +219,8 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         $output = self::$io->getOutput();
 
         self::assertStringContainsString(Src\Template\Provider\PackagistProvider::getName(), $output);
-        self::assertStringContainsString(Src\Template\Provider\CustomComposerProvider::getName(), $output);
+        self::assertStringContainsString(Src\Template\Provider\ComposerProvider::getName(), $output);
+        self::assertStringContainsString(Src\Template\Provider\VcsProvider::getName(), $output);
     }
 
     private function createTemplateSource(): Src\Template\TemplateSource

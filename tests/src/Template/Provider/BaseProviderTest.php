@@ -43,12 +43,12 @@ use function reset;
 use function sprintf;
 
 /**
- * BaseComposerProviderTest.
+ * BaseProviderTest.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
+final class BaseProviderTest extends Tests\ContainerAwareTestCase
 {
     private Tests\Fixtures\DummyComposerProvider $subject;
     private MockWebServer\MockWebServer $server;
@@ -167,7 +167,7 @@ final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
 
         $output = self::$io->getOutput();
 
-        self::assertStringContainsString('Installing template source... Done', $output);
+        self::assertStringContainsString('Installing project template... Done', $output);
         self::assertTrue($templateSource->shouldUseDynamicVersionConstraint());
     }
 
@@ -245,13 +245,13 @@ final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
         yield 'no constraint' => [
             [$this->createPackageFromTemplateFixture()],
             '',
-            'Installing template source... Done',
+            'Installing project template... Done',
         ];
 
         yield 'constraint with one package' => [
             [$this->createPackageFromTemplateFixture(prettyVersion: '1.1.0')],
             '^1.0',
-            'Installing template source (1.1.0)... Done',
+            'Installing project template (1.1.0)... Done',
         ];
 
         yield 'constraint with multiple packages' => [
@@ -263,7 +263,7 @@ final class BaseComposerProviderTest extends Tests\ContainerAwareTestCase
                 $this->createPackageFromTemplateFixture(),
             ],
             '~1.1.0',
-            'Installing template source (1.1.23)... Done',
+            'Installing project template (1.1.23)... Done',
         ];
     }
 

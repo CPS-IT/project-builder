@@ -31,12 +31,12 @@ use Symfony\Component\Console;
 use Symfony\Component\Filesystem;
 
 /**
- * CustomProvider.
+ * ComposerProvider.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class CustomComposerProvider extends BaseComposerProvider implements CustomProviderInterface
+final class ComposerProvider extends BaseProvider implements CustomProviderInterface
 {
     private ?string $url = null;
 
@@ -66,9 +66,8 @@ final class CustomComposerProvider extends BaseComposerProvider implements Custo
 
         $this->url = $inputReader->staticValue(
             'Base URL',
-            null,
-            true,
-            new IO\Validator\ChainedValidator([
+            required: true,
+            validator: new IO\Validator\ChainedValidator([
                 new IO\Validator\NotEmptyValidator(),
                 new IO\Validator\UrlValidator(),
             ]),
@@ -87,5 +86,10 @@ final class CustomComposerProvider extends BaseComposerProvider implements Custo
     public function setUrl(string $url): void
     {
         $this->url = $url;
+    }
+
+    protected function getType(): string
+    {
+        return 'composer';
     }
 }
