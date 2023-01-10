@@ -123,6 +123,6 @@ abstract class ContainerAwareTestCase extends TestCase
 
     protected function tearDown(): void
     {
-        self::$io->clear();
+        self::$io->reset();
     }
 }
