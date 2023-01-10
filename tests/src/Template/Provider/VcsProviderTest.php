@@ -34,6 +34,7 @@ use Symfony\Component\Filesystem;
 
 use function chdir;
 use function getcwd;
+use function putenv;
 
 /**
  * VcsProviderTest.
@@ -46,6 +47,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
 {
     private Filesystem\Filesystem $filesystem;
     private Src\Template\Provider\VcsProvider $subject;
+    private string $temporaryRootPath;
 
     protected function setUp(): void
     {
@@ -54,9 +56,12 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
             self::$container->get('app.messenger'),
             $this->filesystem,
         );
+        $this->temporaryRootPath = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
 
         $this->overwriteIO();
         $this->acceptInsecureConnections();
+
+        putenv('PROJECT_BUILDER_ROOT_PATH='.$this->temporaryRootPath);
     }
 
     /**
@@ -144,6 +149,39 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         self::assertCount(1, $actual);
         self::assertCount(1, $actual[0]->getPackage()->getRequires());
         self::assertArrayHasKey('test/repo-b', $actual[0]->getPackage()->getRequires());
+
+        $this->filesystem->remove($repoA);
+        $this->filesystem->remove($repoB);
+    }
+
+    /**
+     * @test
+     */
+    public function installTemplateSourceRespectsAllConfiguredRepositories(): void
+    {
+        $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);
+        $repoB = $this->initializeGitRepository('test/repo-b');
+
+        self::$io->setUserInputs([
+            $repoA,
+            'yes',
+            'vcs',
+            $repoB,
+            'no',
+            '',
+        ]);
+
+        $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
+
+        [$templateSource] = $this->subject->listTemplateSources();
+
+        self::assertDirectoryDoesNotExist($this->temporaryRootPath.'/.build/templates/repo-a');
+        self::assertDirectoryDoesNotExist($this->temporaryRootPath.'/.build/templates/repo-b');
+
+        $this->subject->installTemplateSource($templateSource);
+
+        self::assertDirectoryExists($this->temporaryRootPath.'/.build/templates/repo-a');
+        self::assertDirectoryExists($this->temporaryRootPath.'/.build/templates/repo-b');
 
         $this->filesystem->remove($repoA);
         $this->filesystem->remove($repoB);
@@ -273,5 +311,14 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         $code($directory);
 
         chdir($currentWorkingDirectory);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->filesystem->remove($this->temporaryRootPath);
+
+        putenv('PROJECT_BUILDER_ROOT_PATH');
     }
 }
