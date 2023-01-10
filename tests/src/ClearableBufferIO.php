@@ -25,8 +25,8 @@ namespace CPSIT\ProjectBuilder\Tests;
 
 use Composer\IO;
 
-use function fflush;
 use function fseek;
+use function ftruncate;
 
 /**
  * ClearableBufferIO.
@@ -40,8 +40,8 @@ final class ClearableBufferIO extends IO\BufferIO
 {
     public function clear(): void
     {
+        ftruncate($this->output->getStream(), 0);
         fseek($this->output->getStream(), 0);
-        fflush($this->output->getStream());
     }
 
     public function makeInteractive(bool $interactive = true): self
