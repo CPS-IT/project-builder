@@ -52,6 +52,10 @@ final class CollectBuildInstructionsStep extends AbstractStep
 
         foreach ($instructions->getConfig()->getProperties() as $property) {
             if (!$property->conditionMatches($this->expressionLanguage, $instructions->getTemplateVariables(), true)) {
+                // Apply NULL as value of property to avoid errors in conditions
+                // that reference this property in array-notation
+                $this->apply($property->getPath(), null, $buildResult);
+
                 continue;
             }
 
@@ -101,6 +105,10 @@ final class CollectBuildInstructionsStep extends AbstractStep
         $instructions = $buildResult->getInstructions();
 
         if (!$subProperty->conditionMatches($this->expressionLanguage, $instructions->getTemplateVariables(), true)) {
+            // Apply NULL as value of sub-property to avoid errors in conditions
+            // that reference this sub-property in array-notation
+            $this->apply($subProperty->getPath(), null, $buildResult);
+
             return;
         }
 
