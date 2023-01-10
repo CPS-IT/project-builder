@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests;
 
 use Composer\IO;
+use Symfony\Component\Console;
 
 use function fseek;
 use function ftruncate;
@@ -38,6 +39,36 @@ use function ftruncate;
  */
 final class ClearableBufferIO extends IO\BufferIO
 {
+    /**
+     * @var callable
+     */
+    private $restoreInitialState;
+
+    /**
+     * @param Console\Output\OutputInterface::VERBOSITY_* $verbosity
+     */
+    public function __construct(
+        string $input = '',
+        int $verbosity = Console\Output\OutputInterface::VERBOSITY_NORMAL,
+        ?Console\Formatter\OutputFormatterInterface $formatter = null,
+    ) {
+        parent::__construct($input, $verbosity, $formatter);
+
+        $this->restoreInitialState = function () use ($input, $verbosity, $formatter) {
+            $this->input = new Console\Input\StringInput($input);
+            $this->input->setInteractive(false);
+
+            $this->clear();
+            $this->output->setVerbosity($verbosity);
+            $this->output->setDecorated(null !== $formatter && $formatter->isDecorated());
+        };
+    }
+
+    public function reset(): void
+    {
+        ($this->restoreInitialState)();
+    }
+
     public function clear(): void
     {
         ftruncate($this->output->getStream(), 0);
@@ -51,6 +82,16 @@ final class ClearableBufferIO extends IO\BufferIO
         }
 
         $this->input->setInteractive($interactive);
+
+        return $this;
+    }
+
+    /**
+     * @param Console\Output\OutputInterface::VERBOSITY_* $level
+     */
+    public function setVerbosity(int $level): self
+    {
+        $this->output->setVerbosity($level);
 
         return $this;
     }
