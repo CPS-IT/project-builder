@@ -49,8 +49,6 @@ use function sprintf;
  */
 abstract class BaseProvider implements ProviderInterface
 {
-    protected const PACKAGE_TYPE = 'project-builder-template';
-
     protected Resource\Local\Composer $composer;
     protected Environment $renderer;
     protected ComposerIO\IOInterface $io;

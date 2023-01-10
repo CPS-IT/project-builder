@@ -33,6 +33,8 @@ use CPSIT\ProjectBuilder\Template;
  */
 interface ProviderInterface
 {
+    public const PACKAGE_TYPE = 'project-builder-template';
+
     public static function getName(): string;
 
     public function getUrl(): string;

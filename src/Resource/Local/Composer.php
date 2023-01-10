@@ -31,6 +31,7 @@ use Composer\IO;
 use Composer\Package;
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\Helper;
+use CPSIT\ProjectBuilder\Template;
 use Symfony\Component\Console as SymfonyConsole;
 use Symfony\Component\Filesystem;
 
@@ -102,7 +103,7 @@ final class Composer
 
         // Get all packages of type "project-builder-template"
         $repository = $composer->getRepositoryManager()->getLocalRepository();
-        $templatePackages = InstalledVersions::getInstalledPackagesByType('project-builder-template');
+        $templatePackages = InstalledVersions::getInstalledPackagesByType(Template\Provider\ProviderInterface::PACKAGE_TYPE);
         $packages = array_filter(
             $repository->getPackages(),
             fn (Package\BasePackage $package): bool => in_array($package->getName(), $templatePackages, true),
