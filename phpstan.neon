@@ -12,7 +12,3 @@ parameters:
         - tests/bootstrap.php
     symfony:
         containerXmlPath: var/cache/test-container.xml
-    type_coverage:
-        param_type: 99
-        property_type: 99
-        return_type: 99

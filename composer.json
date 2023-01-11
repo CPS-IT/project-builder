@@ -52,8 +52,7 @@
 		"phpstan/phpstan-webmozart-assert": "^1.2",
 		"phpunit/phpunit": "^9.5.5",
 		"rector/rector": "^0.14.8",
-		"seld/jsonlint": "^1.9",
-		"tomasvotruba/type-coverage": "^0.0.7"
+		"seld/jsonlint": "^1.9"
 	},
 	"autoload": {
 		"psr-4": {
