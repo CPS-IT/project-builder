@@ -98,7 +98,7 @@ final class Application
 
             // Create container
             $config = $this->configReader->readConfig($templateIdentifier);
-            $config->setSource($templateSource);
+            $config->setTemplateSource($templateSource);
             $container = $this->buildContainer($config);
 
             // Run project generation

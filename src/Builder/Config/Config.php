@@ -38,7 +38,7 @@ use function sha1;
 final class Config
 {
     private ?string $declaringFile = null;
-    private ?Template\TemplateSource $source = null;
+    private ?Template\TemplateSource $templateSource = null;
 
     /**
      * @param non-empty-list<ValueObject\Step> $steps
@@ -94,18 +94,18 @@ final class Config
         return $this;
     }
 
-    public function getSource(): Template\TemplateSource
+    public function getTemplateSource(): Template\TemplateSource
     {
-        if (null === $this->source) {
-            throw Exception\InvalidConfigurationException::forUnknownSource($this->identifier);
+        if (null === $this->templateSource) {
+            throw Exception\InvalidConfigurationException::forUnknownTemplateSource($this->identifier);
         }
 
-        return $this->source;
+        return $this->templateSource;
     }
 
-    public function setSource(Template\TemplateSource $source): self
+    public function setTemplateSource(Template\TemplateSource $templateSource): self
     {
-        $this->source = $source;
+        $this->templateSource = $templateSource;
 
         return $this;
     }

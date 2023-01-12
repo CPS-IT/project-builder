@@ -107,7 +107,7 @@ final class InvalidConfigurationException extends Exception
         );
     }
 
-    public static function forUnknownSource(string $identifier): self
+    public static function forUnknownTemplateSource(string $identifier): self
     {
         return new self(
             sprintf('The template source for "%s" could not be determined.', $identifier),

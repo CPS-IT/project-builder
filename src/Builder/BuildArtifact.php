@@ -86,8 +86,8 @@ final class BuildArtifact implements JsonSerializable
     private function buildTemplateArtifact(): array
     {
         $config = $this->buildResult->getInstructions()->getConfig();
-        $package = $config->getSource()->getPackage();
-        $provider = $config->getSource()->getProvider();
+        $package = $config->getTemplateSource()->getPackage();
+        $provider = $config->getTemplateSource()->getProvider();
 
         return [
             'identifier' => $config->getIdentifier(),
