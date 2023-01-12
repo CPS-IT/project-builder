@@ -100,6 +100,6 @@ final class GenerateBuildArtifactStep extends AbstractStep implements StoppableS
     {
         $artifactPath = $this->config->getOptions()->getArtifactPath() ?? self::DEFAULT_ARTIFACT_PATH;
 
-        return Helper\FilesystemHelper::createFileObject($buildResult->getInstructions()->getTargetDirectory(), $artifactPath);
+        return Helper\FilesystemHelper::createFileObject($buildResult->getWrittenDirectory(), $artifactPath);
     }
 }
