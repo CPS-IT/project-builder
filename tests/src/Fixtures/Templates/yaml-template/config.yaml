@@ -24,6 +24,9 @@ steps:
         - path: shared-dummy-4.yaml
           if: 'true'
           target: 'overrides/shared-dummy-4.yaml'
+  - type: generateBuildArtifact
+    options:
+      artifactPath: foo.json
   - type: mirrorProcessedFiles
 
 properties:

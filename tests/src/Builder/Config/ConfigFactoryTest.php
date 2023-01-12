@@ -94,6 +94,10 @@ final class ConfigFactoryTest extends TestCase
                         new Src\Builder\Config\ValueObject\FileCondition('shared-dummy-4.'.$type, 'true', 'overrides/shared-dummy-4.'.$type),
                     ]),
                 ),
+                new Src\Builder\Config\ValueObject\Step(
+                    'generateBuildArtifact',
+                    new Src\Builder\Config\ValueObject\StepOptions(artifactPath: 'foo.json'),
+                ),
                 new Src\Builder\Config\ValueObject\Step('mirrorProcessedFiles'),
             ],
             [

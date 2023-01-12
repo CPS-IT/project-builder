@@ -43,6 +43,7 @@ final class StepOptionsTest extends TestCase
                 new Src\Builder\Config\ValueObject\FileCondition('foo', 'bar'),
             ],
             'foo',
+            'artifact.json',
         );
     }
 
@@ -65,5 +66,13 @@ final class StepOptionsTest extends TestCase
     public function getTemplateFileReturnsTemplateFile(): void
     {
         self::assertSame('foo', $this->subject->getTemplateFile());
+    }
+
+    /**
+     * @test
+     */
+    public function getArtifactPathReturnsArtifactPath(): void
+    {
+        self::assertSame('artifact.json', $this->subject->getArtifactPath());
     }
 }
