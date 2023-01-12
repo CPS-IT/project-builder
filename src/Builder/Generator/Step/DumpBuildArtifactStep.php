@@ -72,6 +72,7 @@ final class DumpBuildArtifactStep extends AbstractStep
 
     public static function supports(string $type): bool
     {
-        return self::TYPE === $type;
+        // Always deny support to assure step is only used internally
+        return false;
     }
 }
