@@ -5,6 +5,7 @@ FROM php:8.1-alpine
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV PROJECT_BUILDER_EXECUTOR=docker
 
 ADD . /project-builder
 WORKDIR /project-builder

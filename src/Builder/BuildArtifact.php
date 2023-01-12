@@ -29,6 +29,7 @@ use JsonSerializable;
 use Symfony\Component\Finder;
 
 use function array_map;
+use function getenv;
 use function time;
 
 /**
@@ -43,7 +44,7 @@ use function time;
  * @phpstan-type TArtifact array{version: int, path: string, date: int}
  * @phpstan-type TPackageArtifact array{name: string, version: string, sourceReference: string|null, sourceUrl: string|null, distUrl: string|null}
  * @phpstan-type TTemplateArtifact array{identifier: string, hash: string, package: TPackageArtifact, provider: array{name: string, url: string}}
- * @phpstan-type TGeneratorArtifact array{package: TPackageArtifact}
+ * @phpstan-type TGeneratorArtifact array{package: TPackageArtifact, executor: string}
  * @phpstan-type TResultArtifact array{properties: array<string, mixed>, steps: list<array{type: string, applied: bool}>, processedFiles: list<array{source: string, target: string}>}
  */
 final class BuildArtifact implements JsonSerializable
@@ -106,6 +107,7 @@ final class BuildArtifact implements JsonSerializable
     {
         return [
             'package' => $this->decoratePackage($this->rootPackage),
+            'executor' => $this->determineExecutor(),
         ];
     }
 
@@ -145,6 +147,14 @@ final class BuildArtifact implements JsonSerializable
             'sourceUrl' => $package->getSourceUrl(),
             'distUrl' => $package->getDistUrl(),
         ];
+    }
+
+    private function determineExecutor(): string
+    {
+        return match (getenv('PROJECT_BUILDER_EXECUTOR')) {
+            'docker' => 'docker',
+            default => 'composer',
+        };
     }
 
     /**
