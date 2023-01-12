@@ -63,6 +63,12 @@ last HTML report like follows:
 open .build/coverage/html/index.html
 ```
 
+## Validate JSON schema
+
+```bash
+composer validate-schema
+```
+
 ## Simulate `composer create-project` behavior
 
 The `composer create-project` behavior can be simulated to test whether the
