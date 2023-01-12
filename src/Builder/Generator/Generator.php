@@ -53,6 +53,7 @@ final class Generator
         private Builder\Generator\Step\StepFactory $stepFactory,
         private Filesystem\Filesystem $filesystem,
         private EventDispatcher\EventDispatcherInterface $eventDispatcher,
+        private Builder\Writer\JsonFileWriter $writer,
     ) {
     }
 
@@ -104,8 +105,15 @@ final class Generator
 
     public function cleanUp(Builder\BuildResult $result): void
     {
-        $step = new Builder\Generator\Step\CleanUpStep($this->filesystem);
-        $step->run($result);
+        /** @var list<Builder\Generator\Step\StepInterface> $steps */
+        $steps = [
+            new Builder\Generator\Step\CleanUpStep($this->filesystem),
+            new Builder\Generator\Step\DumpBuildArtifactStep($this->filesystem, $this->writer),
+        ];
+
+        foreach ($steps as $step) {
+            $step->run($result);
+        }
     }
 
     private function handleStepFailure(

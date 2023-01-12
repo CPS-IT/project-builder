@@ -107,6 +107,14 @@ final class InvalidConfigurationException extends Exception
         );
     }
 
+    public static function forUnknownSource(string $identifier): self
+    {
+        return new self(
+            sprintf('The template source for "%s" could not be determined.', $identifier),
+            1673458682,
+        );
+    }
+
     public static function forMissingManifestFile(string $file): self
     {
         return new self(
