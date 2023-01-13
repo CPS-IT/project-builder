@@ -41,7 +41,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
     private Filesystem\Filesystem $filesystem;
     private Src\Builder\Generator\Step\DumpBuildArtifactStep $subject;
     private Src\Builder\BuildResult $buildResult;
-    private Src\Builder\BuildArtifact $buildArtifact;
+    private Src\Builder\Artifact\BuildArtifact $buildArtifact;
 
     protected function setUp(): void
     {
@@ -53,11 +53,8 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         $this->buildResult = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(self::$config, 'foo'),
         );
-        $this->buildArtifact = new Src\Builder\BuildArtifact(
-            Src\Helper\FilesystemHelper::createFileObject(
-                Src\Helper\FilesystemHelper::getNewTemporaryDirectory(),
-                'foo.json',
-            ),
+        $this->buildArtifact = new Src\Builder\Artifact\BuildArtifact(
+            'foo.json',
             $this->buildResult,
             new Package\RootPackage('foo/baz', '1.0.0', '1.0.0'),
         );
@@ -70,7 +67,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
     {
         self::assertTrue($this->subject->run($this->buildResult));
         self::assertFalse($this->buildResult->isStepApplied($this->subject));
-        self::assertFileDoesNotExist($this->buildArtifact->getPath()->getPathname());
+        self::assertFileDoesNotExist($this->buildArtifact->getFile()->getPathname());
     }
 
     /**
@@ -82,9 +79,9 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
 
         self::assertTrue($this->subject->run($this->buildResult));
         self::assertTrue($this->buildResult->isStepApplied($this->subject));
-        self::assertFileExists($this->buildArtifact->getPath()->getPathname());
+        self::assertFileExists($this->buildArtifact->getFile()->getPathname());
         self::assertJsonStringEqualsJsonFile(
-            $this->buildArtifact->getPath()->getPathname(),
+            $this->buildArtifact->getFile()->getPathname(),
             json_encode($this->buildArtifact, JSON_THROW_ON_ERROR),
         );
     }
@@ -94,7 +91,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
      */
     public function revertDoesNothingIfBuildArtifactWasNotGenerated(): void
     {
-        $artifactPath = $this->buildArtifact->getPath()->getPathname();
+        $artifactPath = $this->buildArtifact->getFile()->getPathname();
 
         $this->filesystem->dumpFile($artifactPath, 'test');
 
@@ -112,7 +109,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
      */
     public function revertRemovesDumpedBuildArtifact(): void
     {
-        $artifactPath = $this->buildArtifact->getPath()->getPathname();
+        $artifactPath = $this->buildArtifact->getFile()->getPathname();
 
         $this->buildResult->setBuildArtifact($this->buildArtifact);
 
@@ -139,6 +136,6 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
     {
         parent::tearDown();
 
-        $this->filesystem->remove($this->buildArtifact->getPath()->getPathname());
+        $this->filesystem->remove($this->buildArtifact->getFile()->getPathname());
     }
 }

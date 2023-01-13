@@ -55,13 +55,13 @@ final class DumpBuildArtifactStep extends AbstractStep
 
         $buildResult->applyStep($this);
 
-        return $this->writer->write($buildArtifact->getPath(), $buildArtifact);
+        return $this->writer->write($buildArtifact->getFile(), $buildArtifact);
     }
 
     public function revert(Builder\BuildResult $buildResult): void
     {
         if (null !== $buildResult->getBuildArtifact()) {
-            $this->filesystem->remove($buildResult->getBuildArtifact()->getPath()->getPathname());
+            $this->filesystem->remove($buildResult->getBuildArtifact()->getFile()->getPathname());
         }
     }
 

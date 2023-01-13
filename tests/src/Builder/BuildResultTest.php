@@ -75,8 +75,8 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
     {
         self::assertNull($this->subject->getBuildArtifact());
 
-        $buildArtifact = new Src\Builder\BuildArtifact(
-            Src\Helper\FilesystemHelper::createFileObject(__DIR__, 'foo.json'),
+        $buildArtifact = new Src\Builder\Artifact\BuildArtifact(
+            'foo.json',
             $this->subject,
             new Package\RootPackage('foo/baz', '1.0.0', '1.0.0'),
         );

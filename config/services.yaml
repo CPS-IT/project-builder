@@ -7,10 +7,10 @@ services:
   CPSIT\ProjectBuilder\:
     resource: '../src/*'
     exclude:
+      - '../src/Builder/Artifact/*'
       - '../src/Builder/Config/*'
       - '../src/Builder/Generator/Step/CleanUpStep.php'
       - '../src/Builder/Generator/Step/DumpBuildArtifactStep.php'
-      - '../src/Builder/BuildArtifact.php'
       - '../src/Builder/BuildInstructions.php'
       - '../src/Builder/BuildResult.php'
       - '../src/Console/*'

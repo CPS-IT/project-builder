@@ -54,18 +54,18 @@ final class GenerateBuildArtifactStep extends AbstractStep implements StoppableS
 
     public function run(Builder\BuildResult $buildResult): bool
     {
-        $artifactPath = $this->buildArtifactPath($buildResult);
+        $artifactFile = $this->buildArtifactFile($buildResult);
 
         // Early return if build artifact already exists
-        if ($this->filesystem->exists($artifactPath->getPathname())) {
+        if ($this->filesystem->exists($artifactFile->getPathname())) {
             $this->messenger->error('The build artifact cannot be generated because the resulting file already exists.');
             $this->stopped = !$this->inputReader->ask('Continue without build artifact?');
 
             return !$this->stopped;
         }
 
-        $artifact = new Builder\BuildArtifact(
-            $artifactPath,
+        $artifact = new Builder\Artifact\BuildArtifact(
+            $artifactFile->getRelativePathname(),
             $buildResult,
             Resource\Local\Composer::createComposer(Helper\FilesystemHelper::getProjectRootPath())->getPackage(),
         );
@@ -96,7 +96,7 @@ final class GenerateBuildArtifactStep extends AbstractStep implements StoppableS
         return self::TYPE === $type;
     }
 
-    private function buildArtifactPath(Builder\BuildResult $buildResult): Finder\SplFileInfo
+    private function buildArtifactFile(Builder\BuildResult $buildResult): Finder\SplFileInfo
     {
         $artifactPath = $this->config->getOptions()->getArtifactPath() ?? self::DEFAULT_ARTIFACT_PATH;
 

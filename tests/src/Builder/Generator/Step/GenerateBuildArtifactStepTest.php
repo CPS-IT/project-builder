@@ -82,7 +82,7 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
     public function runGeneratesBuildArtifact(): void
     {
         self::assertTrue($this->subject->run($this->buildResult));
-        self::assertInstanceOf(Src\Builder\BuildArtifact::class, $this->buildResult->getBuildArtifact());
+        self::assertInstanceOf(Src\Builder\Artifact\BuildArtifact::class, $this->buildResult->getBuildArtifact());
         self::assertTrue($this->buildResult->isStepApplied($this->subject));
     }
 
