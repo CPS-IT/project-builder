@@ -136,7 +136,21 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
     /**
      * @test
      */
-    public function cleanUpCleansUpRemainingFilesInTargetDirectoryAndDumpsBuildArtifact(): void
+    public function dumpArtifactDumpsBuildArtifact(): void
+    {
+        self::$io->setUserInputs(['foo']);
+
+        $result = $this->subject->run($this->targetDirectory);
+
+        $this->subject->dumpArtifact($result);
+
+        self::assertTrue($result->isStepApplied('dumpBuildArtifact'));
+    }
+
+    /**
+     * @test
+     */
+    public function cleanUpCleansUpRemainingFilesInTargetDirectory(): void
     {
         self::$io->setUserInputs(['foo']);
 
@@ -145,7 +159,6 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         $this->subject->cleanUp($result);
 
         self::assertTrue($result->isStepApplied('cleanUp'));
-        self::assertTrue($result->isStepApplied('dumpBuildArtifact'));
     }
 
     protected static function createConfig(): Src\Builder\Config\Config

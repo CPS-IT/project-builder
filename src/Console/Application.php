@@ -113,6 +113,7 @@ final class Application
                 return self::ABORTED;
             }
 
+            $generator->dumpArtifact($result);
             $generator->cleanUp($result);
         } catch (Throwable $exception) {
             $this->errorHandler->handleException($exception);

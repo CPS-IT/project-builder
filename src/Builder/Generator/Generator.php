@@ -103,17 +103,16 @@ final class Generator
         return $result;
     }
 
+    public function dumpArtifact(Builder\BuildResult $result): void
+    {
+        $step = new Builder\Generator\Step\DumpBuildArtifactStep($this->filesystem, $this->writer);
+        $step->run($result);
+    }
+
     public function cleanUp(Builder\BuildResult $result): void
     {
-        /** @var list<Builder\Generator\Step\StepInterface> $steps */
-        $steps = [
-            new Builder\Generator\Step\CleanUpStep($this->filesystem),
-            new Builder\Generator\Step\DumpBuildArtifactStep($this->filesystem, $this->writer),
-        ];
-
-        foreach ($steps as $step) {
-            $step->run($result);
-        }
+        $step = new Builder\Generator\Step\CleanUpStep($this->filesystem);
+        $step->run($result);
     }
 
     private function handleStepFailure(
