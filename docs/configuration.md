@@ -26,12 +26,28 @@ three ways to make a template package available to the project builder:
 
 1. Either register it on [Packagist](https://packagist.org/),
 2. Use any other Composer registry (e.g. self-hosted [Satis][4] instance),
-or
-3. Host the project template on a VCS repository (such as GitHub) to make your package
-available to the project builder.
+   or
+3. Host the project template on a VCS repository (such as GitHub) to make
+   your package available to the project builder.
 
 Once you use the project builder to create a new project, you can
 select the appropriate provider that hosts your template package.
+
+:bulb: You can add the `cpsit/project-builder` package as dependency to
+your template package and Composer will correctly resolve the constraint.
+This way you can define which versions of the project builder are actually
+supported by your package:
+
+```diff
+ {
+     "name": "cpsit/project-builder-template-my-fancy-project",
+     "type": "project-builder-template",
++    "require": {
++        "cpsit/project-builder": "^1.0"
++    }
+     // ...
+ }
+```
 
 ## Structure
 

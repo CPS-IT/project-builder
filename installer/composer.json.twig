@@ -10,6 +10,9 @@
 		"{{ templateSource.package.name }}": "{% if templateSource.shouldUseDynamicVersionConstraint %}*{% else %}{{ templateSource.package.prettyVersion }}{% endif %}"
 {% endfor %}
 	},
+	"replace": {
+		"cpsit/project-builder": "self.version"
+	},
 	"repositories": [
 {% for repository in repositories %}
 		{
