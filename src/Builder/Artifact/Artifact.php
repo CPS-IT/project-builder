@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Builder\Artifact;
 
-use Composer\Package;
 use JsonSerializable;
 
 /**
@@ -35,14 +34,6 @@ use JsonSerializable;
  * @internal
  *
  * @template T of array<string, mixed>
- *
- * @phpstan-type TPackageArtifact array{
- *     name: string,
- *     version: string,
- *     sourceReference: string|null,
- *     sourceUrl: string|null,
- *     distUrl: string|null
- * }
  */
 abstract class Artifact implements JsonSerializable
 {
@@ -57,19 +48,5 @@ abstract class Artifact implements JsonSerializable
     public function jsonSerialize(): array
     {
         return $this->dump();
-    }
-
-    /**
-     * @phpstan-return TPackageArtifact
-     */
-    protected function decoratePackage(Package\PackageInterface $package): array
-    {
-        return [
-            'name' => $package->getName(),
-            'version' => $package->getVersion(),
-            'sourceReference' => $package->getSourceReference(),
-            'sourceUrl' => $package->getSourceUrl(),
-            'distUrl' => $package->getDistUrl(),
-        ];
     }
 }

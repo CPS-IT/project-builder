@@ -26,7 +26,7 @@ namespace CPSIT\ProjectBuilder\Builder\Artifact;
 use Composer\Package;
 
 /**
- * GeneratorArtifact.
+ * PackageArtifact.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
@@ -34,30 +34,28 @@ use Composer\Package;
  * @internal
  *
  * @extends Artifact<array{
- *     package: PackageArtifact,
- *     executor: string
+ *     name: string,
+ *     version: string,
+ *     sourceReference: string|null,
+ *     sourceUrl: string|null,
+ *     distUrl: string|null
  * }>
  */
-final class GeneratorArtifact extends Artifact
+final class PackageArtifact extends Artifact
 {
     public function __construct(
-        private Package\RootPackageInterface $rootPackage,
+        private Package\PackageInterface $package,
     ) {
     }
 
     public function dump(): array
     {
         return [
-            'package' => new PackageArtifact($this->rootPackage),
-            'executor' => $this->determineExecutor(),
+            'name' => $this->package->getName(),
+            'version' => $this->package->getVersion(),
+            'sourceReference' => $this->package->getSourceReference(),
+            'sourceUrl' => $this->package->getSourceUrl(),
+            'distUrl' => $this->package->getDistUrl(),
         ];
-    }
-
-    private function determineExecutor(): string
-    {
-        return match (getenv('PROJECT_BUILDER_EXECUTOR')) {
-            'docker' => 'docker',
-            default => 'composer',
-        };
     }
 }

@@ -33,12 +33,10 @@ use CPSIT\ProjectBuilder\Builder\BuildResult;
  *
  * @internal
  *
- * @phpstan-import-type TPackageArtifact from Artifact
- *
  * @extends Artifact<array{
  *     identifier: string,
  *     hash: string,
- *     package: TPackageArtifact,
+ *     package: PackageArtifact,
  *     provider: array{name: string, url: string}
  * }>
  */
@@ -58,7 +56,7 @@ final class TemplateArtifact extends Artifact
         return [
             'identifier' => $config->getIdentifier(),
             'hash' => $config->buildHash(),
-            'package' => $this->decoratePackage($package),
+            'package' => new PackageArtifact($package),
             'provider' => [
                 'name' => $provider::getName(),
                 'url' => $provider->getUrl(),
