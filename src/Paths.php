@@ -77,4 +77,9 @@ abstract class Paths
      * Path to service configurations within template directories.
      */
     public const TEMPLATE_SERVICE_CONFIG = 'config';
+
+    /**
+     * Path to JSON schema for build artifacts.
+     */
+    public const BUILD_ARTIFACT_SCHEMA = 'resources/build-artifact.schema.json';
 }
