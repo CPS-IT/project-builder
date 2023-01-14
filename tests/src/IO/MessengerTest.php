@@ -67,7 +67,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
      */
     public function selectProviderCanHandleCustomComposerProvider(): void
     {
-        $customProvider = new Src\Template\Provider\CustomComposerProvider(
+        $customProvider = new Src\Template\Provider\ComposerProvider(
             $this->subject,
             self::$container->get(Filesystem\Filesystem::class),
         );

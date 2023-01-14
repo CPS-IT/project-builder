@@ -10,11 +10,16 @@
 		"{{ templateSource.package.name }}": "{% if templateSource.shouldUseDynamicVersionConstraint %}*{% else %}{{ templateSource.package.prettyVersion }}{% endif %}"
 {% endfor %}
 	},
+	"replace": {
+		"cpsit/project-builder": "self.version"
+	},
 	"repositories": [
+{% for repository in repositories %}
 		{
-			"type": "composer",
-			"url": "{{ providerUrl }}"
-		}
+			"type": "{{ repository.type }}",
+			"url": "{{ repository.url }}"
+		}{% if not loop.last %},{% endif %}
+{% endfor %}
 	],
 	"minimum-stability": "dev",
 	"prefer-stable": true,

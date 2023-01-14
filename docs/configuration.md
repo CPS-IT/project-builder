@@ -21,11 +21,33 @@ Example `composer.json`:
 }
 ```
 
-Additionally, the packages must be installable via Composer. In order to make
-a package installable, either register it on Packagist or use any other
-Composer registry (e.g. self-hosted [Satis][4] instance) to make your package
-available. Once you use the project builder to create a new project, you can
+Additionally, the packages must be installable via Composer. There are
+three ways to make a template package available to the project builder:
+
+1. Either register it on [Packagist](https://packagist.org/),
+2. Use any other Composer registry (e.g. self-hosted [Satis][4] instance),
+   or
+3. Host the project template on a VCS repository (such as GitHub) to make
+   your package available to the project builder.
+
+Once you use the project builder to create a new project, you can
 select the appropriate provider that hosts your template package.
+
+:bulb: You can add the `cpsit/project-builder` package as a dependency to
+your template package. Composer will correctly resolve the constraint.
+This way, you can define the versions of the project builder actually
+supported by your package:
+
+```diff
+ {
+     "name": "cpsit/project-builder-template-my-fancy-project",
+     "type": "project-builder-template",
++    "require": {
++        "cpsit/project-builder": "^1.0"
++    }
+     // ...
+ }
+```
 
 ## Structure
 

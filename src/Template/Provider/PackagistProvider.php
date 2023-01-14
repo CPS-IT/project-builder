@@ -29,7 +29,7 @@ namespace CPSIT\ProjectBuilder\Template\Provider;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class PackagistProvider extends BaseComposerProvider
+final class PackagistProvider extends BaseProvider
 {
     public static function getName(): string
     {
@@ -39,5 +39,10 @@ final class PackagistProvider extends BaseComposerProvider
     public function getUrl(): string
     {
         return 'https://packagist.org';
+    }
+
+    protected function getType(): string
+    {
+        return 'composer';
     }
 }

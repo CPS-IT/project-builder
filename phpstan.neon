@@ -12,29 +12,3 @@ parameters:
         - tests/bootstrap.php
     symfony:
         containerXmlPath: var/cache/test-container.xml
-
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\Explicit\PropertyTypeDeclarationSeaLevelRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            minimalLevel: 0.99
-    -
-        class: Symplify\PHPStanRules\Rules\Explicit\ParamTypeDeclarationSeaLevelRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            minimalLevel: 0.99
-    -
-        class: Symplify\PHPStanRules\Rules\Explicit\ReturnTypeDeclarationSeaLevelRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            minimalLevel: 0.99
-    -
-        class: Symplify\PHPStanRules\Collector\FunctionLike\ParamTypeSeaLevelCollector
-        tags: [phpstan.collector]
-    -
-        class: Symplify\PHPStanRules\Collector\FunctionLike\ReturnTypeSeaLevelCollector
-        tags: [phpstan.collector]
-    -
-        class: Symplify\PHPStanRules\Collector\ClassLike\PropertyTypeSeaLevelCollector
-        tags: [phpstan.collector]

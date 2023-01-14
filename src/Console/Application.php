@@ -176,7 +176,8 @@ final class Application
     {
         return [
             new Template\Provider\PackagistProvider($this->messenger, $this->filesystem),
-            new Template\Provider\CustomComposerProvider($this->messenger, $this->filesystem),
+            new Template\Provider\ComposerProvider($this->messenger, $this->filesystem),
+            new Template\Provider\VcsProvider($this->messenger, $this->filesystem),
         ];
     }
 }

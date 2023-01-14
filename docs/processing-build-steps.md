@@ -64,9 +64,7 @@ project generation lifecycle:
 * Steps may also be able to stop further processing, thus being **stoppable**. For this,
   [`StoppableStepInterface`](../src/Builder/Generator/Step/StoppableStepInterface.php)
   can be implemented. The method `isStopped()` is then called after the step is processed
-  to determine whether further steps should be processed. This is often useful in
-  combination with an implementation of `InteractiveStepInterface` to confirm further
-  processing by the user.
+  to determine whether further steps should be processed.
 
 ## Available steps
 
@@ -76,7 +74,6 @@ The following steps are currently available:
 
 * Identifier: **`collectBuildInstructions`**
 * Implementation: [`Builder\Generator\Step\CollectBuildInstructionsStep`](../src/Builder/Generator/Step/CollectBuildInstructionsStep.php)
-* Variants: _interactive_
 
 This step walks through all configured properties. It uses the `InputReader` to collect
 build instructions for property. All collected build instructions result in a list of
@@ -87,7 +84,6 @@ taking decisions based on user-provided data.
 
 * Identifier: **`installComposerDependencies`**
 * Implementation: [`Builder\Generator\Step\InstallComposerDependenciesStep`](../src/Builder/Generator/Step/InstallComposerDependenciesStep.php)
-* Variants: _interactive_
 
 By using this step, it is possible to install additional Composer dependencies. Those
 dependencies should provide shared source files. The appropriate `composer.json`
@@ -99,7 +95,7 @@ must be in the project type's template folder.
 
 * Identifier: **`mirrorProcessedFiles`**
 * Implementation: [`Builder\Generator\Step\MirrorProcessedFilesStep`](../src/Builder/Generator/Step/MirrorProcessedFilesStep.php)
-* Variants: _interactive_, _processing_, _stoppable_
+* Variants: _processing_, _stoppable_
 
 This is typically one of the **last configured steps**. It asks for confirmation to
 mirror all previously processed source files and shared source files to the target
@@ -110,7 +106,7 @@ well as removing the previously generated temporary directory.
 
 * Identifier: **`processSourceFiles`**
 * Implementation: [`Builder\Generator\Step\ProcessSourceFilesStep`](../src/Builder/Generator/Step/ProcessSourceFilesStep.php)
-* Variants: _interactive_, _processing_
+* Variants: _processing_
 
 Copies all files in the project type's `templates/src` folder to a temporary directory.
 If a file has the `.twig` extension, it is first processed by the Twig renderer. All
@@ -129,7 +125,7 @@ files will always be processed.
 
 * Identifier: **`processSharedSourceFiles`**
 * Implementation: [`Builder\Generator\Step\ProcessSharedSourceFilesStep`](../src/Builder/Generator/Step/ProcessSharedSourceFilesStep.php)
-* Variants: _interactive_, _processing_
+* Variants: _processing_
 
 The behavior of this step is similar to the [`processSourceFiles`](#process-source-files)
 step. However, this step processes shared source files inside the `shared`
@@ -143,7 +139,6 @@ step.
 
 * Identifier: **`showNextSteps`**
 * Implementation: [`Builder\Generator\Step\ShowNextStepsStep`](../src/Builder/Generator/Step/ShowNextStepsStep.php)
-* Variants: _interactive_
 
 This step should always be configured as **last step**. It shows the user how to
 manually continue the build process after successful project generation. This
