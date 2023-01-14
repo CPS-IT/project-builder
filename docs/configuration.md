@@ -33,9 +33,9 @@ three ways to make a template package available to the project builder:
 Once you use the project builder to create a new project, you can
 select the appropriate provider that hosts your template package.
 
-:bulb: You can add the `cpsit/project-builder` package as dependency to
-your template package and Composer will correctly resolve the constraint.
-This way you can define which versions of the project builder are actually
+:bulb: You can add the `cpsit/project-builder` package as a dependency to
+your template package. Composer will correctly resolve the constraint.
+This way, you can define the versions of the project builder actually
 supported by your package:
 
 ```diff
