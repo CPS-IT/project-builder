@@ -36,7 +36,6 @@ use function implode;
 use function is_scalar;
 use function is_string;
 use function sprintf;
-use function strlen;
 use function trim;
 
 /**
@@ -307,7 +306,7 @@ final class Messenger
 
         foreach ($processedFiles as $processedFile) {
             $relativePathname = $processedFile->getTargetFile()->getRelativePathname();
-            $currentLength = strlen($relativePathname);
+            $currentLength = Console\Helper\Helper::length($relativePathname);
             $calculatedLength = $length + $currentLength;
 
             if ($calculatedLength > $maxLength) {
