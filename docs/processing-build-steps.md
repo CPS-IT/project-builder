@@ -113,10 +113,27 @@ If a file has the `.twig` extension, it is first processed by the Twig renderer.
 previously collected build instructions are passed as template variables to the
 renderer.
 
+#### File conditions
+
 In the project template config, it is possible to provide a set of file conditions.
 Each file condition applies to a given path. The specified condition is then used
 in the step to decide whether to include or exclude the appropriate file. All other
 files will always be processed.
+
+#### Target file
+
+A file condition may also contain an additional `target` configuration. It can be
+used to configure a different target file location than the default location, e.g.
+if files with different contents should result in the same target file, depending
+on a given file condition.
+
+#### Multiple conditions
+
+It is possible to define more than one file condition for a single file. This is
+useful in combination with the configuration of a file target, e.g. if the file
+is expected on different locations for different versions of a configured framework.
+If more than one file condition evaluates to `true`, the first configured target is
+always used.
 
 > :arrow_right: Read more at [`Configuration#Source files`](configuration.md#source-files)
 > and [`Architecture#Template rendering`](architecture.md#template-rendering).
