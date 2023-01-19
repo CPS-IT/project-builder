@@ -83,6 +83,11 @@ into a simulated directory, which is normally something like
 `.build/simulate_6299c0dda8600`. The simulated directory will be shown after
 simulation has finished.
 
+:bulb: An environment variable `PROJECT_BUILDER_SIMULATE_VERSION` can be used
+to override the project builder version during simulation. This is especially
+useful when testing template packages that require a specific version of the
+project builder.
+
 ## Submit a pull request
 
 Once you have finished your work, please **submit a pull request** and describe
