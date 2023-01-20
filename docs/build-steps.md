@@ -110,12 +110,12 @@ must be in the project type's template folder.
 
 * Identifier: **`mirrorProcessedFiles`**
 * Implementation: [`Builder\Generator\Step\MirrorProcessedFilesStep`](../src/Builder/Generator/Step/MirrorProcessedFilesStep.php)
-* Variants: _processing_, _stoppable_
+* Variants: _processing_
 
-This is typically one of the **last configured steps**. It asks for confirmation to
-mirror all previously processed source files and shared source files to the target
-project directory. It also takes care of cleaning up the target directory as
-well as removing the previously generated temporary directory.
+This is typically one of the **last configured steps**. It mirrors all previously
+processed source files and shared source files to the target project directory.
+It also takes care of cleaning up the target directory as well as removing the
+previously generated temporary directory.
 
 ### Process source files
 

@@ -67,7 +67,7 @@ final class GenerateBuildArtifactStep extends AbstractStep implements StoppableS
         $artifact = new Builder\Artifact\BuildArtifact(
             $artifactFile->getRelativePathname(),
             $buildResult,
-            Resource\Local\Composer::createComposer(Helper\FilesystemHelper::getProjectRootPath())->getPackage(),
+            Resource\Local\Composer::createComposer(Helper\FilesystemHelper::getPackageDirectory())->getPackage(),
         );
 
         $buildResult->setBuildArtifact($artifact);

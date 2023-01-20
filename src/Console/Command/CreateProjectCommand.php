@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the Composer package "cpsit/project-builder".
  *
- * Copyright (C) 2022 Elias Häußler <e.haeussler@familie-redlich.de>
+ * Copyright (C) 2023 Elias Häußler <e.haeussler@familie-redlich.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,30 +21,29 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Console;
+namespace CPSIT\ProjectBuilder\Console\Command;
 
+use Composer\Command;
 use CPSIT\ProjectBuilder\Builder;
 use CPSIT\ProjectBuilder\DependencyInjection;
 use CPSIT\ProjectBuilder\Error;
 use CPSIT\ProjectBuilder\Exception;
+use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\IO;
-use CPSIT\ProjectBuilder\Paths;
-use CPSIT\ProjectBuilder\Resource;
 use CPSIT\ProjectBuilder\Template;
+use Symfony\Component\Console;
 use Symfony\Component\Filesystem;
 use Throwable;
 
-use function reset;
-
 /**
- * Application.
+ * CreateProjectCommand.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  *
  * @internal
  */
-final class Application
+final class CreateProjectCommand extends Command\BaseCommand
 {
     private const SUCCESSFUL = 0;
     private const FAILED = 1;
@@ -63,9 +62,10 @@ final class Application
         private Builder\Config\ConfigReader $configReader,
         private Error\ErrorHandler $errorHandler,
         private Filesystem\Filesystem $filesystem,
-        private string $targetDirectory,
         array $templateProviders = [],
     ) {
+        parent::__construct('project:create');
+
         if ([] === $templateProviders) {
             $templateProviders = $this->createDefaultTemplateProviders();
         }
@@ -73,7 +73,35 @@ final class Application
         $this->templateProviders = $templateProviders;
     }
 
-    public function run(): int
+    public static function create(IO\Messenger $messenger): self
+    {
+        return new self(
+            $messenger,
+            Builder\Config\ConfigReader::create(),
+            new Error\ErrorHandler($messenger),
+            new Filesystem\Filesystem(),
+        );
+    }
+
+    protected function configure(): void
+    {
+        $this->setDescription('Create a new project, based on a selected project template');
+
+        $this->addArgument(
+            'target-directory',
+            Console\Input\InputArgument::REQUIRED,
+            'Absolute path to a directory where to create the new project',
+        );
+
+        $this->addOption(
+            'force',
+            'f',
+            Console\Input\InputOption::VALUE_NONE,
+            'Force project creation even if target directory is not empty',
+        );
+    }
+
+    protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output): int
     {
         if (!$this->messenger->isInteractive()) {
             $this->messenger->error('This command cannot be run in non-interactive mode.');
@@ -81,29 +109,21 @@ final class Application
             return self::FAILED;
         }
 
-        $this->mirrorSourceFiles();
+        $targetDirectory = Helper\FilesystemHelper::resolveRelativePath($input->getArgument('target-directory'));
+        $force = $input->getOption('force');
 
-        $loader = Resource\Local\Composer::createClassLoader();
-        $loader->register(true);
-
-        $this->messenger->clearScreen();
-        $this->messenger->welcome();
+        // Early return if target directory is not empty and should not be overwritten
+        if (!$force
+            && !Helper\FilesystemHelper::isDirectoryEmpty($targetDirectory)
+            && !$this->messenger->confirmOverwrite($targetDirectory)
+        ) {
+            return self::ABORTED;
+        }
 
         try {
-            // Select template source
-            $defaultTemplateProvider = reset($this->templateProviders);
-            $templateSource = $this->selectTemplateSource($defaultTemplateProvider);
-            $templateSource->getProvider()->installTemplateSource($templateSource);
-            $templateIdentifier = $templateSource->getPackage()->getName();
-
-            // Create container
-            $config = $this->configReader->readConfig($templateIdentifier);
-            $config->setTemplateSource($templateSource);
-            $container = $this->buildContainer($config);
-
             // Run project generation
-            $generator = $container->get(Builder\Generator\Generator::class);
-            $result = $generator->run($this->targetDirectory);
+            $generator = $this->prepareTemplate();
+            $result = $generator->run($targetDirectory);
 
             // Show project generation result
             $this->messenger->decorateResult($result);
@@ -124,12 +144,23 @@ final class Application
         return self::SUCCESSFUL;
     }
 
-    private function mirrorSourceFiles(): void
+    private function prepareTemplate(): Builder\Generator\Generator
     {
-        $this->filesystem->mirror(
-            Filesystem\Path::join($this->targetDirectory, Paths::PROJECT_SOURCES),
-            Filesystem\Path::join($this->targetDirectory, '.build', Paths::PROJECT_SOURCES),
-        );
+        $this->messenger->clearScreen();
+        $this->messenger->welcome();
+
+        // Select template source
+        $defaultTemplateProvider = reset($this->templateProviders);
+        $templateSource = $this->selectTemplateSource($defaultTemplateProvider);
+        $templateSource->getProvider()->installTemplateSource($templateSource);
+        $templateIdentifier = $templateSource->getPackage()->getName();
+
+        // Create container
+        $config = $this->configReader->readConfig($templateIdentifier);
+        $config->setTemplateSource($templateSource);
+        $container = $this->buildContainer($config);
+
+        return $container->get(Builder\Generator\Generator::class);
     }
 
     /**

@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder;
 
 use Composer\InstalledVersions;
 use Composer\Script;
+use Symfony\Component\Console as SymfonyConsole;
 use Symfony\Component\Filesystem;
 
 /**
@@ -50,7 +51,6 @@ final class Bootstrap
         string $targetDirectory = null,
         bool $exitOnFailure = true,
     ): int {
-        $messenger = IO\Messenger::create($event->getIO());
         $targetDirectory ??= Helper\FilesystemHelper::getWorkingDirectory();
 
         // Early return if current environment is unsupported
@@ -58,7 +58,20 @@ final class Bootstrap
             throw Exception\UnsupportedEnvironmentException::forOutdatedComposerInstallation();
         }
 
-        $exitCode = self::createApplication($messenger, $targetDirectory)->run();
+        self::prepareEnvironment($targetDirectory);
+
+        // Initialize IO components
+        $io = Console\IO\AccessibleConsoleIO::fromIO($event->getIO());
+        $messenger = IO\Messenger::create($io);
+        $input = new SymfonyConsole\Input\ArrayInput([
+            'target-directory' => $targetDirectory,
+            '--force' => true,
+        ]);
+        $input->setInteractive($io->isInteractive());
+
+        // Run project creation
+        $command = Console\Command\CreateProjectCommand::create($messenger);
+        $exitCode = $command->run($input, $io->getOutput());
 
         $event->stopPropagation();
 
@@ -92,15 +105,18 @@ final class Bootstrap
         exit($exitCode);
     }
 
-    private static function createApplication(IO\Messenger $messenger, string $targetDirectory): Console\Application
+    private static function prepareEnvironment(string $targetDirectory): void
     {
-        return new Console\Application(
-            $messenger,
-            Builder\Config\ConfigReader::create(),
-            new Error\ErrorHandler($messenger),
-            new Filesystem\Filesystem(),
-            $targetDirectory,
+        // Mirror source files to build directory
+        $filesystem = new Filesystem\Filesystem();
+        $filesystem->mirror(
+            Filesystem\Path::join($targetDirectory, Paths::PROJECT_SOURCES),
+            Filesystem\Path::join($targetDirectory, '.build', Paths::PROJECT_SOURCES),
         );
+
+        // Register modified class loader
+        $loader = Resource\Local\Composer::createClassLoader();
+        $loader->register(true);
     }
 
     private static function runsOnAnUnsupportedEnvironment(): bool

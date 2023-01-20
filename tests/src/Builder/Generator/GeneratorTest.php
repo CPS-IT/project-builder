@@ -27,6 +27,7 @@ use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Symfony\Component\Console;
+use Symfony\Component\EventDispatcher;
 use Symfony\Component\Filesystem;
 
 use function dirname;
@@ -125,11 +126,30 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
      */
     public function runRevertsAppliedStepsAndExistsIfStoppableStepFailed(): void
     {
-        self::$io->setUserInputs(['foo', 'no']);
+        $config = new Src\Builder\Config\Config(
+            'foo',
+            'Foo',
+            [
+                new Src\Builder\Config\ValueObject\Step('dummyStoppable'),
+            ],
+        );
 
-        $actual = $this->subject->run($this->targetDirectory);
+        $step = new Tests\Fixtures\DummyStoppableStep();
+        $step->stopped = true;
+        $stepFactory = new Src\Builder\Generator\Step\StepFactory([$step]);
 
-        self::assertCount(4, $actual->getAppliedSteps());
+        $subject = new Src\Builder\Generator\Generator(
+            $config,
+            self::$container->get('app.messenger'),
+            $stepFactory,
+            self::$container->get(Filesystem\Filesystem::class),
+            self::$container->get(EventDispatcher\EventDispatcherInterface::class),
+            self::$container->get(Src\Builder\Writer\JsonFileWriter::class),
+        );
+
+        $actual = $subject->run($this->targetDirectory);
+
+        self::assertCount(0, $actual->getAppliedSteps());
         self::assertFalse($actual->isMirrored());
     }
 

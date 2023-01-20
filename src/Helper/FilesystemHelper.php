@@ -25,12 +25,14 @@ namespace CPSIT\ProjectBuilder\Helper;
 
 use Composer\InstalledVersions;
 use Composer\Util;
+use CPSIT\ProjectBuilder\Exception;
+use DirectoryIterator;
 use OutOfBoundsException;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
 
 use function dirname;
-use function getenv;
+use function file_exists;
 
 /**
  * FilesystemHelper.
@@ -75,6 +77,45 @@ final class FilesystemHelper
 
     public static function getWorkingDirectory(): string
     {
-        return Filesystem\Path::canonicalize(Util\Platform::getCwd());
+        /* @phpstan-ignore-next-line */
+        if (method_exists(Util\Platform::class, 'getCwd')) {
+            // Composer >= 2.3
+            $cwd = Util\Platform::getCwd(true);
+        } else {
+            // Composer < 2.3
+            $cwd = (string) getcwd(); // @codeCoverageIgnore
+        }
+
+        $cwd = realpath($cwd);
+
+        if (false === $cwd) {
+            throw Exception\FilesystemFailureException::forUnresolvableWorkingDirectory();
+        }
+
+        return Filesystem\Path::canonicalize($cwd);
+    }
+
+    public static function resolveRelativePath(string $relativePath): string
+    {
+        if (Filesystem\Path::isAbsolute($relativePath)) {
+            return $relativePath;
+        }
+
+        return Filesystem\Path::makeAbsolute($relativePath, self::getWorkingDirectory());
+    }
+
+    public static function isDirectoryEmpty(string $directory): bool
+    {
+        if (!file_exists($directory)) {
+            return true;
+        }
+
+        foreach (new DirectoryIterator($directory) as $file) {
+            if (!$file->isDot()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
