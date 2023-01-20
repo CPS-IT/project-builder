@@ -73,7 +73,7 @@ final class ContainerFactory
     {
         $resourcePaths = [
             Filesystem\Path::join(
-                Helper\FilesystemHelper::getProjectRootPath(),
+                Helper\FilesystemHelper::getPackageDirectory(),
                 Paths::PROJECT_TEMPLATES,
                 basename(dirname($config->getDeclaringFile())),
                 Paths::TEMPLATE_SERVICE_CONFIG,
@@ -87,7 +87,7 @@ final class ContainerFactory
     {
         if (!Filesystem\Path::isAbsolute($testsRootPath)) {
             $testsRootPath = Filesystem\Path::join(
-                Helper\FilesystemHelper::getProjectRootPath(),
+                Helper\FilesystemHelper::getPackageDirectory(),
                 $testsRootPath,
             );
         }
@@ -98,7 +98,7 @@ final class ContainerFactory
             ),
         ]);
         $containerPath = Filesystem\Path::join(
-            Helper\FilesystemHelper::getProjectRootPath(),
+            Helper\FilesystemHelper::getPackageDirectory(),
             'var',
             'cache',
             'test-container.php',
@@ -186,6 +186,6 @@ final class ContainerFactory
 
     private static function getDefaultResourcePath(): string
     {
-        return Filesystem\Path::join(Helper\FilesystemHelper::getProjectRootPath(), Paths::PROJECT_SERVICE_CONFIG);
+        return Filesystem\Path::join(Helper\FilesystemHelper::getPackageDirectory(), Paths::PROJECT_SERVICE_CONFIG);
     }
 }

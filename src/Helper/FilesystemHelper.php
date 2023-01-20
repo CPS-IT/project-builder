@@ -24,6 +24,8 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Helper;
 
 use Composer\InstalledVersions;
+use Composer\Util;
+use OutOfBoundsException;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
 
@@ -56,16 +58,23 @@ final class FilesystemHelper
         return $dir;
     }
 
-    public static function getProjectRootPath(): string
+    public static function getPackageDirectory(): string
     {
-        if (false === ($rootPath = getenv('PROJECT_BUILDER_ROOT_PATH'))) {
-            $rootPath = InstalledVersions::getInstallPath('cpsit/project-builder');
+        try {
+            $packageDirectory = InstalledVersions::getInstallPath('cpsit/project-builder');
+        } catch (OutOfBoundsException) {
+            $packageDirectory = null;
         }
 
-        if (null !== $rootPath) {
-            $rootPath = Filesystem\Path::canonicalize($rootPath);
+        if (null === $packageDirectory) {
+            $packageDirectory = dirname(__DIR__, 2);
         }
 
-        return $rootPath ?? dirname(__DIR__, 2);
+        return Filesystem\Path::canonicalize($packageDirectory);
+    }
+
+    public static function getWorkingDirectory(): string
+    {
+        return Filesystem\Path::canonicalize(Util\Platform::getCwd());
     }
 }

@@ -51,7 +51,7 @@ final class Bootstrap
         bool $exitOnFailure = true,
     ): int {
         $messenger = IO\Messenger::create($event->getIO());
-        $targetDirectory ??= Helper\FilesystemHelper::getProjectRootPath();
+        $targetDirectory ??= Helper\FilesystemHelper::getWorkingDirectory();
 
         // Early return if current environment is unsupported
         if (self::runsOnAnUnsupportedEnvironment()) {

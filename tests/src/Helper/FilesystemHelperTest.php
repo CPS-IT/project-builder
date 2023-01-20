@@ -26,8 +26,8 @@ namespace CPSIT\ProjectBuilder\Tests\Helper;
 use CPSIT\ProjectBuilder as Src;
 use PHPUnit\Framework\TestCase;
 
+use function chdir;
 use function dirname;
-use function putenv;
 
 /**
  * FilesystemHelperTest.
@@ -66,22 +66,24 @@ final class FilesystemHelperTest extends TestCase
     /**
      * @test
      */
-    public function getProjectRootPathReturnsProjectRootPathFromEnvironmentVariable(): void
+    public function getPackageDirectoryReturnsPackagePathFromComposerPackageArtifact(): void
     {
-        $projectRootPath = __DIR__.'/..';
-
-        putenv('PROJECT_BUILDER_ROOT_PATH='.$projectRootPath);
-
-        self::assertSame(dirname(__DIR__), Src\Helper\FilesystemHelper::getProjectRootPath());
-
-        putenv('PROJECT_BUILDER_ROOT_PATH');
+        self::assertSame(dirname(__DIR__, 3), Src\Helper\FilesystemHelper::getPackageDirectory());
     }
 
     /**
      * @test
      */
-    public function getProjectRootPathReturnsProjectRootPathFromComposerPackageArtifact(): void
+    public function getWorkingDirectoryReturnsCurrentWorkingDirectory(): void
     {
-        self::assertSame(dirname(__DIR__, 3), Src\Helper\FilesystemHelper::getProjectRootPath());
+        $cwd = dirname(__DIR__, 3);
+
+        self::assertSame($cwd, Src\Helper\FilesystemHelper::getWorkingDirectory());
+
+        chdir(__DIR__);
+
+        self::assertSame(__DIR__, Src\Helper\FilesystemHelper::getWorkingDirectory());
+
+        chdir($cwd);
     }
 }

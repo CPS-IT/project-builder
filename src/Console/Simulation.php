@@ -58,7 +58,7 @@ final class Simulation
     public static function create(): self
     {
         $filesystem = new Filesystem\Filesystem();
-        $rootPath = Helper\FilesystemHelper::getProjectRootPath();
+        $rootPath = Helper\FilesystemHelper::getWorkingDirectory();
 
         return new self(
             $filesystem,
@@ -71,9 +71,6 @@ final class Simulation
 
     public function prepare(): string
     {
-        // Override current root path
-        putenv('PROJECT_BUILDER_ROOT_PATH='.$this->targetDirectory);
-
         // Remove old simulations
         $this->removeLegacySimulations();
 
@@ -111,7 +108,7 @@ final class Simulation
     public function run(callable $applicationCode): int
     {
         // Switch to simulation directory
-        $initialWorkingDirectory = false !== getcwd() ? getcwd() : Helper\FilesystemHelper::getProjectRootPath();
+        $initialWorkingDirectory = Helper\FilesystemHelper::getWorkingDirectory();
         chdir($this->targetDirectory);
 
         // Run project creation
@@ -154,6 +151,6 @@ final class Simulation
             ->notName('composer.lock')
         ;
 
-        $this->filesystem->mirror(dirname(__DIR__, 2), $this->targetDirectory, $projectFiles);
+        $this->filesystem->mirror($this->rootPath, $this->targetDirectory, $projectFiles);
     }
 }
