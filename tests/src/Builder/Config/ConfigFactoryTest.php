@@ -82,6 +82,7 @@ final class ConfigFactoryTest extends TestCase
                     new Src\Builder\Config\ValueObject\StepOptions([
                         new Src\Builder\Config\ValueObject\FileCondition('dummy-2.'.$type, 'false'),
                         new Src\Builder\Config\ValueObject\FileCondition('*-3.'.$type, 'false'),
+                        new Src\Builder\Config\ValueObject\FileCondition('dummy-4.'.$type, 'false'),
                         new Src\Builder\Config\ValueObject\FileCondition('dummy-4.'.$type, 'true', 'overrides/dummy-4.'.$type),
                     ]),
                 ),
