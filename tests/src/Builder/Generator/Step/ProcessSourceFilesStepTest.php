@@ -25,6 +25,9 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use Generator;
+
+use function dirname;
 
 /**
  * ProcessSourceFilesStepTest.
@@ -69,6 +72,42 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
 
     /**
      * @test
+     *
+     * @dataProvider runCanProcessTheSameSourceFileWithMultipleConditionsDataProvider
+     *
+     * @param list<Src\Builder\Config\ValueObject\FileCondition> $fileConditions
+     * @param list<string>                                       $notExpected
+     */
+    public function runCanProcessTheSameSourceFileWithMultipleConditions(
+        array $fileConditions,
+        string $expected,
+        array $notExpected,
+    ): void {
+        $declaringFile = dirname(__DIR__, 3).'/Fixtures/Templates/yaml-template/config.yaml';
+        $step = new Src\Builder\Config\ValueObject\Step(
+            'processSourceFiles',
+            new Src\Builder\Config\ValueObject\StepOptions($fileConditions),
+        );
+        $config = new Src\Builder\Config\Config('test', 'Test', [$step]);
+        $config->setDeclaringFile($declaringFile);
+
+        $result = new Src\Builder\BuildResult(
+            new Src\Builder\BuildInstructions($config, 'foo'),
+        );
+
+        $this->subject->setConfig($step);
+
+        $this->subject->run($result);
+
+        self::assertFileExists($result->getInstructions()->getTemporaryDirectory().'/'.$expected);
+
+        foreach ($notExpected as $notExpectedFile) {
+            self::assertFileDoesNotExist($result->getInstructions()->getTemporaryDirectory().'/'.$notExpectedFile);
+        }
+    }
+
+    /**
+     * @test
      */
     public function revertRemovesProcessedFiles(): void
     {
@@ -79,6 +118,49 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
         $this->subject->revert($this->result);
 
         self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/dummy.yaml');
+    }
+
+    /**
+     * @return Generator<string, array{list<Src\Builder\Config\ValueObject\FileCondition>, string, list<string>}>
+     */
+    public function runCanProcessTheSameSourceFileWithMultipleConditionsDataProvider(): Generator
+    {
+        yield 'one condition without target' => [
+            [
+                new Src\Builder\Config\ValueObject\FileCondition('dummy-2.yaml', 'true'),
+            ],
+            'dummy-2.yaml',
+            ['dummy-2-moved.yaml'],
+        ];
+        yield 'one condition with target' => [
+            [
+                new Src\Builder\Config\ValueObject\FileCondition('dummy-2.yaml', 'true', 'dummy-2-moved.yaml'),
+            ],
+            'dummy-2-moved.yaml',
+            ['dummy-2.yaml'],
+        ];
+        yield 'multiple condition without target' => [
+            [
+                new Src\Builder\Config\ValueObject\FileCondition('dummy-2.yaml', 'true'),
+                new Src\Builder\Config\ValueObject\FileCondition('dummy-2.yaml', 'false'),
+                new Src\Builder\Config\ValueObject\FileCondition('dummy-2.yaml', 'true'),
+            ],
+            'dummy-2.yaml',
+            ['dummy-2-moved.yaml'],
+        ];
+        yield 'multiple condition with target' => [
+            [
+                new Src\Builder\Config\ValueObject\FileCondition('dummy-2.yaml', 'true', 'dummy-2-moved.yaml'),
+                new Src\Builder\Config\ValueObject\FileCondition('dummy-2.yaml', 'false', 'dummy-2-not-moved.yaml'),
+                new Src\Builder\Config\ValueObject\FileCondition('dummy-2.yaml', 'true', 'dummy-2-moved-again.yaml'),
+            ],
+            'dummy-2-moved.yaml',
+            [
+                'dummy-2.yaml',
+                'dummy-2-not-moved.yaml',
+                'dummy-2-moved-again.yaml',
+            ],
+        ];
     }
 
     protected static function createConfig(): Src\Builder\Config\Config

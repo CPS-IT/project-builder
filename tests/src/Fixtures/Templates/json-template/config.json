@@ -18,6 +18,10 @@
 					},
 					{
 						"path": "dummy-4.json",
+						"if": "false"
+					},
+					{
+						"path": "dummy-4.json",
 						"if": "true",
 						"target": "overrides/dummy-4.json"
 					}

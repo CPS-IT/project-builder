@@ -11,7 +11,7 @@
 {% endfor %}
 	},
 	"replace": {
-		"cpsit/project-builder": "self.version"
+		"cpsit/project-builder": "{% if simulatedRootPackageVersion %}{{ simulatedRootPackageVersion }}{% else %}self.version{% endif %}"
 	},
 	"repositories": [
 {% for repository in repositories %}

@@ -39,6 +39,7 @@ use Symfony\Component\Filesystem;
 use Twig\Environment;
 use Twig\Loader;
 
+use function getenv;
 use function sprintf;
 
 /**
@@ -208,6 +209,7 @@ abstract class BaseProvider implements ProviderInterface
             'tempDir' => $targetDirectory,
             'repositories' => $repositories,
             'acceptInsecureConnections' => $this->acceptInsecureConnections,
+            'simulatedRootPackageVersion' => getenv('PROJECT_BUILDER_SIMULATE_VERSION'),
         ]);
 
         $this->filesystem->dumpFile($targetFile, $composerJson);

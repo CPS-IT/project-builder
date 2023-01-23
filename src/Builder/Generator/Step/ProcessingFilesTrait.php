@@ -66,29 +66,50 @@ trait ProcessingFilesTrait
 
     protected function shouldProcessFile(Finder\SplFileInfo $file, Builder\BuildInstructions $instructions): bool
     {
+        $process = true;
+
         foreach ($this->config->getOptions()->getFileConditions() as $fileCondition) {
             if (!fnmatch($fileCondition->getPath(), $file->getRelativePathname())) {
                 continue;
             }
 
-            return $fileCondition->conditionMatches(
-                $this->expressionLanguage,
-                $instructions->getTemplateVariables(),
-                true,
-            );
+            if ($this->fileConditionMatches($fileCondition, $instructions)) {
+                return true;
+            }
+
+            $process = false;
         }
 
-        return true;
+        return $process;
     }
 
-    protected function findTargetFile(Finder\SplFileInfo $file): ?string
+    protected function findTargetFile(Finder\SplFileInfo $file, Builder\BuildInstructions $instructions): ?string
     {
         foreach ($this->config->getOptions()->getFileConditions() as $fileCondition) {
-            if (fnmatch($fileCondition->getPath(), $file->getRelativePathname())) {
+            if (null === $fileCondition->getTarget()) {
+                continue;
+            }
+
+            if (!fnmatch($fileCondition->getPath(), $file->getRelativePathname())) {
+                continue;
+            }
+
+            if ($this->fileConditionMatches($fileCondition, $instructions)) {
                 return $fileCondition->getTarget();
             }
         }
 
         return null;
+    }
+
+    protected function fileConditionMatches(
+        Builder\Config\ValueObject\FileCondition $fileCondition,
+        Builder\BuildInstructions $instructions,
+    ): bool {
+        return $fileCondition->conditionMatches(
+            $this->expressionLanguage,
+            $instructions->getTemplateVariables(),
+            true,
+        );
     }
 }
