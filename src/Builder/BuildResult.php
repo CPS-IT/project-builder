@@ -37,6 +37,7 @@ use function array_values;
 final class BuildResult
 {
     private bool $mirrored = false;
+    private ?Artifact\BuildArtifact $buildArtifact = null;
 
     /**
      * @var array<string, Generator\Step\StepInterface>
@@ -61,6 +62,18 @@ final class BuildResult
     public function setMirrored(bool $mirrored): self
     {
         $this->mirrored = $mirrored;
+
+        return $this;
+    }
+
+    public function getBuildArtifact(): ?Artifact\BuildArtifact
+    {
+        return $this->buildArtifact;
+    }
+
+    public function setBuildArtifact(Artifact\BuildArtifact $buildArtifact): self
+    {
+        $this->buildArtifact = $buildArtifact;
 
         return $this;
     }

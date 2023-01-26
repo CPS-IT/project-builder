@@ -24,6 +24,10 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Builder\Config;
 
 use CPSIT\ProjectBuilder\Exception;
+use CPSIT\ProjectBuilder\Template;
+
+use function serialize;
+use function sha1;
 
 /**
  * Config.
@@ -34,6 +38,7 @@ use CPSIT\ProjectBuilder\Exception;
 final class Config
 {
     private ?string $declaringFile = null;
+    private ?Template\TemplateSource $templateSource = null;
 
     /**
      * @param non-empty-list<ValueObject\Step> $steps
@@ -87,5 +92,36 @@ final class Config
         $this->declaringFile = $declaringFile;
 
         return $this;
+    }
+
+    public function getTemplateSource(): Template\TemplateSource
+    {
+        if (null === $this->templateSource) {
+            throw Exception\InvalidConfigurationException::forUnknownTemplateSource($this->identifier);
+        }
+
+        return $this->templateSource;
+    }
+
+    public function setTemplateSource(Template\TemplateSource $templateSource): self
+    {
+        $this->templateSource = $templateSource;
+
+        return $this;
+    }
+
+    /**
+     * @internal
+     */
+    public function buildHash(): string
+    {
+        return sha1(
+            serialize([
+                'identifier' => $this->identifier,
+                'name' => $this->name,
+                'steps' => $this->steps,
+                'properties' => $this->properties,
+            ]),
+        );
     }
 }

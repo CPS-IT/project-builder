@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the Composer package "cpsit/project-builder".
  *
- * Copyright (C) 2022 Elias Häußler <e.haeussler@familie-redlich.de>
+ * Copyright (C) 2023 Elias Häußler <e.haeussler@familie-redlich.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,41 +21,35 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Builder\Config\ValueObject;
+namespace CPSIT\ProjectBuilder\Builder\Writer;
+
+use JsonSerializable;
+use Symfony\Component\Filesystem;
+use Symfony\Component\Finder;
+
+use function json_encode;
 
 /**
- * StepOptions.
+ * JsonFileWriter.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class StepOptions
+final class JsonFileWriter
 {
-    /**
-     * @param list<FileCondition> $fileConditions
-     */
     public function __construct(
-        private array $fileConditions = [],
-        private ?string $templateFile = null,
-        private ?string $artifactPath = null,
+        private Filesystem\Filesystem $filesystem,
     ) {
     }
 
-    /**
-     * @return list<FileCondition>
-     */
-    public function getFileConditions(): array
+    public function write(Finder\SplFileInfo $file, string|JsonSerializable $json): bool
     {
-        return $this->fileConditions;
-    }
+        if ($json instanceof JsonSerializable) {
+            $json = json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+        }
 
-    public function getTemplateFile(): ?string
-    {
-        return $this->templateFile;
-    }
+        $this->filesystem->dumpFile($file->getPathname(), $json);
 
-    public function getArtifactPath(): ?string
-    {
-        return $this->artifactPath;
+        return $this->filesystem->exists($file->getPathname());
     }
 }

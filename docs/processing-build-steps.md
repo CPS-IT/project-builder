@@ -80,6 +80,21 @@ build instructions for property. All collected build instructions result in a li
 template variables. Those can be used in other steps when rendering Twig templates or
 taking decisions based on user-provided data.
 
+### Generate build artifact
+
+* Identifier: **`generateBuildArtifact`**
+* Implementation: [`Builder\Generator\Step\GenerateBuildArtifactStep`](../src/Builder/Generator/Step/GenerateBuildArtifactStep.php)
+* Variants: _stoppable_
+
+This step should always be configured as **last step** prior to
+[mirroring processed files](#mirror-processed-files). It generates a build artifact
+that contains information about the used generator and template packages as well as
+all user input and more general information about how the new project was generated.
+By default, the artifact file is stored in `.build/build-artifact.json` of the new
+project. However, the artifact path can be overwritten via the `artifactPath` option.
+
+> :arrow_right: Read more at [`Architecture#Build artifact`](architecture.md#build-artifact).
+
 ### Install Composer dependencies
 
 * Identifier: **`installComposerDependencies`**

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the Composer package "cpsit/project-builder".
  *
- * Copyright (C) 2022 Elias Häußler <e.haeussler@familie-redlich.de>
+ * Copyright (C) 2023 Elias Häußler <e.haeussler@familie-redlich.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,41 +21,43 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Builder\Config\ValueObject;
+namespace CPSIT\ProjectBuilder\Builder\Artifact;
+
+use Composer\Package;
 
 /**
- * StepOptions.
+ * GeneratorArtifact.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
+ *
+ * @internal
+ *
+ * @extends Artifact<array{
+ *     package: PackageArtifact,
+ *     executor: string
+ * }>
  */
-final class StepOptions
+final class GeneratorArtifact extends Artifact
 {
-    /**
-     * @param list<FileCondition> $fileConditions
-     */
     public function __construct(
-        private array $fileConditions = [],
-        private ?string $templateFile = null,
-        private ?string $artifactPath = null,
+        private Package\RootPackageInterface $rootPackage,
     ) {
     }
 
-    /**
-     * @return list<FileCondition>
-     */
-    public function getFileConditions(): array
+    public function dump(): array
     {
-        return $this->fileConditions;
+        return [
+            'package' => new PackageArtifact($this->rootPackage),
+            'executor' => $this->determineExecutor(),
+        ];
     }
 
-    public function getTemplateFile(): ?string
+    private function determineExecutor(): string
     {
-        return $this->templateFile;
-    }
-
-    public function getArtifactPath(): ?string
-    {
-        return $this->artifactPath;
+        return match (getenv('PROJECT_BUILDER_EXECUTOR')) {
+            'docker' => 'docker',
+            default => 'composer',
+        };
     }
 }
