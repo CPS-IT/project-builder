@@ -28,6 +28,8 @@ namespace CPSIT\ProjectBuilder\IO\Validator;
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
+ *
+ * @template T of array<string, mixed>
  */
 abstract class AbstractValidator implements ValidatorInterface
 {
@@ -37,7 +39,7 @@ abstract class AbstractValidator implements ValidatorInterface
     protected static array $defaultOptions = [];
 
     /**
-     * @var array<string, mixed>
+     * @phpstan-var T
      */
     protected array $options;
 
