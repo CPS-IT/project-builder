@@ -1,0 +1,246 @@
+{
+	"$schema": "https://json-schema.org/draft-04/schema",
+	"type": "object",
+	"title": "Build artifact for projects generated with CPS project builder",
+	"properties": {
+		"artifact": {
+			"$ref": "#/definitions/artifact"
+		},
+		"template": {
+			"$ref": "#/definitions/template"
+		},
+		"generator": {
+			"$ref": "#/definitions/generator"
+		},
+		"result": {
+			"$ref": "#/definitions/result"
+		}
+	},
+	"additionalProperties": false,
+	"required": [
+		"artifact",
+		"template",
+		"generator",
+		"result"
+	],
+	"definitions": {
+		"artifact": {
+			"type": "object",
+			"title": "General artifact metadata",
+			"properties": {
+				"version": {
+					"type": "integer",
+					"title": "Version of build artifact when originally dumped",
+					"enum": [
+						1
+					],
+					"default": 1
+				},
+				"path": {
+					"type": "string",
+					"title": "Original relative path to the artifact file within a project"
+				},
+				"date": {
+					"type": "integer",
+					"title": "Date of build artifact when originally dumped",
+					"description": "Must be a UNIX timestamp"
+				}
+			},
+			"additionalProperties": false,
+			"required": [
+				"version",
+				"path"
+			]
+		},
+		"template": {
+			"type": "object",
+			"title": "Template package metadata",
+			"properties": {
+				"identifier": {
+					"type": "string",
+					"title": "Project template identifier",
+					"description": "Same as template package name. For legacy template packages, this may be a different identifier."
+				},
+				"hash": {
+					"type": "string",
+					"title": "Calculated template configuration hash"
+				},
+				"package": {
+					"$ref": "#/definitions/package"
+				},
+				"provider": {
+					"$ref": "#/definitions/provider"
+				}
+			},
+			"additionalProperties": false,
+			"required": [
+				"identifier",
+				"hash",
+				"package",
+				"provider"
+			]
+		},
+		"generator": {
+			"type": "object",
+			"title": "Generator package metadata",
+			"properties": {
+				"package": {
+					"$ref": "#/definitions/package"
+				},
+				"executor": {
+					"type": "string",
+					"title": "Original executor used to dump a build artifact",
+					"enum": [
+						"composer",
+						"docker"
+					]
+				}
+			},
+			"additionalProperties": false,
+			"required": [
+				"package",
+				"executor"
+			]
+		},
+		"result": {
+			"type": "object",
+			"title": "Resulting project metadata",
+			"properties": {
+				"properties": {
+					"type": "object",
+					"title": "Properties for project build instructions"
+				},
+				"steps": {
+					"type": "array",
+					"title": "Processed build steps",
+					"minItems": 1,
+					"items": {
+						"$ref": "#/definitions/step"
+					}
+				},
+				"processedFiles": {
+					"type": "array",
+					"title": "Processed source files",
+					"items": {
+						"$ref": "#/definitions/processedFile"
+					}
+				}
+			},
+			"additionalProperties": false,
+			"required": [
+				"properties",
+				"steps",
+				"processedFiles"
+			]
+		},
+		"package": {
+			"type": "object",
+			"title": "Composer package metadata",
+			"properties": {
+				"name": {
+					"type": "string",
+					"title": "Composer package name"
+				},
+				"version": {
+					"type": "string",
+					"title": "Currently used package version",
+					"description": "Can be any version processable by Composer"
+				},
+				"sourceReference": {
+					"type": [
+						"string",
+						"null"
+					],
+					"title": "Currently used package source",
+					"description": "References a commit (SHA-1 hash) of the package sources"
+				},
+				"sourceUrl": {
+					"type": [
+						"string",
+						"null"
+					],
+					"title": "Package source URL",
+					"description": "URL exposing package source files"
+				},
+				"distUrl": {
+					"type": [
+						"string",
+						"null"
+					],
+					"title": "Package dist URL",
+					"description": "URL exposing package distribution files"
+				}
+			},
+			"additionalProperties": false,
+			"required": [
+				"name",
+				"version",
+				"sourceReference",
+				"sourceUrl",
+				"distUrl"
+			]
+		},
+		"provider": {
+			"type": "object",
+			"title": "Template source provider",
+			"properties": {
+				"name": {
+					"type": "string",
+					"title": "Name of the provider",
+					"description": "Declared in the appropriate provider class"
+				},
+				"url": {
+					"type": "string",
+					"title": "Provider url",
+					"description": "Base URL exposing available template sources of a provider"
+				}
+			},
+			"additionalProperties": false,
+			"required": [
+				"name",
+				"url"
+			]
+		},
+		"step": {
+			"type": "object",
+			"title": "Project build step",
+			"properties": {
+				"type": {
+					"type": "string",
+					"title": "Build step type",
+					"description": "Must be a valid type representing an available step implementation"
+				},
+				"applied": {
+					"type": "boolean",
+					"title": "Whether step was applied during project generation"
+				}
+			},
+			"additionalProperties": false,
+			"required": [
+				"type",
+				"applied"
+			]
+		},
+		"processedFile": {
+			"type": "object",
+			"title": "Processed source file or shared source file",
+			"properties": {
+				"source": {
+					"type": "string",
+					"title": "Path to source file",
+					"description": "Must be a path relative to the `templates/src` directory within a template package"
+				},
+				"target": {
+					"type": "string",
+					"title": "Path to target file",
+					"description": "Must be a path relative to the generated project"
+				}
+			},
+			"additionalProperties": false,
+			"required": [
+				"source",
+				"target"
+			]
+		}
+	}
+}

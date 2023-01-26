@@ -49,6 +49,12 @@
 			}
 		},
 		{
+			"type": "generateBuildArtifact",
+			"options": {
+				"artifactPath": "foo.json"
+			}
+		},
+		{
 			"type": "mirrorProcessedFiles"
 		}
 	],

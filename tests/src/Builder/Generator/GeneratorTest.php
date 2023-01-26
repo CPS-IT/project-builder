@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Tests\Builder\Generator;
 
+use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Symfony\Component\Console;
@@ -63,6 +64,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertTrue($actual->isStepApplied('collectBuildInstructions'));
         self::assertTrue($actual->isStepApplied('processSourceFiles'));
         self::assertTrue($actual->isStepApplied('processSharedSourceFiles'));
+        self::assertTrue($actual->isStepApplied('generateBuildArtifact'));
         self::assertTrue($actual->isStepApplied('mirrorProcessedFiles'));
         self::assertTrue($actual->isMirrored());
 
@@ -71,19 +73,20 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('Running step #1 "collectBuildInstructions"...', $output);
         self::assertStringContainsString('Running step #2 "processSourceFiles"...', $output);
         self::assertStringContainsString('Running step #3 "processSharedSourceFiles"...', $output);
-        self::assertStringContainsString('Running step #4 "mirrorProcessedFiles"...', $output);
+        self::assertStringContainsString('Running step #4 "generateBuildArtifact"...', $output);
+        self::assertStringContainsString('Running step #5 "mirrorProcessedFiles"...', $output);
 
         self::assertFileExists($this->targetDirectory.'/dummy.yaml');
         self::assertStringEqualsFile($this->targetDirectory.'/dummy.yaml', 'name: "foo"'.PHP_EOL);
 
-        self::assertCount(6, $this->eventListener->dispatchedEvents);
+        self::assertCount(7, $this->eventListener->dispatchedEvents);
         self::assertInstanceOf(Src\Event\ProjectBuildStartedEvent::class, $this->eventListener->dispatchedEvents[0]);
 
-        for ($i = 1; $i <= 4; ++$i) {
+        for ($i = 1; $i <= 5; ++$i) {
             self::assertInstanceOf(Src\Event\BuildStepProcessedEvent::class, $this->eventListener->dispatchedEvents[$i]);
         }
 
-        self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[5]);
+        self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[6]);
     }
 
     /**
@@ -126,8 +129,22 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
 
         $actual = $this->subject->run($this->targetDirectory);
 
-        self::assertCount(3, $actual->getAppliedSteps());
+        self::assertCount(4, $actual->getAppliedSteps());
         self::assertFalse($actual->isMirrored());
+    }
+
+    /**
+     * @test
+     */
+    public function dumpArtifactDumpsBuildArtifact(): void
+    {
+        self::$io->setUserInputs(['foo']);
+
+        $result = $this->subject->run($this->targetDirectory);
+
+        $this->subject->dumpArtifact($result);
+
+        self::assertTrue($result->isStepApplied('dumpBuildArtifact'));
     }
 
     /**
@@ -148,10 +165,18 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
     {
         $configReader = Src\Builder\Config\ConfigFactory::create();
 
-        return $configReader->buildFromFile(
+        $config = $configReader->buildFromFile(
             dirname(__DIR__, 2).'/Fixtures/Templates/yaml-template/config.yaml',
             'yaml',
         );
+        $config->setTemplateSource(
+            new Src\Template\TemplateSource(
+                new Src\Tests\Fixtures\DummyProvider(),
+                new Package\Package('foo/baz', '1.0.0', '1.0.0'),
+            ),
+        );
+
+        return $config;
     }
 
     protected function tearDown(): void

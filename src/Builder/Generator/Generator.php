@@ -53,6 +53,7 @@ final class Generator
         private Builder\Generator\Step\StepFactory $stepFactory,
         private Filesystem\Filesystem $filesystem,
         private EventDispatcher\EventDispatcherInterface $eventDispatcher,
+        private Builder\Writer\JsonFileWriter $writer,
     ) {
     }
 
@@ -100,6 +101,12 @@ final class Generator
         $this->eventDispatcher->dispatch(new Event\ProjectBuildFinishedEvent($result));
 
         return $result;
+    }
+
+    public function dumpArtifact(Builder\BuildResult $result): void
+    {
+        $step = new Builder\Generator\Step\DumpBuildArtifactStep($this->filesystem, $this->writer);
+        $step->run($result);
     }
 
     public function cleanUp(Builder\BuildResult $result): void
