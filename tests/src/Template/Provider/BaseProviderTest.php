@@ -129,7 +129,29 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     /**
      * @test
      */
-    public function installTemplateSourceFailsIfGivenConstraintIsInvalid(): void
+    public function installTemplateSourceFailsSoftlyIfGivenConstraintIsInvalid(): void
+    {
+        $package = $this->createPackageFromTemplateFixture();
+        $templateSource = new Template\TemplateSource($this->subject, $package);
+
+        $this->subject->packages = [$package];
+
+        $this->mockPackagesServerResponse([$package]);
+
+        self::$io->setUserInputs(['foo', '']);
+
+        $this->subject->installTemplateSource($templateSource);
+
+        self::assertStringContainsString(
+            'Could not parse version constraint foo: Invalid version string "foo"',
+            self::$io->getOutput(),
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function installTemplateSourceFailsIfGivenConstraintCannotBeResolved(): void
     {
         $package = $this->createPackageFromTemplateFixture();
         $templateSource = new Template\TemplateSource($this->subject, $package);
