@@ -14,30 +14,30 @@
 [![Docker](https://img.shields.io/docker/v/cpsit/project-builder?label=docker&sort=semver)](https://hub.docker.com/r/cpsit/project-builder)
 [![License](http://poser.pugx.org/cpsit/project-builder/license)](LICENSE)
 
-:package:&nbsp;[Packagist](https://packagist.org/packages/cpsit/project-builder) |
-:floppy_disk:&nbsp;[Repository](https://github.com/CPS-IT/project-builder) |
-:bug:&nbsp;[Issue tracker](https://github.com/CPS-IT/project-builder/issues)
+📦&nbsp;[Packagist](https://packagist.org/packages/cpsit/project-builder) |
+💾&nbsp;[Repository](https://github.com/CPS-IT/project-builder) |
+🐛&nbsp;[Issue tracker](https://github.com/CPS-IT/project-builder/issues)
 
 </div>
 
-The CPS Project Builder serves as a template repository providing a generic way to create
-a various set of project types developed at [coding. powerful. systems. CPS GmbH][1]. The
-project comes with a powerful configuration and templating system that allows to kickstart
-a new project in seconds.
+A Composer package used to create new projects based on various project templates.
+All project templates are distributed as separate Composer packages. The Project Builder
+comes with a powerful configuration and templating system that allows to develop new
+project templates in a very flexible way.
 
-By simply using the Composer command [`create-project`][2] it was never easier to create
+By simply using the Composer command [`create-project`][1] it was never easier to create
 new project repositories from command line.
 
-## :rocket: Features
+## 🚀 Features
 
 * Kickstarter package for new projects
+* Easily extensible for new project templates
+* Support for private templates via Composer registry or VCS repository
 * Modern configuration and templating system
-* Support for templating of external dependencies
-* Easily extensible for new project types
 
-## :zap: Usage
+## ⚡ Usage
 
-Usage with [Composer][3]:
+Usage with [Composer][2]:
 
 ```bash
 composer create-project cpsit/project-builder <projectname>
@@ -51,25 +51,38 @@ docker run --rm -it -v <target-dir>:/app cpsit/project-builder
 
 Please have a look at [`Usage`](docs/usage.md) for an extended overview.
 
-## :open_file_folder: Configuration
-The configuration describes how to build a project, e.g. which steps are necessary and what
-properties are required when rendering project templates.
+## 📦 Available project templates
 
-Explore configuration details and examples in [`Configuration`](docs/configuration.md).
+The following project templates are currently available:
 
-## :roller_coaster: Architecture
+| Composer package                    | Project type                    |
+|-------------------------------------|---------------------------------|
+| [`cpsit/typo3-project-template`][3] | Template for TYPO3 CMS projects |
 
-Please have a look at [`Architecture`](docs/architecture.md) which explains
-core concepts and lists all available components.
+Explore all publicly available project templates on [Packagist][4].
 
-## :technologist: Contributing
+_If you want your project template to be listed here, feel free to submit a
+[pull request][5]._
+
+## 📖 Documentation
+
+- [Architecture](docs/architecture.md)
+- [Configuration](docs/configuration.md)
+- [Dependency injection](docs/dependency-injection.md)
+- [Events](docs/events.md)
+- [Build steps](docs/build-steps.md)
+- [Usage](docs/usage.md)
+
+## 🧑‍💻 Contributing
 
 Please have a look at [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
-## :star: License
+## ⭐ License
 
 This project is licensed under [GNU General Public License 3.0 (or later)](LICENSE).
 
-[1]: https://www.cps-it.de
-[2]: https://getcomposer.org/doc/03-cli.md#create-project
-[3]: https://getcomposer.org/
+[1]: https://getcomposer.org/doc/03-cli.md#create-project
+[2]: https://getcomposer.org/
+[3]: https://github.com/CPS-IT/typo3-project-template
+[4]: https://packagist.org/?type=project-builder-template
+[5]: https://github.com/CPS-IT/project-builder/pulls
