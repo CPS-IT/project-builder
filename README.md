@@ -70,7 +70,7 @@ _If you want your project template to be listed here, feel free to submit a
 - [Configuration](docs/configuration.md)
 - [Dependency injection](docs/dependency-injection.md)
 - [Events](docs/events.md)
-- [Processing build steps](docs/processing-build-steps.md)
+- [Build steps](docs/build-steps.md)
 - [Usage](docs/usage.md)
 
 ## 🧑‍💻 Contributing

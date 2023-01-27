@@ -106,7 +106,7 @@ code .
 
 :bulb: Normally, each project builder will show you the next steps
 after successful project creation. Those steps highly depend on the
-project type. Read more at [Processing build steps#Show next steps](processing-build-steps.md#show-next-steps).
+project type. Read more at [Build steps#Show next steps](build-steps.md#show-next-steps).
 
 [1]: https://getcomposer.org/doc/03-cli.md#create-project
 [2]: https://hub.docker.com/r/cpsit/project-builder
