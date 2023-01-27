@@ -253,6 +253,25 @@
 				{
 					"properties": {
 						"type": {
+							"const": "generateBuildArtifact"
+						},
+						"options": {
+							"type": "object",
+							"properties": {
+								"artifactPath": {
+									"type": "string",
+									"title": "Path to build artifact in generated project",
+									"description": "Must be a JSON file, relative to the project root",
+									"default": ".build/build-artifact.json",
+									"pattern": "\\.json$"
+								}
+							}
+						}
+					}
+				},
+				{
+					"properties": {
+						"type": {
 							"const": "showNextSteps"
 						},
 						"options": {

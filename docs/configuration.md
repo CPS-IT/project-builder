@@ -128,13 +128,13 @@ Each config file should at least contain the following properties:
   used for communication with the user, keeping the actual project type internal.
 * **`steps`** defines a list of necessary build steps. Those steps are processed
   once a new project of the associated project type is generated. Read more at
-  [`Processing build steps`](processing-build-steps.md).
+  [`Processing build steps`](build-steps.md).
 
 Usually, it is also necessary to collect some more information from the user, e.g.
 to be able to prepare template files such as `README.md.twig` or `composer.json.twig`.
 For this, a set of `properties` can be defined. Those properties are then used to
 collect information in form of build instructions from the user. Read more at
-[`Processing build steps#Collect build instructions`](processing-build-steps.md#collect-build-instructions).
+[`Processing build steps#Collect build instructions`](build-steps.md#collect-build-instructions).
 
 Example:
 

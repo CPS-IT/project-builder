@@ -77,10 +77,6 @@ return static function (
 
     $services = $configurator->services();
 
-    // Disable clean-up step since it's an internal step that should
-    // not be able to be referenced from template configuration.
-    $services->remove(Builder\Generator\Step\CleanUpStep::class);
-
     // Add external services
     $services->set(ExpressionLanguage\ExpressionLanguage::class);
     $services->set(Filesystem\Filesystem::class);

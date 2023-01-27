@@ -98,6 +98,7 @@ final class Application
 
             // Create container
             $config = $this->configReader->readConfig($templateIdentifier);
+            $config->setTemplateSource($templateSource);
             $container = $this->buildContainer($config);
 
             // Run project generation
@@ -112,6 +113,7 @@ final class Application
                 return self::ABORTED;
             }
 
+            $generator->dumpArtifact($result);
             $generator->cleanUp($result);
         } catch (Throwable $exception) {
             $this->errorHandler->handleException($exception);

@@ -1,0 +1,16 @@
+/.github
+/docs
+/tests
+/.dockerignore
+/.editorconfig
+/.gitattributes
+/.php-cs-fixer.php
+/codecov.yml
+/CONTRIBUTING.md
+/dependency-checker.json
+/Dockerfile
+/phpstan.neon
+/phpunit.coverage.xml
+/phpunit.xml
+/README.md
+/rector.php

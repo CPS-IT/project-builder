@@ -24,9 +24,11 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder\Builder;
+use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\Paths;
 use LogicException;
 use Symfony\Component\Filesystem;
+use Symfony\Component\Finder;
 
 /**
  * CleanUpStep.
@@ -49,6 +51,7 @@ final class CleanUpStep extends AbstractStep
     public function run(Builder\BuildResult $buildResult): bool
     {
         $targetDirectory = $buildResult->getInstructions()->getTargetDirectory();
+        $artifactBackup = $this->backupBuildArtifact($buildResult);
 
         $directoriesToRemove = array_map(
             fn (string $path): string => Filesystem\Path::makeAbsolute($path, $targetDirectory),
@@ -56,6 +59,10 @@ final class CleanUpStep extends AbstractStep
         );
 
         $this->filesystem->remove($directoriesToRemove);
+
+        if (null !== $artifactBackup) {
+            $this->restoreBuildArtifact($buildResult, $artifactBackup);
+        }
 
         $buildResult->applyStep($this);
 
@@ -76,5 +83,39 @@ final class CleanUpStep extends AbstractStep
     {
         // Always deny support to assure step is only used internally
         return false;
+    }
+
+    private function backupBuildArtifact(Builder\BuildResult $buildResult): ?Finder\SplFileInfo
+    {
+        $buildArtifact = $buildResult->getBuildArtifact();
+
+        if (null === $buildArtifact || !$this->filesystem->exists($buildArtifact->getFile()->getPathname())) {
+            return null;
+        }
+
+        $backupFile = Helper\FilesystemHelper::createFileObject(
+            Helper\FilesystemHelper::getNewTemporaryDirectory(),
+            $buildArtifact->getFile()->getFilename(),
+        );
+
+        $this->filesystem->copy(
+            $buildArtifact->getFile()->getPathname(),
+            $backupFile->getPathname(),
+        );
+
+        return $backupFile;
+    }
+
+    private function restoreBuildArtifact(Builder\BuildResult $buildResult, Finder\SplFileInfo $artifactBackup): void
+    {
+        if (null === $buildResult->getBuildArtifact()) {
+            return;
+        }
+
+        $this->filesystem->copy(
+            $artifactBackup->getPathname(),
+            $buildResult->getBuildArtifact()->getFile()->getPathname(),
+        );
+        $this->filesystem->remove($artifactBackup->getPath());
     }
 }

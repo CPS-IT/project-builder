@@ -23,8 +23,11 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Tests\Builder\Config;
 
+use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use PHPUnit\Framework\TestCase;
+
+use function serialize;
 
 /**
  * ConfigTest.
@@ -110,5 +113,47 @@ final class ConfigTest extends TestCase
     public function setDeclaringFileAppliesDeclaringFile(): void
     {
         self::assertSame('foo', $this->subject->setDeclaringFile('foo')->getDeclaringFile());
+    }
+
+    /**
+     * @test
+     */
+    public function getTemplateSourceThrowsExceptionIfTemplateSourceIsNotSet(): void
+    {
+        $this->expectException(Src\Exception\InvalidConfigurationException::class);
+        $this->expectExceptionCode(1673458682);
+        $this->expectExceptionMessage('The template source for "identifier" could not be determined.');
+
+        $this->subject->getTemplateSource();
+    }
+
+    /**
+     * @test
+     */
+    public function setTemplateSourceAppliesTemplateSource(): void
+    {
+        $templateSource = new Src\Template\TemplateSource(
+            new Src\Tests\Fixtures\DummyProvider(),
+            new Package\Package('foo/baz', '1.0.0', '1.0.0'),
+        );
+
+        self::assertSame($templateSource, $this->subject->setTemplateSource($templateSource)->getTemplateSource());
+    }
+
+    /**
+     * @test
+     */
+    public function buildHashCalculatesConfigHash(): void
+    {
+        $hash = sha1(
+            serialize([
+                'identifier' => $this->subject->getIdentifier(),
+                'name' => $this->subject->getName(),
+                'steps' => $this->subject->getSteps(),
+                'properties' => $this->subject->getProperties(),
+            ]),
+        );
+
+        self::assertSame($hash, $this->subject->buildHash());
     }
 }

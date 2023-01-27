@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the Composer package "cpsit/project-builder".
  *
- * Copyright (C) 2022 Elias Häußler <e.haeussler@familie-redlich.de>
+ * Copyright (C) 2023 Elias Häußler <e.haeussler@familie-redlich.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,41 +21,32 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Builder\Config\ValueObject;
+namespace CPSIT\ProjectBuilder\Builder\Artifact;
+
+use JsonSerializable;
 
 /**
- * StepOptions.
+ * Artifact.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
+ *
+ * @internal
+ *
+ * @template T of array<string, mixed>
  */
-final class StepOptions
+abstract class Artifact implements JsonSerializable
 {
     /**
-     * @param list<FileCondition> $fileConditions
+     * @return T
      */
-    public function __construct(
-        private array $fileConditions = [],
-        private ?string $templateFile = null,
-        private ?string $artifactPath = null,
-    ) {
-    }
+    abstract public function dump(): array;
 
     /**
-     * @return list<FileCondition>
+     * @return T
      */
-    public function getFileConditions(): array
+    public function jsonSerialize(): array
     {
-        return $this->fileConditions;
-    }
-
-    public function getTemplateFile(): ?string
-    {
-        return $this->templateFile;
-    }
-
-    public function getArtifactPath(): ?string
-    {
-        return $this->artifactPath;
+        return $this->dump();
     }
 }

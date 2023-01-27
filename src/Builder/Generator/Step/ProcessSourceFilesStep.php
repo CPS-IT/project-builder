@@ -63,7 +63,11 @@ final class ProcessSourceFilesStep extends AbstractStep implements ProcessingSte
             );
 
             $writer = $this->writerFactory->get($sourceFile->getPathname());
-            $processedFile = $writer->write($instructions, $sourceFile, $this->findTargetFile($sourceFile));
+            $processedFile = $writer->write(
+                $instructions,
+                $sourceFile,
+                $this->findTargetFile($sourceFile, $instructions),
+            );
 
             $this->processedFiles[] = new Resource\Local\ProcessedFile($sourceFile, $processedFile);
 

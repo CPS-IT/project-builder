@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Tests;
 
+use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use GuzzleHttp\Handler;
 use GuzzleHttp\HandlerStack;
@@ -85,6 +86,12 @@ abstract class ContainerAwareTestCase extends TestCase
             ],
         );
         $config->setDeclaringFile(__FILE__);
+        $config->setTemplateSource(
+            new Src\Template\TemplateSource(
+                new Src\Tests\Fixtures\DummyProvider(),
+                new Package\Package('foo/baz', '1.0.0', '1.0.0'),
+            ),
+        );
 
         return $config;
     }
