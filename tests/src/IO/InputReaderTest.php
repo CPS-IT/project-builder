@@ -59,4 +59,19 @@ final class InputReaderTest extends Tests\ContainerAwareTestCase
     {
         self::assertSame('Alice', $this->subject->staticValue('What\'s your name?', 'Alice'));
     }
+
+    /**
+     * @test
+     */
+    public function hiddenValueHidesUserInput(): void
+    {
+        self::$io->setUserInputs(['s3cr3t']);
+
+        self::assertSame('s3cr3t', $this->subject->hiddenValue('What\'s your password?'));
+
+        $output = self::$io->getOutput();
+
+        self::assertStringContainsString('What\'s your password?', $output);
+        self::assertStringNotContainsString('s3cr3t', $output);
+    }
 }
