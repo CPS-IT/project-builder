@@ -63,10 +63,7 @@ final class ShowNextStepsStep extends AbstractStep
         $nextSteps = explode(PHP_EOL, trim($renderer->render($buildResult->getInstructions(), basename($templateFile))));
 
         $this->messenger->section('Next steps');
-
-        foreach ($nextSteps as $nextStep) {
-            $this->messenger->write($nextStep);
-        }
+        $this->messenger->write($nextSteps);
 
         $buildResult->applyStep($this);
 
