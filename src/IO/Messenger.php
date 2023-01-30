@@ -31,6 +31,7 @@ use CPSIT\ProjectBuilder\Resource;
 use CPSIT\ProjectBuilder\Template;
 use Symfony\Component\Console;
 
+use function array_map;
 use function count;
 use function implode;
 use function is_scalar;
@@ -340,11 +341,12 @@ final class Messenger
     }
 
     /**
+     * @param string|list<string>            $messages
      * @param int-mask-of<IO\IOInterface::*> $verbosity
      */
-    public function write(string $message, bool $newLine = true, int $verbosity = IO\IOInterface::NORMAL): void
+    public function write(string|array $messages, bool $newLine = true, int $verbosity = IO\IOInterface::NORMAL): void
     {
-        $this->getIO()->write($message, $newLine, $verbosity);
+        $this->getIO()->write($messages, $newLine, $verbosity);
     }
 
     public function writeWithEmoji(string $emoji, string $message, bool $overwrite = false): void
