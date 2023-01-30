@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Tests\Builder\Config\ValueObject;
 
-use CPSIT\ProjectBuilder\Builder as Src;
+use CPSIT\ProjectBuilder as Src;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\ExpressionLanguage;
 
@@ -35,11 +35,11 @@ use Symfony\Component\ExpressionLanguage;
  */
 final class FileConditionTest extends TestCase
 {
-    private Src\Config\ValueObject\FileCondition $subject;
+    private Src\Builder\Config\ValueObject\FileCondition $subject;
 
     protected function setUp(): void
     {
-        $this->subject = new Src\Config\ValueObject\FileCondition('foo', 'bar', 'target');
+        $this->subject = new Src\Builder\Config\ValueObject\FileCondition('foo', 'bar', 'target');
     }
 
     /**

@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Tests\Builder\Config\ValueObject;
 
-use CPSIT\ProjectBuilder\Builder as Src;
+use CPSIT\ProjectBuilder as Src;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -34,11 +34,11 @@ use PHPUnit\Framework\TestCase;
  */
 final class PropertyValidatorTest extends TestCase
 {
-    private Src\Config\ValueObject\PropertyValidator $subject;
+    private Src\Builder\Config\ValueObject\PropertyValidator $subject;
 
     protected function setUp(): void
     {
-        $this->subject = new Src\Config\ValueObject\PropertyValidator('foo', ['bar' => 'bar']);
+        $this->subject = new Src\Builder\Config\ValueObject\PropertyValidator('foo', ['bar' => 'bar']);
     }
 
     /**

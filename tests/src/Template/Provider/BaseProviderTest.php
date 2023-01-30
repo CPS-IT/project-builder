@@ -27,9 +27,7 @@ use Composer\Package;
 use Composer\Repository;
 use Composer\Semver\Constraint;
 use Composer\Semver\VersionParser;
-use CPSIT\ProjectBuilder\Exception;
-use CPSIT\ProjectBuilder\Resource;
-use CPSIT\ProjectBuilder\Template;
+use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use donatj\MockWebServer;
 use Generator;
@@ -78,7 +76,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         $this->subject->packages = $packages;
 
         $expectedTemplateSources = array_map(
-            fn (Package\PackageInterface $package) => new Template\TemplateSource($this->subject, $package),
+            fn (Package\PackageInterface $package) => new Src\Template\TemplateSource($this->subject, $package),
             $expected,
         );
 
@@ -100,13 +98,13 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
                 '1.0.0',
             ),
         ]);
-        $templateSource = new Template\TemplateSource($this->subject, $package);
+        $templateSource = new Src\Template\TemplateSource($this->subject, $package);
 
         $this->subject->packages = [$package];
 
         $this->mockPackagesServerResponse([$package]);
 
-        $this->expectExceptionObject(Exception\InvalidTemplateSourceException::forFailedInstallation($templateSource));
+        $this->expectExceptionObject(Src\Exception\InvalidTemplateSourceException::forFailedInstallation($templateSource));
 
         $this->subject->installTemplateSource($templateSource);
     }
@@ -117,11 +115,11 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     public function installTemplateSourceThrowsExceptionIfInstallationFailsWithGivenConstraint(): void
     {
         $package = $this->createPackage('foo/baz');
-        $templateSource = new Template\TemplateSource($this->subject, $package);
+        $templateSource = new Src\Template\TemplateSource($this->subject, $package);
 
         self::$io->setUserInputs(['']);
 
-        $this->expectExceptionObject(Exception\InvalidTemplateSourceException::forFailedInstallation($templateSource));
+        $this->expectExceptionObject(Src\Exception\InvalidTemplateSourceException::forFailedInstallation($templateSource));
 
         $this->subject->installTemplateSource($templateSource);
     }
@@ -132,7 +130,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     public function installTemplateSourceFailsSoftlyIfGivenConstraintIsInvalid(): void
     {
         $package = $this->createPackageFromTemplateFixture();
-        $templateSource = new Template\TemplateSource($this->subject, $package);
+        $templateSource = new Src\Template\TemplateSource($this->subject, $package);
 
         $this->subject->packages = [$package];
 
@@ -154,7 +152,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     public function installTemplateSourceFailsIfGivenConstraintCannotBeResolved(): void
     {
         $package = $this->createPackageFromTemplateFixture();
-        $templateSource = new Template\TemplateSource($this->subject, $package);
+        $templateSource = new Src\Template\TemplateSource($this->subject, $package);
 
         $this->subject->packages = [$package];
 
@@ -163,7 +161,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         self::$io->setUserInputs(['^2.0', 'no']);
 
         $this->expectExceptionObject(
-            Exception\InvalidTemplateSourceException::forInvalidPackageVersionConstraint($templateSource, '^2.0'),
+            Src\Exception\InvalidTemplateSourceException::forInvalidPackageVersionConstraint($templateSource, '^2.0'),
         );
 
         $this->subject->installTemplateSource($templateSource);
@@ -175,7 +173,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     public function installTemplateSourceAllowsSpecifyingOtherConstraintIfInstallationFailsWithGivenConstraint(): void
     {
         $package = $this->createPackageFromTemplateFixture();
-        $templateSource = new Template\TemplateSource($this->subject, $package);
+        $templateSource = new Src\Template\TemplateSource($this->subject, $package);
 
         $this->subject->packages = [$package];
 
@@ -205,7 +203,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         string $constraint,
         string $expected,
     ): void {
-        $templateSource = new Template\TemplateSource($this->subject, reset($packages));
+        $templateSource = new Src\Template\TemplateSource($this->subject, reset($packages));
 
         $this->subject->packages = $packages;
 
@@ -310,7 +308,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
 
         self::assertDirectoryExists($fixturePath);
 
-        $composerJson = Resource\Local\Composer::createComposer($fixturePath);
+        $composerJson = Src\Resource\Local\Composer::createComposer($fixturePath);
         $package = $this->createPackage($composerJson->getPackage()->getName(), prettyVersion: $prettyVersion);
 
         $package->setDistType('path');
