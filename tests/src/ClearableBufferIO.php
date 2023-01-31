@@ -45,7 +45,7 @@ final class ClearableBufferIO extends IO\BufferIO
     private $restoreInitialState;
 
     /**
-     * @param Console\Output\OutputInterface::VERBOSITY_* $verbosity
+     * @param int-mask-of<Console\Output\OutputInterface::VERBOSITY_*> $verbosity
      */
     public function __construct(
         string $input = '',
@@ -87,7 +87,7 @@ final class ClearableBufferIO extends IO\BufferIO
     }
 
     /**
-     * @param Console\Output\OutputInterface::VERBOSITY_* $level
+     * @param int-mask-of<Console\Output\OutputInterface::VERBOSITY_*> $level
      */
     public function setVerbosity(int $level): self
     {

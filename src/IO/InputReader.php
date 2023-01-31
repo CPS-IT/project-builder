@@ -76,6 +76,13 @@ final class InputReader
         return null;
     }
 
+    public function hiddenValue(string $label): ?string
+    {
+        $label = Messenger::decorateLabel($label);
+
+        return $this->io->askAndHideAnswer($label);
+    }
+
     /**
      * @param list<string> $choices
      *
