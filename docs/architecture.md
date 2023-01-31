@@ -150,6 +150,7 @@ Example:
 
 $phpVersion = $inputReader->choices('Which PHP version should be used?', ['8.1', '8.0']);
 $name = $inputReader->staticValue('What\'s your name?');
+$password = $inputReader->hiddenValue('What\'s your password?');
 
 if ($inputReader->ask('Confirm project generation?', default: false)) {
     // Project generation confirmed, continue...
