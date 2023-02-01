@@ -46,6 +46,8 @@ use function iterator_to_array;
  * @license GPL-3.0-or-later
  *
  * @internal
+ *
+ * @codeCoverageIgnore
  */
 final class ContainerFactory
 {
