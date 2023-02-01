@@ -30,6 +30,8 @@ use CPSIT\ProjectBuilder\Exception;
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
+ *
+ * @extends AbstractValidator<array{strict: bool}>
  */
 final class NotEmptyValidator extends AbstractValidator
 {
@@ -64,6 +66,7 @@ final class NotEmptyValidator extends AbstractValidator
 
     private function isStrictCheckEnabled(): bool
     {
+        /* @phpstan-ignore-next-line */
         return (bool) $this->options['strict'];
     }
 }

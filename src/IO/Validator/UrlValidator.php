@@ -30,6 +30,8 @@ use CPSIT\ProjectBuilder\Exception;
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
+ *
+ * @extends AbstractValidator<array{}>
  */
 final class UrlValidator extends AbstractValidator
 {

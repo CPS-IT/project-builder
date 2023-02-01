@@ -33,6 +33,8 @@ use function strtoupper;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  *
+ * @extends IO\Validator\AbstractValidator<array{}>
+ *
  * @internal
  */
 final class ModifyingValidator extends IO\Validator\AbstractValidator

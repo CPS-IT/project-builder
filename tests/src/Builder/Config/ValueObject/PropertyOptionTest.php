@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Tests\Builder\Config\ValueObject;
 
-use CPSIT\ProjectBuilder\Builder as Src;
+use CPSIT\ProjectBuilder as Src;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\ExpressionLanguage;
 
@@ -35,11 +35,11 @@ use Symfony\Component\ExpressionLanguage;
  */
 final class PropertyOptionTest extends TestCase
 {
-    private Src\Config\ValueObject\PropertyOption $subject;
+    private Src\Builder\Config\ValueObject\PropertyOption $subject;
 
     protected function setUp(): void
     {
-        $this->subject = new Src\Config\ValueObject\PropertyOption('foo', 'bar');
+        $this->subject = new Src\Builder\Config\ValueObject\PropertyOption('foo', 'bar');
     }
 
     /**
@@ -56,7 +56,7 @@ final class PropertyOptionTest extends TestCase
     public function conditionMatchesReturnsDefaultIfNoConditionIsSet(): void
     {
         $expressionLanguage = new ExpressionLanguage\ExpressionLanguage();
-        $subject = new Src\Config\ValueObject\PropertyOption('foo');
+        $subject = new Src\Builder\Config\ValueObject\PropertyOption('foo');
 
         self::assertTrue($subject->conditionMatches($expressionLanguage, [], true));
     }

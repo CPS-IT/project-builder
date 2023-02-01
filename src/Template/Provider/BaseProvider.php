@@ -38,6 +38,7 @@ use Symfony\Component\Console;
 use Symfony\Component\Filesystem;
 use Twig\Environment;
 use Twig\Loader;
+use UnexpectedValueException;
 
 use function getenv;
 use function sprintf;
@@ -53,6 +54,7 @@ abstract class BaseProvider implements ProviderInterface
     protected Resource\Local\Composer $composer;
     protected Environment $renderer;
     protected ComposerIO\IOInterface $io;
+    protected Package\Version\VersionParser $versionParser;
     protected bool $acceptInsecureConnections = false;
 
     public function __construct(
@@ -69,6 +71,7 @@ abstract class BaseProvider implements ProviderInterface
             ]),
         );
         $this->io = new ComposerIO\BufferIO();
+        $this->versionParser = new Package\Version\VersionParser();
     }
 
     public function listTemplateSources(): array
@@ -98,6 +101,7 @@ abstract class BaseProvider implements ProviderInterface
     /**
      * @throws Exception\IOException
      * @throws Exception\InvalidTemplateSourceException
+     * @throws Exception\MisconfiguredValidatorException
      */
     public function installTemplateSource(Template\TemplateSource $templateSource): void
     {
@@ -145,6 +149,7 @@ abstract class BaseProvider implements ProviderInterface
     /**
      * @throws Exception\IOException
      * @throws Exception\InvalidTemplateSourceException
+     * @throws Exception\MisconfiguredValidatorException
      */
     protected function requestPackageVersionConstraint(Template\TemplateSource $templateSource): void
     {
@@ -153,6 +158,9 @@ abstract class BaseProvider implements ProviderInterface
 
         $constraint = $inputReader->staticValue(
             'Enter the version constraint to require (or leave blank to use the latest version)',
+            validator: new IO\Validator\CallbackValidator([
+                'callback' => [$this, 'validateConstraint'],
+            ]),
         );
 
         $this->messenger->newLine();
@@ -235,6 +243,26 @@ abstract class BaseProvider implements ProviderInterface
             ],
             Repository\RepositoryFactory::manager($this->io, $config, Factory::createHttpDownloader($this->io, $config)),
         );
+    }
+
+    /**
+     * @throws Exception\ValidationException
+     *
+     * @internal
+     */
+    public function validateConstraint(?string $input): ?string
+    {
+        if (null === $input) {
+            return null;
+        }
+
+        try {
+            $this->versionParser->parseConstraints($input);
+        } catch (UnexpectedValueException $exception) {
+            throw Exception\ValidationException::create($exception->getMessage());
+        }
+
+        return $input;
     }
 
     /**
