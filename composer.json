@@ -85,7 +85,7 @@
 			"@lint:json",
 			"@lint:php"
 		],
-		"lint:composer": "@composer normalize --no-check-lock --no-update-lock",
+		"lint:composer": "@composer normalize",
 		"lint:editorconfig": "ec",
 		"lint:editorconfig:fix": "@lint:editorconfig --fix",
 		"lint:json": "jsonlint resources/config.schema.json",
