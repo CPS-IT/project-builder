@@ -162,6 +162,7 @@ As an additional I/O component, some **validators** exist, ready to be used by t
 
 | Type       | Class                                                            | Description                                          |
 |------------|------------------------------------------------------------------|------------------------------------------------------|
+| `callback` | [`CallbackValidator`](../src/IO/Validator/CallbackValidator.php) | User input is validated by a given callback          |
 | `email`    | [`EmailValidator`](../src/IO/Validator/EmailValidator.php)       | User input must be a valid e-mail address            |
 | `notEmpty` | [`NotEmptyValidator`](../src/IO/Validator/NotEmptyValidator.php) | User input must not be empty (strict mode available) |
 | `url`      | [`UrlValidator`](../src/IO/Validator/UrlValidator.php)           | User input must be a valid URL                       |

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the Composer package "cpsit/project-builder".
  *
- * Copyright (C) 2022 Elias Häußler <e.haeussler@familie-redlich.de>
+ * Copyright (C) 2023 Elias Häußler <e.haeussler@familie-redlich.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,34 +21,32 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\IO\Validator;
+namespace CPSIT\ProjectBuilder\Exception;
+
+use CPSIT\ProjectBuilder\IO;
+use Exception;
+
+use function sprintf;
 
 /**
- * AbstractValidator.
+ * MisconfiguredValidatorException.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
- *
- * @template T of array<string, mixed>
  */
-abstract class AbstractValidator implements ValidatorInterface
+final class MisconfiguredValidatorException extends Exception
 {
-    /**
-     * @var array<string, mixed>
-     */
-    protected static array $defaultOptions = [];
+    public static function forUnexpectedOption(
+        string|IO\Validator\ValidatorInterface $validator,
+        string $option,
+    ): self {
+        if ($validator instanceof IO\Validator\ValidatorInterface) {
+            $validator = $validator::getType();
+        }
 
-    /**
-     * @phpstan-var T
-     */
-    protected array $options;
-
-    /**
-     * @param array<string, mixed> $options
-     */
-    public function __construct(
-        array $options = [],
-    ) {
-        $this->options = array_merge(static::$defaultOptions, $options);
+        return new self(
+            sprintf('The validator option "%s" of validator "%s" is invalid.', $option, $validator),
+            1673886742,
+        );
     }
 }

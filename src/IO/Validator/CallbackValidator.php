@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the Composer package "cpsit/project-builder".
  *
- * Copyright (C) 2022 Elias Häußler <e.haeussler@familie-redlich.de>
+ * Copyright (C) 2023 Elias Häußler <e.haeussler@familie-redlich.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,29 +25,41 @@ namespace CPSIT\ProjectBuilder\IO\Validator;
 
 use CPSIT\ProjectBuilder\Exception;
 
+use function is_callable;
+
 /**
- * EmailValidator.
+ * CallbackValidator.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  *
- * @extends AbstractValidator<array{}>
+ * @extends AbstractValidator<array{callback: callable(string|null): (string|null)}>
  */
-final class EmailValidator extends AbstractValidator
+final class CallbackValidator extends AbstractValidator
 {
-    private const TYPE = 'email';
+    private const TYPE = 'callback';
+
+    protected static array $defaultOptions = [
+        'callback' => null,
+    ];
+
+    /**
+     * @param array{callback?: callable(string|null): (string|null)} $options
+     *
+     * @throws Exception\MisconfiguredValidatorException
+     */
+    public function __construct(array $options = [])
+    {
+        if (!is_callable($options['callback'] ?? null)) {
+            throw Exception\MisconfiguredValidatorException::forUnexpectedOption($this, 'callback');
+        }
+
+        parent::__construct($options);
+    }
 
     public function __invoke(?string $input): ?string
     {
-        if (null === $input) {
-            return null;
-        }
-
-        if (false === filter_var($input, FILTER_VALIDATE_EMAIL)) {
-            throw Exception\ValidationException::create('Invalid e-mail address given.');
-        }
-
-        return $input;
+        return $this->options['callback']($input);
     }
 
     public static function getType(): string
