@@ -25,4 +25,5 @@ jobs:
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
+          token: ${{ secrets.RELEASE_TOKEN }}
           generateReleaseNotes: true
