@@ -35,8 +35,6 @@ interface ProviderInterface
 {
     public const PACKAGE_TYPE = 'project-builder-template';
 
-    public static function getName(): string;
-
     public function getUrl(): string;
 
     /**
@@ -45,4 +43,10 @@ interface ProviderInterface
     public function listTemplateSources(): array;
 
     public function installTemplateSource(Template\TemplateSource $templateSource): void;
+
+    public static function getName(): string;
+
+    public static function getType(): string;
+
+    public static function supports(string $type): bool;
 }

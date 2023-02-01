@@ -18,7 +18,7 @@ services:
       - '../src/Event/*'
       - '../src/Naming/NameVariantBuilder.php'
       - '../src/Resource/Local/ProcessedFile.php'
-      - '../src/Template/*'
+      - '../src/Template/TemplateSource.php'
 
   CPSIT\ProjectBuilder\Builder\Config\Config:
     alias: 'app.config'
@@ -43,6 +43,10 @@ services:
 
   CPSIT\ProjectBuilder\IO\Messenger:
     alias: 'app.messenger'
+
+  CPSIT\ProjectBuilder\Template\Provider\ProviderFactory:
+    arguments:
+      $providers: !tagged_iterator template.provider
 
   CPSIT\ProjectBuilder\Twig\Extension\ProjectBuilderExtension:
     arguments:
