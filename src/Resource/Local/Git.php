@@ -56,6 +56,7 @@ final class Git
             ->addArgument('config')
             ->addOption('--global')
             ->addOption('--default', '')
+            ->addOption('--includes')
             ->addOption('--get')
             ->addOption($configPath)
         ;
