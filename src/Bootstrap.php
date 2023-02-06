@@ -26,7 +26,10 @@ namespace CPSIT\ProjectBuilder;
 use Composer\InstalledVersions;
 use Composer\Script;
 use Symfony\Component\Console as SymfonyConsole;
-use Symfony\Component\Filesystem;
+use Symfony\Component\Finder;
+
+use function str_replace;
+use function substr;
 
 /**
  * Bootstrap.
@@ -58,7 +61,9 @@ final class Bootstrap
             throw Exception\UnsupportedEnvironmentException::forOutdatedComposerInstallation();
         }
 
-        self::prepareEnvironment($targetDirectory);
+        // Trigger autoload for all classes in order to keep them loaded
+        // when files are moved around
+        self::autoloadClasses();
 
         // Initialize IO components
         $io = Console\IO\AccessibleConsoleIO::fromIO($event->getIO());
@@ -105,18 +110,21 @@ final class Bootstrap
         exit($exitCode);
     }
 
-    private static function prepareEnvironment(string $targetDirectory): void
+    private static function autoloadClasses(): void
     {
-        // Mirror source files to build directory
-        $filesystem = new Filesystem\Filesystem();
-        $filesystem->mirror(
-            Filesystem\Path::join($targetDirectory, Paths::PROJECT_SOURCES),
-            Filesystem\Path::join($targetDirectory, '.build', Paths::PROJECT_SOURCES),
-        );
+        // Find all classes
+        $finder = Finder\Finder::create()
+            ->files()
+            ->in(__DIR__)
+            ->name('*.php')
+        ;
 
-        // Register modified class loader
-        $loader = Resource\Local\Composer::createClassLoader();
-        $loader->register(true);
+        // Trigger class autoload for all classes
+        foreach ($finder as $file) {
+            $className = __NAMESPACE__.'\\'.str_replace('/', '\\', substr($file->getRelativePathname(), 0, -4));
+            var_dump($className);
+            class_exists($className);
+        }
     }
 
     private static function runsOnAnUnsupportedEnvironment(): bool
