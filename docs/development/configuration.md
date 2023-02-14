@@ -9,11 +9,15 @@ templates.
 ## External template packages
 
 Project templates are distributed through **external Composer packages**.
+
+```{important}
 Each Composer package must be of the type `project-builder-template`.
+```
 
-Example `composer.json`:
+```{code-block} json
+:linenos:
+:caption: composer.json
 
-```json
 {
     "name": "cpsit/project-builder-template-my-fancy-project",
     "type": "project-builder-template",
@@ -33,12 +37,17 @@ three ways to make a template package available to the project builder:
 Once you use the project builder to create a new project, you can
 select the appropriate provider that hosts your template package.
 
-:bulb: You can add the `cpsit/project-builder` package as a dependency to
+```{tip}
+You can add the `cpsit/project-builder` package as a dependency to
 your template package. Composer will correctly resolve the constraint.
 This way, you can define the versions of the project builder actually
 supported by your package:
+```
 
-```diff
+```{code-block} diff
+:linenos:
+:caption: composer.json
+
  {
      "name": "cpsit/project-builder-template-my-fancy-project",
      "type": "project-builder-template",
@@ -116,8 +125,10 @@ The following filename variants are supported:
 2. `config.yaml`
 3. `config.json`
 
-:bulb: See [`ConfigReader::FILE_VARIANTS`](../src/Builder/Config/ConfigReader.php)
+```{seealso}
+See [`ConfigReader::FILE_VARIANTS`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Config/ConfigReader.php)
 for an overview of supported filenames.
+```
 
 ### Structure
 
@@ -139,7 +150,10 @@ collect information in form of build instructions from the user. Read more at
 
 Example:
 
-```yaml
+```{code-block} yaml
+:linenos:
+:caption: config.yaml
+
 identifier: my-fancy-project
 name: My fancy project
 
@@ -189,13 +203,15 @@ properties:
 
 ### Mapping and hydration
 
-Config files are located by the [`ConfigReader`](../src/Builder/Config/ConfigReader.php)
-and parsed by the internal [`ConfigFactory`](../src/Builder/Config/ConfigFactory.php).
+Config files are located by the [`ConfigReader`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Config/ConfigReader.php)
+and parsed by the internal [`ConfigFactory`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Config/ConfigFactory.php).
 With the help of the fantastic external library [`cuyz/valinor`][1], the parsed
 config file is mapped to an object structure of value objects. The final configuration
-ends up in an instance of [`Builder\Config\Config`](../src/Builder/Config/Config.php):
+ends up in an instance of [`Builder\Config\Config`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Config/Config.php):
 
-```php
+```{code-block} php
+:linenos:
+
 $configReader = \CPSIT\ProjectBuilder\Builder\Config\ConfigReader::create();
 $config = $configReader->readConfig('my-fancy-project');
 
@@ -206,25 +222,27 @@ echo $config->getName(); // My fancy project
 Each configured property in the config file is now accessible from the
 `Config` object:
 
-| Property     | Accessor                   | Type                                                                                          |
-|--------------|----------------------------|-----------------------------------------------------------------------------------------------|
-| `identifier` | `$config->getIdentifier()` | `string`                                                                                      |
-| `name`       | `$config->getName()`       | `string`                                                                                      |
-| `steps`      | `$config->getSteps()`      | [`list<Builder\Config\ValueObject\Step>`](../src/Builder/Config/ValueObject/Step.php)         |
-| `properties` | `$config->getProperties()` | [`list<Builder\Config\ValueObject\Property>`](../src/Builder/Config/ValueObject/Property.php) |
+| Property     | Accessor                   | Type                                                                                                                                           |
+|--------------|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| `identifier` | `$config->getIdentifier()` | `string`                                                                                                                                       |
+| `name`       | `$config->getName()`       | `string`                                                                                                                                       |
+| `steps`      | `$config->getSteps()`      | [`list<Builder\Config\ValueObject\Step>`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Config/ValueObject/Step.php)         |
+| `properties` | `$config->getProperties()` | [`list<Builder\Config\ValueObject\Property>`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Config/ValueObject/Property.php) |
 
-:bulb: All hydrated value objects can be found at
-[`Builder\Config\ValueObject`](../src/Builder/Config/ValueObject).
+```{seealso}
+All hydrated value objects can be found at [`Builder\Config\ValueObject`](https://github.com/CPS-IT/project-builder/tree/main/src/Builder/Config/ValueObject).
+```
 
 ### Validation
 
 Config files are validated against a JSON schema. The schema file is located
-at [`resources/config.schema.json`](../resources/config.schema.json). Schema
-validation is handled by [`ConfigFactory::isValidConfig()`](../src/Builder/Config/ConfigFactory.php)
+at [`resources/config.schema.json`](https://github.com/CPS-IT/project-builder/blob/main/resources/config.schema.json). Schema
+validation is handled by [`ConfigFactory::isValidConfig()`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Config/ConfigFactory.php)
 with the help of the great external library [`justinrainbow/json-schema`][2].
 
-:warning: If a config file does not match the required schema, project generation
-will fail immediately.
+```{warning}
+If a config file does not match the required schema, project generation will fail immediately.
+```
 
 ## Source files
 
@@ -237,7 +255,7 @@ Currently, the following file variants are supported:
   as-is to the generated project. Example: `composer.json`
 * **Twig template files** are pre-processed by the Twig renderer before they are
   copied to the generated project. The configured properties are used as template
-  variables. Read more at [`Architecture#Template rendering`](architecture.md#template-rendering).
+  variables. Read more at [`Architecture#Template rendering`](architecture/components.md#template-rendering).
   Example: `composer.json.twig`
 
 ## Shared source files
@@ -247,9 +265,10 @@ to outsource them to an external Composer package. This allows better maintenanc
 of those shared source files. Per convention, external shared Composer packages
 should be of the type `project-builder-shared`.
 
-Example `composer.json`:
+```{code-block} json
+:linenos:
+:caption: composer.json
 
-```json
 {
     "name": "cpsit/project-builder-shared-my-fancy-shared-resource",
     "type": "project-builder-shared",
@@ -270,9 +289,10 @@ project type's `templates/shared/<package-name>/templates/src` folder. For this,
 it is useful to use the Composer package [`oomphinc/composer-installers-extender`][3]
 and define the installation paths of each shared source file package.
 
-Example `composer.json`:
+```{code-block} json
+:linenos:
+:caption: composer.json
 
-```json
 {
     "name": "cpsit/project-builder-template-my-fancy-project",
     "type": "project-builder-template",
