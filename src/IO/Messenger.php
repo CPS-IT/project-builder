@@ -435,7 +435,7 @@ final class Messenger
             return $name;
         }
 
-        return sprintf('%s (<comment>%s</comment>)', $description, $name);
+        return sprintf('%s (<href=%s>%s</>)', $description, $package->getSourceUrl(), $name);
     }
 
     /**
