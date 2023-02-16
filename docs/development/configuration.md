@@ -44,18 +44,19 @@ This way, you can define the versions of the project builder actually
 supported by your package:
 ```
 
-```{code-block} diff
+```{code-block} json
 :linenos:
 :caption: composer.json
+:emphasize-lines: 4-6
 
- {
-     "name": "cpsit/project-builder-template-my-fancy-project",
-     "type": "project-builder-template",
-+    "require": {
-+        "cpsit/project-builder": "^1.0"
-+    }
-     // ...
- }
+{
+    "name": "cpsit/project-builder-template-my-fancy-project",
+    "type": "project-builder-template",
+    "require": {
+        "cpsit/project-builder": "^1.0"
+    }
+    // ...
+}
 ```
 
 ## Structure

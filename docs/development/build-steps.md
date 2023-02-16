@@ -33,6 +33,7 @@ Example:
 
 ```{code-block} php
 :linenos:
+:emphasize-lines: 10
 
 use CPSIT\ProjectBuilder\Builder;
 
