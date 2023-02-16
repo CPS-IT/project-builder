@@ -37,12 +37,11 @@ three ways to make a template package available to the project builder:
 Once you use the project builder to create a new project, you can
 select the appropriate provider that hosts your template package.
 
-```{tip}
+:::{tip}
 You can add the `cpsit/project-builder` package as a dependency to
 your template package. Composer will correctly resolve the constraint.
 This way, you can define the versions of the project builder actually
 supported by your package:
-```
 
 ```{code-block} json
 :linenos:
@@ -58,6 +57,7 @@ supported by your package:
     // ...
 }
 ```
+:::
 
 ## Structure
 
