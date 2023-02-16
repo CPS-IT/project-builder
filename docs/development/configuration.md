@@ -271,7 +271,7 @@ should be of the type `project-builder-shared`.
 :caption: composer.json
 
 {
-    "name": "cpsit/project-builder-shared-my-fancy-shared-resource",
+    "name": "my-vendor/my-fancy-shared-template",
     "type": "project-builder-shared",
     // ...
 }
@@ -281,9 +281,7 @@ should be of the type `project-builder-shared`.
 
 The shared source file packages must be required in the `composer.json` file of
 each project type that requires the shared source files. As a consequence, the
-package must be installable via Composer. In order to make it installable, either
-submit it on Packagist or add it to our Satis configuration at
-<https://composer.321.works>.
+package must be installable via Composer.
 
 The project builder expects shared source files to be installed within the
 project type's `templates/shared/<package-name>/templates/src` folder. For this,
@@ -295,10 +293,10 @@ and define the installation paths of each shared source file package.
 :caption: composer.json
 
 {
-    "name": "cpsit/project-builder-template-my-fancy-project",
+    "name": "my-vendor/my-fancy-project-template",
     "type": "project-builder-template",
     "require": {
-        "cpsit/project-builder-shared-my-fancy-shared-resource": "^1.0",
+        "my-vendor/my-fancy-shared-template": "^1.0",
         "oomphinc/composer-installers-extender": "^2.0"
     },
     "extra": {
