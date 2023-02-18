@@ -19,7 +19,8 @@
 		"dependencies"
 	],
 	"lockFileMaintenance": {
-		"enabled": true
+		"enabled": true,
+		"commitMessageAction": "Update composer.lock"
 	},
 	"packageRules": [
 		{
