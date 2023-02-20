@@ -106,8 +106,13 @@
 			"Composer\\Config::disableProcessTimeout",
 			"CPSIT\\ProjectBuilder\\Bootstrap::simulateCreateProject"
 		],
-		"test": "phpunit -c phpunit.xml",
-		"test:coverage": "phpunit -c phpunit.coverage.xml",
+		"test": [
+			"@test:unit",
+			"@test:docker"
+		],
+		"test:docker": "tests/docker/docker-build.sh",
+		"test:unit": "phpunit -c phpunit.xml",
+		"test:unit:coverage": "phpunit -c phpunit.coverage.xml",
 		"validate-schema": "docker run --rm -v \"$(pwd)\":/code swaggest/json-cli json-cli validate-schema resources/config.schema.json"
 	}
 }
