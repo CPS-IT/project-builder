@@ -16,7 +16,7 @@ all steps below.
 
 - Composer >= 2.1
 - PHP >= 8.0
-- Docker _(for schema validation and documentation rendering only)_
+- Docker
 
 ## Preparation
 
@@ -73,8 +73,14 @@ it should be covered by appropriate test cases.
 # All tests
 composer test
 
-# All tests with code coverage
-composer test:coverage
+# Docker tests
+composer test:docker
+
+# Unit tests
+composer test:unit
+
+# Unit tests with code coverage
+composer test:unit:coverage
 ```
 
 ### View coverage report
