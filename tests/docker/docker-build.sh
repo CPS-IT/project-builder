@@ -9,6 +9,7 @@ readonly expected="This command cannot be run in non-interactive mode."
 # Resolve parameters
 cache=0
 verbose=0
+root_version=""
 while [[ $# -gt 0 ]]; do
     key="$1"
     case ${key} in
@@ -20,16 +21,25 @@ while [[ $# -gt 0 ]]; do
         verbose=1
         shift
         ;;
+    *)
+        root_version="$1"
+        shift
+        ;;
     esac
 done
+
+# Determine root version
+if [ -z "$root_version" ]; then
+    root_version="$(git describe --tags --abbrev=0)"
+fi
 
 # Build and tag new image
 if [ "$cache" -eq 1 ]; then
     printf "Building image from cache... "
-    docker build --cache-from "$image_name" -q -t "$image_name" "$root_path" >/dev/null
+    docker build --cache-from "$image_name" -q -t "$image_name" --build-arg "PROJECT_BUILDER_VERSION=$root_version" "$root_path" >/dev/null
 else
     printf "Building image... "
-    docker build -q -t "$image_name" "$root_path" >/dev/null
+    docker build -q -t "$image_name" --build-arg "PROJECT_BUILDER_VERSION=$root_version" "$root_path" >/dev/null
 fi
 printf "\033[0;32mDone\033[0m\n"
 
