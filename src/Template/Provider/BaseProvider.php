@@ -107,10 +107,12 @@ abstract class BaseProvider implements ProviderInterface
     {
         $package = $templateSource->getPackage();
 
+        // @codeCoverageIgnoreStart
         if ($package instanceof Package\AliasPackage) {
             $package = $package->getAliasOf();
             $templateSource->setPackage($package);
         }
+        // @codeCoverageIgnoreEnd
 
         if ($package instanceof Package\Package) {
             $this->requestPackageVersionConstraint($templateSource);

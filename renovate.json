@@ -26,5 +26,6 @@
 			"automerge": true
 		}
 	],
+	"platformAutomerge": true,
 	"prConcurrentLimit": 10
 }
