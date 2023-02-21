@@ -97,6 +97,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Handle Docker image layer cache
+      - name: Restore Docker cache
+        uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+
       # Run Docker tests
       - name: Run Docker tests
         run: tests/docker/docker-build.sh --cache --verbose
