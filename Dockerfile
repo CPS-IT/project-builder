@@ -1,7 +1,7 @@
 FROM composer:2.5 AS composer
 LABEL maintainer="Elias Häußler <e.haeussler@familie-redlich.de>"
 
-FROM php:8.1-alpine
+FROM php:8.2-alpine
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
