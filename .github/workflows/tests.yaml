@@ -39,7 +39,7 @@ jobs:
 
       # Run tests
       - name: Run tests
-        run: composer test
+        run: composer test:unit
 
   coverage:
     name: Test coverage
