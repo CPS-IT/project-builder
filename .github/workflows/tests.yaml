@@ -99,4 +99,4 @@ jobs:
 
       # Run Docker tests
       - name: Run Docker tests
-        run: tests/docker/docker-build.sh --verbose
+        run: tests/docker/docker-build.sh --cache --verbose
