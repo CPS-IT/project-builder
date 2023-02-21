@@ -6,12 +6,6 @@ Thanks for considering contributing to this project! Each contribution is
 highly appreciated. In order to maintain a high code quality, please follow
 all steps below.
 
-```{contents} Contents
-:local:
-:class: this-will-duplicate-information-and-it-is-still-useful-here
-:depth: 1
-```
-
 ## Requirements
 
 - Composer >= 2.1
