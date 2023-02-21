@@ -33,10 +33,10 @@ contains all [recommended command options](composer.md#recommended-usage).
 
 The following image tags are currently available:
 
-| Tag name    | Description                                   |
-|-------------|-----------------------------------------------|
-| `<version>` | The appropriate project version, e.g. `0.1.0` |
-| `latest`    | The latest project version                    |
+| Tag name    | Description                                                                                 |
+|-------------|---------------------------------------------------------------------------------------------|
+| `<version>` | The appropriate project version, e.g. <code class="literal">{{ env.config.release }}</code> |
+| `latest`    | The latest project version                                                                  |
 
 [1]: https://www.docker.com/
 [2]: https://hub.docker.com/r/cpsit/project-builder

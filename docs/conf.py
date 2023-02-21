@@ -20,7 +20,10 @@ extensions = [
     "sphinx_design",
     "sphinxext.opengraph"
 ]
-myst_enable_extensions = ["colon_fence"]
+myst_enable_extensions = [
+    "colon_fence",
+    "substitution"
+]
 myst_heading_anchors = 3
 
 exclude_patterns = ["_build/**"]
