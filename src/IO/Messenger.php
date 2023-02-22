@@ -83,7 +83,6 @@ final class Messenger
             '<comment>======================================</comment>',
         ]);
         $this->newLine();
-
         $this->comment(
             '
 The <fg=bright-blue>Project Builder</> helps you create Composer based projects with specific \'templates\'. Such a template itself holds all project related information such a Composer dependencies and configuration.',
