@@ -79,8 +79,8 @@ final class Messenger
     public function welcome(): void
     {
         $this->getIO()->write([
-            '<comment>'.Emoji::SPARKLES.' Welcome to the <info>CPS Project Builder</info>!</comment>',
-            '<comment>======================================</comment>',
+            '<comment>'.Emoji::SPARKLES.' Welcome to the <info>Project Builder</info>!</comment>',
+            '<comment>==================================</comment>',
         ]);
         $this->newLine();
     }
