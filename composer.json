@@ -80,6 +80,16 @@
 		"post-create-project-cmd": [
 			"CPSIT\\ProjectBuilder\\Bootstrap::createProject"
 		],
+		"docs": [
+			"@docs:build",
+			"@docs:serve"
+		],
+		"docs:build": "docker-compose -f docs/_build/docker-compose.yaml run --rm -it build -a",
+		"docs:open": "open docs/_build/html/index.html",
+		"docs:serve": [
+			"Composer\\Config::disableProcessTimeout",
+			"docker-compose -f docs/_build/docker-compose.yaml run --rm -it --service-ports serve"
+		],
 		"lint": [
 			"@lint:composer",
 			"@lint:editorconfig:fix",

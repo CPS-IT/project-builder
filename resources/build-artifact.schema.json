@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json-schema.org/draft-04/schema",
 	"type": "object",
-	"title": "Build artifact for projects generated with CPS project builder",
+	"title": "Build artifact for projects generated with the Project Builder",
 	"properties": {
 		"artifact": {
 			"$ref": "#/definitions/artifact"
