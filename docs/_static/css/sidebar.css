@@ -1,0 +1,4 @@
+.sidebar-brand-release {
+    color: var(--color-sidebar-brand-text);
+    margin: var(--sidebar-item-spacing-vertical) 0;
+}

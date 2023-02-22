@@ -109,7 +109,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
 
         $output = self::$io->getOutput();
 
-        self::assertStringContainsString('Welcome to the CPS Project Builder', $output);
+        self::assertStringContainsString('Welcome to the Project Builder', $output);
     }
 
     /**

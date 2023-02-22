@@ -225,7 +225,7 @@ If so, you may specify it here. Leave this empty we\'ll just grab the latest sta
     {
         $repositories = [
             [
-                'type' => $this->getType(),
+                'type' => $this->getRepositoryType(),
                 'url' => $this->getUrl(),
             ],
             ...$repositories,
@@ -260,7 +260,7 @@ If so, you may specify it here. Leave this empty we\'ll just grab the latest sta
             $this->io,
             $config,
             [
-                'type' => $this->getType(),
+                'type' => $this->getRepositoryType(),
                 'url' => $this->getUrl(),
             ],
             Repository\RepositoryFactory::manager($this->io, $config, Factory::createHttpDownloader($this->io, $config)),
@@ -292,5 +292,5 @@ If so, you may specify it here. Leave this empty we\'ll just grab the latest sta
      *
      * @see https://getcomposer.org/doc/05-repositories.md#types
      */
-    abstract protected function getType(): string;
+    abstract protected function getRepositoryType(): string;
 }

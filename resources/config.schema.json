@@ -3,12 +3,6 @@
 	"type": "object",
 	"title": "Project builder template configuration",
 	"properties": {
-		"identifier": {
-			"type": "string",
-			"title": "Project template identifier",
-			"description": "No longer needed, templates are now identified by their Composer package name.",
-			"deprecated": true
-		},
 		"name": {
 			"type": "string",
 			"title": "Project template name",

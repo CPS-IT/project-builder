@@ -34,17 +34,14 @@ use CPSIT\ProjectBuilder\IO;
  */
 final class VcsProvider extends BaseProvider implements CustomProviderInterface
 {
+    private const TYPE = 'vcs';
+
     private ?string $url = null;
 
     /**
      * @var list<array{type: string, url: string}>
      */
     private array $repositories = [];
-
-    public static function getName(): string
-    {
-        return 'VCS repository';
-    }
 
     public function requestCustomOptions(IO\Messenger $messenger): void
     {
@@ -84,8 +81,23 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
         return parent::createComposerJson($templateSources, $repositories);
     }
 
-    protected function getType(): string
+    protected function getRepositoryType(): string
     {
         return 'vcs';
+    }
+
+    public static function getName(): string
+    {
+        return 'VCS repository';
+    }
+
+    public static function getType(): string
+    {
+        return self::TYPE;
+    }
+
+    public static function supports(string $type): bool
+    {
+        return self::TYPE === $type;
     }
 }
