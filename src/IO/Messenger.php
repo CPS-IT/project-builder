@@ -79,10 +79,15 @@ final class Messenger
     public function welcome(): void
     {
         $this->getIO()->write([
-            '<comment>'.Emoji::SPARKLES.' Welcome to the <info>CPS Project Builder</info>!</comment>',
+            '<comment>'.Emoji::SPARKLES.' Welcome to the <fg=bright-blue>CPS Project Builder</>!</comment>',
             '<comment>======================================</comment>',
         ]);
         $this->newLine();
+
+        $this->comment(
+            '
+The <fg=bright-blue>Project Builder</> helps you create Composer based projects with specific \'templates\'. Such a template itself holds all project related information such a Composer dependencies and configuration.',
+        );
     }
 
     public function section(string $name): void
@@ -100,6 +105,7 @@ final class Messenger
     public function comment(string $comment): void
     {
         $this->write('<fg=gray>'.$comment.'</>');
+        $this->newLine();
     }
 
     /**
@@ -152,6 +158,14 @@ final class Messenger
         if ([] === $templateSources) {
             throw Exception\InvalidTemplateSourceException::forProvider($provider);
         }
+
+        $this->comment(
+            sprintf(
+                'Here is a list of templates we found on %s.
+Select one that best suits your project or select a different repository provider.',
+                preg_replace('(^https?://)', '', $provider->getUrl()),
+            ),
+        );
 
         $labels = array_map([$this, 'decorateTemplateSource'], $templateSources);
         $labels[] = 'Try another template provider.';

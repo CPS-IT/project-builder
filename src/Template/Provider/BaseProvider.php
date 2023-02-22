@@ -158,8 +158,28 @@ abstract class BaseProvider implements ProviderInterface
         $inputReader = $this->messenger->createInputReader();
         $repository = $templateSource->getPackage()->getRepository() ?? $this->createRepository();
 
+        $this->messenger->writeWithEmoji(
+            IO\Emoji::WHITE_HEAVY_CHECK_MARK,
+            sprintf(
+                'Well done! You\'ve selected <fg=bright-yellow>%s</>.',
+                $templateSource->getPackage()->getName(),
+            ),
+        );
+
+        $this->messenger->newLine();
+
+        $this->messenger->comment(
+            sprintf(
+                'Do you require a specific version of %s?
+If so you may specify it here. Leave this empty we\'ll just grab the latest stable version.',
+                $templateSource->getPackage()->getName(),
+            ),
+        );
+
+        $this->messenger->comment('Example: \'0.2.0\' or \'dev-feature/xyz\'');
+
         $constraint = $inputReader->staticValue(
-            'Enter the version constraint to require (or leave blank to use the latest version)',
+            'Enter the version constraint to require: ',
             validator: new IO\Validator\CallbackValidator([
                 'callback' => [$this, 'validateConstraint'],
             ]),
