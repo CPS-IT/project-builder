@@ -36,17 +36,14 @@ use CPSIT\ProjectBuilder\Template;
  */
 final class DummyProvider implements Template\Provider\ProviderInterface
 {
+    private const TYPE = 'dummy';
+
     /**
      * @var list<Template\TemplateSource>
      */
     public array $templateSources = [];
 
     public ?string $installationPath = null;
-
-    public static function getName(): string
-    {
-        return 'dummy';
-    }
 
     public function getUrl(): string
     {
@@ -82,5 +79,20 @@ final class DummyProvider implements Template\Provider\ProviderInterface
             ],
         ];
         $jsonFile->write($json);
+    }
+
+    public static function getName(): string
+    {
+        return 'dummy';
+    }
+
+    public static function getType(): string
+    {
+        return self::TYPE;
+    }
+
+    public static function supports(string $type): bool
+    {
+        return self::TYPE === $type;
     }
 }

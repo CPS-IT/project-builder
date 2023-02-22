@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the Composer package "cpsit/project-builder".
  *
- * Copyright (C) 2022 Elias Häußler <e.haeussler@familie-redlich.de>
+ * Copyright (C) 2023 Elias Häußler <e.haeussler@familie-redlich.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,38 +23,32 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Template\Provider;
 
+use CPSIT\ProjectBuilder\Exception;
+
 /**
- * PackagistProvider.
+ * ProviderFactory.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class PackagistProvider extends BaseProvider
+final class ProviderFactory
 {
-    private const TYPE = 'packagist';
-
-    public function getUrl(): string
-    {
-        return 'https://packagist.org';
+    /**
+     * @param iterable<ProviderInterface> $providers
+     */
+    public function __construct(
+        private iterable $providers,
+    ) {
     }
 
-    protected function getRepositoryType(): string
+    public function get(string $type): ProviderInterface
     {
-        return 'composer';
-    }
+        foreach ($this->providers as $provider) {
+            if ($provider::supports($type)) {
+                return $provider;
+            }
+        }
 
-    public static function getName(): string
-    {
-        return 'Packagist.org';
-    }
-
-    public static function getType(): string
-    {
-        return self::TYPE;
-    }
-
-    public static function supports(string $type): bool
-    {
-        return self::TYPE === $type;
+        throw Exception\UnsupportedTypeException::create($type);
     }
 }

@@ -205,7 +205,7 @@ abstract class BaseProvider implements ProviderInterface
     {
         $repositories = [
             [
-                'type' => $this->getType(),
+                'type' => $this->getRepositoryType(),
                 'url' => $this->getUrl(),
             ],
             ...$repositories,
@@ -240,7 +240,7 @@ abstract class BaseProvider implements ProviderInterface
             $this->io,
             $config,
             [
-                'type' => $this->getType(),
+                'type' => $this->getRepositoryType(),
                 'url' => $this->getUrl(),
             ],
             Repository\RepositoryFactory::manager($this->io, $config, Factory::createHttpDownloader($this->io, $config)),
@@ -272,5 +272,5 @@ abstract class BaseProvider implements ProviderInterface
      *
      * @see https://getcomposer.org/doc/05-repositories.md#types
      */
-    abstract protected function getType(): string;
+    abstract protected function getRepositoryType(): string;
 }

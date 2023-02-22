@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\DependencyInjection;
 use Cocur\Slugify;
 use CPSIT\ProjectBuilder\Builder;
 use CPSIT\ProjectBuilder\IO;
+use CPSIT\ProjectBuilder\Template;
 use CPSIT\ProjectBuilder\Twig;
 use GuzzleHttp\Client as GuzzleClient;
 use Nyholm\Psr7;
@@ -53,6 +54,9 @@ return static function (
     ;
     $container->registerForAutoconfiguration(IO\Validator\ValidatorInterface::class)
         ->addTag('io.validator')
+    ;
+    $container->registerForAutoconfiguration(Template\Provider\ProviderInterface::class)
+        ->addTag('template.provider')
     ;
     $container->registerForAutoconfiguration(Twig\Filter\TwigFilterInterface::class)
         ->addTag('twig.filter')
