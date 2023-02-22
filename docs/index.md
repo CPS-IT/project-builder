@@ -9,7 +9,7 @@ hide-toc: true
 [![Docker](https://img.shields.io/docker/v/cpsit/project-builder?label=docker&sort=semver)][3]
 [![License](http://poser.pugx.org/cpsit/project-builder/license)](contributing/license.md)
 
-A Composer package used to **create new projects** based on various **project templates**.
+A Composer package to **create new projects** based on various, specific **project templates**.
 All project templates are distributed as separate Composer packages.
 
 It comes with a powerful **configuration and templating system** that allows to develop
