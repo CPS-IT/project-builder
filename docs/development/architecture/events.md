@@ -13,19 +13,19 @@ contain information about the current process and thus enable its modification.
 
 The following events are currently dispatched:
 
-* [**`ProjectBuildStartedEvent`**](../src/Event/ProjectBuildStartedEvent.php)
+* [**`ProjectBuildStartedEvent`**](https://github.com/CPS-IT/project-builder/blob/main/src/Event/ProjectBuildStartedEvent.php)
   is dispatched after the user selected a project type to be generated. The
   event provides all necessary build instructions.
-* [**`ProjectBuildFinishedEvent`**](../src/Event/ProjectBuildFinishedEvent.php)
+* [**`ProjectBuildFinishedEvent`**](https://github.com/CPS-IT/project-builder/blob/main/src/Event/ProjectBuildFinishedEvent.php)
   is dispatched once the whole project build process is finished. It provides
   the build result containing all processed build steps and the final result.
-* [**`BuildStepProcessedEvent`**](../src/Event/BuildStepProcessedEvent.php) is
+* [**`BuildStepProcessedEvent`**](https://github.com/CPS-IT/project-builder/blob/main/src/Event/BuildStepProcessedEvent.php) is
   dispatched once a configured step is processed, either successfully or failing.
   The event provides information about the processed step and its result and
   process state.
-* [**`BuildStepRevertedEvent`**](../src/Event/BuildStepRevertedEvent.php) is
+* [**`BuildStepRevertedEvent`**](https://github.com/CPS-IT/project-builder/blob/main/src/Event/BuildStepRevertedEvent.php) is
   dispatched if a previously applied step is reverted.
-* [**`BeforeTemplateRenderedEvent`**](../src/Event/BeforeTemplateRenderedEvent.php)
+* [**`BeforeTemplateRenderedEvent`**](https://github.com/CPS-IT/project-builder/blob/main/src/Event/BeforeTemplateRenderedEvent.php)
   is dispatched once a Twig template rendering is requested. The event provides
   the current Twig environment as well as build instructions and prepared
   template variables. The latter can be modified by calling `setVariables()`.
@@ -39,8 +39,9 @@ event.
 You can register your own event listener via service configuration. Tag the
 appropriate service with `event.listener` and provide additional metadata:
 
-```yaml
-# config/services.yaml
+```{code-block} yaml
+:linenos:
+:caption: config/services.yaml
 
 services:
   Vendor\Extension\Event\Listener\MyEventListener:
@@ -52,8 +53,9 @@ services:
 
 The appropriate listener class looks like the follows:
 
-```php
-// src/Event/Listener/MyEventListener.php
+```{code-block} php
+:linenos:
+:caption: src/Event/Listener/MyEventListener.php
 
 namespace Vendor\Extension\Event\Listener;
 
@@ -68,20 +70,22 @@ final class MyEventListener
 }
 ```
 
-:bulb: You can also omit the `method` and `event` configuration if your event
-listener contains an `__invoke` method with the event type-hinted as first
-parameter:
+:::{tip}
+You can also omit the `method` and `event` configuration if your event listener
+contains an `__invoke` method with the event type-hinted as first parameter:
 
-```yaml
-# config/services.yaml
+```{code-block} yaml
+:linenos:
+:caption: config/services.yaml
 
 services:
   Vendor\Extension\Event\Listener\MyEventListener:
     tags: ['event.listener']
 ```
 
-```php
-// src/Event/Listener/MyEventListener.php
+```{code-block} php
+:linenos:
+:caption: src/Event/Listener/MyEventListener.php
 
 namespace Vendor\Extension\Event\Listener;
 
@@ -95,3 +99,4 @@ final class MyEventListener
     }
 }
 ```
+:::

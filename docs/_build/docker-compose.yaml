@@ -1,0 +1,16 @@
+version: '3.6'
+
+services:
+  build:
+    build: .
+    entrypoint: ["sphinx-build", "docs", "docs/_build/html"]
+    volumes:
+      - ../../:/app
+
+  serve:
+    build: .
+    entrypoint: ["sphinx-autobuild", "docs", "docs/_build/html", "--host", "0.0.0.0", "--port", "8080"]
+    volumes:
+      - ../../:/app
+    ports:
+      - "8080:8080"
