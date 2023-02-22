@@ -123,8 +123,6 @@ for an overview of supported filenames.
 
 Each config file should at least contain the following properties:
 
-* **`identifier`** describes the project type. It is used internally to handle
-  project generation while processing the required build steps.
 * **`name`** is kind of a label for the configured project type. It is mainly
   used for communication with the user, keeping the actual project type internal.
 * **`steps`** defines a list of necessary build steps. Those steps are processed
@@ -140,7 +138,6 @@ collect information in form of build instructions from the user. Read more at
 Example:
 
 ```yaml
-identifier: my-fancy-project
 name: My fancy project
 
 steps:
@@ -208,7 +205,6 @@ Each configured property in the config file is now accessible from the
 
 | Property     | Accessor                   | Type                                                                                          |
 |--------------|----------------------------|-----------------------------------------------------------------------------------------------|
-| `identifier` | `$config->getIdentifier()` | `string`                                                                                      |
 | `name`       | `$config->getName()`       | `string`                                                                                      |
 | `steps`      | `$config->getSteps()`      | [`list<Builder\Config\ValueObject\Step>`](../src/Builder/Config/ValueObject/Step.php)         |
 | `properties` | `$config->getProperties()` | [`list<Builder\Config\ValueObject\Property>`](../src/Builder/Config/ValueObject/Property.php) |
