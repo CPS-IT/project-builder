@@ -48,12 +48,12 @@ final class Generator
     private array $revertedSteps = [];
 
     public function __construct(
-        private Builder\Config\Config $config,
-        private IO\Messenger $messenger,
-        private Builder\Generator\Step\StepFactory $stepFactory,
-        private Filesystem\Filesystem $filesystem,
-        private EventDispatcher\EventDispatcherInterface $eventDispatcher,
-        private Builder\Writer\JsonFileWriter $writer,
+        private readonly Builder\Config\Config $config,
+        private readonly IO\Messenger $messenger,
+        private readonly Builder\Generator\Step\StepFactory $stepFactory,
+        private readonly Filesystem\Filesystem $filesystem,
+        private readonly EventDispatcher\EventDispatcherInterface $eventDispatcher,
+        private readonly Builder\Writer\JsonFileWriter $writer,
     ) {
     }
 

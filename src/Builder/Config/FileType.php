@@ -31,6 +31,6 @@ namespace CPSIT\ProjectBuilder\Builder\Config;
  */
 abstract class FileType
 {
-    public const YAML = 'yaml';
-    public const JSON = 'json';
+    final public const YAML = 'yaml';
+    final public const JSON = 'json';
 }

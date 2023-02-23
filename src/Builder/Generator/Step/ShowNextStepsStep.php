@@ -44,9 +44,9 @@ final class ShowNextStepsStep extends AbstractStep
     private const TYPE = 'showNextSteps';
 
     public function __construct(
-        private Filesystem\Filesystem $filesystem,
-        private IO\Messenger $messenger,
-        private Twig\Renderer $renderer,
+        private readonly Filesystem\Filesystem $filesystem,
+        private readonly IO\Messenger $messenger,
+        private readonly Twig\Renderer $renderer,
     ) {
         parent::__construct();
     }

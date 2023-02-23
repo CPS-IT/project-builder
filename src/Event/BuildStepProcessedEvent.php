@@ -34,9 +34,9 @@ use CPSIT\ProjectBuilder\Builder;
 final class BuildStepProcessedEvent
 {
     public function __construct(
-        private Builder\Generator\Step\StepInterface $step,
-        private Builder\BuildResult $buildResult,
-        private bool $successful,
+        private readonly Builder\Generator\Step\StepInterface $step,
+        private readonly Builder\BuildResult $buildResult,
+        private readonly bool $successful,
     ) {
     }
 

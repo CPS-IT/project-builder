@@ -43,8 +43,8 @@ use function class_exists;
 final class EventListenerPass implements DependencyInjection\Compiler\CompilerPassInterface
 {
     public function __construct(
-        private string $tagName,
-        private string $dispatcherId,
+        private readonly string $tagName,
+        private readonly string $dispatcherId,
     ) {
     }
 

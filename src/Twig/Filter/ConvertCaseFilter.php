@@ -39,7 +39,7 @@ final class ConvertCaseFilter implements TwigFilterInterface
     private const NAME = 'convert_case';
 
     /**
-     * @param StringCase::*|null $case
+     * @param value-of<StringCase>|null $case
      *
      * @throws Exception\StringConversionException
      */

@@ -43,14 +43,14 @@ use Symfony\Component\Finder;
  */
 final class Simulation
 {
-    private Console\Style\SymfonyStyle $io;
+    private readonly Console\Style\SymfonyStyle $io;
 
     private function __construct(
-        private Filesystem\Filesystem $filesystem,
-        private Resource\Local\Composer $composer,
+        private readonly Filesystem\Filesystem $filesystem,
+        private readonly Resource\Local\Composer $composer,
         private Console\Output\OutputInterface $output,
-        private string $rootPath,
-        private string $targetDirectory,
+        private readonly string $rootPath,
+        private readonly string $targetDirectory,
     ) {
         $this->io = new Console\Style\SymfonyStyle(new Console\Input\ArgvInput(), $this->output);
     }

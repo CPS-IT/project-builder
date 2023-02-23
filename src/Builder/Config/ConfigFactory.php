@@ -49,8 +49,8 @@ final class ConfigFactory
     private static ?string $cacheDirectory = null;
 
     private function __construct(
-        private Mapper\TreeMapper $mapper,
-        private JsonSchema\Validator $validator,
+        private readonly Mapper\TreeMapper $mapper,
+        private readonly JsonSchema\Validator $validator,
     ) {
     }
 

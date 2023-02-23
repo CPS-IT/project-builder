@@ -36,7 +36,7 @@ final class DefaultAuthorNameFunction implements TwigFunctionInterface
     private const NAME = 'get_default_author_name';
 
     public function __construct(
-        private Resource\Local\Git $git,
+        private readonly Resource\Local\Git $git,
     ) {
     }
 

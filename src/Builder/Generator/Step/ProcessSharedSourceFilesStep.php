@@ -46,8 +46,8 @@ final class ProcessSharedSourceFilesStep extends AbstractStep implements Process
     public function __construct(
         ExpressionLanguage\ExpressionLanguage $expressionLanguage,
         Filesystem\Filesystem $filesystem,
-        private IO\Messenger $messenger,
-        private Builder\Writer\WriterFactory $writerFactory,
+        private readonly IO\Messenger $messenger,
+        private readonly Builder\Writer\WriterFactory $writerFactory,
     ) {
         parent::__construct();
         $this->expressionLanguage = $expressionLanguage;

@@ -37,7 +37,7 @@ final class SlugifyFilter implements TwigFilterInterface
     private const NAME = 'slugify';
 
     public function __construct(
-        private Slugify\Slugify $slugify,
+        private readonly Slugify\Slugify $slugify,
     ) {
     }
 

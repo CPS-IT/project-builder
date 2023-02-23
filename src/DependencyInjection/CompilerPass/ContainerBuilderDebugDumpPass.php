@@ -42,7 +42,7 @@ use Symfony\Component\DependencyInjection;
 final class ContainerBuilderDebugDumpPass implements DependencyInjection\Compiler\CompilerPassInterface
 {
     public function __construct(
-        private string $cachePath,
+        private readonly string $cachePath,
     ) {
     }
 

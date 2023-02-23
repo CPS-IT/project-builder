@@ -45,7 +45,7 @@ final class BuildResult
     private array $appliedSteps = [];
 
     public function __construct(
-        private BuildInstructions $instructions,
+        private readonly BuildInstructions $instructions,
     ) {
     }
 

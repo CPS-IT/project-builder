@@ -37,7 +37,7 @@ final class WriterFactory
      * @param iterable<WriterInterface> $writers
      */
     public function __construct(
-        private iterable $writers,
+        private readonly iterable $writers,
     ) {
     }
 

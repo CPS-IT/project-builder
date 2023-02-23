@@ -41,7 +41,7 @@ use Composer\Package;
 final class GeneratorArtifact extends Artifact
 {
     public function __construct(
-        private Package\RootPackageInterface $rootPackage,
+        private readonly Package\RootPackageInterface $rootPackage,
     ) {
     }
 

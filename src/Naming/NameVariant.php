@@ -29,9 +29,9 @@ namespace CPSIT\ProjectBuilder\Naming;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-abstract class NameVariant
+enum NameVariant: string
 {
-    public const ABBREVIATION = 'abbreviation';
-    public const SHORT_NAME = 'short';
-    public const FULL_NAME = 'full';
+    case Abbreviation = 'abbreviation';
+    case ShortName = 'short';
+    case FullName = 'full';
 }

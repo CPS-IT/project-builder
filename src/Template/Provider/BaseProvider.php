@@ -161,7 +161,7 @@ abstract class BaseProvider implements ProviderInterface
         $constraint = $inputReader->staticValue(
             'Enter the version constraint to require (or leave blank to use the latest version)',
             validator: new IO\Validator\CallbackValidator([
-                'callback' => [$this, 'validateConstraint'],
+                'callback' => $this->validateConstraint(...),
             ]),
         );
 

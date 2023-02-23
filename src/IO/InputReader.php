@@ -42,7 +42,7 @@ use function trim;
 final class InputReader
 {
     public function __construct(
-        private IO\IOInterface $io,
+        private readonly IO\IOInterface $io,
     ) {
     }
 
