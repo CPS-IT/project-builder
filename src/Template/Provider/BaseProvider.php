@@ -161,7 +161,7 @@ abstract class BaseProvider implements ProviderInterface
         $this->messenger->writeWithEmoji(
             IO\Emoji::WHITE_HEAVY_CHECK_MARK,
             sprintf(
-                'Well done! You\'ve selected <fg=bright-yellow>%s</>.',
+                'Well done! You\'ve selected <fg=yellow>%s</>.',
                 $templateSource->getPackage()->getName(),
             ),
         );

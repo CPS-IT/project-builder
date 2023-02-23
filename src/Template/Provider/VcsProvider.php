@@ -88,7 +88,7 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
 
     public static function getName(): string
     {
-        return 'VCS repository';
+        return 'VCS repository (e.g. GitHub or GitLab)';
     }
 
     public static function getType(): string

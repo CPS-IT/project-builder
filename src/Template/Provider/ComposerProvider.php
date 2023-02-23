@@ -92,7 +92,7 @@ final class ComposerProvider extends BaseProvider implements CustomProviderInter
 
     public static function getName(): string
     {
-        return 'Custom Composer registry';
+        return 'Custom Composer registry (e.g. Satis or GitLab registry)';
     }
 
     public static function getType(): string

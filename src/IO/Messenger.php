@@ -79,13 +79,18 @@ final class Messenger
     public function welcome(): void
     {
         $this->getIO()->write([
-            '<comment>'.Emoji::SPARKLES.' Welcome to the <fg=bright-blue>Project Builder</>!</comment>',
-            '<comment>======================================</comment>',
+            '<comment>'.Emoji::SPARKLES.' Welcome to the Project Builder!</comment>',
+            '<comment>==================================</comment>',
         ]);
         $this->newLine();
         $this->comment(
             '
-The <fg=bright-blue>Project Builder</> helps you create Composer based projects with specific \'templates\'. Such a template itself holds all project related information such a Composer dependencies and configuration.',
+The <fg=yellow>Project Builder</> helps you create Composer based projects with \'templates\'.
+A template holds project/framework related information such as Composer dependencies and configuration.',
+        );
+        $this->comment(
+            'You may find templates on public and private providers/registries such as Satis, GitLab or GitHub.
+Let\'s start by looking for templates on Packagist.org:',
         );
     }
 
@@ -158,21 +163,13 @@ The <fg=bright-blue>Project Builder</> helps you create Composer based projects 
             throw Exception\InvalidTemplateSourceException::forProvider($provider);
         }
 
-        $this->comment(
-            sprintf(
-                'Here is a list of templates we found on %s.
-Select one that best suits your project or select a different repository provider.',
-                preg_replace('(^https?://)', '', $provider->getUrl()),
-            ),
-        );
-
         $labels = array_map([$this, 'decorateTemplateSource'], $templateSources);
-        $labels[] = 'Try another template provider.';
+        $labels[] = '<fg=yellow>Try a different provider (e.g. Satis or GitHub)</>';
 
         $defaultIdentifier = array_key_first($templateSources);
 
         $index = $this->getIO()->select(
-            self::decorateLabel('Select a project template', $defaultIdentifier),
+            self::decorateLabel('Select a project template or try a different provider', $defaultIdentifier),
             $labels,
             (string) $defaultIdentifier,
         );
@@ -448,7 +445,7 @@ Select one that best suits your project or select a different repository provide
             return $name;
         }
 
-        return sprintf('%s (<comment>%s</comment>)', $description, $name);
+        return sprintf('%s <fg=gray>(%s)</>', $description, $name);
     }
 
     /**
