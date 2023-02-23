@@ -258,6 +258,12 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
                 ->addArgument('Test bot')
             ;
             self::assertTrue($runner->run($configNameCommand)->isSuccessful());
+            $configSignCommand = (new Cli\Command\Executable('git'))
+                ->addArgument('config')
+                ->addArgument('commit.gpgsign')
+                ->addArgument('false')
+            ;
+            self::assertTrue($runner->run($configSignCommand)->isSuccessful());
 
             // Add composer.json
             $this->filesystem->dumpFile($repoDir.'/composer.json', Json\JsonFile::encode([
