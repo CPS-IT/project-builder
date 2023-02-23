@@ -32,9 +32,9 @@
 					"type": "integer",
 					"title": "Version of build artifact when originally dumped",
 					"enum": [
-						1
+						2
 					],
-					"default": 1
+					"default": 2
 				},
 				"path": {
 					"type": "string",

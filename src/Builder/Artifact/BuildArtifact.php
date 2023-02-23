@@ -47,7 +47,7 @@ use function time;
  */
 final class BuildArtifact extends Artifact
 {
-    private const VERSION = 1;
+    private const VERSION = 2;
 
     public function __construct(
         private readonly string $file,
