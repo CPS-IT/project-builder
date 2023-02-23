@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Builder\Artifact;
 
-use CPSIT\ProjectBuilder\Builder\BuildResult;
+use CPSIT\ProjectBuilder\Builder;
 
 /**
  * TemplateArtifact.
@@ -37,13 +37,13 @@ use CPSIT\ProjectBuilder\Builder\BuildResult;
  *     identifier: string,
  *     hash: string,
  *     package: PackageArtifact,
- *     provider: array{name: string, url: string}
+ *     provider: array{type: string, url: string}
  * }>
  */
 final class TemplateArtifact extends Artifact
 {
     public function __construct(
-        private readonly BuildResult $buildResult,
+        private readonly Builder\BuildResult $buildResult,
     ) {
     }
 
@@ -58,7 +58,7 @@ final class TemplateArtifact extends Artifact
             'hash' => $config->buildHash(),
             'package' => new PackageArtifact($package),
             'provider' => [
-                'name' => $provider::getName(),
+                'type' => $provider::getType(),
                 'url' => $provider->getUrl(),
             ],
         ];

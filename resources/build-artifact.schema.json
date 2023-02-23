@@ -184,10 +184,10 @@
 			"type": "object",
 			"title": "Template source provider",
 			"properties": {
-				"name": {
+				"type": {
 					"type": "string",
-					"title": "Name of the provider",
-					"description": "Declared in the appropriate provider class"
+					"title": "Provider type",
+					"description": "Defined in the provider class"
 				},
 				"url": {
 					"type": "string",
