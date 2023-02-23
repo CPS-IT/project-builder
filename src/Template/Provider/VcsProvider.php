@@ -47,7 +47,7 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
     {
         $inputReader = $messenger->createInputReader();
 
-        $this->url = $inputReader->staticValue('Repository URL', required: true);
+        $this->url = $inputReader->staticValue('Repository URL <fg=gray>(e.g. https://github.com/vendor/template.git)</>', required: true);
 
         while ($inputReader->ask('Does the repository require additional transitive repositories?', default: false)) {
             $this->repositories[] = [
@@ -88,7 +88,7 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
 
     public static function getName(): string
     {
-        return 'VCS repository (e.g. GitHub or GitLab)';
+        return 'VCS repository (e.g. GitHub)';
     }
 
     public static function getType(): string
