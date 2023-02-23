@@ -37,18 +37,18 @@ final class StringHelper
     private const REGEX_WORDS = '/[A-Z]{2,}(?=[A-Z][a-z]+\d*|\b)|[A-Z]?[a-z]+\d*|[A-Z]|\d+/';
 
     /**
-     * @param StringCase::* $case
+     * @param value-of<StringCase> $case
      *
      * @throws Exception\StringConversionException
      */
     public static function convertCase(string $string, string $case): string
     {
         return match ($case) {
-            StringCase::LOWER => strtolower($string),
-            StringCase::UPPER => strtoupper($string),
-            StringCase::SNAKE => strtolower(implode('_', self::splitStringIntoChunks($string))),
-            StringCase::UPPER_CAMEL => str_replace(' ', '', ucwords($string)),
-            StringCase::LOWER_CAMEL => str_replace(' ', '', lcfirst(ucwords($string))),
+            StringCase::Lower->value => strtolower($string),
+            StringCase::Upper->value => strtoupper($string),
+            StringCase::Snake->value => strtolower(implode('_', self::splitStringIntoChunks($string))),
+            StringCase::UpperCamel->value => str_replace(' ', '', ucwords($string)),
+            StringCase::LowerCamel->value => str_replace(' ', '', lcfirst(ucwords($string))),
         };
     }
 

@@ -39,7 +39,7 @@ final class StringHelperTest extends TestCase
     /**
      * @test
      *
-     * @param Src\StringCase::* $case
+     * @param value-of<Src\StringCase> $case
      *
      * @dataProvider convertCaseConvertsStringToGivenCaseDataProvider
      */
@@ -72,15 +72,15 @@ final class StringHelperTest extends TestCase
     }
 
     /**
-     * @return Generator<string, array{string, Src\StringCase::*, string}>
+     * @return Generator<string, array{string, value-of<Src\StringCase>, string}>
      */
     public function convertCaseConvertsStringToGivenCaseDataProvider(): Generator
     {
-        yield 'lowercase' => ['foo_Bar-123 helloWorld', Src\StringCase::LOWER, 'foo_bar-123 helloworld'];
-        yield 'uppercase' => ['foo_Bar-123 helloWorld', Src\StringCase::UPPER, 'FOO_BAR-123 HELLOWORLD'];
-        yield 'snake case' => ['foo_Bar-123 helloWorld', Src\StringCase::SNAKE, 'foo_bar_123_hello_world'];
-        yield 'upper camel case' => ['foo_Bar-123 helloWorld', Src\StringCase::UPPER_CAMEL, 'Foo_Bar-123HelloWorld'];
-        yield 'lower camel case' => ['foo_Bar-123 helloWorld', Src\StringCase::LOWER_CAMEL, 'foo_Bar-123HelloWorld'];
+        yield 'lowercase' => ['foo_Bar-123 helloWorld', Src\StringCase::Lower->value, 'foo_bar-123 helloworld'];
+        yield 'uppercase' => ['foo_Bar-123 helloWorld', Src\StringCase::Upper->value, 'FOO_BAR-123 HELLOWORLD'];
+        yield 'snake case' => ['foo_Bar-123 helloWorld', Src\StringCase::Snake->value, 'foo_bar_123_hello_world'];
+        yield 'upper camel case' => ['foo_Bar-123 helloWorld', Src\StringCase::UpperCamel->value, 'Foo_Bar-123HelloWorld'];
+        yield 'lower camel case' => ['foo_Bar-123 helloWorld', Src\StringCase::LowerCamel->value, 'foo_Bar-123HelloWorld'];
     }
 
     /**

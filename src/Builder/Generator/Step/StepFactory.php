@@ -38,7 +38,7 @@ final class StepFactory
      * @param iterable<StepInterface> $steps
      */
     public function __construct(
-        private iterable $steps,
+        private readonly iterable $steps,
     ) {
     }
 

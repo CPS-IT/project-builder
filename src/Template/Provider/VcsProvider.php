@@ -55,7 +55,7 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
                 'url' => $inputReader->staticValue('URL', required: true),
             ];
 
-            $messenger->writeWithEmoji(IO\Emoji::WHITE_HEAVY_CHECK_MARK, 'Repository added.');
+            $messenger->writeWithEmoji(IO\Emoji::WhiteHeavyCheckMark->value, 'Repository added.');
             $messenger->newLine();
         }
     }

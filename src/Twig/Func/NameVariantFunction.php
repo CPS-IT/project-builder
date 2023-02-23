@@ -40,9 +40,9 @@ final class NameVariantFunction implements TwigFunctionInterface
     private const NAME = 'name_variant';
 
     /**
-     * @param array<string, mixed>       $context
-     * @param Naming\NameVariant::*|null $variant
-     * @param StringCase::*|null         $case
+     * @param array<string, mixed>              $context
+     * @param value-of<Naming\NameVariant>|null $variant
+     * @param value-of<StringCase>|null         $case
      *
      * @throws Exception\StringConversionException
      */

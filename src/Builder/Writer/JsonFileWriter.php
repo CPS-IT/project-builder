@@ -38,7 +38,7 @@ use function json_encode;
 final class JsonFileWriter
 {
     public function __construct(
-        private Filesystem\Filesystem $filesystem,
+        private readonly Filesystem\Filesystem $filesystem,
     ) {
     }
 

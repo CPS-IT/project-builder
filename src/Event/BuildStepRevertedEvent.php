@@ -34,8 +34,8 @@ use CPSIT\ProjectBuilder\Builder;
 final class BuildStepRevertedEvent
 {
     public function __construct(
-        private Builder\Generator\Step\StepInterface $step,
-        private Builder\BuildResult $buildResult,
+        private readonly Builder\Generator\Step\StepInterface $step,
+        private readonly Builder\BuildResult $buildResult,
     ) {
     }
 

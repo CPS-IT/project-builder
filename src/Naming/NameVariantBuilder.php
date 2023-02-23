@@ -40,27 +40,27 @@ use function is_string;
 final class NameVariantBuilder
 {
     public function __construct(
-        private Builder\BuildInstructions $instructions,
+        private readonly Builder\BuildInstructions $instructions,
     ) {
     }
 
     /**
-     * @param NameVariant::*     $variant
-     * @param StringCase::*|null $case
+     * @param value-of<NameVariant>     $variant
+     * @param value-of<StringCase>|null $case
      *
      * @throws Exception\StringConversionException
      */
     public function createVariant(string $variant, string $case = null): string
     {
         return match ($variant) {
-            NameVariant::ABBREVIATION => $this->createAbbreviationVariant($case),
-            NameVariant::SHORT_NAME => $this->createShortVariant($case),
-            NameVariant::FULL_NAME => $this->createFullVariant($case),
+            NameVariant::Abbreviation->value => $this->createAbbreviationVariant($case),
+            NameVariant::ShortName->value => $this->createShortVariant($case),
+            NameVariant::FullName->value => $this->createFullVariant($case),
         };
     }
 
     /**
-     * @param StringCase::*|null $case
+     * @param value-of<StringCase>|null $case
      *
      * @throws Exception\StringConversionException
      */
@@ -85,7 +85,7 @@ final class NameVariantBuilder
     }
 
     /**
-     * @param StringCase::*|null $case
+     * @param value-of<StringCase>|null $case
      *
      * @throws Exception\StringConversionException
      */
@@ -110,7 +110,7 @@ final class NameVariantBuilder
     }
 
     /**
-     * @param StringCase::*|null $case
+     * @param value-of<StringCase>|null $case
      *
      * @throws Exception\StringConversionException
      */

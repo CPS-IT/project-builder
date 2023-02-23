@@ -50,10 +50,10 @@ final class SubProperty implements CustomizableInterface
         string $path = null,
         string $if = null,
         int|float|string|bool|null $value = null,
-        private array $options = [],
-        private bool $multiple = false,
-        private int|float|string|bool|null $defaultValue = null,
-        private array $validators = [],
+        private readonly array $options = [],
+        private readonly bool $multiple = false,
+        private readonly int|float|string|bool|null $defaultValue = null,
+        private readonly array $validators = [],
         private ?Property $parent = null,
     ) {
         $this->identifier = $identifier;

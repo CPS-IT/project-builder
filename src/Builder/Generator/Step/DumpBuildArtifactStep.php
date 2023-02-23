@@ -39,8 +39,8 @@ final class DumpBuildArtifactStep extends AbstractStep
     private const TYPE = 'dumpBuildArtifact';
 
     public function __construct(
-        private Filesystem\Filesystem $filesystem,
-        private Builder\Writer\JsonFileWriter $writer,
+        private readonly Filesystem\Filesystem $filesystem,
+        private readonly Builder\Writer\JsonFileWriter $writer,
     ) {
         parent::__construct();
     }

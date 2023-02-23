@@ -41,8 +41,8 @@ final class InstallComposerDependenciesStep extends AbstractStep
     private const TYPE = 'installComposerDependencies';
 
     public function __construct(
-        private Resource\Local\Composer $installer,
-        private IO\Messenger $messenger,
+        private readonly Resource\Local\Composer $installer,
+        private readonly IO\Messenger $messenger,
     ) {
         parent::__construct();
     }

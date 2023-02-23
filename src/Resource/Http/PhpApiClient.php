@@ -41,8 +41,8 @@ use function property_exists;
 final class PhpApiClient
 {
     public function __construct(
-        private Client\ClientInterface $client,
-        private Message\RequestFactoryInterface $requestFactory,
+        private readonly Client\ClientInterface $client,
+        private readonly Message\RequestFactoryInterface $requestFactory,
     ) {
     }
 

@@ -36,7 +36,7 @@ final class TemplateSource
     private bool $dynamicVersionConstraint = false;
 
     public function __construct(
-        private Provider\ProviderInterface $provider,
+        private readonly Provider\ProviderInterface $provider,
         private Package\PackageInterface $package,
     ) {
     }

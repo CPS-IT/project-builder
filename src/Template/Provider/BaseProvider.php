@@ -159,7 +159,7 @@ abstract class BaseProvider implements ProviderInterface
         $repository = $templateSource->getPackage()->getRepository() ?? $this->createRepository();
 
         $this->messenger->writeWithEmoji(
-            IO\Emoji::WHITE_HEAVY_CHECK_MARK,
+            IO\Emoji::WhiteHeavyCheckMark->value,
             sprintf(
                 'Well done! You\'ve selected <fg=yellow>%s</>.',
                 $templateSource->getPackage()->getName(),
@@ -181,7 +181,7 @@ If so, you may specify it here. Leave this empty we\'ll just grab the latest sta
         $constraint = $inputReader->staticValue(
             'Enter the version constraint to require: ',
             validator: new IO\Validator\CallbackValidator([
-                'callback' => [$this, 'validateConstraint'],
+                'callback' => $this->validateConstraint(...),
             ]),
         );
 

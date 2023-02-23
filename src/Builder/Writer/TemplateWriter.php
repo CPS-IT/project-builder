@@ -38,8 +38,8 @@ use Symfony\Component\Finder;
 final class TemplateWriter implements WriterInterface
 {
     public function __construct(
-        private Filesystem\Filesystem $filesystem,
-        private Twig\Renderer $renderer,
+        private readonly Filesystem\Filesystem $filesystem,
+        private readonly Twig\Renderer $renderer,
     ) {
     }
 

@@ -45,7 +45,7 @@ final class Renderer
 
     public function __construct(
         private Environment $twig,
-        private EventDispatcher\EventDispatcherInterface $eventDispatcher,
+        private readonly EventDispatcher\EventDispatcherInterface $eventDispatcher,
     ) {
     }
 

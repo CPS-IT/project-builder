@@ -9,7 +9,7 @@ all steps below.
 ## Requirements
 
 - Composer >= 2.1
-- PHP >= 8.0
+- PHP >= 8.1
 - Docker
 
 ## Preparation
