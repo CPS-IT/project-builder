@@ -118,7 +118,7 @@
 		],
 		"test": [
 			"@test:unit",
-			"@test:docker"
+			"@test:docker --cache"
 		],
 		"test:docker": "tests/docker/docker-build.sh",
 		"test:unit": "phpunit -c phpunit.xml",
