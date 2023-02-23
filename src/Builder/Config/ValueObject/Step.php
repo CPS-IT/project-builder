@@ -33,7 +33,7 @@ final class Step
 {
     use TypeTrait;
 
-    private StepOptions $options;
+    private readonly StepOptions $options;
 
     public function __construct(
         string $type,

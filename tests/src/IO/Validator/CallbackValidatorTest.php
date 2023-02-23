@@ -39,7 +39,7 @@ final class CallbackValidatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->subject = new Src\IO\Validator\CallbackValidator(['callback' => [$this, 'validate']]);
+        $this->subject = new Src\IO\Validator\CallbackValidator(['callback' => $this->validate(...)]);
     }
 
     /**

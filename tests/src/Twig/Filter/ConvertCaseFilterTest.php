@@ -69,7 +69,7 @@ final class ConvertCaseFilterTest extends TestCase
      */
     public function invokeReturnsCaseConvertedString(): void
     {
-        $actual = ($this->subject)('foo', Src\StringCase::UPPER);
+        $actual = ($this->subject)('foo', Src\StringCase::Upper->value);
 
         self::assertSame('FOO', $actual);
     }

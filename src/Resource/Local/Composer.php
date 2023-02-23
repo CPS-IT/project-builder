@@ -51,7 +51,7 @@ use function putenv;
 final class Composer
 {
     public function __construct(
-        private Filesystem\Filesystem $filesystem,
+        private readonly Filesystem\Filesystem $filesystem,
     ) {
     }
 

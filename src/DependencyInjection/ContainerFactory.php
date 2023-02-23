@@ -55,9 +55,9 @@ final class ContainerFactory
      * @param list<Finder\SplFileInfo> $resources
      */
     private function __construct(
-        private array $resources,
-        private ?string $containerPath = null,
-        private bool $debug = false,
+        private readonly array $resources,
+        private readonly ?string $containerPath = null,
+        private readonly bool $debug = false,
     ) {
     }
 

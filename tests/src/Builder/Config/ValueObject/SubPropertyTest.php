@@ -25,7 +25,6 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Config\ValueObject;
 
 use CPSIT\ProjectBuilder as Src;
 use PHPUnit\Framework\TestCase;
-use ReflectionObject;
 
 /**
  * SubPropertyTest.
@@ -71,9 +70,14 @@ final class SubPropertyTest extends TestCase
      */
     public function getPathConstructsPathFromIdentifierAndParentProperty(): void
     {
-        $this->modifySubject('path', null);
+        $subject = new Src\Builder\Config\ValueObject\SubProperty(
+            'identifier',
+            'name',
+            'type',
+            parent: new Src\Builder\Config\ValueObject\Property('parent-identifier', 'name'),
+        );
 
-        self::assertSame('parent-identifier.identifier', $this->subject->getPath());
+        self::assertSame('parent-identifier.identifier', $subject->getPath());
     }
 
     /**
@@ -125,11 +129,16 @@ final class SubPropertyTest extends TestCase
     {
         self::assertFalse($this->subject->isRequired());
 
-        $this->modifySubject('validators', [
-            new Src\Builder\Config\ValueObject\PropertyValidator('notEmpty'),
-        ]);
+        $subject = new Src\Builder\Config\ValueObject\SubProperty(
+            'identifier',
+            'name',
+            'type',
+            validators: [
+                new Src\Builder\Config\ValueObject\PropertyValidator('notEmpty'),
+            ],
+        );
 
-        self::assertTrue($this->subject->isRequired());
+        self::assertTrue($subject->isRequired());
     }
 
     /**
@@ -151,18 +160,5 @@ final class SubPropertyTest extends TestCase
         $newParent = new Src\Builder\Config\ValueObject\Property('new-parent', 'name');
 
         self::assertSame($newParent, $this->subject->setParent($newParent)->getParent());
-    }
-
-    private function modifySubject(string $property, mixed $value): void
-    {
-        $reflection = new ReflectionObject($this->subject);
-
-        if (!$reflection->hasProperty($property)) {
-            throw Src\Exception\ShouldNotHappenException::create();
-        }
-
-        $reflectionProperty = $reflection->getProperty($property);
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($this->subject, $value);
     }
 }

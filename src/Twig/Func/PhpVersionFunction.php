@@ -42,7 +42,7 @@ final class PhpVersionFunction implements TwigFunctionInterface
     private static array $versionCache = [];
 
     public function __construct(
-        private Resource\Http\PhpApiClient $client,
+        private readonly Resource\Http\PhpApiClient $client,
     ) {
     }
 

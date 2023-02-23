@@ -41,8 +41,8 @@ final class ProjectBuilderExtension extends Extension\AbstractExtension
      * @param iterable<Twig\Func\TwigFunctionInterface> $functions
      */
     public function __construct(
-        private iterable $filters,
-        private iterable $functions,
+        private readonly iterable $filters,
+        private readonly iterable $functions,
     ) {
     }
 

@@ -10,7 +10,7 @@
 ## Requirements
 
 * [Composer][1] >= 2.1
-* [PHP][2] >= 8.0
+* [PHP][2] >= 8.1
 
 ## Basic usage
 

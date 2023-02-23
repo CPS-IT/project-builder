@@ -37,7 +37,7 @@ use Symfony\Component\Finder;
 final class GenericFileWriter implements WriterInterface
 {
     public function __construct(
-        private Filesystem\Filesystem $filesystem,
+        private readonly Filesystem\Filesystem $filesystem,
     ) {
     }
 

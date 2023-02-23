@@ -37,7 +37,7 @@ final class ProviderFactory
      * @param iterable<ProviderInterface> $providers
      */
     public function __construct(
-        private iterable $providers,
+        private readonly iterable $providers,
     ) {
     }
 

@@ -29,57 +29,57 @@ namespace CPSIT\ProjectBuilder;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-abstract class Paths
+enum Paths
 {
     /**
      * Paths of protected project files required for successful project generation.
      */
-    public const PROTECTED_PATHS = [
+    final public const PROTECTED_PATHS = [
         '.build',
     ];
 
     /**
      * Path to template source installer.
      */
-    public const PROJECT_INSTALLER = 'installer';
+    final public const PROJECT_INSTALLER = 'installer';
 
     /**
      * Path to JSON schema for template config files.
      */
-    public const PROJECT_SCHEMA_CONFIG = 'resources/config.schema.json';
+    final public const PROJECT_SCHEMA_CONFIG = 'resources/config.schema.json';
 
     /**
      * Path to service configurations.
      */
-    public const PROJECT_SERVICE_CONFIG = 'config';
+    final public const PROJECT_SERVICE_CONFIG = 'config';
 
     /**
      * Path to project source files.
      */
-    public const PROJECT_SOURCES = 'src';
+    final public const PROJECT_SOURCES = 'src';
 
     /**
      * Path to project template root.
      */
-    public const PROJECT_TEMPLATES = '.build/templates';
+    final public const PROJECT_TEMPLATES = '.build/templates';
 
     /**
      * Path to source files within template directories.
      */
-    public const TEMPLATE_SOURCES = 'templates/src';
+    final public const TEMPLATE_SOURCES = 'templates/src';
 
     /**
      * Path to shared source files within template directories.
      */
-    public const TEMPLATE_SHARED_SOURCES = 'templates/shared';
+    final public const TEMPLATE_SHARED_SOURCES = 'templates/shared';
 
     /**
      * Path to service configurations within template directories.
      */
-    public const TEMPLATE_SERVICE_CONFIG = 'config';
+    final public const TEMPLATE_SERVICE_CONFIG = 'config';
 
     /**
      * Path to JSON schema for build artifacts.
      */
-    public const BUILD_ARTIFACT_SCHEMA = 'resources/build-artifact.schema.json';
+    final public const BUILD_ARTIFACT_SCHEMA = 'resources/build-artifact.schema.json';
 }

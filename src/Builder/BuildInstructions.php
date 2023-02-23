@@ -40,11 +40,11 @@ use function dirname;
  */
 final class BuildInstructions extends ArrayObject
 {
-    private string $temporaryDirectory;
+    private readonly string $temporaryDirectory;
 
     public function __construct(
-        private Config\Config $config,
-        private string $targetDirectory,
+        private readonly Config\Config $config,
+        private readonly string $targetDirectory,
     ) {
         parent::__construct();
         $this->temporaryDirectory = Helper\FilesystemHelper::getNewTemporaryDirectory();

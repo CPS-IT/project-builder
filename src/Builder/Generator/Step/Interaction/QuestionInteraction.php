@@ -39,9 +39,9 @@ final class QuestionInteraction implements InteractionInterface
     private const TYPE = 'question';
 
     public function __construct(
-        private ExpressionLanguage\ExpressionLanguage $expressionLanguage,
-        private IO\InputReader $reader,
-        private Twig\Renderer $renderer,
+        private readonly ExpressionLanguage\ExpressionLanguage $expressionLanguage,
+        private readonly IO\InputReader $reader,
+        private readonly Twig\Renderer $renderer,
     ) {
     }
 
@@ -80,7 +80,7 @@ final class QuestionInteraction implements InteractionInterface
         $noValue = false;
         $matches = fn (string $condition, bool $selected): bool => (bool) $this->expressionLanguage->evaluate(
             $condition,
-            array_merge($instructions->getTemplateVariables(), ['selected' => $selected]),
+            [...$instructions->getTemplateVariables(), ...['selected' => $selected]],
         );
 
         foreach ($options as $option) {

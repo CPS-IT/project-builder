@@ -45,10 +45,10 @@ final class Config
      * @param list<ValueObject\Property>       $properties
      */
     public function __construct(
-        private string $identifier,
-        private string $name,
-        private array $steps,
-        private array $properties = [],
+        private readonly string $identifier,
+        private readonly string $name,
+        private readonly array $steps,
+        private readonly array $properties = [],
     ) {
     }
 

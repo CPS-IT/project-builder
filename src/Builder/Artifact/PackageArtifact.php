@@ -44,7 +44,7 @@ use Composer\Package;
 final class PackageArtifact extends Artifact
 {
     public function __construct(
-        private Package\PackageInterface $package,
+        private readonly Package\PackageInterface $package,
     ) {
     }
 

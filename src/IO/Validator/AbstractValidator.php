@@ -49,6 +49,6 @@ abstract class AbstractValidator implements ValidatorInterface
     public function __construct(
         array $options = [],
     ) {
-        $this->options = array_merge(static::$defaultOptions, $options);
+        $this->options = [...static::$defaultOptions, ...$options];
     }
 }
