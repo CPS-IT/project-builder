@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Property CPSIT\\\\ProjectBuilder\\\\IO\\\\Validator\\\\AbstractValidator\\<T of array\\<string, mixed\\>\\>\\:\\:\\$options \\(T of array\\<string, mixed\\>\\) does not accept array\\<string, mixed\\>\\.$#"
+			count: 1
+			path: src/IO/Validator/AbstractValidator.php

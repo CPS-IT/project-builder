@@ -1,4 +1,6 @@
 includes:
+	# @todo Remove once https://github.com/phpstan/phpstan/discussions/8965 is resolved
+	- phpstan-baseline.neon
 	- .build/vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 parameters:
