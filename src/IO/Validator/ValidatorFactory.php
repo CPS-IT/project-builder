@@ -44,7 +44,7 @@ final class ValidatorFactory
 
     public function get(Builder\Config\ValueObject\PropertyValidator $validator): ValidatorInterface
     {
-        /** @var ValidatorInterface $currentValidator */
+        /** @var class-string<ValidatorInterface> $currentValidator */
         foreach ($this->validators as $currentValidator) {
             if (!$currentValidator::supports($validator->getType())) {
                 continue;
