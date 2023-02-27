@@ -1,14 +1,14 @@
 includes:
-    - .build/vendor/phpstan/phpstan/conf/bleedingEdge.neon
+	- .build/vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 parameters:
-    level: max
-    paths:
-        - src
-        - tests/src
-    excludePaths:
-        - tests/src/Fixtures/Templates/*/vendor/*
-    bootstrapFiles:
-        - tests/bootstrap.php
-    symfony:
-        containerXmlPath: var/cache/test-container.xml
+	level: max
+	paths:
+		- src
+		- tests/src
+	excludePaths:
+		- tests/src/Fixtures/Templates/*/vendor/*
+	bootstrapFiles:
+		- tests/bootstrap.php
+	symfony:
+		containerXmlPath: var/cache/test-container.xml

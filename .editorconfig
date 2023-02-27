@@ -23,3 +23,8 @@ indent_size = 3
 # YAML-Files
 [*.{yaml,yml,yaml.twig,yml.twig}]
 indent_size = 2
+
+# NEON-Files
+[*.neon]
+indent_size = 2
+indent_style = tab
