@@ -187,7 +187,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
 
         $output = self::$io->getOutput();
 
-        self::assertStringContainsString('Installing project template... Done', $output);
+        self::assertStringContainsString('Installing project template (1.0.0)... Done', $output);
         self::assertTrue($templateSource->shouldUseDynamicVersionConstraint());
     }
 
@@ -265,7 +265,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         yield 'no constraint' => [
             [$this->createPackageFromTemplateFixture()],
             '',
-            'Installing project template... Done',
+            'Installing project template (1.0.0)... Done',
         ];
 
         yield 'constraint with one package' => [
