@@ -40,9 +40,9 @@ final class StaticValueInteraction implements InteractionInterface
     private const TYPE = 'staticValue';
 
     public function __construct(
-        private IO\InputReader $reader,
-        private Twig\Renderer $renderer,
-        private IO\Validator\ValidatorFactory $validatorFactory,
+        private readonly IO\InputReader $reader,
+        private readonly Twig\Renderer $renderer,
+        private readonly IO\Validator\ValidatorFactory $validatorFactory,
     ) {
     }
 

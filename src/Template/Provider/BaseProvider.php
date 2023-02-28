@@ -107,10 +107,12 @@ abstract class BaseProvider implements ProviderInterface
     {
         $package = $templateSource->getPackage();
 
+        // @codeCoverageIgnoreStart
         if ($package instanceof Package\AliasPackage) {
             $package = $package->getAliasOf();
             $templateSource->setPackage($package);
         }
+        // @codeCoverageIgnoreEnd
 
         if ($package instanceof Package\Package) {
             $this->requestPackageVersionConstraint($templateSource);
@@ -159,7 +161,7 @@ abstract class BaseProvider implements ProviderInterface
         $constraint = $inputReader->staticValue(
             'Enter the version constraint to require (or leave blank to use the latest version)',
             validator: new IO\Validator\CallbackValidator([
-                'callback' => [$this, 'validateConstraint'],
+                'callback' => $this->validateConstraint(...),
             ]),
         );
 
@@ -203,7 +205,7 @@ abstract class BaseProvider implements ProviderInterface
     {
         $repositories = [
             [
-                'type' => $this->getType(),
+                'type' => $this->getRepositoryType(),
                 'url' => $this->getUrl(),
             ],
             ...$repositories,
@@ -238,7 +240,7 @@ abstract class BaseProvider implements ProviderInterface
             $this->io,
             $config,
             [
-                'type' => $this->getType(),
+                'type' => $this->getRepositoryType(),
                 'url' => $this->getUrl(),
             ],
             Repository\RepositoryFactory::manager($this->io, $config, Factory::createHttpDownloader($this->io, $config)),
@@ -270,5 +272,5 @@ abstract class BaseProvider implements ProviderInterface
      *
      * @see https://getcomposer.org/doc/05-repositories.md#types
      */
-    abstract protected function getType(): string;
+    abstract protected function getRepositoryType(): string;
 }

@@ -41,9 +41,9 @@ use function ltrim;
 final class FactoryServicesPass implements DependencyInjection\Compiler\CompilerPassInterface
 {
     public function __construct(
-        private string $tagName,
-        private string $factoryService,
-        private string $argumentName,
+        private readonly string $tagName,
+        private readonly string $factoryService,
+        private readonly string $argumentName,
     ) {
     }
 

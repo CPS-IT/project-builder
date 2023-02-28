@@ -29,13 +29,13 @@ namespace CPSIT\ProjectBuilder\IO;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-abstract class Emoji
+enum Emoji: string
 {
-    public const HOURGLASS_FLOWING_SAND = "\u{23F3}";
-    public const PARTY_POPPER = "\u{1F389}";
-    public const PROHIBITED = "\u{1F6AB}";
-    public const ROTATING_LIGHT = "\u{1F6A8}";
-    public const SPARKLES = "\u{2728}";
-    public const WHITE_HEAVY_CHECK_MARK = "\u{2705}";
-    public const WOOZY_FACE = "\u{1F974}";
+    case HourglassFlowingSand = "\u{23F3}";
+    case PartyPopper = "\u{1F389}";
+    case Prohibited = "\u{1F6AB}";
+    case RotatingLight = "\u{1F6A8}";
+    case Sparkles = "\u{2728}";
+    case WhiteHeavyCheckMark = "\u{2705}";
+    case WoozyFace = "\u{1F974}";
 }

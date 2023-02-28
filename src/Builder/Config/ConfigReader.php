@@ -48,7 +48,7 @@ final class ConfigReader
         'config.json',
     ];
 
-    private Finder\Finder $finder;
+    private readonly Finder\Finder $finder;
     private bool $parsed = false;
 
     /**
@@ -57,8 +57,8 @@ final class ConfigReader
     private array $parsedConfig = [];
 
     private function __construct(
-        private ConfigFactory $factory,
-        private string $templateDirectory,
+        private readonly ConfigFactory $factory,
+        private readonly string $templateDirectory,
     ) {
         $this->finder = $this->createFinder();
     }

@@ -49,8 +49,8 @@ final class ConfigFactory
     private static ?string $cacheDirectory = null;
 
     private function __construct(
-        private Mapper\TreeMapper $mapper,
-        private JsonSchema\Validator $validator,
+        private readonly Mapper\TreeMapper $mapper,
+        private readonly JsonSchema\Validator $validator,
     ) {
     }
 
@@ -70,7 +70,7 @@ final class ConfigFactory
 
     public function buildFromFile(string $file, string $identifier): Config
     {
-        $type = $this->determineFileType($file);
+        $fileType = FileType::fromFile($file);
         $content = file_get_contents($file);
 
         if (false === $content) {
@@ -79,21 +79,21 @@ final class ConfigFactory
             // @codeCoverageIgnoreEnd
         }
 
-        $config = $this->buildFromString($content, $identifier, $type);
+        $config = $this->buildFromString($content, $identifier, $fileType);
 
         return $config->setDeclaringFile($file);
     }
 
-    public function buildFromString(string $content, string $identifier, string $type): Config
+    public function buildFromString(string $content, string $identifier, FileType $fileType): Config
     {
-        $parsedContent = $this->parseContent($content, $type);
+        $parsedContent = $this->parseContent($content, $fileType);
         $validationResult = $this->validateConfig($parsedContent);
 
         if (!$validationResult->isValid()) {
             throw Exception\InvalidConfigurationException::forValidationErrors($validationResult->error());
         }
 
-        $source = $this->generateMapperSource($content, $identifier, $type);
+        $source = $this->generateMapperSource($content, $identifier, $fileType);
 
         return $this->mapper->map(Config::class, $source);
     }
@@ -116,12 +116,11 @@ final class ConfigFactory
         return $this->validator->validate($parsedContent, $schemaReference);
     }
 
-    private function generateMapperSource(string $content, string $identifier, string $type): Mapper\Source\Source
+    private function generateMapperSource(string $content, string $identifier, FileType $fileType): Mapper\Source\Source
     {
-        $parsedContent = match ($type) {
-            FileType::YAML => Yaml\Yaml::parse($content),
-            FileType::JSON => json_decode($content, true, 512, JSON_THROW_ON_ERROR),
-            default => throw Exception\UnsupportedTypeException::create($type),
+        $parsedContent = match ($fileType) {
+            FileType::Yaml => Yaml\Yaml::parse($content),
+            FileType::Json => json_decode($content, true, 512, JSON_THROW_ON_ERROR),
         };
 
         // @codeCoverageIgnoreStart
@@ -136,12 +135,11 @@ final class ConfigFactory
         return Mapper\Source\Source::array($parsedContent);
     }
 
-    private function parseContent(string $content, string $type): stdClass
+    private function parseContent(string $content, FileType $fileType): stdClass
     {
-        $parsedContent = match ($type) {
-            FileType::YAML => Yaml\Yaml::parse($content, Yaml\Yaml::PARSE_OBJECT_FOR_MAP),
-            FileType::JSON => json_decode($content, false, 512, JSON_THROW_ON_ERROR),
-            default => throw Exception\UnsupportedTypeException::create($type),
+        $parsedContent = match ($fileType) {
+            FileType::Yaml => Yaml\Yaml::parse($content, Yaml\Yaml::PARSE_OBJECT_FOR_MAP),
+            FileType::Json => json_decode($content, false, 512, JSON_THROW_ON_ERROR),
         };
 
         if (!($parsedContent instanceof stdClass)) {
@@ -149,17 +147,6 @@ final class ConfigFactory
         }
 
         return $parsedContent;
-    }
-
-    private function determineFileType(string $file): string
-    {
-        $fileType = Filesystem\Path::getExtension($file, true);
-
-        return match ($fileType) {
-            'yml', 'yaml' => FileType::YAML,
-            'json' => FileType::JSON,
-            default => throw Exception\UnsupportedTypeException::create($fileType),
-        };
     }
 
     /**

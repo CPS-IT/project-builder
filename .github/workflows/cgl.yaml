@@ -20,7 +20,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: 8.2
           tools: composer:v2, composer-require-checker, composer-unused:0.7, cs2pr
           coverage: none
 
@@ -51,6 +51,9 @@ jobs:
         run: composer lint:json
       - name: Lint PHP
         run: composer lint:php -- --dry-run --format=checkstyle | cs2pr
+        env:
+          # @todo Remove once PHP-CS-Fixer officially supports PHP 8.2
+          PHP_CS_FIXER_IGNORE_ENV: 1
 
       # SCA
       - name: SCA PHP

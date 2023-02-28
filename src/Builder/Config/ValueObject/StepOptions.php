@@ -35,9 +35,9 @@ final class StepOptions
      * @param list<FileCondition> $fileConditions
      */
     public function __construct(
-        private array $fileConditions = [],
-        private ?string $templateFile = null,
-        private ?string $artifactPath = null,
+        private readonly array $fileConditions = [],
+        private readonly ?string $templateFile = null,
+        private readonly ?string $artifactPath = null,
     ) {
     }
 

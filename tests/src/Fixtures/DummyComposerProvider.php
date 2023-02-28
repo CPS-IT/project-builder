@@ -35,6 +35,8 @@ use CPSIT\ProjectBuilder\Template;
  */
 final class DummyComposerProvider extends Template\Provider\BaseProvider
 {
+    private const TYPE = 'dummyComposer';
+
     protected bool $acceptInsecureConnections = true;
 
     public string $url = 'https://example.com';
@@ -54,18 +56,28 @@ final class DummyComposerProvider extends Template\Provider\BaseProvider
         return parent::createRepository();
     }
 
-    public static function getName(): string
-    {
-        return 'dummy';
-    }
-
     public function getUrl(): string
     {
         return $this->url;
     }
 
-    protected function getType(): string
+    protected function getRepositoryType(): string
     {
         return 'composer';
+    }
+
+    public static function getName(): string
+    {
+        return 'dummy';
+    }
+
+    public static function getType(): string
+    {
+        return self::TYPE;
+    }
+
+    public static function supports(string $type): bool
+    {
+        return self::TYPE === $type;
     }
 }

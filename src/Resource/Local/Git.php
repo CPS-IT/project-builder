@@ -36,7 +36,7 @@ use function trim;
 final class Git
 {
     public function __construct(
-        private Cli\Command\Runner $runner,
+        private readonly Cli\Command\Runner $runner,
     ) {
     }
 
@@ -74,6 +74,6 @@ final class Git
 
         $output = $result->getBufferedOutput()[0];
 
-        return '' !== trim($output) ? trim($output) : null;
+        return '' !== trim((string) $output) ? trim((string) $output) : null;
     }
 }

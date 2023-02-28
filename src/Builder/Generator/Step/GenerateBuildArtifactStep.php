@@ -45,9 +45,9 @@ final class GenerateBuildArtifactStep extends AbstractStep implements StoppableS
     private bool $stopped = false;
 
     public function __construct(
-        private Filesystem\Filesystem $filesystem,
-        private IO\Messenger $messenger,
-        private IO\InputReader $inputReader,
+        private readonly Filesystem\Filesystem $filesystem,
+        private readonly IO\Messenger $messenger,
+        private readonly IO\InputReader $inputReader,
     ) {
         parent::__construct();
     }

@@ -48,7 +48,7 @@ final class MirrorProcessedFilesStep extends AbstractStep implements ProcessingS
     public function __construct(
         ExpressionLanguage\ExpressionLanguage $expressionLanguage,
         Filesystem\Filesystem $filesystem,
-        private IO\Messenger $messenger,
+        private readonly IO\Messenger $messenger,
     ) {
         parent::__construct();
         $this->expressionLanguage = $expressionLanguage;

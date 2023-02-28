@@ -38,6 +38,8 @@ use Symfony\Component\Filesystem;
  */
 final class ComposerProvider extends BaseProvider implements CustomProviderInterface
 {
+    private const TYPE = 'composer';
+
     private ?string $url = null;
 
     public function __construct(
@@ -53,11 +55,6 @@ final class ComposerProvider extends BaseProvider implements CustomProviderInter
                 new Console\Helper\QuestionHelper(),
             ]),
         );
-    }
-
-    public static function getName(): string
-    {
-        return 'Custom Composer registry';
     }
 
     public function requestCustomOptions(IO\Messenger $messenger): void
@@ -88,8 +85,23 @@ final class ComposerProvider extends BaseProvider implements CustomProviderInter
         $this->url = $url;
     }
 
-    protected function getType(): string
+    protected function getRepositoryType(): string
     {
         return 'composer';
+    }
+
+    public static function getName(): string
+    {
+        return 'Custom Composer registry';
+    }
+
+    public static function getType(): string
+    {
+        return self::TYPE;
+    }
+
+    public static function supports(string $type): bool
+    {
+        return self::TYPE === $type;
     }
 }

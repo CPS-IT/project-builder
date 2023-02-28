@@ -1,7 +1,7 @@
-FROM composer:2.4 AS composer
+FROM composer:2.5 AS composer
 LABEL maintainer="Elias Häußler <e.haeussler@familie-redlich.de>"
 
-FROM php:8.1-alpine
+FROM php:8.2-alpine
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
@@ -13,12 +13,12 @@ WORKDIR /project-builder
 # Install Git and php-zip extension
 RUN apk update \
     && apk add git libzip-dev zip \
-    && docker-php-ext-install zip sockets
+    && docker-php-ext-install zip
 
 # Build project-builder artifact for later use in entrypoint
 ARG PROJECT_BUILDER_VERSION=0.0.0
 RUN composer config version "$PROJECT_BUILDER_VERSION" \
-    && composer update --prefer-dist --no-dev --no-install \
+    && composer update --prefer-dist --no-dev --no-install --ignore-platform-req=ext-sockets \
     && composer global config repositories.project-builder path /project-builder \
     && composer global config allow-plugins.cpsit/project-builder true \
     && composer global require cpsit/project-builder:$PROJECT_BUILDER_VERSION

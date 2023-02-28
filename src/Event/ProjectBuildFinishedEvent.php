@@ -34,7 +34,7 @@ use CPSIT\ProjectBuilder\Builder;
 final class ProjectBuildFinishedEvent
 {
     public function __construct(
-        private Builder\BuildResult $buildResult,
+        private readonly Builder\BuildResult $buildResult,
     ) {
     }
 

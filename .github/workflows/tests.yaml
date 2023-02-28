@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ["8.0", "8.1", "8.2"]
+        php-version: ["8.1", "8.2"]
         composer-version: ["2.1", "2.2", "2.3", "2.4", "2.5"]
         dependencies: ["highest", "lowest"]
     steps:
@@ -39,7 +39,7 @@ jobs:
 
       # Run tests
       - name: Run tests
-        run: composer test
+        run: composer test:unit
 
   coverage:
     name: Test coverage
@@ -63,11 +63,11 @@ jobs:
         with:
           dependency-versions: highest
 
-      # Run tests
+      # Run Unit tests
       - name: Build coverage directory
         run: mkdir -p .build/coverage
-      - name: Run tests with coverage
-        run: composer test:coverage
+      - name: Run Unit tests with coverage
+        run: composer test:unit:coverage
 
       # Report coverage
       - name: Fix coverage path
@@ -88,3 +88,20 @@ jobs:
           directory: .build/coverage
           fail_ci_if_error: true
           verbose: true
+
+  docker:
+    name: Docker tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Handle Docker image layer cache
+      - name: Handle Docker cache
+        uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+
+      # Run Docker tests
+      - name: Run Docker tests
+        run: tests/docker/docker-build.sh --cache --verbose

@@ -23,14 +23,39 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Builder\Config;
 
+use CPSIT\ProjectBuilder\Exception;
+use Symfony\Component\Filesystem;
+
 /**
  * FileType.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-abstract class FileType
+enum FileType
 {
-    public const YAML = 'yaml';
-    public const JSON = 'json';
+    case Json;
+    case Yaml;
+
+    /**
+     * @throws Exception\UnsupportedTypeException
+     */
+    public static function fromExtension(string $extension): self
+    {
+        return match ($extension) {
+            'json' => self::Json,
+            'yaml', 'yml' => self::Yaml,
+            default => throw Exception\UnsupportedTypeException::create($extension),
+        };
+    }
+
+    /**
+     * @throws Exception\UnsupportedTypeException
+     */
+    public static function fromFile(string $file): self
+    {
+        $extension = Filesystem\Path::getExtension($file, true);
+
+        return self::fromExtension($extension);
+    }
 }

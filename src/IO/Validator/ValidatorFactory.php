@@ -38,7 +38,7 @@ final class ValidatorFactory
      * @param list<class-string<ValidatorInterface>> $validators
      */
     public function __construct(
-        private array $validators,
+        private readonly array $validators,
     ) {
     }
 

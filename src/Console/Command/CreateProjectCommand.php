@@ -58,10 +58,10 @@ final class CreateProjectCommand extends Command\BaseCommand
      * @param list<Template\Provider\ProviderInterface> $templateProviders
      */
     public function __construct(
-        private IO\Messenger $messenger,
-        private Builder\Config\ConfigReader $configReader,
-        private Error\ErrorHandler $errorHandler,
-        private Filesystem\Filesystem $filesystem,
+        private readonly IO\Messenger $messenger,
+        private readonly Builder\Config\ConfigReader $configReader,
+        private readonly Error\ErrorHandler $errorHandler,
+        private readonly Filesystem\Filesystem $filesystem,
         array $templateProviders = [],
     ) {
         parent::__construct('project:create');

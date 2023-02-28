@@ -45,7 +45,7 @@ final class Property
         string $path = null,
         string $if = null,
         int|float|string|bool|null $value = null,
-        private array $properties = [],
+        private readonly array $properties = [],
     ) {
         $this->identifier = $identifier;
         $this->name = $name;

@@ -36,7 +36,7 @@ use Throwable;
 final class ErrorHandler
 {
     public function __construct(
-        private IO\Messenger $messenger,
+        private readonly IO\Messenger $messenger,
     ) {
     }
 

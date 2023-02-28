@@ -34,8 +34,8 @@ use Symfony\Component\Finder;
 final class ProcessedFile
 {
     public function __construct(
-        private Finder\SplFileInfo $originalFile,
-        private Finder\SplFileInfo $targetFile,
+        private readonly Finder\SplFileInfo $originalFile,
+        private readonly Finder\SplFileInfo $targetFile,
     ) {
     }
 

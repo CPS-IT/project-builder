@@ -39,9 +39,9 @@ return static function (RectorConfig $rectorConfig): void {
         AddLiteralSeparatorToNumberRector::class,
     ]);
 
-    $rectorConfig->phpVersion(PhpVersion::PHP_80);
+    $rectorConfig->phpVersion(PhpVersion::PHP_81);
 
     $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_80,
+        LevelSetList::UP_TO_PHP_81,
     ]);
 };

@@ -47,18 +47,6 @@ final class ConfigFactoryTest extends TestCase
     /**
      * @test
      */
-    public function buildFromFileThrowsExceptionIfFileTypeIsNotSupported(): void
-    {
-        $this->expectException(Src\Exception\UnsupportedTypeException::class);
-        $this->expectExceptionCode(1652800199);
-        $this->expectExceptionMessage('The type "php" is not supported.');
-
-        $this->subject->buildFromFile(__FILE__, 'foo');
-    }
-
-    /**
-     * @test
-     */
     public function buildFromFileThrowsExceptionIfFileContentsAreInvalid(): void
     {
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
@@ -151,24 +139,12 @@ final class ConfigFactoryTest extends TestCase
     /**
      * @test
      */
-    public function buildFromStringThrowsExceptionIfGivenTypeIsNotSupported(): void
-    {
-        $this->expectException(Src\Exception\UnsupportedTypeException::class);
-        $this->expectExceptionCode(1652800199);
-        $this->expectExceptionMessage('The type "php" is not supported.');
-
-        $this->subject->buildFromString('foo', 'baz', 'php');
-    }
-
-    /**
-     * @test
-     */
     public function buildFromStringThrowsExceptionIfGivenContentIsInvalid(): void
     {
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
         $this->expectExceptionCode(1653058480);
         $this->expectExceptionMessage('The config source "foo" is invalid and cannot be processed.');
 
-        $this->subject->buildFromString('foo', 'baz', 'yaml');
+        $this->subject->buildFromString('foo', 'baz', Src\Builder\Config\FileType::Yaml);
     }
 }
