@@ -190,7 +190,7 @@ abstract class BaseProvider implements ProviderInterface
         $this->messenger->comment(
             sprintf(
                 'Do you require a specific version of %s?
-If so, you may specify it here. Leave this empty we\'ll just grab the latest stable version.',
+If so, you may specify it here. Leave it empty and we\'ll find a current version for you.',
                 $templateSource->getPackage()->getName(),
             ),
         );
