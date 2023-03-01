@@ -76,6 +76,11 @@ final class Messenger
         $this->write(sprintf("\033\143"));
     }
 
+    public function clearLine(): void
+    {
+        $this->write("\x1b[1A", false);
+    }
+
     public function welcome(): void
     {
         $this->getIO()->write([
@@ -362,7 +367,7 @@ Let\'s start by looking for templates on Packagist.org:',
     public function writeWithEmoji(string $emoji, string $message, bool $overwrite = false): void
     {
         if ($overwrite) {
-            $this->write("\x1b[1A", false);
+            $this->clearLine();
         }
 
         $this->write($emoji.' '.$message);

@@ -40,6 +40,7 @@
 	"require-dev": {
 		"armin/editorconfig-cli": "^1.5",
 		"composer/composer": "^2.2.13 || ^2.3.6",
+		"composer/semver": "^3.0",
 		"composer/xdebug-handler": "^3.0",
 		"donatj/mock-webserver": "^2.5",
 		"ergebnis/composer-normalize": "^2.26",
