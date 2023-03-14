@@ -56,7 +56,7 @@ html_theme_options = {
 # -- OpenGraph configuration -------------------------------------------------
 # https://github.com/wpilibsuite/sphinxext-opengraph#options
 
-opg_site_url = "https://cps-it.github.io/project-builder/"
+opg_site_url = "https://project-builder.cps-it.de/"
 opg_image = "_static/img/header.png"
 ogp_enable_meta_description = False
 
