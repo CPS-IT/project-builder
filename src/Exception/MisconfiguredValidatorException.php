@@ -26,6 +26,9 @@ namespace CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\IO;
 use Exception;
 
+use function array_pop;
+use function count;
+use function implode;
 use function sprintf;
 
 /**
@@ -47,6 +50,34 @@ final class MisconfiguredValidatorException extends Exception
         return new self(
             sprintf('The validator option "%s" of validator "%s" is invalid.', $option, $validator),
             1673886742,
+        );
+    }
+
+    /**
+     * @param list<string> $options
+     */
+    public static function forUnexpectedOptions(
+        string|IO\Validator\ValidatorInterface $validator,
+        array $options,
+    ): self {
+        if (1 === count($options)) {
+            return self::forUnexpectedOption($validator, $options[0]);
+        }
+
+        if ($validator instanceof IO\Validator\ValidatorInterface) {
+            $validator = $validator::getType();
+        }
+
+        $lastOption = array_pop($options);
+
+        return new self(
+            sprintf(
+                'The validator options "%s" and "%s" of validator "%s" are invalid.',
+                implode('", "', $options),
+                $lastOption,
+                $validator,
+            ),
+            1679253412,
         );
     }
 }

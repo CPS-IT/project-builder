@@ -23,6 +23,8 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\IO\Validator;
 
+use CPSIT\ProjectBuilder\Exception;
+
 /**
  * AbstractValidator.
  *
@@ -45,10 +47,19 @@ abstract class AbstractValidator implements ValidatorInterface
 
     /**
      * @param array<string, mixed> $options
+     *
+     * @throws Exception\MisconfiguredValidatorException
      */
     public function __construct(
         array $options = [],
     ) {
+        $invalidOptions = array_diff_key($options, static::$defaultOptions);
+
+        if ([] !== $invalidOptions) {
+            throw Exception\MisconfiguredValidatorException::forUnexpectedOptions($this, array_keys($invalidOptions));
+        }
+
+        /* @phpstan-ignore-next-line */
         $this->options = [...static::$defaultOptions, ...$options];
     }
 }
