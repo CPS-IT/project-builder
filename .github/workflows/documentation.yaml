@@ -1,9 +1,6 @@
 name: Documentation
 on:
   push:
-    branches:
-      # @todo Remove once branch is merged
-      - 'docs/init'
     tags:
       - '*'
   workflow_dispatch:

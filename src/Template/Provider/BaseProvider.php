@@ -140,12 +140,31 @@ abstract class BaseProvider implements ProviderInterface
             throw Exception\InvalidTemplateSourceException::forFailedInstallation($templateSource);
         }
 
-        $this->messenger->done();
-        $this->messenger->newLine();
-
         // Make sure installed sources are handled by Composer's class loader
         $loader = Resource\Local\Composer::createClassLoader(dirname($composerJson));
         $loader->register(true);
+
+        // Look up installed package
+        $composer = Resource\Local\Composer::createComposer(dirname($composerJson));
+        $repository = $composer->getRepositoryManager()->getLocalRepository();
+        $installedPackage = $repository->findPackage($package->getName(), new Semver\Constraint\MatchAllConstraint());
+
+        // Overwrite package from template source with actually installed template
+        if (null !== $installedPackage) {
+            $templateSource->setPackage($installedPackage);
+        }
+
+        // Show installed template version
+        $this->messenger->clearLine();
+        $this->messenger->progress(
+            sprintf(
+                'Installing project template (<info>%s</info>)...',
+                $templateSource->getPackage()->getPrettyVersion(),
+            ),
+            ComposerIO\IOInterface::NORMAL,
+        );
+        $this->messenger->done();
+        $this->messenger->newLine();
     }
 
     /**
