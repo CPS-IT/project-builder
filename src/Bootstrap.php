@@ -122,7 +122,6 @@ final class Bootstrap
         // Trigger class autoload for all classes
         foreach ($finder as $file) {
             $className = __NAMESPACE__.'\\'.str_replace('/', '\\', substr($file->getRelativePathname(), 0, -4));
-            var_dump($className);
             class_exists($className);
         }
     }
