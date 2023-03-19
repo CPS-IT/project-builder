@@ -89,9 +89,8 @@ final class QuestionInteractionTest extends Tests\ContainerAwareTestCase
 
     /**
      * @param list<Src\Builder\Config\ValueObject\PropertyOption> $options
-     * @param int|float|string|bool|null                          $defaultValue
      */
-    private function buildInteractionSubject(array $options = [], $defaultValue = null): Src\Builder\Config\ValueObject\CustomizableInterface
+    private function buildInteractionSubject(array $options = []): Src\Builder\Config\ValueObject\CustomizableInterface
     {
         return new Src\Builder\Config\ValueObject\SubProperty(
             'foo',
@@ -102,7 +101,6 @@ final class QuestionInteractionTest extends Tests\ContainerAwareTestCase
             null,
             $options,
             false,
-            $defaultValue,
         );
     }
 }
