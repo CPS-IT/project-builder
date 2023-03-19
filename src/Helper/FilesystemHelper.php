@@ -64,9 +64,11 @@ final class FilesystemHelper
     {
         try {
             $packageDirectory = InstalledVersions::getInstallPath('cpsit/project-builder');
+            // @codeCoverageIgnoreStart
         } catch (OutOfBoundsException) {
             $packageDirectory = null;
         }
+        // @codeCoverageIgnoreEnd
 
         if (null === $packageDirectory) {
             $packageDirectory = dirname(__DIR__, 2);
@@ -89,7 +91,7 @@ final class FilesystemHelper
         $cwd = realpath($cwd);
 
         if (false === $cwd) {
-            throw Exception\FilesystemFailureException::forUnresolvableWorkingDirectory();
+            throw Exception\FilesystemFailureException::forUnresolvableWorkingDirectory(); // @codeCoverageIgnore
         }
 
         return Filesystem\Path::canonicalize($cwd);

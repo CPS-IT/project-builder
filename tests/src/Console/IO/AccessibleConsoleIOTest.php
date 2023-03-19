@@ -46,6 +46,22 @@ final class AccessibleConsoleIOTest extends Tests\ContainerAwareTestCase
     /**
      * @test
      */
+    public function fromIOThrowsExceptionIfInvalidIOPropertiesAreGiven(): void
+    {
+        $io = new Tests\Fixtures\InvalidConsoleIO(
+            new Console\Input\StringInput(''),
+            new Console\Output\NullOutput(),
+            new Console\Helper\HelperSet(),
+        );
+
+        $this->expectException(Src\Exception\ShouldNotHappenException::class);
+
+        Src\Console\IO\AccessibleConsoleIO::fromIO($io);
+    }
+
+    /**
+     * @test
+     */
     public function fromIOConstructsInputAndOutputIfIOIsNotConsoleIO(): void
     {
         $actual = Src\Console\IO\AccessibleConsoleIO::fromIO(new IO\NullIO());

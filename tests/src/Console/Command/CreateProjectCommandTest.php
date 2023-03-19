@@ -239,7 +239,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
     /**
      * @test
      */
-    public function executeGeneratesNewProjectFromSelectedTemplate(): void
+    public function executeGeneratesNewProjectFromSelectedTemplateAndShowsNumberOfProcessedFiles(): void
     {
         $this->templateProvider->installationPath = $this->targetDirectory;
         $this->templateProvider->templateSources = [
@@ -248,13 +248,49 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
 
         self::$io->setUserInputs(['', '', 'foo', 'yes']);
 
-        self::assertSame(0, $this->commandTester->execute([
+        $this->commandTester->execute([
             'target-directory' => $this->targetDirectory,
-        ]));
+        ]);
+
+        $output = self::$io->getOutput();
+
+        self::assertSame(0, $this->commandTester->getStatusCode());
         self::assertStringContainsString(
-            'Congratulations, your new project was successfully built!',
-            self::$io->getOutput(),
+            'Written files: overrides/dummy-4.json, dummy.json, overrides/shared-dummy-4.json, shared-dummy.json',
+            $output,
         );
+        self::assertStringContainsString('Congratulations, your new project was successfully built!', $output);
+    }
+
+    /**
+     * @test
+     */
+    public function executeGeneratesNewProjectFromSelectedTemplateAndShowsAllProcessedFiles(): void
+    {
+        $this->templateProvider->installationPath = $this->targetDirectory;
+        $this->templateProvider->templateSources = [
+            $this->createTemplateSource(),
+        ];
+
+        self::$io->setVerbosity(SymfonyConsole\Output\OutputInterface::VERBOSITY_VERBOSE);
+        self::$io->setUserInputs(['', '', 'foo', 'yes']);
+
+        $this->commandTester->execute([
+            'target-directory' => $this->targetDirectory,
+        ]);
+
+        $output = self::$io->getOutput();
+
+        self::assertSame(0, $this->commandTester->getStatusCode());
+        self::assertStringContainsString('* dummy.json', $output);
+        self::assertStringNotContainsString('* dummy-2.json', $output);
+        self::assertStringNotContainsString('* dummy-3.json', $output);
+        self::assertStringContainsString('* overrides/dummy-4.json', $output);
+        self::assertStringContainsString('* shared-dummy.json', $output);
+        self::assertStringNotContainsString('* shared-dummy-2.json', $output);
+        self::assertStringNotContainsString('* shared-dummy-3.json', $output);
+        self::assertStringContainsString('* overrides/shared-dummy-4.json', $output);
+        self::assertStringContainsString('Congratulations, your new project was successfully built!', $output);
     }
 
     private function createTemplateSource(): Src\Template\TemplateSource
