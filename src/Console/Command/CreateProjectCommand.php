@@ -117,6 +117,8 @@ final class CreateProjectCommand extends Command\BaseCommand
             && !Helper\FilesystemHelper::isDirectoryEmpty($targetDirectory)
             && !$this->messenger->confirmOverwrite($targetDirectory)
         ) {
+            $this->messenger->error('Project creation aborted.');
+
             return self::ABORTED;
         }
 
