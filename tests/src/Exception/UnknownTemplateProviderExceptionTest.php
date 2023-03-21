@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the Composer package "cpsit/project-builder".
  *
- * Copyright (C) 2022 Elias Häußler <e.haeussler@familie-redlich.de>
+ * Copyright (C) 2023 Elias Häußler <e.haeussler@familie-redlich.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,35 +21,27 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Template\Provider;
+namespace CPSIT\ProjectBuilder\Tests\Exception;
+
+use CPSIT\ProjectBuilder as Src;
+use PHPUnit\Framework\TestCase;
 
 /**
- * PackagistProvider.
+ * UnknownTemplateProviderExceptionTest.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class PackagistProvider extends BaseProvider
+final class UnknownTemplateProviderExceptionTest extends TestCase
 {
-    private const TYPE = 'packagist';
-
-    public function getUrl(): string
+    /**
+     * @test
+     */
+    public function createReturnsExceptionForUnknownTemplateProvider(): void
     {
-        return 'https://packagist.org';
-    }
+        $actual = Src\Exception\UnknownTemplateProviderException::create('foo');
 
-    protected function getRepositoryType(): string
-    {
-        return 'composer';
-    }
-
-    public static function getName(): string
-    {
-        return 'Packagist.org';
-    }
-
-    public static function getType(): string
-    {
-        return self::TYPE;
+        self::assertSame('The template provider "foo" does not exist or is not available.', $actual->getMessage());
+        self::assertSame(1677140774, $actual->getCode());
     }
 }

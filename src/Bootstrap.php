@@ -94,12 +94,16 @@ final class Bootstrap
 
     private static function createApplication(IO\Messenger $messenger, string $targetDirectory): Console\Application
     {
+        $filesystem = new Filesystem\Filesystem();
+        $providerFactory = Template\Provider\ProviderFactory::create($messenger, $filesystem);
+
         return new Console\Application(
             $messenger,
             Builder\Config\ConfigReader::create(),
             new Error\ErrorHandler($messenger),
-            new Filesystem\Filesystem(),
+            $filesystem,
             $targetDirectory,
+            $providerFactory->getAll(),
         );
     }
 

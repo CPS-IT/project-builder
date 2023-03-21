@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Template\Provider;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use Symfony\Component\Filesystem;
 
 /**
  * ProviderFactoryTest.
@@ -38,7 +39,10 @@ final class ProviderFactoryTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Template\Provider\ProviderFactory::class);
+        $this->subject = Src\Template\Provider\ProviderFactory::create(
+            self::$container->get(Src\IO\Messenger::class),
+            self::$container->get(Filesystem\Filesystem::class),
+        );
     }
 
     /**
@@ -46,9 +50,7 @@ final class ProviderFactoryTest extends Tests\ContainerAwareTestCase
      */
     public function getThrowsExceptionIfNoProviderOfGivenTypeIsAvailable(): void
     {
-        $this->expectException(Src\Exception\UnsupportedTypeException::class);
-        $this->expectExceptionCode(1652800199);
-        $this->expectExceptionMessage('The type "foo" is not supported.');
+        $this->expectExceptionObject(Src\Exception\UnknownTemplateProviderException::create('foo'));
 
         $this->subject->get('foo');
     }
@@ -70,5 +72,18 @@ final class ProviderFactoryTest extends Tests\ContainerAwareTestCase
             Src\Template\Provider\VcsProvider::class,
             $this->subject->get('vcs'),
         );
+    }
+
+    /**
+     * @test
+     */
+    public function getAllReturnsAllProviders(): void
+    {
+        $actual = $this->subject->getAll();
+
+        self::assertCount(3, $actual);
+        self::assertInstanceOf(Src\Template\Provider\PackagistProvider::class, $actual[0]);
+        self::assertInstanceOf(Src\Template\Provider\ComposerProvider::class, $actual[1]);
+        self::assertInstanceOf(Src\Template\Provider\VcsProvider::class, $actual[2]);
     }
 }

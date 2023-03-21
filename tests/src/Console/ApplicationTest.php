@@ -199,30 +199,6 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function runUsesDefaultTemplateProvidersIfNoProvidersAreConfigured(): void
-    {
-        $subject = new Src\Console\Application(
-            $this->messenger,
-            $this->configReader,
-            new Src\Error\ErrorHandler($this->messenger),
-            $this->filesystem,
-            $this->targetDirectory,
-        );
-
-        self::$io->setUserInputs(['Try another template provider.']);
-
-        $subject->run();
-
-        $output = self::$io->getOutput();
-
-        self::assertStringContainsString(Src\Template\Provider\PackagistProvider::getName(), $output);
-        self::assertStringContainsString(Src\Template\Provider\ComposerProvider::getName(), $output);
-        self::assertStringContainsString(Src\Template\Provider\VcsProvider::getName(), $output);
-    }
-
     private function createTemplateSource(): Src\Template\TemplateSource
     {
         $sourcePath = dirname(__DIR__).'/Fixtures/Templates/json-template';

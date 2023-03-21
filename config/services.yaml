@@ -44,10 +44,6 @@ services:
   CPSIT\ProjectBuilder\IO\Messenger:
     alias: 'app.messenger'
 
-  CPSIT\ProjectBuilder\Template\Provider\ProviderFactory:
-    arguments:
-      $providers: !tagged_iterator template.provider
-
   CPSIT\ProjectBuilder\Twig\Extension\ProjectBuilderExtension:
     arguments:
       $filters: !tagged_iterator twig.filter

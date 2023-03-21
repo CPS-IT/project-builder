@@ -95,9 +95,4 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
     {
         return self::TYPE;
     }
-
-    public static function supports(string $type): bool
-    {
-        return self::TYPE === $type;
-    }
 }
