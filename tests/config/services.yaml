@@ -16,3 +16,6 @@ services:
 
   CPSIT\ProjectBuilder\Tests\Fixtures\DummyTemplateRenderingEventListener:
     tags: ['event.listener']
+
+  CPSIT\ProjectBuilder\Tests\Fixtures\DummyVersion:
+    tags: ['artifact.version_migration']

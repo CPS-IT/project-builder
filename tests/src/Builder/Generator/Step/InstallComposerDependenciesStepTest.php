@@ -49,6 +49,7 @@ final class InstallComposerDependenciesStepTest extends Tests\ContainerAwareTest
         $this->subject = self::$container->get(Src\Builder\Generator\Step\InstallComposerDependenciesStep::class);
         $this->buildResult = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(self::$config, 'foo'),
+            self::$container->get(Src\Builder\ArtifactGenerator::class),
         );
     }
 

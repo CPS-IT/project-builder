@@ -21,46 +21,26 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Builder\Artifact;
-
-use JsonSerializable;
+namespace CPSIT\ProjectBuilder\Builder\Artifact\Migration;
 
 /**
- * PackageArtifact.
+ * Version.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  *
  * @internal
  */
-final class PackageArtifact implements JsonSerializable
+interface Version
 {
-    public function __construct(
-        public readonly string $name,
-        public readonly string $version,
-        public readonly ?string $sourceReference,
-        public readonly ?string $sourceUrl,
-        public readonly ?string $distUrl,
-    ) {
-    }
-
     /**
-     * @return array{
-     *     name: string,
-     *     version: string,
-     *     sourceReference: string|null,
-     *     sourceUrl: string|null,
-     *     distUrl: string|null,
-     * }
+     * @param array<string, mixed> $artifact
+     *
+     * @return array<string, mixed>
      */
-    public function jsonSerialize(): array
-    {
-        return [
-            'name' => $this->name,
-            'version' => $this->version,
-            'sourceReference' => $this->sourceReference,
-            'sourceUrl' => $this->sourceUrl,
-            'distUrl' => $this->distUrl,
-        ];
-    }
+    public function migrate(array $artifact): array;
+
+    public static function getSourceVersion(): int;
+
+    public static function getTargetVersion(): int;
 }

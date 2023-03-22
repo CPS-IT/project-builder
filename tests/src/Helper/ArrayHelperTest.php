@@ -98,4 +98,48 @@ final class ArrayHelperTest extends TestCase
             $subject,
         );
     }
+
+    /**
+     * @test
+     */
+    public function removeByPathDoesNothingIfGivenPathDoesNotExist(): void
+    {
+        $subject = [
+            'foo' => [
+                'bar' => 'hello world!',
+            ],
+        ];
+
+        Src\Helper\ArrayHelper::removeByPath($subject, 'foo.hello.world');
+
+        self::assertSame(
+            [
+                'foo' => [
+                    'bar' => 'hello world!',
+                ],
+            ],
+            $subject,
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function removeByPathRemovesGivenPathInSubject(): void
+    {
+        $subject = [
+            'foo' => [
+                'bar' => 'hello world!',
+            ],
+        ];
+
+        Src\Helper\ArrayHelper::removeByPath($subject, 'foo.bar');
+
+        self::assertSame(
+            [
+                'foo' => [],
+            ],
+            $subject,
+        );
+    }
 }

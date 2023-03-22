@@ -21,46 +21,47 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Builder\Artifact;
+namespace CPSIT\ProjectBuilder\Tests\Builder\Artifact\Migration;
 
-use JsonSerializable;
+use CPSIT\ProjectBuilder as Src;
+use PHPUnit\Framework\TestCase;
 
 /**
- * PackageArtifact.
+ * Version1Test.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
- *
- * @internal
  */
-final class PackageArtifact implements JsonSerializable
+final class Version1Test extends TestCase
 {
-    public function __construct(
-        public readonly string $name,
-        public readonly string $version,
-        public readonly ?string $sourceReference,
-        public readonly ?string $sourceUrl,
-        public readonly ?string $distUrl,
-    ) {
+    private Src\Builder\Artifact\Migration\Version1 $subject;
+
+    /**
+     * @var array<string, mixed>
+     */
+    private array $artifact;
+
+    protected function setUp(): void
+    {
+        $this->subject = new Src\Builder\Artifact\Migration\Version1();
+        $this->artifact = [
+            'artifact' => [
+                'file' => 'foo',
+            ],
+        ];
     }
 
     /**
-     * @return array{
-     *     name: string,
-     *     version: string,
-     *     sourceReference: string|null,
-     *     sourceUrl: string|null,
-     *     distUrl: string|null,
-     * }
+     * @test
      */
-    public function jsonSerialize(): array
+    public function migrateMigratesArtifactFileToArtifactPath(): void
     {
-        return [
-            'name' => $this->name,
-            'version' => $this->version,
-            'sourceReference' => $this->sourceReference,
-            'sourceUrl' => $this->sourceUrl,
-            'distUrl' => $this->distUrl,
+        $expected = [
+            'artifact' => [
+                'path' => 'foo',
+            ],
         ];
+
+        self::assertSame($expected, $this->subject->migrate($this->artifact));
     }
 }

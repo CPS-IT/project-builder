@@ -54,6 +54,7 @@ final class Generator
         private readonly Filesystem\Filesystem $filesystem,
         private readonly EventDispatcher\EventDispatcherInterface $eventDispatcher,
         private readonly Builder\Writer\JsonFileWriter $writer,
+        private readonly Builder\ArtifactGenerator $artifactGenerator,
     ) {
     }
 
@@ -64,7 +65,7 @@ final class Generator
         }
 
         $instructions = new Builder\BuildInstructions($this->config, $targetDirectory);
-        $result = new Builder\BuildResult($instructions);
+        $result = new Builder\BuildResult($instructions, $this->artifactGenerator);
 
         $this->eventDispatcher->dispatch(new Event\ProjectBuildStartedEvent($instructions));
 

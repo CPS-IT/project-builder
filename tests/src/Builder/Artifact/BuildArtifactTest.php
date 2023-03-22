@@ -21,46 +21,42 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Builder\Artifact;
+namespace CPSIT\ProjectBuilder\Tests\Builder\Artifact;
 
-use JsonSerializable;
+use CPSIT\ProjectBuilder as Src;
+use PHPUnit\Framework\TestCase;
+
+use function json_encode;
 
 /**
- * PackageArtifact.
+ * BuildArtifactTest.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
- *
- * @internal
  */
-final class PackageArtifact implements JsonSerializable
+final class BuildArtifactTest extends TestCase
 {
-    public function __construct(
-        public readonly string $name,
-        public readonly string $version,
-        public readonly ?string $sourceReference,
-        public readonly ?string $sourceUrl,
-        public readonly ?string $distUrl,
-    ) {
+    private Src\Builder\Artifact\BuildArtifact $subject;
+
+    protected function setUp(): void
+    {
+        $this->subject = new Src\Builder\Artifact\BuildArtifact(1, 'file', 123);
     }
 
     /**
-     * @return array{
-     *     name: string,
-     *     version: string,
-     *     sourceReference: string|null,
-     *     sourceUrl: string|null,
-     *     distUrl: string|null,
-     * }
+     * @test
      */
-    public function jsonSerialize(): array
+    public function artifactIsJsonSerializable(): void
     {
-        return [
-            'name' => $this->name,
-            'version' => $this->version,
-            'sourceReference' => $this->sourceReference,
-            'sourceUrl' => $this->sourceUrl,
-            'distUrl' => $this->distUrl,
+        $expected = [
+            'version' => $this->subject->version,
+            'path' => $this->subject->path,
+            'date' => $this->subject->date,
         ];
+
+        self::assertJsonStringEqualsJsonString(
+            json_encode($expected, JSON_THROW_ON_ERROR),
+            json_encode($this->subject, JSON_THROW_ON_ERROR),
+        );
     }
 }

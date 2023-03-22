@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
+use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
 use Rector\Php74\Rector\LNumber\AddLiteralSeparatorToNumberRector;
 use Rector\Set\ValueObject\LevelSetList;
 
@@ -37,6 +38,10 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__.'/tests/src/Fixtures/Templates/*/vendor/*',
 
         AddLiteralSeparatorToNumberRector::class,
+        JsonThrowOnErrorRector::class => [
+            __DIR__.'/src/Builder/ArtifactGenerator.php',
+            __DIR__.'/src/Builder/ArtifactReader.php',
+        ],
     ]);
 
     $rectorConfig->phpVersion(PhpVersion::PHP_81);

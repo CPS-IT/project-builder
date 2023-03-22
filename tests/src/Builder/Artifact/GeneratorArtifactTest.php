@@ -21,41 +21,50 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Tests\Event;
+namespace CPSIT\ProjectBuilder\Tests\Builder\Artifact;
 
 use CPSIT\ProjectBuilder as Src;
-use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework\TestCase;
+
+use function json_encode;
 
 /**
- * ProjectBuildFinishedEventTest.
+ * GeneratorArtifactTest.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ProjectBuildFinishedEventTest extends Tests\ContainerAwareTestCase
+final class GeneratorArtifactTest extends TestCase
 {
-    private Src\Builder\BuildResult $buildResult;
-    private Src\Event\ProjectBuildFinishedEvent $subject;
+    private Src\Builder\Artifact\GeneratorArtifact $subject;
 
     protected function setUp(): void
     {
-        $this->buildResult = new Src\Builder\BuildResult(
-            new Src\Builder\BuildInstructions(self::$config, 'foo'),
-            self::$container->get(Src\Builder\ArtifactGenerator::class),
-        );
-        $this->subject = new Src\Event\ProjectBuildFinishedEvent(
-            $this->buildResult,
+        $this->subject = new Src\Builder\Artifact\GeneratorArtifact(
+            new Src\Builder\Artifact\PackageArtifact(
+                'name',
+                'version',
+                'sourceReference',
+                'sourceUrl',
+                'distUrl',
+            ),
+            'composer',
         );
     }
 
     /**
      * @test
      */
-    public function getBuildResultReturnsBuildResult(): void
+    public function artifactIsJsonSerializable(): void
     {
-        self::assertSame(
-            $this->buildResult,
-            $this->subject->getBuildResult(),
+        $expected = [
+            'package' => $this->subject->package,
+            'executor' => $this->subject->executor,
+        ];
+
+        self::assertJsonStringEqualsJsonString(
+            json_encode($expected, JSON_THROW_ON_ERROR),
+            json_encode($this->subject, JSON_THROW_ON_ERROR),
         );
     }
 }

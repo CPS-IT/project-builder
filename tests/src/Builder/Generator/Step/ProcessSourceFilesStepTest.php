@@ -48,6 +48,7 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
         $this->subject->setConfig($step);
         $this->result = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(self::$config, 'foo'),
+            self::$container->get(Src\Builder\ArtifactGenerator::class),
         );
     }
 
@@ -93,6 +94,7 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
 
         $result = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions($config, 'foo'),
+            self::$container->get(Src\Builder\ArtifactGenerator::class),
         );
 
         $this->subject->setConfig($step);

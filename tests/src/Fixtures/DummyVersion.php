@@ -21,46 +21,41 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Builder\Artifact;
+namespace CPSIT\ProjectBuilder\Tests\Fixtures;
 
-use JsonSerializable;
+use CPSIT\ProjectBuilder\Builder;
 
 /**
- * PackageArtifact.
+ * DummyVersion.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  *
  * @internal
  */
-final class PackageArtifact implements JsonSerializable
+final class DummyVersion extends Builder\Artifact\Migration\BaseVersion
 {
-    public function __construct(
-        public readonly string $name,
-        public readonly string $version,
-        public readonly ?string $sourceReference,
-        public readonly ?string $sourceUrl,
-        public readonly ?string $distUrl,
-    ) {
+    /**
+     * @var array{}|array{0: non-empty-string, 1?: non-empty-string|null, 2?: mixed}
+     */
+    public array $remapArguments = [];
+
+    public function migrate(array $artifact): array
+    {
+        if ([] !== $this->remapArguments) {
+            $this->remapValue($artifact, ...$this->remapArguments);
+        }
+
+        return $artifact;
     }
 
-    /**
-     * @return array{
-     *     name: string,
-     *     version: string,
-     *     sourceReference: string|null,
-     *     sourceUrl: string|null,
-     *     distUrl: string|null,
-     * }
-     */
-    public function jsonSerialize(): array
+    public static function getSourceVersion(): int
     {
-        return [
-            'name' => $this->name,
-            'version' => $this->version,
-            'sourceReference' => $this->sourceReference,
-            'sourceUrl' => $this->sourceUrl,
-            'distUrl' => $this->distUrl,
-        ];
+        return 1;
+    }
+
+    public static function getTargetVersion(): int
+    {
+        return 2;
     }
 }

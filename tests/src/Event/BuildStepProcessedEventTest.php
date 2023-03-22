@@ -43,6 +43,7 @@ final class BuildStepProcessedEventTest extends Tests\ContainerAwareTestCase
         $this->step = new Tests\Fixtures\DummyStep();
         $this->buildResult = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(self::$config, 'foo'),
+            self::$container->get(Src\Builder\ArtifactGenerator::class),
         );
         $this->subject = new Src\Event\BuildStepProcessedEvent(
             $this->step,

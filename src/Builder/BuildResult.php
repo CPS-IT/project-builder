@@ -23,8 +23,10 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Builder;
 
+use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\Resource;
 use Symfony\Component\Filesystem;
+use Symfony\Component\Finder;
 
 use function array_values;
 
@@ -37,7 +39,7 @@ use function array_values;
 final class BuildResult
 {
     private bool $mirrored = false;
-    private ?Artifact\BuildArtifact $buildArtifact = null;
+    private ?Finder\SplFileInfo $artifactFile = null;
 
     /**
      * @var array<string, Generator\Step\StepInterface>
@@ -46,6 +48,7 @@ final class BuildResult
 
     public function __construct(
         private readonly BuildInstructions $instructions,
+        private readonly ArtifactGenerator $artifactGenerator,
     ) {
     }
 
@@ -66,16 +69,28 @@ final class BuildResult
         return $this;
     }
 
-    public function getBuildArtifact(): ?Artifact\BuildArtifact
+    public function getArtifactFile(): ?Finder\SplFileInfo
     {
-        return $this->buildArtifact;
+        return $this->artifactFile;
     }
 
-    public function setBuildArtifact(Artifact\BuildArtifact $buildArtifact): self
+    /**
+     * @impure
+     */
+    public function setArtifactFile(?Finder\SplFileInfo $artifactFile): self
     {
-        $this->buildArtifact = $buildArtifact;
+        $this->artifactFile = $artifactFile;
 
         return $this;
+    }
+
+    public function getArtifact(): ?Artifact\Artifact
+    {
+        if (null !== $this->artifactFile) {
+            return $this->generateArtifact($this->artifactFile);
+        }
+
+        return null;
     }
 
     /**
@@ -133,5 +148,12 @@ final class BuildResult
         }
 
         return $this->instructions->getTemporaryDirectory();
+    }
+
+    private function generateArtifact(Finder\SplFileInfo $artifactFile): Artifact\Artifact
+    {
+        $composer = Resource\Local\Composer::createComposer(Helper\FilesystemHelper::getProjectRootPath());
+
+        return $this->artifactGenerator->build($artifactFile, $this, $composer->getPackage());
     }
 }

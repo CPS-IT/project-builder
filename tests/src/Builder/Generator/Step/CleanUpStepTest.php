@@ -49,6 +49,7 @@ final class CleanUpStepTest extends Tests\ContainerAwareTestCase
                 self::$config,
                 Src\Helper\FilesystemHelper::getNewTemporaryDirectory(),
             ),
+            self::$container->get(Src\Builder\ArtifactGenerator::class),
         );
     }
 

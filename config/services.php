@@ -43,6 +43,9 @@ return static function (
     DependencyInjection\Loader\Configurator\ContainerConfigurator $configurator,
     DependencyInjection\ContainerBuilder $container,
 ): void {
+    $container->registerForAutoconfiguration(Builder\Artifact\Migration\Version::class)
+        ->addTag('artifact.version_migration')
+    ;
     $container->registerForAutoconfiguration(Builder\Writer\WriterInterface::class)
         ->addTag('builder.writer')
     ;
