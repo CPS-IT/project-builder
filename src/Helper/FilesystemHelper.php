@@ -68,4 +68,13 @@ final class FilesystemHelper
 
         return $rootPath ?? dirname(__DIR__, 2);
     }
+
+    public static function resolveRelativePath(string $relativePath): string
+    {
+        if (Filesystem\Path::isAbsolute($relativePath)) {
+            return $relativePath;
+        }
+
+        return Filesystem\Path::makeAbsolute($relativePath, self::getProjectRootPath());
+    }
 }

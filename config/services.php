@@ -29,6 +29,7 @@ use CPSIT\ProjectBuilder\IO;
 use CPSIT\ProjectBuilder\Twig;
 use GuzzleHttp\Client as GuzzleClient;
 use Nyholm\Psr7;
+use Opis\JsonSchema;
 use Psr\Http\Client;
 use Psr\Http\Message;
 use SebastianFeldmann\Cli;
@@ -80,6 +81,7 @@ return static function (
     // Add external services
     $services->set(ExpressionLanguage\ExpressionLanguage::class);
     $services->set(Filesystem\Filesystem::class);
+    $services->set(JsonSchema\Validator::class);
     $services->set(Slugify\Slugify::class);
     $services->set(Client\ClientInterface::class, GuzzleClient::class);
     $services->set(Loader\LoaderInterface::class, Loader\FilesystemLoader::class);

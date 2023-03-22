@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Builder\Config;
 
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\Helper;
+use CPSIT\ProjectBuilder\Json;
 use CPSIT\ProjectBuilder\Paths;
 use CuyZ\Valinor\Cache;
 use CuyZ\Valinor\Mapper;
@@ -50,7 +51,7 @@ final class ConfigFactory
 
     private function __construct(
         private readonly Mapper\TreeMapper $mapper,
-        private readonly JsonSchema\Validator $validator,
+        private readonly Json\SchemaValidator $schemaValidator,
     ) {
     }
 
@@ -65,7 +66,7 @@ final class ConfigFactory
             ->mapper()
         ;
 
-        return new self($mapper, new JsonSchema\Validator());
+        return new self($mapper, new Json\SchemaValidator(new JsonSchema\Validator()));
     }
 
     public function buildFromFile(string $file, string $identifier): Config
@@ -87,7 +88,7 @@ final class ConfigFactory
     public function buildFromString(string $content, string $identifier, FileType $fileType): Config
     {
         $parsedContent = $this->parseContent($content, $fileType);
-        $validationResult = $this->validateConfig($parsedContent);
+        $validationResult = $this->schemaValidator->validate($parsedContent, Paths::PROJECT_SCHEMA_CONFIG);
 
         if (!$validationResult->isValid()) {
             throw Exception\InvalidConfigurationException::forValidationErrors($validationResult->error());
@@ -96,24 +97,6 @@ final class ConfigFactory
         $source = $this->generateMapperSource($content, $identifier, $fileType);
 
         return $this->mapper->map(Config::class, $source);
-    }
-
-    private function validateConfig(stdClass $parsedContent): JsonSchema\ValidationResult
-    {
-        $schemaFile = Filesystem\Path::join(Helper\FilesystemHelper::getProjectRootPath(), Paths::PROJECT_SCHEMA_CONFIG);
-        $schemaReference = 'file://'.$schemaFile;
-        $schemaResolver = $this->validator->resolver();
-
-        // @codeCoverageIgnoreStart
-        if (null === $schemaResolver) {
-            $schemaResolver = new JsonSchema\Resolvers\SchemaResolver();
-            $this->validator->setResolver($schemaResolver);
-        }
-        // @codeCoverageIgnoreEnd
-
-        $schemaResolver->registerFile($schemaReference, $schemaFile);
-
-        return $this->validator->validate($parsedContent, $schemaReference);
     }
 
     private function generateMapperSource(string $content, string $identifier, FileType $fileType): Mapper\Source\Source

@@ -84,4 +84,25 @@ final class FilesystemHelperTest extends TestCase
     {
         self::assertSame(dirname(__DIR__, 3), Src\Helper\FilesystemHelper::getProjectRootPath());
     }
+
+    /**
+     * @test
+     */
+    public function resolveRelativePathReturnsGivenPathIfItIsAnAbsolutePath(): void
+    {
+        $path = '/foo/baz';
+
+        self::assertSame($path, Src\Helper\FilesystemHelper::resolveRelativePath($path));
+    }
+
+    /**
+     * @test
+     */
+    public function resolveRelativePathMakesRelativePathAbsolute(): void
+    {
+        $path = 'foo';
+        $expected = dirname(__DIR__, 3).'/foo';
+
+        self::assertSame($expected, Src\Helper\FilesystemHelper::resolveRelativePath($path));
+    }
 }

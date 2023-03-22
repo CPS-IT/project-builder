@@ -69,6 +69,24 @@ Each validator implements [`ValidatorInterface`](https://github.com/CPS-IT/proje
 Not all validators can be used for each interaction with the `InputReader`.
 ```
 
+## JSON schema validation
+
+While working with JSON files, it's often useful to validate them against a defined
+JSON schema. For this, the [**`Json\SchemaValidator`**](https://github.com/CPS-IT/project-builder/blob/main/src/Json/SchemaValidator.php)
+component can be used.
+
+Example:
+
+```php
+/** @var \CPSIT\ProjectBuilder\Json\SchemaValidator $schemaValidator */
+
+$data = json_decode($json);
+$validationResult = $schemaValidator->validate($data, $schemaFile);
+
+$isValid = $validationResult->isValid(); // Check if JSON is valid
+$error = $validationResult->error(); // Get validation errors
+```
+
 ## Naming
 
 With the [**`Naming\NameVariantBuilder`**](https://github.com/CPS-IT/project-builder/blob/main/src/Naming/NameVariantBuilder.php)
