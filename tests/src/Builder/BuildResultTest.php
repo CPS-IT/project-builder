@@ -49,7 +49,6 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
         );
         $this->subject = new Src\Builder\BuildResult(
             $this->instructions,
-            self::$container->get(Src\Builder\ArtifactGenerator::class),
         );
     }
 
@@ -80,20 +79,6 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
         $artifactFile = Src\Helper\FilesystemHelper::createFileObject('/foo', 'baz');
 
         self::assertSame($artifactFile, $this->subject->setArtifactFile($artifactFile)->getArtifactFile());
-    }
-
-    /**
-     * @test
-     */
-    public function getArtifactReturnsArtifact(): void
-    {
-        self::assertNull($this->subject->getArtifact());
-
-        $artifactFile = Src\Helper\FilesystemHelper::createFileObject('/foo', 'baz');
-
-        $this->subject->setArtifactFile($artifactFile);
-
-        self::assertInstanceOf(Src\Builder\Artifact\Artifact::class, $this->subject->getArtifact());
     }
 
     /**

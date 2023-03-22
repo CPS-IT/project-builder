@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Builder;
 
-use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\Resource;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
@@ -48,7 +47,6 @@ final class BuildResult
 
     public function __construct(
         private readonly BuildInstructions $instructions,
-        private readonly ArtifactGenerator $artifactGenerator,
     ) {
     }
 
@@ -82,15 +80,6 @@ final class BuildResult
         $this->artifactFile = $artifactFile;
 
         return $this;
-    }
-
-    public function getArtifact(): ?Artifact\Artifact
-    {
-        if (null !== $this->artifactFile) {
-            return $this->generateArtifact($this->artifactFile);
-        }
-
-        return null;
     }
 
     /**
@@ -148,12 +137,5 @@ final class BuildResult
         }
 
         return $this->instructions->getTemporaryDirectory();
-    }
-
-    private function generateArtifact(Finder\SplFileInfo $artifactFile): Artifact\Artifact
-    {
-        $composer = Resource\Local\Composer::createComposer(Helper\FilesystemHelper::getProjectRootPath());
-
-        return $this->artifactGenerator->build($artifactFile, $this, $composer->getPackage());
     }
 }

@@ -45,7 +45,6 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
         $this->subject->setConfig($step);
         $this->result = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(self::$config, 'foo'),
-            self::$container->get(Src\Builder\ArtifactGenerator::class),
         );
     }
 

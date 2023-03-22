@@ -65,7 +65,7 @@ final class Generator
         }
 
         $instructions = new Builder\BuildInstructions($this->config, $targetDirectory);
-        $result = new Builder\BuildResult($instructions, $this->artifactGenerator);
+        $result = new Builder\BuildResult($instructions);
 
         $this->eventDispatcher->dispatch(new Event\ProjectBuildStartedEvent($instructions));
 
@@ -106,7 +106,7 @@ final class Generator
 
     public function dumpArtifact(Builder\BuildResult $result): void
     {
-        $step = new Builder\Generator\Step\DumpBuildArtifactStep($this->filesystem, $this->writer);
+        $step = new Builder\Generator\Step\DumpBuildArtifactStep($this->filesystem, $this->writer, $this->artifactGenerator);
         $step->run($result);
     }
 

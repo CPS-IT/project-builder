@@ -50,14 +50,14 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
     protected function setUp(): void
     {
         $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
+        $this->artifactGenerator = self::$container->get(Src\Builder\ArtifactGenerator::class);
         $this->subject = new Src\Builder\Generator\Step\DumpBuildArtifactStep(
             $this->filesystem,
             self::$container->get(Src\Builder\Writer\JsonFileWriter::class),
+            $this->artifactGenerator,
         );
-        $this->artifactGenerator = self::$container->get(Src\Builder\ArtifactGenerator::class);
         $this->buildResult = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(self::$config, 'foo'),
-            $this->artifactGenerator,
         );
         $this->artifactFile = Src\Helper\FilesystemHelper::createFileObject(
             $this->buildResult->getWrittenDirectory(),

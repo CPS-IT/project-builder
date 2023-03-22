@@ -66,7 +66,6 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
 
         $buildResult = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions($config, 'foo'),
-            self::$container->get(Src\Builder\ArtifactGenerator::class),
         );
 
         $this->subject->run($buildResult);
@@ -108,7 +107,6 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
 
         $buildResult = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions($config, 'foo'),
-            self::$container->get(Src\Builder\ArtifactGenerator::class),
         );
 
         $this->subject->run($buildResult);

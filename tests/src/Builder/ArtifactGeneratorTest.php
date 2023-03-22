@@ -55,7 +55,6 @@ final class ArtifactGeneratorTest extends Tests\ContainerAwareTestCase
                 self::$container->get('app.config'),
                 'foo',
             ),
-            $this->subject,
         );
         $this->rootPackage = Src\Resource\Local\Composer::createComposer(dirname(__DIR__, 3))->getPackage();
     }

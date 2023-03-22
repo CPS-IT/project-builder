@@ -44,7 +44,6 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\Generator\Step\ShowNextStepsStep::class);
         $this->result = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(self::$config, 'foo'),
-            self::$container->get(Src\Builder\ArtifactGenerator::class),
         );
     }
 

@@ -48,7 +48,6 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
         $this->buildResult = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(self::$config, 'foo'),
-            self::$container->get(Src\Builder\ArtifactGenerator::class),
         );
         $this->artifactFile = Src\Helper\FilesystemHelper::createFileObject(
             $this->buildResult->getWrittenDirectory(),
@@ -71,7 +70,7 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         self::assertSame($expected, $this->subject->run($this->buildResult));
         self::assertSame(!$expected, $this->subject->isStopped());
         self::assertFalse($this->buildResult->isStepApplied($this->subject));
-        self::assertNull($this->buildResult->getArtifact());
+        self::assertNull($this->buildResult->getArtifactFile());
         self::assertStringContainsString(
             'The build artifact cannot be generated because the resulting file already exists.',
             self::$io->getOutput(),
@@ -84,7 +83,7 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
     public function runGeneratesArtifact(): void
     {
         self::assertTrue($this->subject->run($this->buildResult));
-        self::assertInstanceOf(Src\Builder\Artifact\Artifact::class, $this->buildResult->getArtifact());
+        self::assertEquals($this->artifactFile, $this->buildResult->getArtifactFile());
         self::assertTrue($this->buildResult->isStepApplied($this->subject));
     }
 
