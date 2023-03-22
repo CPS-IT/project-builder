@@ -36,21 +36,20 @@ use Symfony\Component\Filesystem;
 final class ProviderFactory
 {
     /**
-     * @param non-empty-list<ProviderInterface> $providers
+     * @var non-empty-list<ProviderInterface>
      */
-    private function __construct(
-        private readonly array $providers,
-    ) {
-    }
+    private readonly array $providers;
 
-    public static function create(IO\Messenger $messenger, Filesystem\Filesystem $filesystem): self
-    {
-        return new self([
+    public function __construct(
+        IO\Messenger $messenger,
+        Filesystem\Filesystem $filesystem,
+    ) {
+        $this->providers = [
             // sorted by priority
             new PackagistProvider($messenger, $filesystem),
             new ComposerProvider($messenger, $filesystem),
             new VcsProvider($messenger, $filesystem),
-        ]);
+        ];
     }
 
     /**

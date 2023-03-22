@@ -25,7 +25,6 @@ namespace CPSIT\ProjectBuilder\Tests\Template\Provider;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
-use Symfony\Component\Filesystem;
 
 /**
  * ProviderFactoryTest.
@@ -39,10 +38,7 @@ final class ProviderFactoryTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = Src\Template\Provider\ProviderFactory::create(
-            self::$container->get(Src\IO\Messenger::class),
-            self::$container->get(Filesystem\Filesystem::class),
-        );
+        $this->subject = self::$container->get(Src\Template\Provider\ProviderFactory::class);
     }
 
     /**
