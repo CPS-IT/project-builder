@@ -62,7 +62,7 @@ final class ComposerProvider extends BaseProvider implements CustomProviderInter
         $inputReader = $messenger->createInputReader();
 
         $this->url = $inputReader->staticValue(
-            'Base URL',
+            'Composer Base URL <fg=gray>(e.g. https://composer.example.com)</>',
             required: true,
             validator: new IO\Validator\ChainedValidator([
                 new IO\Validator\NotEmptyValidator(),
@@ -92,7 +92,7 @@ final class ComposerProvider extends BaseProvider implements CustomProviderInter
 
     public static function getName(): string
     {
-        return 'Custom Composer registry';
+        return 'Custom Composer registry (e.g. Satis)';
     }
 
     public static function getType(): string
