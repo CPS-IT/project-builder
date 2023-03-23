@@ -24,12 +24,12 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Builder\Artifact\Migration;
 
 /**
- * Version1.
+ * Version1679497137.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class Version1 extends BaseVersion
+final class Version1679497137 extends BaseVersion
 {
     public function migrate(array $artifact): array
     {

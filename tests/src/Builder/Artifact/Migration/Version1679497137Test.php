@@ -27,14 +27,14 @@ use CPSIT\ProjectBuilder as Src;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Version1Test.
+ * Version1679497137Test.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class Version1Test extends TestCase
+final class Version1679497137Test extends TestCase
 {
-    private Src\Builder\Artifact\Migration\Version1 $subject;
+    private Src\Builder\Artifact\Migration\Version1679497137 $subject;
 
     /**
      * @var array<string, mixed>
@@ -43,7 +43,7 @@ final class Version1Test extends TestCase
 
     protected function setUp(): void
     {
-        $this->subject = new Src\Builder\Artifact\Migration\Version1();
+        $this->subject = new Src\Builder\Artifact\Migration\Version1679497137();
         $this->artifact = [
             'artifact' => [
                 'file' => 'foo',

@@ -30,10 +30,13 @@ use CPSIT\ProjectBuilder\Paths;
 use CuyZ\Valinor;
 use DateTimeInterface;
 use Opis\JsonSchema;
+use ReflectionObject;
 use Symfony\Component\Filesystem;
 
 use function array_filter;
+use function array_values;
 use function file_get_contents;
+use function implode;
 use function is_array;
 use function is_numeric;
 use function json_decode;
@@ -181,22 +184,19 @@ final class ArtifactReader
     private function orderVersions(iterable $versions): array
     {
         $prefixedVersions = [];
-        $orderedVersions = [];
 
         foreach ($versions as $version) {
-            $migrationPath = $version::getSourceVersion().'_'.$version::getTargetVersion();
-            $prefixedVersions[$migrationPath] ??= [];
-            $prefixedVersions[$migrationPath][] = $version;
+            $reflectionObject = new ReflectionObject($version);
+            $versionIdentifier = implode('_', [
+                $version::getSourceVersion(),
+                $version::getTargetVersion(),
+                $reflectionObject->getShortName(),
+            ]);
+            $prefixedVersions[$versionIdentifier] = $version;
         }
 
         ksort($prefixedVersions);
 
-        foreach ($prefixedVersions as $prefixedVersionList) {
-            foreach ($prefixedVersionList as $version) {
-                $orderedVersions[] = $version;
-            }
-        }
-
-        return $orderedVersions;
+        return array_values($prefixedVersions);
     }
 }
