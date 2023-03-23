@@ -190,7 +190,7 @@ abstract class BaseProvider implements ProviderInterface
             'If so, you may specify it here. Leave it empty and we\'ll find a current version for you.',
         );
         $this->messenger->newLine();
-        $this->messenger->comment('Example: <comment>2.1.0</comment> or <comment>dev-feature/xyz</comment>');
+        $this->messenger->comment('Example: <fg=cyan>2.1.0</> or <fg=cyan>dev-feature/xyz</>');
         $this->messenger->newLine();
 
         $constraint = $inputReader->staticValue(
