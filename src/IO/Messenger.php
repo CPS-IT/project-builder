@@ -86,17 +86,14 @@ final class Messenger
         $this->getIO()->write([
             '<comment>'.Emoji::Sparkles->value.' Welcome to the Project Builder!</comment>',
             '<comment>==================================</comment>',
+            '',
+            'The <comment>Project Builder</comment> helps you create Composer based projects with templates.',
+            'A template holds project/framework related information such as Composer dependencies and configuration.',
         ]);
         $this->newLine();
-        $this->comment(
-            '
-The <fg=yellow>Project Builder</> helps you create Composer based projects with \'templates\'.
-A template holds project/framework related information such as Composer dependencies and configuration.',
-        );
-        $this->comment(
-            'You may find templates on public and private providers/registries such as Satis, GitLab or GitHub.
-Let\'s start by looking for templates on Packagist.org:',
-        );
+        $this->comment('You may find templates on public and private providers/registries such as Satis, GitLab or GitHub.');
+        $this->comment('Let\'s start by looking for templates on Packagist.org:');
+        $this->newLine();
     }
 
     public function section(string $name): void
@@ -114,7 +111,6 @@ Let\'s start by looking for templates on Packagist.org:',
     public function comment(string $comment): void
     {
         $this->write('<fg=gray>'.$comment.'</>');
-        $this->newLine();
     }
 
     /**
@@ -169,7 +165,7 @@ Let\'s start by looking for templates on Packagist.org:',
         }
 
         $labels = array_map($this->decorateTemplateSource(...), $templateSources);
-        $labels[] = '<fg=yellow>Try a different provider (e.g. Satis or GitHub)</>';
+        $labels[] = '<comment>Try a different provider (e.g. Satis or GitHub)</comment>';
 
         $defaultIdentifier = array_key_first($templateSources);
 

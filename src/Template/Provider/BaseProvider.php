@@ -179,23 +179,19 @@ abstract class BaseProvider implements ProviderInterface
 
         $this->messenger->writeWithEmoji(
             IO\Emoji::WhiteHeavyCheckMark->value,
-            sprintf(
-                'Well done! You\'ve selected <fg=yellow>%s</>.',
-                $templateSource->getPackage()->getName(),
-            ),
+            sprintf('Well done! You\'ve selected <comment>%s</comment>.', $templateSource->getPackage()->getName()),
         );
 
         $this->messenger->newLine();
-
-        $this->messenger->comment(
-            sprintf(
-                'Do you require a specific version of %s?
-If so, you may specify it here. Leave it empty and we\'ll find a current version for you.',
-                $templateSource->getPackage()->getName(),
-            ),
+        $this->messenger->write(
+            sprintf('Do you require a specific version of <comment>%s</comment>?', $templateSource->getPackage()->getName()),
         );
-
-        $this->messenger->comment('Example: \'0.2.0\' or \'dev-feature/xyz\'');
+        $this->messenger->comment(
+            'If so, you may specify it here. Leave it empty and we\'ll find a current version for you.',
+        );
+        $this->messenger->newLine();
+        $this->messenger->comment('Example: <comment>2.1.0</comment> or <comment>dev-feature/xyz</comment>');
+        $this->messenger->newLine();
 
         $constraint = $inputReader->staticValue(
             'Enter the version constraint to require: ',

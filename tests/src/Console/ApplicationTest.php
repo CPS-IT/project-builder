@@ -204,6 +204,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
      */
     public function runUsesDefaultTemplateProvidersIfNoProvidersAreConfigured(): void
     {
+        $packageCount = count(self::$container->get(Src\Template\Provider\PackagistProvider::class)->listTemplateSources());
         $subject = new Src\Console\Application(
             $this->messenger,
             $this->configReader,
@@ -212,7 +213,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
             $this->targetDirectory,
         );
 
-        self::$io->setUserInputs(['<fg=yellow>Try a different provider (e.g. Satis or GitHub)</>']);
+        self::$io->setUserInputs([(string) $packageCount]);
 
         $subject->run();
 
