@@ -204,7 +204,10 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
      */
     public function runUsesDefaultTemplateProvidersIfNoProvidersAreConfigured(): void
     {
-        $packageCount = count(self::$container->get(Src\Template\Provider\PackagistProvider::class)->listTemplateSources());
+        /** @var Src\Template\Provider\PackagistProvider $packagistProvider */
+        $packagistProvider = self::$container->get(Src\Template\Provider\PackagistProvider::class);
+        $packageCount = count($packagistProvider->listTemplateSources());
+
         $subject = new Src\Console\Application(
             $this->messenger,
             $this->configReader,
