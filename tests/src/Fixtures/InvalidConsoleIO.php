@@ -21,39 +21,29 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Json;
+namespace CPSIT\ProjectBuilder\Tests\Fixtures;
 
-use CPSIT\ProjectBuilder\Helper;
-use Opis\JsonSchema;
+use Composer\IO;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * SchemaValidator.
+ * InvalidConsoleIO.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
+ *
+ * @internal
  */
-final class SchemaValidator
+final class InvalidConsoleIO extends IO\ConsoleIO
 {
-    public function __construct(
-        private readonly JsonSchema\Validator $validator,
-    ) {
-    }
-
-    public function validate(mixed $data, string $schemaFile): JsonSchema\ValidationResult
+    public function __construct(InputInterface $input, OutputInterface $output, HelperSet $helperSet)
     {
-        $schemaFile = Helper\FilesystemHelper::resolveRelativePath($schemaFile, true);
-        $schemaReference = 'file://'.$schemaFile;
-        $schemaResolver = $this->validator->resolver();
+        parent::__construct($input, $output, $helperSet);
 
-        // @codeCoverageIgnoreStart
-        if (null === $schemaResolver) {
-            $schemaResolver = new JsonSchema\Resolvers\SchemaResolver();
-            $this->validator->setResolver($schemaResolver);
-        }
-        // @codeCoverageIgnoreEnd
-
-        $schemaResolver->registerFile($schemaReference, $schemaFile);
-
-        return $this->validator->validate($data, $schemaReference);
+        // Intended invalid property assignment to test the behavior of AccessibleConsoleIO
+        /* @phpstan-ignore-next-line */
+        $this->input = null;
     }
 }

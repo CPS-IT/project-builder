@@ -21,39 +21,33 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Json;
+namespace CPSIT\ProjectBuilder\Tests\Exception;
 
-use CPSIT\ProjectBuilder\Helper;
-use Opis\JsonSchema;
+use CPSIT\ProjectBuilder as Src;
+use PHPUnit\Framework\TestCase;
+
+use function sprintf;
 
 /**
- * SchemaValidator.
+ * ShouldNotHappenExceptionTest.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class SchemaValidator
+final class ShouldNotHappenExceptionTest extends TestCase
 {
-    public function __construct(
-        private readonly JsonSchema\Validator $validator,
-    ) {
-    }
-
-    public function validate(mixed $data, string $schemaFile): JsonSchema\ValidationResult
+    /**
+     * @test
+     */
+    public function createReturnsExceptionWithBacktrace(): void
     {
-        $schemaFile = Helper\FilesystemHelper::resolveRelativePath($schemaFile, true);
-        $schemaReference = 'file://'.$schemaFile;
-        $schemaResolver = $this->validator->resolver();
+        $line = __LINE__ + 1;
+        $actual = Src\Exception\ShouldNotHappenException::create();
 
-        // @codeCoverageIgnoreStart
-        if (null === $schemaResolver) {
-            $schemaResolver = new JsonSchema\Resolvers\SchemaResolver();
-            $this->validator->setResolver($schemaResolver);
-        }
-        // @codeCoverageIgnoreEnd
-
-        $schemaResolver->registerFile($schemaReference, $schemaFile);
-
-        return $this->validator->validate($data, $schemaReference);
+        self::assertSame(
+            sprintf('Sorry, this should not have happened. Error raised at "%s()" on line %d.', __METHOD__, $line),
+            $actual->getMessage(),
+        );
+        self::assertSame(1654003369, $actual->getCode());
     }
 }

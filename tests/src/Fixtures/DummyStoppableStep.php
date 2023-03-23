@@ -21,39 +21,41 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Json;
+namespace CPSIT\ProjectBuilder\Tests\Fixtures;
 
-use CPSIT\ProjectBuilder\Helper;
-use Opis\JsonSchema;
+use CPSIT\ProjectBuilder\Builder;
 
 /**
- * SchemaValidator.
+ * DummyStoppableStep.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
+ *
+ * @internal
  */
-final class SchemaValidator
+final class DummyStoppableStep extends Builder\Generator\Step\AbstractStep implements Builder\Generator\Step\ProcessingStepInterface, Builder\Generator\Step\StoppableStepInterface
 {
-    public function __construct(
-        private readonly JsonSchema\Validator $validator,
-    ) {
+    use Builder\Generator\Step\ProcessingFilesTrait;
+
+    public bool $stopped = false;
+
+    public function run(Builder\BuildResult $buildResult): bool
+    {
+        return !$this->stopped;
     }
 
-    public function validate(mixed $data, string $schemaFile): JsonSchema\ValidationResult
+    public function isStopped(): bool
     {
-        $schemaFile = Helper\FilesystemHelper::resolveRelativePath($schemaFile, true);
-        $schemaReference = 'file://'.$schemaFile;
-        $schemaResolver = $this->validator->resolver();
+        return $this->stopped;
+    }
 
-        // @codeCoverageIgnoreStart
-        if (null === $schemaResolver) {
-            $schemaResolver = new JsonSchema\Resolvers\SchemaResolver();
-            $this->validator->setResolver($schemaResolver);
-        }
-        // @codeCoverageIgnoreEnd
+    public static function getType(): string
+    {
+        return 'dummyStoppable';
+    }
 
-        $schemaResolver->registerFile($schemaReference, $schemaFile);
-
-        return $this->validator->validate($data, $schemaReference);
+    public static function supports(string $type): bool
+    {
+        return self::getType() === $type;
     }
 }

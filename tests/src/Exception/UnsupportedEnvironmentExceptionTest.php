@@ -21,39 +21,32 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Json;
+namespace CPSIT\ProjectBuilder\Tests\Exception;
 
-use CPSIT\ProjectBuilder\Helper;
-use Opis\JsonSchema;
+use CPSIT\ProjectBuilder as Src;
+use PHPUnit\Framework\TestCase;
 
 /**
- * SchemaValidator.
+ * UnsupportedEnvironmentExceptionTest.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class SchemaValidator
+final class UnsupportedEnvironmentExceptionTest extends TestCase
 {
-    public function __construct(
-        private readonly JsonSchema\Validator $validator,
-    ) {
-    }
-
-    public function validate(mixed $data, string $schemaFile): JsonSchema\ValidationResult
+    /**
+     * @test
+     */
+    public function forOutdatedComposerInstallationReturnsExceptionForOutdatedComposerInstallation(): void
     {
-        $schemaFile = Helper\FilesystemHelper::resolveRelativePath($schemaFile, true);
-        $schemaReference = 'file://'.$schemaFile;
-        $schemaResolver = $this->validator->resolver();
+        $actual = Src\Exception\UnsupportedEnvironmentException::forOutdatedComposerInstallation();
 
-        // @codeCoverageIgnoreStart
-        if (null === $schemaResolver) {
-            $schemaResolver = new JsonSchema\Resolvers\SchemaResolver();
-            $this->validator->setResolver($schemaResolver);
-        }
-        // @codeCoverageIgnoreEnd
-
-        $schemaResolver->registerFile($schemaReference, $schemaFile);
-
-        return $this->validator->validate($data, $schemaReference);
+        self::assertSame(
+            'Your global Composer installation is not up to date.'.PHP_EOL.
+            'Make sure that you have at least Composer 2.1 installed.'.PHP_EOL.
+            'Run `composer global update --lock` and then restart project creation.',
+            $actual->getMessage(),
+        );
+        self::assertSame(1670607990, $actual->getCode());
     }
 }

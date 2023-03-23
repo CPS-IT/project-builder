@@ -21,27 +21,17 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Tests\Exception;
+use CPSIT\ProjectBuilder\Console;
+use CPSIT\ProjectBuilder\DependencyInjection;
+use CPSIT\ProjectBuilder\IO;
+use Symfony\Component\Console as SymfonyConsole;
 
-use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+$messenger = IO\Messenger::create(new \Composer\IO\NullIO());
 
-/**
- * MisconfiguredValidatorExceptionTest.
- *
- * @author Elias Häußler <e.haeussler@familie-redlich.de>
- * @license GPL-3.0-or-later
- */
-final class MisconfiguredValidatorExceptionTest extends TestCase
-{
-    /**
-     * @test
-     */
-    public function forUnexpectedOptionReturnsExceptionForUnexpectedOption(): void
-    {
-        $actual = Src\Exception\MisconfiguredValidatorException::forUnexpectedOption('foo', 'baz');
+$container = DependencyInjection\ContainerFactory::createForTesting()->get();
+$container->set('app.messenger', $messenger);
 
-        self::assertSame('The validator option "baz" of validator "foo" is invalid.', $actual->getMessage());
-        self::assertSame(1673886742, $actual->getCode());
-    }
-}
+$application = new SymfonyConsole\Application();
+$application->add(Console\Command\CreateProjectCommand::create($messenger));
+
+return $application;

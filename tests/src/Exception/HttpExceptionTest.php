@@ -21,39 +21,32 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Json;
+namespace CPSIT\ProjectBuilder\Tests\Exception;
 
-use CPSIT\ProjectBuilder\Helper;
-use Opis\JsonSchema;
+use CPSIT\ProjectBuilder as Src;
+use Nyholm\Psr7;
+use PHPUnit\Framework\TestCase;
 
 /**
- * SchemaValidator.
+ * HttpExceptionTest.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class SchemaValidator
+final class HttpExceptionTest extends TestCase
 {
-    public function __construct(
-        private readonly JsonSchema\Validator $validator,
-    ) {
-    }
-
-    public function validate(mixed $data, string $schemaFile): JsonSchema\ValidationResult
+    /**
+     * @test
+     */
+    public function forInvalidResponseReturnsExceptionForInvalidResponse(): void
     {
-        $schemaFile = Helper\FilesystemHelper::resolveRelativePath($schemaFile, true);
-        $schemaReference = 'file://'.$schemaFile;
-        $schemaResolver = $this->validator->resolver();
+        $request = new Psr7\Request('GET', 'https://www.example.com');
+        $response = new Psr7\Response(500);
+        $response->getBody()->write('error');
 
-        // @codeCoverageIgnoreStart
-        if (null === $schemaResolver) {
-            $schemaResolver = new JsonSchema\Resolvers\SchemaResolver();
-            $this->validator->setResolver($schemaResolver);
-        }
-        // @codeCoverageIgnoreEnd
+        $actual = Src\Exception\HttpException::forInvalidResponse($request, $response);
 
-        $schemaResolver->registerFile($schemaReference, $schemaFile);
-
-        return $this->validator->validate($data, $schemaReference);
+        self::assertSame('Error from request to "https://www.example.com" (500): error', $actual->getMessage());
+        self::assertSame(1652861804, $actual->getCode());
     }
 }

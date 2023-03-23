@@ -21,39 +21,27 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Json;
+namespace CPSIT\ProjectBuilder\Tests\Exception;
 
-use CPSIT\ProjectBuilder\Helper;
-use Opis\JsonSchema;
+use CPSIT\ProjectBuilder as Src;
+use PHPUnit\Framework\TestCase;
 
 /**
- * SchemaValidator.
+ * StringConversionExceptionTest.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class SchemaValidator
+final class StringConversionExceptionTest extends TestCase
 {
-    public function __construct(
-        private readonly JsonSchema\Validator $validator,
-    ) {
-    }
-
-    public function validate(mixed $data, string $schemaFile): JsonSchema\ValidationResult
+    /**
+     * @test
+     */
+    public function forUnmatchedStringReturnsExceptionForUnmatchedString(): void
     {
-        $schemaFile = Helper\FilesystemHelper::resolveRelativePath($schemaFile, true);
-        $schemaReference = 'file://'.$schemaFile;
-        $schemaResolver = $this->validator->resolver();
+        $actual = Src\Exception\StringConversionException::forUnmatchedString('foo');
 
-        // @codeCoverageIgnoreStart
-        if (null === $schemaResolver) {
-            $schemaResolver = new JsonSchema\Resolvers\SchemaResolver();
-            $this->validator->setResolver($schemaResolver);
-        }
-        // @codeCoverageIgnoreEnd
-
-        $schemaResolver->registerFile($schemaReference, $schemaFile);
-
-        return $this->validator->validate($data, $schemaReference);
+        self::assertSame('Cannot convert "foo" since it seems not to be supported for conversion.', $actual->getMessage());
+        self::assertSame(1653317297, $actual->getCode());
     }
 }

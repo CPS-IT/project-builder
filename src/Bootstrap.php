@@ -25,7 +25,11 @@ namespace CPSIT\ProjectBuilder;
 
 use Composer\InstalledVersions;
 use Composer\Script;
-use Symfony\Component\Filesystem;
+use Symfony\Component\Console as SymfonyConsole;
+use Symfony\Component\Finder;
+
+use function str_replace;
+use function substr;
 
 /**
  * Bootstrap.
@@ -50,15 +54,29 @@ final class Bootstrap
         string $targetDirectory = null,
         bool $exitOnFailure = true,
     ): int {
-        $messenger = IO\Messenger::create($event->getIO());
-        $targetDirectory ??= Helper\FilesystemHelper::getProjectRootPath();
+        $targetDirectory ??= Helper\FilesystemHelper::getWorkingDirectory();
 
         // Early return if current environment is unsupported
         if (self::runsOnAnUnsupportedEnvironment()) {
             throw Exception\UnsupportedEnvironmentException::forOutdatedComposerInstallation();
         }
 
-        $exitCode = self::createApplication($messenger, $targetDirectory)->run();
+        // Trigger autoload for all classes in order to keep them loaded
+        // when files are moved around
+        self::autoloadClasses();
+
+        // Initialize IO components
+        $io = Console\IO\AccessibleConsoleIO::fromIO($event->getIO());
+        $messenger = IO\Messenger::create($io);
+        $input = new SymfonyConsole\Input\ArrayInput([
+            'target-directory' => $targetDirectory,
+            '--force' => true,
+        ]);
+        $input->setInteractive($io->isInteractive());
+
+        // Run project creation
+        $command = Console\Command\CreateProjectCommand::create($messenger);
+        $exitCode = $command->run($input, $io->getOutput());
 
         $event->stopPropagation();
 
@@ -92,19 +110,20 @@ final class Bootstrap
         exit($exitCode);
     }
 
-    private static function createApplication(IO\Messenger $messenger, string $targetDirectory): Console\Application
+    private static function autoloadClasses(): void
     {
-        $filesystem = new Filesystem\Filesystem();
-        $providerFactory = new Template\Provider\ProviderFactory($messenger, $filesystem);
+        // Find all classes
+        $finder = Finder\Finder::create()
+            ->files()
+            ->in(__DIR__)
+            ->name('*.php')
+        ;
 
-        return new Console\Application(
-            $messenger,
-            Builder\Config\ConfigReader::create(),
-            new Error\ErrorHandler($messenger),
-            $filesystem,
-            $targetDirectory,
-            $providerFactory->getAll(),
-        );
+        // Trigger class autoload for all classes
+        foreach ($finder as $file) {
+            $className = __NAMESPACE__.'\\'.str_replace('/', '\\', substr($file->getRelativePathname(), 0, -4));
+            class_exists($className);
+        }
     }
 
     private static function runsOnAnUnsupportedEnvironment(): bool

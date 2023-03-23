@@ -24,10 +24,13 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Helper;
 
 use CPSIT\ProjectBuilder as Src;
+use Generator;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Filesystem;
 
+use function chdir;
 use function dirname;
-use function putenv;
+use function getcwd;
 
 /**
  * FilesystemHelperTest.
@@ -37,6 +40,13 @@ use function putenv;
  */
 final class FilesystemHelperTest extends TestCase
 {
+    private Filesystem\Filesystem $filesystem;
+
+    protected function setUp(): void
+    {
+        $this->filesystem = new Filesystem\Filesystem();
+    }
+
     /**
      * @test
      */
@@ -66,23 +76,131 @@ final class FilesystemHelperTest extends TestCase
     /**
      * @test
      */
-    public function getProjectRootPathReturnsProjectRootPathFromEnvironmentVariable(): void
+    public function getPackageDirectoryReturnsPackagePathFromComposerPackageArtifact(): void
     {
-        $projectRootPath = __DIR__.'/..';
-
-        putenv('PROJECT_BUILDER_ROOT_PATH='.$projectRootPath);
-
-        self::assertSame(dirname(__DIR__), Src\Helper\FilesystemHelper::getProjectRootPath());
-
-        putenv('PROJECT_BUILDER_ROOT_PATH');
+        self::assertSame(dirname(__DIR__, 3), Src\Helper\FilesystemHelper::getPackageDirectory());
     }
 
     /**
      * @test
      */
-    public function getProjectRootPathReturnsProjectRootPathFromComposerPackageArtifact(): void
+    public function getWorkingDirectoryReturnsCurrentWorkingDirectory(): void
     {
-        self::assertSame(dirname(__DIR__, 3), Src\Helper\FilesystemHelper::getProjectRootPath());
+        $cwd = dirname(__DIR__, 3);
+
+        self::assertSame($cwd, Src\Helper\FilesystemHelper::getWorkingDirectory());
+
+        chdir(__DIR__);
+
+        self::assertSame(__DIR__, Src\Helper\FilesystemHelper::getWorkingDirectory());
+
+        chdir($cwd);
+    }
+
+    /**
+     * @test
+     */
+    public function resolveRelativePathReturnsAbsolutePathIfGivenPathIsAbsolute(): void
+    {
+        self::assertSame('/foo', Src\Helper\FilesystemHelper::resolveRelativePath('/foo'));
+    }
+
+    /**
+     * @test
+     */
+    public function resolveRelativePathPrependsProjectRootPath(): void
+    {
+        $currentWorkingDirectory = getcwd();
+        $projectRootPath = __DIR__.'/..';
+        $expected = dirname(__DIR__).'/foo/baz';
+
+        self::assertNotFalse($currentWorkingDirectory, 'Unable to get current working directory.');
+
+        chdir($projectRootPath);
+
+        self::assertSame($expected, Src\Helper\FilesystemHelper::resolveRelativePath('foo/baz'));
+
+        chdir($currentWorkingDirectory);
+    }
+
+    /**
+     * @test
+     */
+    public function isDirectoryEmptyReturnsTrueIfDirectoryDoesNotExist(): void
+    {
+        $directory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
+
+        self::assertDirectoryDoesNotExist($directory);
+        self::assertTrue(Src\Helper\FilesystemHelper::isDirectoryEmpty($directory));
+    }
+
+    /**
+     * @test
+     */
+    public function isDirectoryEmptyReturnsTrueIfDirectoryExistsAndIsEmpty(): void
+    {
+        $directory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
+
+        $this->filesystem->mkdir($directory);
+
+        self::assertDirectoryExists($directory);
+        self::assertTrue(Src\Helper\FilesystemHelper::isDirectoryEmpty($directory));
+
+        $this->filesystem->remove($directory);
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider isDirectoryEmptyReturnsFalseIfDirectoryHasFilesDataProvider
+     */
+    public function isDirectoryEmptyReturnsFalseIfDirectoryHasFiles(string $filename): void
+    {
+        $directory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
+
+        $this->filesystem->mkdir($directory);
+        $this->filesystem->dumpFile($directory.'/'.$filename, 'foo');
+
+        self::assertDirectoryExists($directory);
+        self::assertFileExists($directory.'/'.$filename);
+        self::assertFalse(Src\Helper\FilesystemHelper::isDirectoryEmpty($directory));
+
+        $this->filesystem->remove($directory);
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider isDirectoryEmptyReturnsFalseIfDirectoryHasDirectoriesDataProvider
+     */
+    public function isDirectoryEmptyReturnsFalseIfDirectoryHasDirectories(string $dirname): void
+    {
+        $directory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
+
+        $this->filesystem->mkdir($directory.'/'.$dirname);
+
+        self::assertDirectoryExists($directory.'/'.$dirname);
+        self::assertFalse(Src\Helper\FilesystemHelper::isDirectoryEmpty($directory));
+
+        $this->filesystem->remove($directory);
+    }
+
+    /**
+     * @return Generator<string, array{string}>
+     */
+    public function isDirectoryEmptyReturnsFalseIfDirectoryHasFilesDataProvider(): Generator
+    {
+        yield 'normal file' => ['foo'];
+        yield 'dotfile' => ['.foo'];
+    }
+
+    /**
+     * @return Generator<string, array{string}>
+     */
+    public function isDirectoryEmptyReturnsFalseIfDirectoryHasDirectoriesDataProvider(): Generator
+    {
+        yield 'normal directory' => ['foo'];
+        yield 'dot-directory' => ['.foo'];
     }
 
     /**

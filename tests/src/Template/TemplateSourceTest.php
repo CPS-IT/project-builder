@@ -44,7 +44,7 @@ final class TemplateSourceTest extends TestCase
     protected function setUp(): void
     {
         $this->provider = new Tests\Fixtures\DummyProvider();
-        $this->package = Src\Resource\Local\Composer::createComposer(Src\Helper\FilesystemHelper::getProjectRootPath())->getPackage();
+        $this->package = Src\Resource\Local\Composer::createComposer(Src\Helper\FilesystemHelper::getPackageDirectory())->getPackage();
         $this->subject = new Src\Template\TemplateSource($this->provider, $this->package);
     }
 
