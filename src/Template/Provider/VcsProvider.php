@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Template\Provider;
 
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\IO;
+use CPSIT\ProjectBuilder\Template;
 
 /**
  * VcsProvider.
@@ -47,16 +48,34 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
     {
         $inputReader = $messenger->createInputReader();
 
-        $this->url = $inputReader->staticValue('Repository URL', required: true);
+        $this->url = $inputReader->staticValue(
+            'Repository URL <fg=gray>(e.g. https://github.com/vendor/template.git)</>',
+            required: true,
+        );
+    }
 
-        while ($inputReader->ask('Does the repository require additional transitive repositories?', default: false)) {
-            $this->repositories[] = [
-                'type' => $inputReader->staticValue('Type', 'vcs', true),
-                'url' => $inputReader->staticValue('URL', required: true),
-            ];
+    public function installTemplateSource(Template\TemplateSource $templateSource): void
+    {
+        try {
+            parent::installTemplateSource($templateSource);
+        } catch (Exception\InvalidTemplateSourceException $exception) {
+            // If additional repositories were already added, installation is obviously not possible
+            if ([] !== $this->repositories) {
+                throw $exception;
+            }
 
-            $messenger->writeWithEmoji(IO\Emoji::WhiteHeavyCheckMark->value, 'Repository added.');
-            $messenger->newLine();
+            // Ask for additional repositories to resolve probable installation failures
+            $this->messenger->newLine();
+            $this->messenger->error(sprintf('Unable to install %s.', $templateSource->getPackage()->getName()));
+            $this->askForAdditionalRepositories();
+
+            // Fail with original exception if no additional repositories were added
+            if ([] === $this->repositories) {
+                throw $exception;
+            }
+
+            // Retry installation with additional repositories
+            $this->installTemplateSource($templateSource);
         }
     }
 
@@ -74,6 +93,26 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
         $this->url = $url;
     }
 
+    private function askForAdditionalRepositories(): void
+    {
+        $inputReader = $this->messenger->createInputReader();
+
+        $this->messenger->newLine();
+        $this->messenger->comment('Some VCS repositories require additional transitive packages.');
+        $this->messenger->comment('If no additional packages are required, the selected package probably cannot be used.');
+        $this->messenger->newLine();
+
+        while ($inputReader->ask('Are additional transitive packages required?', default: false)) {
+            $this->repositories[] = [
+                'type' => $inputReader->staticValue('Package type', 'vcs', true),
+                'url' => $inputReader->staticValue('Package URL', required: true),
+            ];
+
+            $this->messenger->writeWithEmoji(IO\Emoji::WhiteHeavyCheckMark->value, 'Package added.');
+            $this->messenger->newLine();
+        }
+    }
+
     protected function createComposerJson(array $templateSources, array $repositories = []): string
     {
         $repositories = [...$repositories, ...$this->repositories];
@@ -88,7 +127,7 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
 
     public static function getName(): string
     {
-        return 'VCS repository';
+        return 'VCS repository (e.g. GitHub)';
     }
 
     public static function getType(): string

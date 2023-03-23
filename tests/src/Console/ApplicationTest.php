@@ -143,7 +143,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         $output = self::$io->getOutput();
 
         self::assertStringContainsStringMultipleTimes('Fetching templates from https://www.example.com ...', $output);
-        self::assertStringContainsStringMultipleTimes('Try another template provider.', $output);
+        self::assertStringContainsStringMultipleTimes('Try a different provider (e.g. Satis or GitHub)', $output);
     }
 
     /**
