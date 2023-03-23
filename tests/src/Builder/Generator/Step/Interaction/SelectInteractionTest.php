@@ -117,12 +117,11 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
 
     /**
      * @param list<Src\Builder\Config\ValueObject\PropertyOption> $options
-     * @param int|float|string|bool|null                          $defaultValue
      */
     private function buildInteractionSubject(
         array $options = [],
         bool $multiple = false,
-        $defaultValue = null,
+        int|float|string|bool|null $defaultValue = null,
         bool $required = false,
     ): Src\Builder\Config\ValueObject\CustomizableInterface {
         $validators = [];

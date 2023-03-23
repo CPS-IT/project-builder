@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Helper;
 
 use CPSIT\ProjectBuilder as Src;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 /**
  * ArrayHelperTest.
@@ -39,15 +40,25 @@ final class ArrayHelperTest extends TestCase
      */
     public function getValueByPathReturnsValueAtGivenPath(): void
     {
+        $object = new stdClass();
         $subject = [
             'foo' => [
                 'bar' => 'hello world!',
+                'baz' => $object,
             ],
         ];
 
         self::assertSame('hello world!', Src\Helper\ArrayHelper::getValueByPath($subject, 'foo.bar'));
-        self::assertSame(['bar' => 'hello world!'], Src\Helper\ArrayHelper::getValueByPath($subject, 'foo'));
+        self::assertSame($object, Src\Helper\ArrayHelper::getValueByPath($subject, 'foo.baz'));
+        self::assertSame(
+            [
+                'bar' => 'hello world!',
+                'baz' => $object,
+            ],
+            Src\Helper\ArrayHelper::getValueByPath($subject, 'foo'),
+        );
         self::assertNull(Src\Helper\ArrayHelper::getValueByPath($subject, 'bar'));
+        self::assertNull(Src\Helper\ArrayHelper::getValueByPath($subject, 'foo.baz.boo'));
     }
 
     /**
@@ -58,12 +69,17 @@ final class ArrayHelperTest extends TestCase
         $subject = [
             'foo' => [
                 'bar' => 'hello world!',
+                'baz' => new stdClass(),
             ],
         ];
 
         Src\Helper\ArrayHelper::setValueByPath($subject, 'foo.bar', 'bye!');
 
         self::assertSame('bye!', Src\Helper\ArrayHelper::getValueByPath($subject, 'foo.bar'));
+
+        Src\Helper\ArrayHelper::setValueByPath($subject, 'foo.baz.boo', 'foo');
+
+        self::assertSame('foo', Src\Helper\ArrayHelper::getValueByPath($subject, 'foo.baz.boo'));
 
         Src\Helper\ArrayHelper::setValueByPath($subject, 'bar', 'hello world!');
 
@@ -73,6 +89,9 @@ final class ArrayHelperTest extends TestCase
             [
                 'foo' => [
                     'bar' => 'bye!',
+                    'baz' => [
+                        'boo' => 'foo',
+                    ],
                 ],
                 'bar' => 'hello world!',
             ],
