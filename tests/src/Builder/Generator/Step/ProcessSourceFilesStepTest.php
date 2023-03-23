@@ -117,7 +117,7 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{list<Src\Builder\Config\ValueObject\FileCondition>, string, list<string>}>
      */
-    public function runCanProcessTheSameSourceFileWithMultipleConditionsDataProvider(): Generator
+    public static function runCanProcessTheSameSourceFileWithMultipleConditionsDataProvider(): Generator
     {
         yield 'one condition without target' => [
             [

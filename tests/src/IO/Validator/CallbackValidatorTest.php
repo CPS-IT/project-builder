@@ -75,7 +75,7 @@ final class CallbackValidatorTest extends TestCase
     /**
      * @return Generator<string, array{string|null, string|null}>
      */
-    public function invokeCallsConfiguredCallbackDataProvider(): Generator
+    public static function invokeCallsConfiguredCallbackDataProvider(): Generator
     {
         yield 'null' => [null, null];
         yield 'string' => ['string', 'input is string'];

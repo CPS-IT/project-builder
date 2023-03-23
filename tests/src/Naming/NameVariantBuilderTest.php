@@ -158,7 +158,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{string, string|null, string}>
      */
-    public function createShortVariantReturnsShortVariantDataProvider(): Generator
+    public static function createShortVariantReturnsShortVariantDataProvider(): Generator
     {
         yield 'no project name' => ['foo', null, 'foo'];
         yield 'default project name' => ['foo', 'basic', 'foo'];
@@ -168,7 +168,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{string, string|null, string}>
      */
-    public function createAbbreviationVariantReturnsAbbreviationVariantDataProvider(): Generator
+    public static function createAbbreviationVariantReturnsAbbreviationVariantDataProvider(): Generator
     {
         yield 'no project name' => ['foo', null, 'foo'];
         yield 'default project name' => ['foo', 'basic', 'foo'];
@@ -178,7 +178,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{string, string|null, string}>
      */
-    public function createFullVariantReturnsFullVariantDataProvider(): Generator
+    public static function createFullVariantReturnsFullVariantDataProvider(): Generator
     {
         yield 'no project name' => ['foo', null, 'Foo'];
         yield 'default project name' => ['foo', 'basic', 'Foo'];
@@ -188,7 +188,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{string|null, bool}>
      */
-    public function isDefaultProjectNameReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider(): Generator
+    public static function isDefaultProjectNameReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider(): Generator
     {
         yield 'null' => [null, true];
         yield 'basic' => ['basic', true];

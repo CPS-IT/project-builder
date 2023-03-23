@@ -68,7 +68,7 @@ final class StringHelperTest extends TestCase
     /**
      * @return Generator<string, array{string, value-of<Src\StringCase>, string}>
      */
-    public function convertCaseConvertsStringToGivenCaseDataProvider(): Generator
+    public static function convertCaseConvertsStringToGivenCaseDataProvider(): Generator
     {
         yield 'lowercase' => ['foo_Bar-123 helloWorld', Src\StringCase::Lower->value, 'foo_bar-123 helloworld'];
         yield 'uppercase' => ['foo_Bar-123 helloWorld', Src\StringCase::Upper->value, 'FOO_BAR-123 HELLOWORLD'];
@@ -80,7 +80,7 @@ final class StringHelperTest extends TestCase
     /**
      * @return Generator<string, array{string, array<string, string>, string}>
      */
-    public function interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider(): Generator
+    public static function interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider(): Generator
     {
         yield 'no placeholders' => ['foo', [], 'foo'];
         yield 'valid placeholder' => ['foo{bar}', ['bar' => 'foo'], 'foofoo'];

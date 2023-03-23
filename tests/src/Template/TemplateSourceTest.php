@@ -88,7 +88,7 @@ final class TemplateSourceTest extends TestCase
     /**
      * @return Generator<string, array{bool, bool}>
      */
-    public function useDynamicVersionConstraintDefinesWhetherToUseDynamicVersionConstraintDataProvider(): Generator
+    public static function useDynamicVersionConstraintDefinesWhetherToUseDynamicVersionConstraintDataProvider(): Generator
     {
         yield 'true' => [true, true];
         yield 'false' => [false, false];

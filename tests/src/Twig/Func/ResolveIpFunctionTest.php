@@ -81,7 +81,7 @@ final class ResolveIpFunctionTest extends TestCase
     /**
      * @return Generator<string, array{string}>
      */
-    public function invokeReturnsResolvedIpAddressDataProvider(): Generator
+    public static function invokeReturnsResolvedIpAddressDataProvider(): Generator
     {
         yield 'hostname' => ['www.example.com'];
         yield 'url' => ['https://www.example.com'];

@@ -54,7 +54,7 @@ final class DefaultProjectNameFunctionTest extends TestCase
     /**
      * @return Generator<string, array{string|null, bool}>
      */
-    public function invokeReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider(): Generator
+    public static function invokeReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider(): Generator
     {
         yield 'null' => [null, true];
         yield 'basic' => ['basic', true];

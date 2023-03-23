@@ -60,7 +60,7 @@ final class JsonFileWriterTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{string|JsonSerializable, string}>
      */
-    public function writeDumpsJsonToGivenFileDataProvider(): Generator
+    public static function writeDumpsJsonToGivenFileDataProvider(): Generator
     {
         yield 'json string' => ['{"foo":"baz"}', '{"foo":"baz"}'];
         yield 'serializable json object' => [

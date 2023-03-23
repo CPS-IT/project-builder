@@ -75,9 +75,11 @@ final class BuildInstructionsTest extends Tests\ContainerAwareTestCase
     public function getTemporaryDirectoryReturnsUniqueTemporaryDirectory(): void
     {
         $actual = $this->subject->getTemporaryDirectory();
+        /** @var non-empty-string $prefix */
+        $prefix = sys_get_temp_dir();
 
         self::assertDirectoryDoesNotExist($actual);
-        self::assertStringStartsWith(sys_get_temp_dir(), $actual);
+        self::assertStringStartsWith($prefix, $actual);
     }
 
     #[\PHPUnit\Framework\Attributes\Test]

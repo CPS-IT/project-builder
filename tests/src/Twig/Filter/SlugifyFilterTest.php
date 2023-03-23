@@ -67,7 +67,7 @@ final class SlugifyFilterTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{string|null, string}>
      */
-    public function invokeReturnsSlugForGivenInputDataProvider(): Generator
+    public static function invokeReturnsSlugForGivenInputDataProvider(): Generator
     {
         yield 'default separator' => [null, 'foo-bar'];
         yield 'custom separator' => ['_', 'foo_bar'];

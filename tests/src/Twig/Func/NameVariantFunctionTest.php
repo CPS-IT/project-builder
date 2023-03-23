@@ -88,7 +88,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{value-of<Src\Naming\NameVariant>, value-of<Src\StringCase>|null, string}>
      */
-    public function invokeReturnsNameVariantDataProvider(): Generator
+    public static function invokeReturnsNameVariantDataProvider(): Generator
     {
         yield 'abbreviation' => [Src\Naming\NameVariant::Abbreviation->value, null, 'bar'];
         yield 'short name' => [Src\Naming\NameVariant::ShortName->value, null, 'bar'];

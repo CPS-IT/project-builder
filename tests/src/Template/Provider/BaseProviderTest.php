@@ -203,36 +203,39 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function createRepositoryReturnsComposerRepositoryForConfiguredUrl(): void
+    public static function createRepositoryReturnsComposerRepositoryForConfiguredUrl(): void
     {
-        $actual = $this->subject->testCreateRepository();
+        $instance = new self('BaseProviderTest');
+        $actual = $instance->subject->testCreateRepository();
 
         self::assertInstanceOf(Repository\ComposerRepository::class, $actual);
-        self::assertSame($this->subject->getUrl(), $actual->getRepoConfig()['url']);
+        self::assertSame($instance->subject->getUrl(), $actual->getRepoConfig()['url']);
     }
 
     /**
      * @return Generator<string, array{list<Package\PackageInterface>, list<Package\PackageInterface>}>
      */
-    public function listTemplateSourcesListsAllAvailableTemplateSourcesDataProvider(): Generator
+    public static function listTemplateSourcesListsAllAvailableTemplateSourcesDataProvider(): Generator
     {
+        $instance = new self('BaseProviderTest');
+
         yield 'no packages' => [
             [],
             [],
         ];
         yield 'unsupported packages only' => [
             [
-                $this->createPackage('foo/baz-1', 'library'),
-                $this->createPackage('foo/baz-2', 'library'),
-                $this->createPackage('foo/baz-3', 'library'),
+                $instance->createPackage('foo/baz-1', 'library'),
+                $instance->createPackage('foo/baz-2', 'library'),
+                $instance->createPackage('foo/baz-3', 'library'),
             ],
             [],
         ];
         yield 'unsupported and supported packages' => [
             [
-                $this->createPackage('foo/baz-1', 'library'),
-                $package1 = $this->createPackage('foo/baz-2'),
-                $package2 = $this->createPackage('foo/baz-3'),
+                $instance->createPackage('foo/baz-1', 'library'),
+                $package1 = $instance->createPackage('foo/baz-2'),
+                $package2 = $instance->createPackage('foo/baz-3'),
             ],
             [
                 $package1,
@@ -244,27 +247,29 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{non-empty-list<Package\PackageInterface>, string, non-empty-string}>
      */
-    public function installTemplateSourceInstallsComposerPackageDataProvider(): Generator
+    public static function installTemplateSourceInstallsComposerPackageDataProvider(): Generator
     {
+        $instance = new self('BaseProviderTest');
+
         yield 'no constraint' => [
-            [$this->createPackageFromTemplateFixture()],
+            [$instance->createPackageFromTemplateFixture()],
             '',
             'Installing project template (1.0.0)... Done',
         ];
 
         yield 'constraint with one package' => [
-            [$this->createPackageFromTemplateFixture(prettyVersion: '1.1.0')],
+            [$instance->createPackageFromTemplateFixture(prettyVersion: '1.1.0')],
             '^1.0',
             'Installing project template (1.1.0)... Done',
         ];
 
         yield 'constraint with multiple packages' => [
             [
-                $this->createPackageFromTemplateFixture(prettyVersion: '2.0.0'),
-                $this->createPackageFromTemplateFixture(prettyVersion: '1.2.0'),
-                $this->createPackageFromTemplateFixture(prettyVersion: '1.1.23'),
-                $this->createPackageFromTemplateFixture(prettyVersion: '1.1.0'),
-                $this->createPackageFromTemplateFixture(),
+                $instance->createPackageFromTemplateFixture(prettyVersion: '2.0.0'),
+                $instance->createPackageFromTemplateFixture(prettyVersion: '1.2.0'),
+                $instance->createPackageFromTemplateFixture(prettyVersion: '1.1.23'),
+                $instance->createPackageFromTemplateFixture(prettyVersion: '1.1.0'),
+                $instance->createPackageFromTemplateFixture(),
             ],
             '~1.1.0',
             'Installing project template (1.1.23)... Done',

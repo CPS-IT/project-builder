@@ -79,7 +79,7 @@ final class ErrorHandlerTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{Throwable, list<string>}>
      */
-    public function handleExceptionWritesFormattedErrorMessageDataProvider(): Generator
+    public static function handleExceptionWritesFormattedErrorMessageDataProvider(): Generator
     {
         yield 'exception' => [
             new Exception('Something went wrong.'),

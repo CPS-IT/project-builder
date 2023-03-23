@@ -124,7 +124,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{Package\PackageInterface, string}>
      */
-    public function selectTemplateSourceReturnsSelectedTemplateSourceDataProvider(): Generator
+    public static function selectTemplateSourceReturnsSelectedTemplateSourceDataProvider(): Generator
     {
         $package = new Package\Package('foo/baz', '1.0.0', '1.0.0');
 
@@ -142,7 +142,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{string, bool}>
      */
-    public function confirmTemplateSourceRetryAsksForConfirmationAndReturnsResultDataProvider(): Generator
+    public static function confirmTemplateSourceRetryAsksForConfirmationAndReturnsResultDataProvider(): Generator
     {
         yield 'default' => ['', true];
         yield 'yes' => ['yes', true];

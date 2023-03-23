@@ -83,7 +83,7 @@ final class NotEmptyValidatorTest extends TestCase
     /**
      * @return Generator<string, array{string|null}>
      */
-    public function invokeThrowsExceptionIfGivenInputIsEmptyDataProvider(): Generator
+    public static function invokeThrowsExceptionIfGivenInputIsEmptyDataProvider(): Generator
     {
         yield 'null' => [null];
         yield 'empty string' => [''];
