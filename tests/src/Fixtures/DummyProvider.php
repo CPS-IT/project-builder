@@ -55,8 +55,10 @@ final class DummyProvider implements Template\Provider\ProviderInterface
         return $this->templateSources;
     }
 
-    public function installTemplateSource(Template\TemplateSource $templateSource): void
-    {
+    public function installTemplateSource(
+        Template\TemplateSource $templateSource,
+        bool                    $requestPackageVersionConstraint = true,
+    ): void {
         // Early return if installation should not be processed
         if (null === $this->installationPath) {
             return;

@@ -74,6 +74,18 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
         $this->url = $url;
     }
 
+    public function getOptions(): array
+    {
+        return [
+            'repositories' => $this->repositories,
+        ];
+    }
+
+    public function setOptions(array $options): void
+    {
+        $this->repositories = $options['repositories'] ?? [];
+    }
+
     protected function createComposerJson(array $templateSources, array $repositories = []): string
     {
         $repositories = [...$repositories, ...$this->repositories];

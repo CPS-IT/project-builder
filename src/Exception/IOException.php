@@ -40,4 +40,20 @@ final class IOException extends Exception
             1653394006,
         );
     }
+
+    public static function forMissingDirectory(string $directory): self
+    {
+        return new self(
+            sprintf('The directory "%s" does not exist.', $directory),
+            1679559818,
+        );
+    }
+
+    public static function forEmptyDirectory(string $directory): self
+    {
+        return new self(
+            sprintf('The directory "%s" must not be empty.', $directory),
+            1679559876,
+        );
+    }
 }

@@ -33,5 +33,6 @@ $container->set('app.messenger', $messenger);
 
 $application = new SymfonyConsole\Application();
 $application->add(Console\Command\CreateProjectCommand::create($messenger));
+$application->add(Console\Command\SyncProjectCommand::create($messenger));
 
 return $application;

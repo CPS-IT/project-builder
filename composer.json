@@ -19,6 +19,7 @@
 		"composer-plugin-api": "^2.1",
 		"composer-runtime-api": "^2.1",
 		"cocur/slugify": "^4.1",
+		"cpsit/migrator": "^0.1.1",
 		"cuyz/valinor": "^1.0",
 		"guzzlehttp/guzzle": "^7.0",
 		"nyholm/psr7": "^1.5",

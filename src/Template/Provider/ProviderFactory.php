@@ -67,6 +67,20 @@ final class ProviderFactory
     }
 
     /**
+     * @throws Exception\UnknownTemplateProviderException
+     */
+    public function getByName(string $name): ProviderInterface
+    {
+        foreach ($this->providers as $provider) {
+            if ($name === $provider::getName()) {
+                return $provider;
+            }
+        }
+
+        throw Exception\UnknownTemplateProviderException::create($name);
+    }
+
+    /**
      * @return non-empty-list<ProviderInterface>
      */
     public function getAll(): array

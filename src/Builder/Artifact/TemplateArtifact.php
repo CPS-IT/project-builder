@@ -36,7 +36,7 @@ use JsonSerializable;
 final class TemplateArtifact implements JsonSerializable
 {
     /**
-     * @param array{name: string, url: string} $provider
+     * @param array{type: string, url: string, options?: array<string, mixed>} $provider
      */
     public function __construct(
         public readonly string $identifier,
@@ -51,7 +51,7 @@ final class TemplateArtifact implements JsonSerializable
      *     identifier: string,
      *     hash: string,
      *     package: PackageArtifact,
-     *     provider: array{name: string, url: string},
+     *     provider: array{type: string, url: string, options?: array<string, mixed>},
      * }
      */
     public function jsonSerialize(): array

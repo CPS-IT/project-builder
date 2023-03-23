@@ -68,6 +68,9 @@ final class ProjectBuilderPlugin implements Plugin\PluginInterface, Plugin\Capab
             $this->createProxyCommand(
                 static fn (IO\Messenger $messenger) => Console\Command\CreateProjectCommand::create($messenger),
             ),
+            $this->createProxyCommand(
+                static fn (IO\Messenger $messenger) => Console\Command\SyncProjectCommand::create($messenger),
+            ),
         ];
     }
 

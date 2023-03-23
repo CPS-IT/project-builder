@@ -34,7 +34,7 @@ use JsonSerializable;
  * @internal
  *
  * @phpstan-type ArtifactType array{
- *     artifact: BuildArtifact,
+ *     build: BuildArtifact,
  *     template: TemplateArtifact,
  *     generator: GeneratorArtifact,
  *     result: ResultArtifact
@@ -43,10 +43,10 @@ use JsonSerializable;
 final class Artifact implements JsonSerializable
 {
     public function __construct(
-        public readonly BuildArtifact $artifact,
-        public readonly TemplateArtifact $template,
+        public readonly BuildArtifact     $build,
+        public readonly TemplateArtifact  $template,
         public readonly GeneratorArtifact $generator,
-        public readonly ResultArtifact $result,
+        public readonly ResultArtifact    $result,
     ) {
     }
 
@@ -56,7 +56,7 @@ final class Artifact implements JsonSerializable
     public function dump(): array
     {
         return [
-            'artifact' => $this->artifact,
+            'build' => $this->build,
             'template' => $this->template,
             'generator' => $this->generator,
             'result' => $this->result,

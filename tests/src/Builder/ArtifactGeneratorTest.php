@@ -82,7 +82,7 @@ final class ArtifactGeneratorTest extends Tests\ContainerAwareTestCase
             new Src\Builder\Artifact\BuildArtifact(
                 Src\Builder\ArtifactGenerator::VERSION,
                 'build-artifact.json',
-                $actual->artifact->date,
+                $actual->build->date,
             ),
             new Src\Builder\Artifact\TemplateArtifact(
                 'test',

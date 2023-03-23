@@ -85,6 +85,16 @@ final class ComposerProvider extends BaseProvider implements CustomProviderInter
         $this->url = $url;
     }
 
+    public function getOptions(): array
+    {
+        return [];
+    }
+
+    public function setOptions(array $options): void
+    {
+        // Intentionally left blank.
+    }
+
     protected function getRepositoryType(): string
     {
         return 'composer';

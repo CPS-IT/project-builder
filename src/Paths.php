@@ -79,6 +79,11 @@ enum Paths
     final public const TEMPLATE_SERVICE_CONFIG = 'config';
 
     /**
+     * Default path to build artifact.
+     */
+    final public const BUILD_ARTIFACT_DEFAULT_PATH = '.build/build-artifact.json';
+
+    /**
      * Path to JSON schema for build artifacts.
      */
     final public const BUILD_ARTIFACT_SCHEMA = 'resources/build-artifact.schema.json';

@@ -1,10 +1,10 @@
 {
 	"$schema": "https://json-schema.org/draft/2019-09/schema#",
 	"type": "object",
-	"title": "Build artifact for projects generated with the Project Builder",
+	"title": "Artifact for projects generated with the Project Builder",
 	"properties": {
-		"artifact": {
-			"$ref": "#/definitions/artifact"
+		"build": {
+			"$ref": "#/definitions/build"
 		},
 		"template": {
 			"$ref": "#/definitions/template"
@@ -18,32 +18,33 @@
 	},
 	"additionalProperties": false,
 	"required": [
-		"artifact",
+		"build",
 		"template",
 		"generator",
 		"result"
 	],
 	"definitions": {
-		"artifact": {
+		"build": {
 			"type": "object",
-			"title": "General artifact metadata",
+			"title": "Build artifact metadata",
 			"properties": {
 				"version": {
 					"type": "integer",
 					"title": "Version of build artifact when originally dumped",
 					"enum": [
-						1
+						1,
+						2
 					],
-					"default": 1
+					"default": 2
 				},
 				"path": {
 					"type": "string",
 					"title": "Original relative path to the artifact file within a project"
 				},
 				"date": {
-					"type": "integer",
+					"type": "string",
 					"title": "Date of build artifact when originally dumped",
-					"description": "Must be a UNIX timestamp"
+					"description": "Must be an ATOM-formatted date"
 				}
 			},
 			"additionalProperties": false,
@@ -184,20 +185,25 @@
 			"type": "object",
 			"title": "Template source provider",
 			"properties": {
-				"name": {
+				"type": {
 					"type": "string",
-					"title": "Name of the provider",
+					"title": "Provider type",
 					"description": "Declared in the appropriate provider class"
 				},
 				"url": {
 					"type": "string",
 					"title": "Provider url",
 					"description": "Base URL exposing available template sources of a provider"
+				},
+				"options": {
+					"type": "object",
+					"title": "Additional provider options",
+					"description": "Applies only to custom providers"
 				}
 			},
 			"additionalProperties": false,
 			"required": [
-				"name",
+				"type",
 				"url"
 			]
 		},

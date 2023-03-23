@@ -48,6 +48,9 @@ services:
   CPSIT\ProjectBuilder\IO\Messenger:
     alias: 'app.messenger'
 
+  CPSIT\ProjectBuilder\Migration\ProjectMigrator:
+    public: true
+
   CPSIT\ProjectBuilder\Twig\Extension\ProjectBuilderExtension:
     arguments:
       $filters: !tagged_iterator twig.filter

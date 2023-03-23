@@ -50,7 +50,7 @@ final class Messenger
     private static ?string $lastProgressOutput = null;
 
     private function __construct(
-        private readonly IO\IOInterface $io,
+        private readonly IO\IOInterface   $io,
         private readonly Console\Terminal $terminal,
     ) {
     }

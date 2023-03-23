@@ -28,4 +28,16 @@ use CPSIT\ProjectBuilder\IO;
 interface CustomProviderInterface extends ProviderInterface
 {
     public function requestCustomOptions(IO\Messenger $messenger): void;
+
+    public function setUrl(string $url): void;
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getOptions(): array;
+
+    /**
+     * @param array<string, mixed> $options
+     */
+    public function setOptions(array $options): void;
 }

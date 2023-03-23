@@ -98,13 +98,39 @@ abstract class BaseProvider implements ProviderInterface
         return $templateSources;
     }
 
+    public function findTemplateSource(
+        string $packageName,
+        Semver\Constraint\ConstraintInterface $constraint = null,
+    ): ?Template\TemplateSource {
+        $repository = $this->createRepository();
+
+        $constraint ??= new Semver\Constraint\MatchAllConstraint();
+        $searchResult = $repository->search(
+            $packageName,
+            Repository\RepositoryInterface::SEARCH_FULLTEXT,
+            self::PACKAGE_TYPE,
+        );
+
+        foreach ($searchResult as ['name' => $foundPackageName]) {
+            $package = $repository->findPackage($foundPackageName, $constraint);
+
+            if (null !== $package && self::PACKAGE_TYPE === $package->getType()) {
+                return $this->createTemplateSource($package);
+            }
+        }
+
+        return null;
+    }
+
     /**
      * @throws Exception\IOException
      * @throws Exception\InvalidTemplateSourceException
      * @throws Exception\MisconfiguredValidatorException
      */
-    public function installTemplateSource(Template\TemplateSource $templateSource): void
-    {
+    public function installTemplateSource(
+        Template\TemplateSource $templateSource,
+        bool                    $requestPackageVersionConstraint = true,
+    ): void {
         $package = $templateSource->getPackage();
 
         // @codeCoverageIgnoreStart
@@ -114,7 +140,7 @@ abstract class BaseProvider implements ProviderInterface
         }
         // @codeCoverageIgnoreEnd
 
-        if ($package instanceof Package\Package) {
+        if ($package instanceof Package\Package && $requestPackageVersionConstraint) {
             $this->requestPackageVersionConstraint($templateSource);
         }
 

@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Builder\Artifact;
 
+use DateTimeInterface;
 use JsonSerializable;
 
 /**
@@ -38,7 +39,7 @@ final class BuildArtifact implements JsonSerializable
     public function __construct(
         public readonly int $version,
         public readonly string $path,
-        public readonly int $date,
+        public readonly DateTimeInterface $date,
     ) {
     }
 
@@ -46,7 +47,7 @@ final class BuildArtifact implements JsonSerializable
      * @return array{
      *     version: int,
      *     path: string,
-     *     date: int,
+     *     date: string,
      * }
      */
     public function jsonSerialize(): array
@@ -54,7 +55,7 @@ final class BuildArtifact implements JsonSerializable
         return [
             'version' => $this->version,
             'path' => $this->path,
-            'date' => $this->date,
+            'date' => $this->date->format(DateTimeInterface::ATOM),
         ];
     }
 }

@@ -86,7 +86,8 @@ final class Simulation
         // Install project
         $exitCode = $this->composer->install(
             Filesystem\Path::join($this->targetDirectory, 'composer.json'),
-            true,
+            // @todo consider excluding dev-deps here
+            false,
             $this->output,
         );
 

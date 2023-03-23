@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Template\Provider;
 
+use Composer\Semver;
 use CPSIT\ProjectBuilder\Template;
 
 /**
@@ -42,7 +43,15 @@ interface ProviderInterface
      */
     public function listTemplateSources(): array;
 
-    public function installTemplateSource(Template\TemplateSource $templateSource): void;
+    public function findTemplateSource(
+        string $packageName,
+        Semver\Constraint\ConstraintInterface $constraint = null,
+    ): ?Template\TemplateSource;
+
+    public function installTemplateSource(
+        Template\TemplateSource $templateSource,
+        bool                    $requestPackageVersionConstraint = true,
+    ): void;
 
     public static function getName(): string;
 

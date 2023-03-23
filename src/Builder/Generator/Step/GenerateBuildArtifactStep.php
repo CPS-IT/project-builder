@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Builder\Generator\Step;
 use CPSIT\ProjectBuilder\Builder;
 use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\IO;
+use CPSIT\ProjectBuilder\Paths;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
 
@@ -38,8 +39,6 @@ use Symfony\Component\Finder;
 final class GenerateBuildArtifactStep extends AbstractStep implements StoppableStepInterface
 {
     private const TYPE = 'generateBuildArtifact';
-
-    private const DEFAULT_ARTIFACT_PATH = '.build/build-artifact.json';
 
     private bool $stopped = false;
 
@@ -91,7 +90,7 @@ final class GenerateBuildArtifactStep extends AbstractStep implements StoppableS
 
     private function buildArtifactFile(Builder\BuildResult $buildResult): Finder\SplFileInfo
     {
-        $artifactPath = $this->config->getOptions()->getArtifactPath() ?? self::DEFAULT_ARTIFACT_PATH;
+        $artifactPath = $this->config->getOptions()->getArtifactPath() ?? Paths::BUILD_ARTIFACT_DEFAULT_PATH;
 
         return Helper\FilesystemHelper::createFileObject($buildResult->getWrittenDirectory(), $artifactPath);
     }

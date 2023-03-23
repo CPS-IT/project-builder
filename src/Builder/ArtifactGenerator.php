@@ -28,6 +28,8 @@ use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\Json;
 use CPSIT\ProjectBuilder\Paths;
 use CPSIT\ProjectBuilder\Resource;
+use CPSIT\ProjectBuilder\Template;
+use DateTimeImmutable;
 use Symfony\Component\Finder;
 
 use function array_map;
@@ -85,7 +87,7 @@ final class ArtifactGenerator
         return new Artifact\BuildArtifact(
             $version,
             $file->getRelativePathname(),
-            time(),
+            new DateTimeImmutable(),
         );
     }
 
@@ -99,6 +101,10 @@ final class ArtifactGenerator
             'name' => $provider::getName(),
             'url' => $provider->getUrl(),
         ];
+
+        if ($provider instanceof Template\Provider\CustomProviderInterface) {
+            $providerArtifact['options'] = $provider->getOptions();
+        }
 
         return new Artifact\TemplateArtifact(
             $config->getIdentifier(),
