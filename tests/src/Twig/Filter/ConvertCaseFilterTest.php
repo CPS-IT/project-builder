@@ -42,9 +42,7 @@ final class ConvertCaseFilterTest extends TestCase
         $this->subject = new Src\Twig\Filter\ConvertCaseFilter();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeThrowsAssertionErrorIfGivenInputIsNotAString(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -53,9 +51,7 @@ final class ConvertCaseFilterTest extends TestCase
         ($this->subject)(null);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeThrowsAssertionErrorIfGivenCaseIsNotAString(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -64,9 +60,7 @@ final class ConvertCaseFilterTest extends TestCase
         ($this->subject)('foo');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeReturnsCaseConvertedString(): void
     {
         $actual = ($this->subject)('foo', Src\StringCase::Upper->value);

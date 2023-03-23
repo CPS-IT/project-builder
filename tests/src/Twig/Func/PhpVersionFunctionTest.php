@@ -42,9 +42,7 @@ final class PhpVersionFunctionTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Twig\Func\PhpVersionFunction::class);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenBranchIsNull(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -53,9 +51,7 @@ final class PhpVersionFunctionTest extends Tests\ContainerAwareTestCase
         ($this->subject)();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeReturnsAndCachesLatestStableVersionOfGivenBranch(): void
     {
         self::$mockHandler->append(self::createJsonResponse(['version' => '8.0.10']));

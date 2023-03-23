@@ -37,20 +37,16 @@ use UnhandledMatchError;
 final class StringHelperTest extends TestCase
 {
     /**
-     * @test
-     *
      * @param value-of<Src\StringCase> $case
-     *
-     * @dataProvider convertCaseConvertsStringToGivenCaseDataProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('convertCaseConvertsStringToGivenCaseDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function convertCaseConvertsStringToGivenCase(string $string, string $case, string $expected): void
     {
         self::assertSame($expected, Src\Helper\StringHelper::convertCase($string, $case));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function convertCaseThrowsExceptionWhenConvertingToUnsupportedCase(): void
     {
         $this->expectException(UnhandledMatchError::class);
@@ -60,12 +56,10 @@ final class StringHelperTest extends TestCase
     }
 
     /**
-     * @test
-     *
-     * @dataProvider interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider
-     *
      * @param array<string, string> $replacePairs
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function interpolateInterpolatedGivenStringWithKeyValuePairs(string $string, array $replacePairs, string $expected): void
     {
         self::assertSame($expected, Src\Helper\StringHelper::interpolate($string, $replacePairs));

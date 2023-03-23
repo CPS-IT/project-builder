@@ -54,11 +54,8 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider runAsksForConfirmationIfBuildArtifactPathAlreadyExistsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('runAsksForConfirmationIfBuildArtifactPathAlreadyExistsDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runAsksForConfirmationIfBuildArtifactPathAlreadyExists(bool $continue, bool $expected): void
     {
         self::$io->setUserInputs([$continue ? 'yes' : 'no']);
@@ -76,9 +73,7 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runGeneratesBuildArtifact(): void
     {
         self::assertTrue($this->subject->run($this->buildResult));
@@ -89,7 +84,7 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{bool, bool}>
      */
-    public function runAsksForConfirmationIfBuildArtifactPathAlreadyExistsDataProvider(): Generator
+    public static function runAsksForConfirmationIfBuildArtifactPathAlreadyExistsDataProvider(): Generator
     {
         yield 'continue' => [true, true];
         yield 'do not continue' => [false, false];

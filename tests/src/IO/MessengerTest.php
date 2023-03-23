@@ -47,9 +47,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get('app.messenger');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function selectProviderCanHandlePackagistProvider(): void
     {
         $packagistProvider = new Src\Template\Provider\PackagistProvider(
@@ -62,9 +60,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         self::assertSame($packagistProvider, $this->subject->selectProvider([$packagistProvider]));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function selectProviderCanHandleCustomComposerProvider(): void
     {
         $customProvider = new Src\Template\Provider\ComposerProvider(
@@ -78,9 +74,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         self::assertSame('https://www.example.com', $customProvider->getUrl());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function selectTemplateSourceThrowsExceptionIfGivenProviderListsNoTemplateSources(): void
     {
         $provider = new Tests\Fixtures\DummyProvider();
@@ -90,11 +84,8 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         $this->subject->selectTemplateSource($provider);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider selectTemplateSourceReturnsSelectedTemplateSourceDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('selectTemplateSourceReturnsSelectedTemplateSourceDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function selectTemplateSourceReturnsSelectedTemplateSource(
         Package\PackageInterface $package,
         string $expected,
@@ -109,11 +100,8 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString($expected, self::$io->getOutput());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider confirmTemplateSourceRetryAsksForConfirmationAndReturnsResultDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('confirmTemplateSourceRetryAsksForConfirmationAndReturnsResultDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function confirmTemplateSourceRetryAsksForConfirmationAndReturnsResult(string $input, bool $expected): void
     {
         $exception = new Exception('Something went wrong.');

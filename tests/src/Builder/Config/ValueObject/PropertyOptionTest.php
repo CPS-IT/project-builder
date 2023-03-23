@@ -42,17 +42,13 @@ final class PropertyOptionTest extends TestCase
         $this->subject = new Src\Builder\Config\ValueObject\PropertyOption('foo', 'bar');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getValueReturnsValue(): void
     {
         self::assertSame('foo', $this->subject->getValue());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function conditionMatchesReturnsDefaultIfNoConditionIsSet(): void
     {
         $expressionLanguage = new ExpressionLanguage\ExpressionLanguage();

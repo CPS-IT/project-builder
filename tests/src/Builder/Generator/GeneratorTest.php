@@ -50,9 +50,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         $this->targetDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runRunsThroughAllConfiguredSteps(): void
     {
         self::$io->setUserInputs(['foo']);
@@ -89,9 +87,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[6]);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runRevertsAppliedStepsOnStepFailure(): void
     {
         $exception = null;
@@ -120,9 +116,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertInstanceOf(Src\Event\BuildStepRevertedEvent::class, $this->eventListener->dispatchedEvents[2]);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runRevertsAppliedStepsAndExistsIfStoppableStepFailed(): void
     {
         self::$io->setUserInputs(['foo', 'no']);
@@ -133,9 +127,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertFalse($actual->isMirrored());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function dumpArtifactDumpsBuildArtifact(): void
     {
         self::$io->setUserInputs(['foo']);
@@ -147,9 +139,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertTrue($result->isStepApplied('dumpBuildArtifact'));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function cleanUpCleansUpRemainingFilesInTargetDirectory(): void
     {
         self::$io->setUserInputs(['foo']);

@@ -44,9 +44,7 @@ final class DefaultAuthorNameFunctionTest extends TestCase
         $this->subject = new Src\Twig\Func\DefaultAuthorNameFunction(new Src\Resource\Local\Git($this->runner));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeReturnsAuthorNameFromGit(): void
     {
         $this->runner->expectedResults[] = ['Foo Bar'];

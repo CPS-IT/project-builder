@@ -41,17 +41,13 @@ final class PropertyValidatorTest extends TestCase
         $this->subject = new Src\Builder\Config\ValueObject\PropertyValidator('foo', ['bar' => 'bar']);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getOptionsReturnsOptions(): void
     {
         self::assertSame(['bar' => 'bar'], $this->subject->getOptions());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getTypeReturnsType(): void
     {
         self::assertSame('foo', $this->subject->getType());

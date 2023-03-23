@@ -43,11 +43,8 @@ final class JsonFileWriterTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\Writer\JsonFileWriter::class);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider writeDumpsJsonToGivenFileDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('writeDumpsJsonToGivenFileDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function writeDumpsJsonToGivenFile(string|JsonSerializable $json, string $expected): void
     {
         $file = Src\Helper\FilesystemHelper::createFileObject(

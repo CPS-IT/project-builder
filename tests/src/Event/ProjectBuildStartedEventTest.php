@@ -45,9 +45,7 @@ final class ProjectBuildStartedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getInstructionsReturnsBuildInstructions(): void
     {
         self::assertSame(

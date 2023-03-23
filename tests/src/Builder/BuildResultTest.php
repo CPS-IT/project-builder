@@ -51,26 +51,20 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
         $this->subject = new Src\Builder\BuildResult($this->instructions);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getInstructionsReturnsInstructions(): void
     {
         self::assertSame($this->instructions, $this->subject->getInstructions());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function isMirroredReturnsMirrorState(): void
     {
         self::assertFalse($this->subject->isMirrored());
         self::assertTrue($this->subject->setMirrored(true)->isMirrored());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getBuildArtifactReturnsBuildArtifact(): void
     {
         self::assertNull($this->subject->getBuildArtifact());
@@ -84,9 +78,7 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
         self::assertSame($buildArtifact, $this->subject->setBuildArtifact($buildArtifact)->getBuildArtifact());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getAppliedStepsReturnsAppliedSteps(): void
     {
         $step = new Tests\Fixtures\DummyStep();
@@ -98,9 +90,7 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
         self::assertSame([$step::getType() => $step], $this->subject->getAppliedSteps());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function isStepAppliedTestsWhetherStepIsApplied(): void
     {
         $step = new Tests\Fixtures\DummyStep();
@@ -117,9 +107,7 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
         ));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function applyStepAddsStepToAppliedSteps(): void
     {
         $step = new Tests\Fixtures\DummyStep();
@@ -131,9 +119,7 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
         self::assertTrue($this->subject->isStepApplied($step));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getProcessedFilesReturnsProcessedFiles(): void
     {
         self::assertSame([], $this->subject->getProcessedFiles());
@@ -151,17 +137,13 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
         self::assertSame([$barFile], $this->subject->getProcessedFiles('/bar'));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getWrittenDirectoryReturnsTemporaryDirectoryIfBuildWasNotMirrored(): void
     {
         self::assertSame($this->instructions->getTemporaryDirectory(), $this->subject->getWrittenDirectory());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getWrittenDirectoryReturnsTargetDirectoryIfBuildWasMirrored(): void
     {
         $this->subject->setMirrored(true);

@@ -43,9 +43,7 @@ final class ResolveIpFunctionTest extends TestCase
         $this->subject = new Src\Twig\Func\ResolveIpFunction();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenHostnameIsNull(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -54,9 +52,7 @@ final class ResolveIpFunctionTest extends TestCase
         ($this->subject)();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeReturnsNullIfUrlCannotBeResolved(): void
     {
         $actual = ($this->subject)('https://');
@@ -64,9 +60,7 @@ final class ResolveIpFunctionTest extends TestCase
         self::assertNull($actual);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeReturnsNullIfIpAddressCannotBeResolved(): void
     {
         $actual = ($this->subject)('foo.bar');
@@ -74,11 +68,8 @@ final class ResolveIpFunctionTest extends TestCase
         self::assertNull($actual);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider invokeReturnsResolvedIpAddressDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('invokeReturnsResolvedIpAddressDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeReturnsResolvedIpAddress(string $hostname): void
     {
         $actual = ($this->subject)($hostname);

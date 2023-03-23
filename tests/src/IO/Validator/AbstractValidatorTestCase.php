@@ -33,11 +33,9 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class AbstractValidatorTest extends TestCase
+final class AbstractValidatorTestCase extends TestCase
 {
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function constructorThrowsExceptionIfInvalidOptionsAreGiven(): void
     {
         $this->expectExceptionObject(

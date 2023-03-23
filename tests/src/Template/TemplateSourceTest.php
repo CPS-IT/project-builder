@@ -48,25 +48,19 @@ final class TemplateSourceTest extends TestCase
         $this->subject = new Src\Template\TemplateSource($this->provider, $this->package);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getProviderReturnsProvider(): void
     {
         self::assertSame($this->provider, $this->subject->getProvider());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getPackageReturnsPackage(): void
     {
         self::assertSame($this->package, $this->subject->getPackage());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function setPackageAppliesGivenPackage(): void
     {
         $newPackage = clone $this->package;
@@ -74,19 +68,14 @@ final class TemplateSourceTest extends TestCase
         self::assertSame($newPackage, $this->subject->setPackage($newPackage)->getPackage());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function shouldUseDynamicVersionConstraintReturnsFalseInitially(): void
     {
         self::assertFalse($this->subject->shouldUseDynamicVersionConstraint());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider useDynamicVersionConstraintDefinesWhetherToUseDynamicVersionConstraintDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('useDynamicVersionConstraintDefinesWhetherToUseDynamicVersionConstraintDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function useDynamicVersionConstraintDefinesWhetherToUseDynamicVersionConstraint(
         bool $useDynamicVersionConstraint,
         bool $expected,

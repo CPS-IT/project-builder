@@ -41,9 +41,7 @@ final class InteractionFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\Generator\Step\Interaction\InteractionFactory::class);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getThrowsExceptionIfNoInteractionOfGivenTypeIsAvailable(): void
     {
         $this->expectException(Src\Exception\UnsupportedTypeException::class);
@@ -53,9 +51,7 @@ final class InteractionFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject->get('foo');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getReturnsInteractionOfGivenType(): void
     {
         self::assertInstanceOf(

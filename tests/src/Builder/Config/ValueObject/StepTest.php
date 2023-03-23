@@ -44,9 +44,7 @@ final class StepTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getOptionsReturnsOptions(): void
     {
         self::assertEquals(

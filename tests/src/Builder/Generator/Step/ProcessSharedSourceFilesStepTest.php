@@ -48,9 +48,7 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runProcessesSourceFilesAndAppliesStep(): void
     {
         $actual = $this->subject->run($this->result);
@@ -67,9 +65,7 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
         self::assertTrue($this->result->isStepApplied($this->subject));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function revertRemovesProcessedFiles(): void
     {
         $this->subject->run($this->result);

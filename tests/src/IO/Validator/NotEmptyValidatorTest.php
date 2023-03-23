@@ -42,11 +42,8 @@ final class NotEmptyValidatorTest extends TestCase
         $this->subject = new Src\IO\Validator\NotEmptyValidator();
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider invokeThrowsExceptionIfGivenInputIsEmptyDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('invokeThrowsExceptionIfGivenInputIsEmptyDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenInputIsEmpty(?string $input): void
     {
         $this->expectException(Src\Exception\ValidationException::class);
@@ -56,9 +53,7 @@ final class NotEmptyValidatorTest extends TestCase
         ($this->subject)($input);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenInputIsAnEmptyStringAndStrictCheckIsEnabled(): void
     {
         $this->expectException(Src\Exception\ValidationException::class);
@@ -69,9 +64,7 @@ final class NotEmptyValidatorTest extends TestCase
         $subject('     ');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeDoesNotThrowExceptionIfGivenInputIsAnEmptyStringAndStrictCheckIsNotEnabled(): void
     {
         $actual = ($this->subject)('     ');
@@ -79,9 +72,7 @@ final class NotEmptyValidatorTest extends TestCase
         self::assertSame('     ', $actual);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeReturnsGivenInputIfGivenInputIsValid(): void
     {
         $actual = ($this->subject)('foo');

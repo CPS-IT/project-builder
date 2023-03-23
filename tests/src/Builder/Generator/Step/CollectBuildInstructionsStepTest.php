@@ -41,9 +41,7 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
         $this->subject = self::$container->get(Src\Builder\Generator\Step\CollectBuildInstructionsStep::class);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runAppliesNullAsDefaultValueOnSkippedProperties(): void
     {
         $config = new Src\Builder\Config\Config(
@@ -73,9 +71,7 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
         self::assertNull($buildResult->getInstructions()->getTemplateVariable('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runAppliesNullAsDefaultValueOnSkippedSubProperties(): void
     {
         $config = new Src\Builder\Config\Config(

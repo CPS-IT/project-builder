@@ -46,9 +46,7 @@ final class ChainedValidatorTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function constructorAddsGivenValidators(): void
     {
         $emailValidator = new Src\IO\Validator\EmailValidator();
@@ -60,9 +58,7 @@ final class ChainedValidatorTest extends TestCase
         self::assertFalse($this->subject->has($urlValidator));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeInvokesAllValidators(): void
     {
         $this->expectException(Src\Exception\ValidationException::class);
@@ -72,9 +68,7 @@ final class ChainedValidatorTest extends TestCase
         ($this->subject)(null);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeInvokesAllValidatorsAndReturnsModifiedInput(): void
     {
         $actual = ($this->subject)('foo@bar.de');
@@ -82,9 +76,7 @@ final class ChainedValidatorTest extends TestCase
         self::assertSame('FOO@BAR.DE', $actual);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function removeRemovesValidator(): void
     {
         $validator = new Src\IO\Validator\EmailValidator();
@@ -93,17 +85,13 @@ final class ChainedValidatorTest extends TestCase
         self::assertFalse($this->subject->remove($validator)->has($validator));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getTypeReturnsType(): void
     {
         self::assertSame('chained', $this->subject::getType());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function supportsReturnsFalse(): void
     {
         self::assertFalse($this->subject::supports('email'));

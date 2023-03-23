@@ -49,12 +49,10 @@ final class ErrorHandlerTest extends Tests\ContainerAwareTestCase
     }
 
     /**
-     * @test
-     *
-     * @dataProvider handleExceptionWritesFormattedErrorMessageDataProvider
-     *
      * @param list<string> $expectedOutput
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('handleExceptionWritesFormattedErrorMessageDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function handleExceptionWritesFormattedErrorMessage(Throwable $exception, array $expectedOutput): void
     {
         $this->subject->handleException($exception);
@@ -66,9 +64,7 @@ final class ErrorHandlerTest extends Tests\ContainerAwareTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function handleExceptionThrowsExceptionIfOutputIsVerbose(): void
     {
         $io = new IO\BufferIO('', Console\Output\OutputInterface::VERBOSITY_VERBOSE);
