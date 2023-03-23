@@ -51,6 +51,12 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     private Tests\Fixtures\DummyComposerProvider $subject;
     private MockWebServer\MockWebServer $server;
 
+    public function testConstruct(): void
+    {
+        $this->setUp();
+        self::expectNotToPerformAssertions();
+    }
+
     protected function setUp(): void
     {
         $this->subject = new Tests\Fixtures\DummyComposerProvider(
@@ -206,6 +212,8 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     public static function createRepositoryReturnsComposerRepositoryForConfiguredUrl(): void
     {
         $instance = new self('BaseProviderTest');
+        $instance->setUp();
+
         $actual = $instance->subject->testCreateRepository();
 
         self::assertInstanceOf(Repository\ComposerRepository::class, $actual);
