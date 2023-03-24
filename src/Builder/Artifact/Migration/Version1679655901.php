@@ -32,14 +32,14 @@ use function is_numeric;
 use function is_string;
 
 /**
- * Version2.
+ * Version1679655901.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  *
  * @internal
  */
-final class Version2 extends BaseVersion
+final class Version1679655901 extends BaseVersion
 {
     public function __construct(
         private readonly Template\Provider\ProviderFactory $providerFactory,
