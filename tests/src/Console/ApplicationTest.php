@@ -109,7 +109,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
 
         $output = self::$io->getOutput();
 
-        self::assertStringContainsString('Welcome to the CPS Project Builder', $output);
+        self::assertStringContainsString('Welcome to the Project Builder', $output);
     }
 
     /**
@@ -143,7 +143,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         $output = self::$io->getOutput();
 
         self::assertStringContainsStringMultipleTimes('Fetching templates from https://www.example.com ...', $output);
-        self::assertStringContainsStringMultipleTimes('Try another template provider.', $output);
+        self::assertStringContainsStringMultipleTimes('Try a different provider (e.g. Satis or GitHub)', $output);
     }
 
     /**
@@ -204,6 +204,10 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
      */
     public function runUsesDefaultTemplateProvidersIfNoProvidersAreConfigured(): void
     {
+        /** @var Src\Template\Provider\PackagistProvider $packagistProvider */
+        $packagistProvider = self::$container->get(Src\Template\Provider\PackagistProvider::class);
+        $packageCount = count($packagistProvider->listTemplateSources());
+
         $subject = new Src\Console\Application(
             $this->messenger,
             $this->configReader,
@@ -212,7 +216,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
             $this->targetDirectory,
         );
 
-        self::$io->setUserInputs(['Try another template provider.']);
+        self::$io->setUserInputs([(string) $packageCount]);
 
         $subject->run();
 

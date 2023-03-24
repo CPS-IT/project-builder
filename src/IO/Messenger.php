@@ -50,8 +50,8 @@ final class Messenger
     private static ?string $lastProgressOutput = null;
 
     private function __construct(
-        private IO\IOInterface $io,
-        private Console\Terminal $terminal,
+        private readonly IO\IOInterface $io,
+        private readonly Console\Terminal $terminal,
     ) {
     }
 
@@ -76,12 +76,23 @@ final class Messenger
         $this->write(sprintf("\033\143"));
     }
 
+    public function clearLine(): void
+    {
+        $this->write("\x1b[1A", false);
+    }
+
     public function welcome(): void
     {
         $this->getIO()->write([
-            '<comment>'.Emoji::SPARKLES.' Welcome to the <info>CPS Project Builder</info>!</comment>',
-            '<comment>======================================</comment>',
+            '<comment>'.Emoji::Sparkles->value.' Welcome to the Project Builder!</comment>',
+            '<comment>==================================</comment>',
+            '',
+            'The <comment>Project Builder</comment> helps you create Composer based projects with templates.',
+            'A template holds project/framework related information such as Composer dependencies and configuration.',
         ]);
+        $this->newLine();
+        $this->comment('You may find templates on public and private providers/registries such as Satis, GitLab or GitHub.');
+        $this->comment('Let\'s start by looking for templates on Packagist.org:');
         $this->newLine();
     }
 
@@ -153,13 +164,13 @@ final class Messenger
             throw Exception\InvalidTemplateSourceException::forProvider($provider);
         }
 
-        $labels = array_map([$this, 'decorateTemplateSource'], $templateSources);
-        $labels[] = 'Try another template provider.';
+        $labels = array_map($this->decorateTemplateSource(...), $templateSources);
+        $labels[] = '<comment>Try a different provider (e.g. Satis or GitHub)</comment>';
 
         $defaultIdentifier = array_key_first($templateSources);
 
         $index = $this->getIO()->select(
-            self::decorateLabel('Select a project template', $defaultIdentifier),
+            self::decorateLabel('Select a project template or try a different provider', $defaultIdentifier),
             $labels,
             (string) $defaultIdentifier,
         );
@@ -214,7 +225,7 @@ final class Messenger
         }
 
         $message = sprintf('<comment>%s</comment> ', rtrim($message));
-        $this->writeWithEmoji(Emoji::HOURGLASS_FLOWING_SAND, $message);
+        $this->writeWithEmoji(Emoji::HourglassFlowingSand->value, $message);
 
         self::$lastProgressOutput = $message;
     }
@@ -223,7 +234,7 @@ final class Messenger
     {
         if (null !== self::$lastProgressOutput) {
             $this->writeWithEmoji(
-                Emoji::WHITE_HEAVY_CHECK_MARK,
+                Emoji::WhiteHeavyCheckMark->value,
                 self::$lastProgressOutput.'<info>Done</info>',
                 true,
             );
@@ -234,7 +245,7 @@ final class Messenger
     {
         if (null !== self::$lastProgressOutput) {
             $this->writeWithEmoji(
-                Emoji::PROHIBITED,
+                Emoji::Prohibited->value,
                 self::$lastProgressOutput.'<error>Failed</error>',
                 true,
             );
@@ -251,8 +262,8 @@ final class Messenger
 
         $resultMessages = [
             'Exit status' => $result->isMirrored()
-                ? Emoji::WHITE_HEAVY_CHECK_MARK.' Completed'
-                : Emoji::PROHIBITED.' <comment>Aborted</comment>',
+                ? Emoji::WhiteHeavyCheckMark->value.' Completed'
+                : Emoji::Prohibited->value.' <comment>Aborted</comment>',
             'Project type' => $result->getInstructions()->getConfig()->getName(),
         ];
 
@@ -278,12 +289,12 @@ final class Messenger
 
         if ($result->isMirrored()) {
             $this->writeWithEmoji(
-                Emoji::PARTY_POPPER,
+                Emoji::PartyPopper->value,
                 '<info>Congratulations, your new project was successfully built!</info>',
             );
         } else {
             $this->writeWithEmoji(
-                Emoji::WOOZY_FACE,
+                Emoji::WoozyFace->value,
                 '<comment>Project generation was aborted. Please try again.</comment>',
             );
         }
@@ -352,7 +363,7 @@ final class Messenger
     public function writeWithEmoji(string $emoji, string $message, bool $overwrite = false): void
     {
         if ($overwrite) {
-            $this->write("\x1b[1A", false);
+            $this->clearLine();
         }
 
         $this->write($emoji.' '.$message);
@@ -360,7 +371,7 @@ final class Messenger
 
     public function error(string $message): void
     {
-        $this->writeWithEmoji(Emoji::ROTATING_LIGHT, '<error>'.$message.'</error>');
+        $this->writeWithEmoji(Emoji::RotatingLight->value, '<error>'.$message.'</error>');
     }
 
     public function isVerbose(): bool
@@ -435,7 +446,7 @@ final class Messenger
             return $name;
         }
 
-        return sprintf('%s (<comment>%s</comment>)', $description, $name);
+        return sprintf('%s <fg=gray>(%s)</>', $description, $name);
     }
 
     /**

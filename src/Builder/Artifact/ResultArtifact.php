@@ -43,7 +43,7 @@ use CPSIT\ProjectBuilder\Resource;
 final class ResultArtifact extends Artifact
 {
     public function __construct(
-        private Builder\BuildResult $buildResult,
+        private readonly Builder\BuildResult $buildResult,
     ) {
     }
 

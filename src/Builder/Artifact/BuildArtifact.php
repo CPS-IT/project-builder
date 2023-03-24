@@ -50,9 +50,9 @@ final class BuildArtifact extends Artifact
     private const VERSION = 1;
 
     public function __construct(
-        private string $file,
-        private Builder\BuildResult $buildResult,
-        private Package\RootPackageInterface $rootPackage,
+        private readonly string $file,
+        private readonly Builder\BuildResult $buildResult,
+        private readonly Package\RootPackageInterface $rootPackage,
     ) {
     }
 

@@ -43,7 +43,7 @@ use CPSIT\ProjectBuilder\Builder\BuildResult;
 final class TemplateArtifact extends Artifact
 {
     public function __construct(
-        private BuildResult $buildResult,
+        private readonly BuildResult $buildResult,
     ) {
     }
 

@@ -38,7 +38,7 @@ final class PropertyValidator
      */
     public function __construct(
         string $type,
-        private array $options = [],
+        private readonly array $options = [],
     ) {
         $this->type = $type;
     }

@@ -43,7 +43,7 @@ final class CleanUpStep extends AbstractStep
     private const TYPE = 'cleanUp';
 
     public function __construct(
-        private Filesystem\Filesystem $filesystem,
+        private readonly Filesystem\Filesystem $filesystem,
     ) {
         parent::__construct();
     }
@@ -66,7 +66,7 @@ final class CleanUpStep extends AbstractStep
 
         $buildResult->applyStep($this);
 
-        return [] === array_filter(array_map([$this->filesystem, 'exists'], $directoriesToRemove));
+        return [] === array_filter(array_map($this->filesystem->exists(...), $directoriesToRemove));
     }
 
     public function revert(Builder\BuildResult $buildResult): void

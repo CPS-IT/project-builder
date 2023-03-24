@@ -39,9 +39,9 @@ final class CollectBuildInstructionsStep extends AbstractStep
     private const TYPE = 'collectBuildInstructions';
 
     public function __construct(
-        private ExpressionLanguage\ExpressionLanguage $expressionLanguage,
-        private IO\Messenger $messenger,
-        private Interaction\InteractionFactory $interactionFactory,
+        private readonly ExpressionLanguage\ExpressionLanguage $expressionLanguage,
+        private readonly IO\Messenger $messenger,
+        private readonly Interaction\InteractionFactory $interactionFactory,
     ) {
         parent::__construct();
     }

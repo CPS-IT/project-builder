@@ -41,9 +41,9 @@ final class SelectInteraction implements InteractionInterface
     private const TYPE = 'select';
 
     public function __construct(
-        private ExpressionLanguage\ExpressionLanguage $expressionLanguage,
-        private IO\InputReader $reader,
-        private Twig\Renderer $renderer,
+        private readonly ExpressionLanguage\ExpressionLanguage $expressionLanguage,
+        private readonly IO\InputReader $reader,
+        private readonly Twig\Renderer $renderer,
     ) {
     }
 

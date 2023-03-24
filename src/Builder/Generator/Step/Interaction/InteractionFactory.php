@@ -37,7 +37,7 @@ final class InteractionFactory
      * @param iterable<InteractionInterface> $interactions
      */
     public function __construct(
-        private iterable $interactions,
+        private readonly iterable $interactions,
     ) {
     }
 

@@ -140,12 +140,31 @@ abstract class BaseProvider implements ProviderInterface
             throw Exception\InvalidTemplateSourceException::forFailedInstallation($templateSource);
         }
 
-        $this->messenger->done();
-        $this->messenger->newLine();
-
         // Make sure installed sources are handled by Composer's class loader
         $loader = Resource\Local\Composer::createClassLoader(dirname($composerJson));
         $loader->register(true);
+
+        // Look up installed package
+        $composer = Resource\Local\Composer::createComposer(dirname($composerJson));
+        $repository = $composer->getRepositoryManager()->getLocalRepository();
+        $installedPackage = $repository->findPackage($package->getName(), new Semver\Constraint\MatchAllConstraint());
+
+        // Overwrite package from template source with actually installed template
+        if (null !== $installedPackage) {
+            $templateSource->setPackage($installedPackage);
+        }
+
+        // Show installed template version
+        $this->messenger->clearLine();
+        $this->messenger->progress(
+            sprintf(
+                'Installing project template (<info>%s</info>)...',
+                $templateSource->getPackage()->getPrettyVersion(),
+            ),
+            ComposerIO\IOInterface::NORMAL,
+        );
+        $this->messenger->done();
+        $this->messenger->newLine();
     }
 
     /**
@@ -158,10 +177,26 @@ abstract class BaseProvider implements ProviderInterface
         $inputReader = $this->messenger->createInputReader();
         $repository = $templateSource->getPackage()->getRepository() ?? $this->createRepository();
 
+        $this->messenger->writeWithEmoji(
+            IO\Emoji::WhiteHeavyCheckMark->value,
+            sprintf('Well done! You\'ve selected <comment>%s</comment>.', $templateSource->getPackage()->getName()),
+        );
+
+        $this->messenger->newLine();
+        $this->messenger->write(
+            sprintf('Do you require a specific version of <comment>%s</comment>?', $templateSource->getPackage()->getName()),
+        );
+        $this->messenger->comment(
+            'If so, you may specify it here. Leave it empty and we\'ll find a current version for you.',
+        );
+        $this->messenger->newLine();
+        $this->messenger->comment('Example: <fg=cyan>2.1.0</> or <fg=cyan>dev-feature/xyz</>');
+        $this->messenger->newLine();
+
         $constraint = $inputReader->staticValue(
-            'Enter the version constraint to require (or leave blank to use the latest version)',
+            'Enter the version constraint to require: ',
             validator: new IO\Validator\CallbackValidator([
-                'callback' => [$this, 'validateConstraint'],
+                'callback' => $this->validateConstraint(...),
             ]),
         );
 
@@ -205,7 +240,7 @@ abstract class BaseProvider implements ProviderInterface
     {
         $repositories = [
             [
-                'type' => $this->getType(),
+                'type' => $this->getRepositoryType(),
                 'url' => $this->getUrl(),
             ],
             ...$repositories,
@@ -240,7 +275,7 @@ abstract class BaseProvider implements ProviderInterface
             $this->io,
             $config,
             [
-                'type' => $this->getType(),
+                'type' => $this->getRepositoryType(),
                 'url' => $this->getUrl(),
             ],
             Repository\RepositoryFactory::manager($this->io, $config, Factory::createHttpDownloader($this->io, $config)),
@@ -272,5 +307,5 @@ abstract class BaseProvider implements ProviderInterface
      *
      * @see https://getcomposer.org/doc/05-repositories.md#types
      */
-    abstract protected function getType(): string;
+    abstract protected function getRepositoryType(): string;
 }

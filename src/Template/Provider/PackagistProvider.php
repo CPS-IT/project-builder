@@ -31,18 +31,30 @@ namespace CPSIT\ProjectBuilder\Template\Provider;
  */
 final class PackagistProvider extends BaseProvider
 {
-    public static function getName(): string
-    {
-        return 'Packagist.org';
-    }
+    private const TYPE = 'packagist';
 
     public function getUrl(): string
     {
         return 'https://packagist.org';
     }
 
-    protected function getType(): string
+    protected function getRepositoryType(): string
     {
         return 'composer';
+    }
+
+    public static function getName(): string
+    {
+        return 'Packagist.org';
+    }
+
+    public static function getType(): string
+    {
+        return self::TYPE;
+    }
+
+    public static function supports(string $type): bool
+    {
+        return self::TYPE === $type;
     }
 }

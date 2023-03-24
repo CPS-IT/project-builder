@@ -34,9 +34,9 @@ final class FileCondition
     use ConditionTrait;
 
     public function __construct(
-        private string $path,
+        private readonly string $path,
         string $if,
-        private ?string $target = null,
+        private readonly ?string $target = null,
     ) {
         $this->if = $if;
     }

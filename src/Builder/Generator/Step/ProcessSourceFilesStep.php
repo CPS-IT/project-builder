@@ -45,8 +45,8 @@ final class ProcessSourceFilesStep extends AbstractStep implements ProcessingSte
     public function __construct(
         ExpressionLanguage\ExpressionLanguage $expressionLanguage,
         Filesystem\Filesystem $filesystem,
-        private IO\Messenger $messenger,
-        private Builder\Writer\WriterFactory $writerFactory,
+        private readonly IO\Messenger $messenger,
+        private readonly Builder\Writer\WriterFactory $writerFactory,
     ) {
         parent::__construct();
         $this->expressionLanguage = $expressionLanguage;

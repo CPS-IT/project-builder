@@ -38,6 +38,8 @@ use Symfony\Component\Filesystem;
  */
 final class ComposerProvider extends BaseProvider implements CustomProviderInterface
 {
+    private const TYPE = 'composer';
+
     private ?string $url = null;
 
     public function __construct(
@@ -55,17 +57,12 @@ final class ComposerProvider extends BaseProvider implements CustomProviderInter
         );
     }
 
-    public static function getName(): string
-    {
-        return 'Custom Composer registry';
-    }
-
     public function requestCustomOptions(IO\Messenger $messenger): void
     {
         $inputReader = $messenger->createInputReader();
 
         $this->url = $inputReader->staticValue(
-            'Base URL',
+            'Composer Base URL <fg=gray>(e.g. https://composer.example.com)</>',
             required: true,
             validator: new IO\Validator\ChainedValidator([
                 new IO\Validator\NotEmptyValidator(),
@@ -88,8 +85,23 @@ final class ComposerProvider extends BaseProvider implements CustomProviderInter
         $this->url = $url;
     }
 
-    protected function getType(): string
+    protected function getRepositoryType(): string
     {
         return 'composer';
+    }
+
+    public static function getName(): string
+    {
+        return 'Custom Composer registry (e.g. Satis)';
+    }
+
+    public static function getType(): string
+    {
+        return self::TYPE;
+    }
+
+    public static function supports(string $type): bool
+    {
+        return self::TYPE === $type;
     }
 }

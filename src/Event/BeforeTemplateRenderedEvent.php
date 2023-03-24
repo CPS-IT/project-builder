@@ -38,8 +38,8 @@ final class BeforeTemplateRenderedEvent
      * @param array<string, mixed> $variables
      */
     public function __construct(
-        private Environment $twig,
-        private Builder\BuildInstructions $instructions,
+        private readonly Environment $twig,
+        private readonly Builder\BuildInstructions $instructions,
         private array $variables,
     ) {
     }

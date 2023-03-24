@@ -29,11 +29,11 @@ namespace CPSIT\ProjectBuilder;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-abstract class StringCase
+enum StringCase: string
 {
-    public const UPPER = 'upper';
-    public const LOWER = 'lower';
-    public const SNAKE = 'snake';
-    public const UPPER_CAMEL = 'upper_camel';
-    public const LOWER_CAMEL = 'lower_camel';
+    case Upper = 'upper';
+    case Lower = 'lower';
+    case Snake = 'snake';
+    case UpperCamel = 'upper_camel';
+    case LowerCamel = 'lower_camel';
 }

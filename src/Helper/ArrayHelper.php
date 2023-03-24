@@ -34,9 +34,9 @@ use ArrayObject;
 final class ArrayHelper
 {
     /**
-     * @param iterable<string, mixed> $subject
+     * @param array<string, mixed>|ArrayObject<string, mixed> $subject
      */
-    public static function getValueByPath(iterable $subject, string $path): mixed
+    public static function getValueByPath(array|ArrayObject $subject, string $path): mixed
     {
         $pathSegments = array_filter(explode('.', $path));
         $reference = &$subject;
@@ -53,18 +53,25 @@ final class ArrayHelper
     }
 
     /**
-     * @param iterable<string, mixed> $subject
+     * @param array<string, mixed>|ArrayObject<string, mixed> $subject
      */
-    public static function setValueByPath(iterable &$subject, string $path, mixed $value): void
+    public static function setValueByPath(array|ArrayObject &$subject, string $path, mixed $value): void
     {
         $pathSegments = array_filter(explode('.', $path));
         $reference = &$subject;
 
         foreach ($pathSegments as $pathSegment) {
+            // Instantiate array if path segment does not exist
             if (!self::pathSegmentExists($reference, $pathSegment)) {
                 $reference[$pathSegment] = [];
             }
 
+            // Overwrite unsupported value as empty array
+            if (!is_array($reference[$pathSegment]) && !($reference[$pathSegment] instanceof ArrayObject)) {
+                $reference[$pathSegment] = [];
+            }
+
+            // Move pointer forward to current path
             $reference = &$reference[$pathSegment];
         }
 

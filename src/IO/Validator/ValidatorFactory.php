@@ -38,13 +38,13 @@ final class ValidatorFactory
      * @param list<class-string<ValidatorInterface>> $validators
      */
     public function __construct(
-        private array $validators,
+        private readonly array $validators,
     ) {
     }
 
     public function get(Builder\Config\ValueObject\PropertyValidator $validator): ValidatorInterface
     {
-        /** @var ValidatorInterface $currentValidator */
+        /** @var class-string<ValidatorInterface> $currentValidator */
         foreach ($this->validators as $currentValidator) {
             if (!$currentValidator::supports($validator->getType())) {
                 continue;

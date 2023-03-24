@@ -93,7 +93,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
     {
         $this->instructions->addTemplateVariable('project.customer_name', 'foo bar');
 
-        self::assertSame('FooBar', $this->subject->createShortVariant(Src\StringCase::UPPER_CAMEL));
+        self::assertSame('FooBar', $this->subject->createShortVariant(Src\StringCase::UpperCamel->value));
     }
 
     /**
@@ -129,7 +129,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
     {
         $this->instructions->addTemplateVariable('project.customer_abbreviation', 'foo bar');
 
-        self::assertSame('FooBar', $this->subject->createAbbreviationVariant(Src\StringCase::UPPER_CAMEL));
+        self::assertSame('FooBar', $this->subject->createAbbreviationVariant(Src\StringCase::UpperCamel->value));
     }
 
     /**
@@ -168,7 +168,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
             'name' => 'bar',
         ]);
 
-        self::assertSame('FooBarBar', $this->subject->createFullVariant(Src\StringCase::UPPER_CAMEL));
+        self::assertSame('FooBarBar', $this->subject->createFullVariant(Src\StringCase::UpperCamel->value));
     }
 
     /**

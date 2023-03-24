@@ -71,8 +71,8 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
      *
      * @dataProvider invokeReturnsNameVariantDataProvider
      *
-     * @param Src\Naming\NameVariant::* $variant
-     * @param Src\StringCase::*|null    $case
+     * @param value-of<Src\Naming\NameVariant> $variant
+     * @param value-of<Src\StringCase>|null    $case
      */
     public function invokeReturnsNameVariant(string $variant, ?string $case, ?string $expected): void
     {
@@ -92,13 +92,13 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
     }
 
     /**
-     * @return Generator<string, array{Src\Naming\NameVariant::*, Src\StringCase::*|null, string}>
+     * @return Generator<string, array{value-of<Src\Naming\NameVariant>, value-of<Src\StringCase>|null, string}>
      */
     public function invokeReturnsNameVariantDataProvider(): Generator
     {
-        yield 'abbreviation' => [Src\Naming\NameVariant::ABBREVIATION, null, 'bar'];
-        yield 'short name' => [Src\Naming\NameVariant::SHORT_NAME, null, 'bar'];
-        yield 'full name' => [Src\Naming\NameVariant::FULL_NAME, null, 'Foo Customer Bar'];
-        yield 'with case' => [Src\Naming\NameVariant::FULL_NAME, Src\StringCase::LOWER_CAMEL, 'fooCustomerBar'];
+        yield 'abbreviation' => [Src\Naming\NameVariant::Abbreviation->value, null, 'bar'];
+        yield 'short name' => [Src\Naming\NameVariant::ShortName->value, null, 'bar'];
+        yield 'full name' => [Src\Naming\NameVariant::FullName->value, null, 'Foo Customer Bar'];
+        yield 'with case' => [Src\Naming\NameVariant::FullName->value, Src\StringCase::LowerCamel->value, 'fooCustomerBar'];
     }
 }

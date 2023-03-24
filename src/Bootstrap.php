@@ -80,7 +80,7 @@ final class Bootstrap
      *
      * @codeCoverageIgnore
      */
-    public static function simulateCreateProject(Script\Event $event): void
+    public static function simulateCreateProject(Script\Event $event): never
     {
         $simulation = Console\Simulation::create();
         $targetDirectory = $simulation->prepare();

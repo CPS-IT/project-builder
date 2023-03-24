@@ -36,7 +36,7 @@ final class DefaultAuthorEmailFunction implements TwigFunctionInterface
     private const NAME = 'get_default_author_email';
 
     public function __construct(
-        private Resource\Local\Git $git,
+        private readonly Resource\Local\Git $git,
     ) {
     }
 
