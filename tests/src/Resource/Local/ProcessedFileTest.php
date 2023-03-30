@@ -46,17 +46,13 @@ final class ProcessedFileTest extends TestCase
         $this->subject = new Src\Resource\Local\ProcessedFile($this->originalFile, $this->targetFile);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getOriginalFileReturnsOriginalFile(): void
     {
         self::assertSame($this->originalFile, $this->subject->getOriginalFile());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getTargetFileReturnsTargetFile(): void
     {
         self::assertSame($this->targetFile, $this->subject->getTargetFile());

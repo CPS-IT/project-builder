@@ -35,9 +35,7 @@ use stdClass;
  */
 final class ArrayHelperTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getValueByPathReturnsValueAtGivenPath(): void
     {
         $object = new stdClass();
@@ -61,9 +59,7 @@ final class ArrayHelperTest extends TestCase
         self::assertNull(Src\Helper\ArrayHelper::getValueByPath($subject, 'foo.baz.boo'));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function setValueByPathSetsValueAtGivenPath(): void
     {
         $subject = [

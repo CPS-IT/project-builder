@@ -41,9 +41,7 @@ final class EmailValidatorTest extends TestCase
         $this->subject = new Src\IO\Validator\EmailValidator();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeReturnsNullOnNullInput(): void
     {
         $actual = ($this->subject)(null);
@@ -51,9 +49,7 @@ final class EmailValidatorTest extends TestCase
         self::assertNull($actual);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenInputIsNotAValidEmailAddress(): void
     {
         $this->expectException(Src\Exception\ValidationException::class);
@@ -63,9 +59,7 @@ final class EmailValidatorTest extends TestCase
         ($this->subject)('foo');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeReturnsGivenInputIfGivenInputIsValid(): void
     {
         $actual = ($this->subject)('foo@bar.de');

@@ -44,9 +44,7 @@ final class GitTest extends TestCase
         $this->subject = new Src\Resource\Local\Git($this->runner);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getAuthorNameReturnsGitUserNameConfig(): void
     {
         $this->runner->expectedResults[] = ['Alice'];
@@ -54,9 +52,7 @@ final class GitTest extends TestCase
         self::assertSame('Alice', $this->subject->getAuthorName());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getAuthorNameFallsBackToGitAuthorNameConfig(): void
     {
         $this->runner->expectedResults[] = ['', 1];
@@ -65,9 +61,7 @@ final class GitTest extends TestCase
         self::assertSame('Bob', $this->subject->getAuthorName());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getAuthorEmailReturnsGitUserEmailConfig(): void
     {
         $this->runner->expectedResults[] = ['foo@bar.de'];
@@ -75,9 +69,7 @@ final class GitTest extends TestCase
         self::assertSame('foo@bar.de', $this->subject->getAuthorEmail());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getAuthorEmailFallsBackToGitAuthorEmailConfig(): void
     {
         $this->runner->expectedResults[] = ['', 1];

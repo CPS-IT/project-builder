@@ -47,9 +47,7 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runThrowsExceptionIfNoTemplateFileIsGiven(): void
     {
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
@@ -59,9 +57,7 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
         $this->subject->run($this->result);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runThrowsExceptionIfTemplateFileDoesNotExist(): void
     {
         $this->subject->setConfig(
@@ -78,9 +74,7 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
         $this->subject->run($this->result);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runThrowsExceptionIfTemplateFileCannotBeRendered(): void
     {
         $this->subject->setConfig(
@@ -100,9 +94,7 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
         $this->subject->run($this->result);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runShowsNextStepsFromRenderedTemplateFileAndAppliesStep(): void
     {
         $this->subject->setConfig(

@@ -41,9 +41,7 @@ final class WriterFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\Writer\WriterFactory::class);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getThrowsExceptionIfFileIsNotSupported(): void
     {
         $subject = new Src\Builder\Writer\WriterFactory([]);
@@ -55,9 +53,7 @@ final class WriterFactoryTest extends Tests\ContainerAwareTestCase
         $subject->get('foo');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getReturnsWriterForGivenFile(): void
     {
         self::assertInstanceOf(Src\Builder\Writer\GenericFileWriter::class, $this->subject->get('foo'));

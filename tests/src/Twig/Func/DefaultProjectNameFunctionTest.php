@@ -42,11 +42,8 @@ final class DefaultProjectNameFunctionTest extends TestCase
         $this->subject = new Src\Twig\Func\DefaultProjectNameFunction();
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider invokeReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('invokeReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeReturnsTrueIfGivenProjectNameIsTheDefault(?string $projectName, bool $expected): void
     {
         $actual = ($this->subject)($projectName);
@@ -57,7 +54,7 @@ final class DefaultProjectNameFunctionTest extends TestCase
     /**
      * @return Generator<string, array{string|null, bool}>
      */
-    public function invokeReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider(): Generator
+    public static function invokeReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider(): Generator
     {
         yield 'null' => [null, true];
         yield 'basic' => ['basic', true];

@@ -54,9 +54,7 @@ final class PropertyTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getSubPropertiesReturnsSubProperties(): void
     {
         self::assertEquals(
@@ -71,9 +69,7 @@ final class PropertyTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function hasSubPropertiesChecksWhetherPropertyHasSubProperties(): void
     {
         self::assertTrue($this->subject->hasSubProperties());
@@ -83,25 +79,19 @@ final class PropertyTest extends TestCase
         self::assertFalse($subject->hasSubProperties());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getIdentifierReturnsIdentifier(): void
     {
         self::assertSame('identifier', $this->subject->getIdentifier());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getPathReturnsPath(): void
     {
         self::assertSame('path', $this->subject->getPath());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getPathFallsBackToIdentifierIfPathIsNotSet(): void
     {
         $subject = new Src\Builder\Config\ValueObject\Property('identifier', 'name');
@@ -109,25 +99,19 @@ final class PropertyTest extends TestCase
         self::assertSame('identifier', $subject->getPath());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getNameReturnsName(): void
     {
         self::assertSame('name', $this->subject->getName());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getValueReturnsValue(): void
     {
         self::assertSame('value', $this->subject->getValue());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function hasValueChecksIfPropertyHasValue(): void
     {
         self::assertTrue($this->subject->hasValue());

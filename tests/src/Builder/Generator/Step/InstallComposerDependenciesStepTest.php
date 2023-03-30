@@ -52,18 +52,14 @@ final class InstallComposerDependenciesStepTest extends Tests\ContainerAwareTest
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runInstallsComposerDependencies(): void
     {
         self::assertTrue($this->subject->run($this->buildResult));
         self::assertTrue($this->buildResult->isStepApplied($this->subject));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runWritesComposerInstallOutputAndFailsOnFailure(): void
     {
         $newConfig = self::createConfig();

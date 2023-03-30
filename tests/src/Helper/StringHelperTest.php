@@ -37,20 +37,16 @@ use UnhandledMatchError;
 final class StringHelperTest extends TestCase
 {
     /**
-     * @test
-     *
      * @param value-of<Src\StringCase> $case
-     *
-     * @dataProvider convertCaseConvertsStringToGivenCaseDataProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('convertCaseConvertsStringToGivenCaseDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function convertCaseConvertsStringToGivenCase(string $string, string $case, string $expected): void
     {
         self::assertSame($expected, Src\Helper\StringHelper::convertCase($string, $case));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function convertCaseThrowsExceptionWhenConvertingToUnsupportedCase(): void
     {
         $this->expectException(UnhandledMatchError::class);
@@ -60,12 +56,10 @@ final class StringHelperTest extends TestCase
     }
 
     /**
-     * @test
-     *
-     * @dataProvider interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider
-     *
      * @param array<string, string> $replacePairs
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function interpolateInterpolatedGivenStringWithKeyValuePairs(string $string, array $replacePairs, string $expected): void
     {
         self::assertSame($expected, Src\Helper\StringHelper::interpolate($string, $replacePairs));
@@ -74,7 +68,7 @@ final class StringHelperTest extends TestCase
     /**
      * @return Generator<string, array{string, value-of<Src\StringCase>, string}>
      */
-    public function convertCaseConvertsStringToGivenCaseDataProvider(): Generator
+    public static function convertCaseConvertsStringToGivenCaseDataProvider(): Generator
     {
         yield 'lowercase' => ['foo_Bar-123 helloWorld', Src\StringCase::Lower->value, 'foo_bar-123 helloworld'];
         yield 'uppercase' => ['foo_Bar-123 helloWorld', Src\StringCase::Upper->value, 'FOO_BAR-123 HELLOWORLD'];
@@ -86,7 +80,7 @@ final class StringHelperTest extends TestCase
     /**
      * @return Generator<string, array{string, array<string, string>, string}>
      */
-    public function interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider(): Generator
+    public static function interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider(): Generator
     {
         yield 'no placeholders' => ['foo', [], 'foo'];
         yield 'valid placeholder' => ['foo{bar}', ['bar' => 'foo'], 'foofoo'];

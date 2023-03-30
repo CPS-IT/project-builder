@@ -44,9 +44,7 @@ final class ConfigFactoryTest extends TestCase
         $this->subject = Src\Builder\Config\ConfigFactory::create();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function buildFromFileThrowsExceptionIfFileContentsAreInvalid(): void
     {
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
@@ -55,9 +53,7 @@ final class ConfigFactoryTest extends TestCase
         $this->subject->buildFromFile(dirname(__DIR__, 2).'/Fixtures/Files/invalid-config.yaml', 'foo');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function buildFromFileReturnsHydratedConfigObject(): void
     {
         $createConfig = fn (string $type): Src\Builder\Config\Config => new Src\Builder\Config\Config(
@@ -136,9 +132,7 @@ final class ConfigFactoryTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function buildFromStringThrowsExceptionIfGivenContentIsInvalid(): void
     {
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
