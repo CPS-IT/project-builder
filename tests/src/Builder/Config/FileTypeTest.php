@@ -35,9 +35,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class FileTypeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function fromExtensionThrowsExceptionIfGivenExtensionIsNotSupported(): void
     {
         $this->expectException(Src\Exception\UnsupportedTypeException::class);
@@ -47,11 +45,8 @@ final class FileTypeTest extends TestCase
         Src\Builder\Config\FileType::fromExtension('php');
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider fromExtensionReturnsFileTypeOfGivenExtensionDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('fromExtensionReturnsFileTypeOfGivenExtensionDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function fromExtensionReturnsFileTypeOfGivenExtension(
         string $extension,
         Src\Builder\Config\FileType $expected,
@@ -59,9 +54,7 @@ final class FileTypeTest extends TestCase
         self::assertSame($expected, Src\Builder\Config\FileType::fromExtension($extension));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function fromFileThrowsExceptionIfExtensionOfGivenFileIsNotSupported(): void
     {
         $this->expectException(Src\Exception\UnsupportedTypeException::class);
@@ -71,11 +64,8 @@ final class FileTypeTest extends TestCase
         Src\Builder\Config\FileType::fromFile(__FILE__);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider fromFileReturnsFileTypeOfGivenFileDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('fromFileReturnsFileTypeOfGivenFileDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function fromFileReturnsFileTypeOfGivenFile(
         string $file,
         Src\Builder\Config\FileType $expected,
@@ -86,7 +76,7 @@ final class FileTypeTest extends TestCase
     /**
      * @return Generator<string, array{string, Src\Builder\Config\FileType}>
      */
-    public function fromExtensionReturnsFileTypeOfGivenExtensionDataProvider(): Generator
+    public static function fromExtensionReturnsFileTypeOfGivenExtensionDataProvider(): Generator
     {
         yield 'json' => ['json', Src\Builder\Config\FileType::Json];
         yield 'yml' => ['yml', Src\Builder\Config\FileType::Yaml];
@@ -96,7 +86,7 @@ final class FileTypeTest extends TestCase
     /**
      * @return Generator<string, array{string, Src\Builder\Config\FileType}>
      */
-    public function fromFileReturnsFileTypeOfGivenFileDataProvider(): Generator
+    public static function fromFileReturnsFileTypeOfGivenFileDataProvider(): Generator
     {
         yield 'json' => ['foo.json', Src\Builder\Config\FileType::Json];
         yield 'yml' => ['foo.yml', Src\Builder\Config\FileType::Yaml];

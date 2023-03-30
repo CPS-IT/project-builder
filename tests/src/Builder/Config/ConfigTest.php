@@ -53,25 +53,19 @@ final class ConfigTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getIdentifierReturnsIdentifier(): void
     {
         self::assertSame('identifier', $this->subject->getIdentifier());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getNameReturnsName(): void
     {
         self::assertSame('name', $this->subject->getName());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getStepsReturnsSteps(): void
     {
         self::assertEquals(
@@ -82,9 +76,7 @@ final class ConfigTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getPropertiesReturnsProperties(): void
     {
         self::assertEquals(
@@ -95,9 +87,7 @@ final class ConfigTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getDeclaringFileThrowsExceptionIfDeclaringFileIsNotSet(): void
     {
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
@@ -107,17 +97,13 @@ final class ConfigTest extends TestCase
         $this->subject->getDeclaringFile();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function setDeclaringFileAppliesDeclaringFile(): void
     {
         self::assertSame('foo', $this->subject->setDeclaringFile('foo')->getDeclaringFile());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getTemplateSourceThrowsExceptionIfTemplateSourceIsNotSet(): void
     {
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
@@ -127,9 +113,7 @@ final class ConfigTest extends TestCase
         $this->subject->getTemplateSource();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function setTemplateSourceAppliesTemplateSource(): void
     {
         $templateSource = new Src\Template\TemplateSource(
@@ -140,9 +124,7 @@ final class ConfigTest extends TestCase
         self::assertSame($templateSource, $this->subject->setTemplateSource($templateSource)->getTemplateSource());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function buildHashCalculatesConfigHash(): void
     {
         $hash = sha1(

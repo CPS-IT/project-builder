@@ -51,9 +51,7 @@ final class BeforeTemplateRenderedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getTwigReturnsTwigEnvironment(): void
     {
         self::assertSame(
@@ -62,9 +60,7 @@ final class BeforeTemplateRenderedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getInstructionsReturnsBuildInstructions(): void
     {
         self::assertSame(
@@ -73,9 +69,7 @@ final class BeforeTemplateRenderedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getVariablesReturnsVariables(): void
     {
         self::assertSame(
@@ -87,9 +81,7 @@ final class BeforeTemplateRenderedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function setVariablesUpdatesVariables(): void
     {
         $this->subject->setVariables(['dummy' => null]);

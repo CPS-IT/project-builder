@@ -34,9 +34,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class MisconfiguredValidatorExceptionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function forUnexpectedOptionReturnsExceptionForUnexpectedOption(): void
     {
         $actual = Src\Exception\MisconfiguredValidatorException::forUnexpectedOption('foo', 'baz');
@@ -45,9 +43,7 @@ final class MisconfiguredValidatorExceptionTest extends TestCase
         self::assertSame(1673886742, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function forUnexpectedOptionsReturnsExceptionForUnexpectedOptions(): void
     {
         $actual = Src\Exception\MisconfiguredValidatorException::forUnexpectedOptions('foo', ['baz', 'boo', 'dummy']);

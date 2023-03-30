@@ -52,9 +52,7 @@ final class CleanUpStepTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runCleansUpRemainingFilesInTargetDirectory(): void
     {
         $targetDirectory = $this->result->getInstructions()->getTargetDirectory();
@@ -72,9 +70,7 @@ final class CleanUpStepTest extends Tests\ContainerAwareTestCase
         self::assertTrue($this->result->isStepApplied('cleanUp'));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function revertThrowsException(): void
     {
         $this->expectException(LogicException::class);
@@ -84,9 +80,7 @@ final class CleanUpStepTest extends Tests\ContainerAwareTestCase
         $this->subject->revert($this->result);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function supportsReturnsFalse(): void
     {
         self::assertFalse($this->subject::supports('foo'));

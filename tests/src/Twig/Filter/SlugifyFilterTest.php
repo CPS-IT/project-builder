@@ -46,9 +46,7 @@ final class SlugifyFilterTest extends Tests\ContainerAwareTestCase
         error_reporting(E_WARNING);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeThrowsAssertionErrorIfGivenInputIsNotAString(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -57,11 +55,8 @@ final class SlugifyFilterTest extends Tests\ContainerAwareTestCase
         ($this->subject)(null);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider invokeReturnsSlugForGivenInputDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('invokeReturnsSlugForGivenInputDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeReturnsSlugForGivenInput(?string $separator, string $expected): void
     {
         $actual = ($this->subject)('foo bar', $separator);
@@ -72,7 +67,7 @@ final class SlugifyFilterTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{string|null, string}>
      */
-    public function invokeReturnsSlugForGivenInputDataProvider(): Generator
+    public static function invokeReturnsSlugForGivenInputDataProvider(): Generator
     {
         yield 'default separator' => [null, 'foo-bar'];
         yield 'custom separator' => ['_', 'foo_bar'];

@@ -46,9 +46,7 @@ final class GenericFileWriterTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\Writer\GenericFileWriter::class);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function writeCopiesGivenFileToTemporaryDirectory(): void
     {
         $instructions = new Src\Builder\BuildInstructions(
@@ -67,9 +65,7 @@ final class GenericFileWriterTest extends Tests\ContainerAwareTestCase
         (new Filesystem\Filesystem())->remove(dirname($expected));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function writeCopiesGivenFileToGivenTargetFile(): void
     {
         $instructions = new Src\Builder\BuildInstructions(

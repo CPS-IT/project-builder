@@ -44,9 +44,7 @@ final class DefaultAuthorEmailFunctionTest extends TestCase
         $this->subject = new Src\Twig\Func\DefaultAuthorEmailFunction(new Src\Resource\Local\Git($this->runner));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeReturnsAuthorEmailFromGit(): void
     {
         $this->runner->expectedResults[] = ['foo@bar.de'];

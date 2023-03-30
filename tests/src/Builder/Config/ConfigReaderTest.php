@@ -45,9 +45,7 @@ final class ConfigReaderTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function createCreatesTemplateDirectoryIfItDoesNotExist(): void
     {
         $templateDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
@@ -59,9 +57,7 @@ final class ConfigReaderTest extends TestCase
         self::assertDirectoryExists($templateDirectory);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function readConfigThrowsExceptionIfTemplateHasNoComposerJson(): void
     {
         $templateDirectory = dirname(__DIR__, 2).'/Fixtures';
@@ -74,9 +70,7 @@ final class ConfigReaderTest extends TestCase
         $subject->readConfig('foo');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function readConfigThrowsExceptionIfTemplateWithGivenIdentifierDoesNotExist(): void
     {
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
@@ -86,9 +80,7 @@ final class ConfigReaderTest extends TestCase
         $this->subject->readConfig('foo');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function readConfigThrowsExceptionIfTemplateContainsMultipleConfigFiles(): void
     {
         $subject = Src\Builder\Config\ConfigReader::create(
@@ -102,9 +94,7 @@ final class ConfigReaderTest extends TestCase
         $subject->readConfig('cpsit/project-builder-template-invalid');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function readConfigReturnsHydratedConfigObject(): void
     {
         $actual = $this->subject->readConfig('cpsit/project-builder-template-yaml');
@@ -116,9 +106,7 @@ final class ConfigReaderTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function hasConfigChecksWhetherConfigWithGivenIdentifierExists(): void
     {
         self::assertTrue($this->subject->hasConfig('cpsit/project-builder-template-json'));
@@ -126,9 +114,7 @@ final class ConfigReaderTest extends TestCase
         self::assertFalse($this->subject->hasConfig('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function listTemplateListsAllAvailableTemplates(): void
     {
         $expected = [

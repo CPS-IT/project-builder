@@ -43,9 +43,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         $this->instructions = new Src\Builder\BuildInstructions(self::$config, 'foo');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function interactReturnsNullOnEmptyUserInput(): void
     {
         $interactionSubject = $this->buildInteractionSubject();
@@ -53,9 +51,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         self::assertNull($this->subject->interact($interactionSubject, $this->instructions));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function interactReturnsFirstOptionOnEmptyUserInputAndRequiredSelection(): void
     {
         $propertyOptions = [
@@ -67,9 +63,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         self::assertSame('foo', $this->subject->interact($interactionSubject, $this->instructions));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function interactReturnsDefaultValueOnEmptyUserInputAndRequiredSelection(): void
     {
         $propertyOptions = [
@@ -81,9 +75,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         self::assertSame('bar', $this->subject->interact($interactionSubject, $this->instructions));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function interactReturnsSelectedOption(): void
     {
         $propertyOptions = [
@@ -97,9 +89,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         self::assertSame('bar', $this->subject->interact($interactionSubject, $this->instructions));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function interactReturnsSelectedOptionsIfMultipleOptionsAreAllowed(): void
     {
         $propertyOptions = [

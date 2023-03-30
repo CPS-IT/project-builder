@@ -37,9 +37,7 @@ use function putenv;
  */
 final class FilesystemHelperTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function createFileObjectReturnsFileObjectForGivenFile(): void
     {
         $baseDir = __DIR__;
@@ -52,20 +50,18 @@ final class FilesystemHelperTest extends TestCase
         self::assertSame($baseDir.'/'.$relativePathname, $actual->getPathname());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getNewTemporaryDirectoryReturnsUniqueTemporaryDirectory(): void
     {
+        $prefix = sys_get_temp_dir();
         $actual = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
 
+        self::assertNotEmpty($prefix);
         self::assertDirectoryDoesNotExist($actual);
-        self::assertStringStartsWith(sys_get_temp_dir(), $actual);
+        self::assertStringStartsWith($prefix, $actual);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getProjectRootPathReturnsProjectRootPathFromEnvironmentVariable(): void
     {
         $projectRootPath = __DIR__.'/..';
@@ -77,9 +73,7 @@ final class FilesystemHelperTest extends TestCase
         putenv('PROJECT_BUILDER_ROOT_PATH');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getProjectRootPathReturnsProjectRootPathFromComposerPackageArtifact(): void
     {
         self::assertSame(dirname(__DIR__, 3), Src\Helper\FilesystemHelper::getProjectRootPath());

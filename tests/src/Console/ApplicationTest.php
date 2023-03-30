@@ -68,9 +68,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         self::$io->makeInteractive();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runThrowsExceptionIfInputIsNonInteractive(): void
     {
         self::$io->makeInteractive(false);
@@ -82,9 +80,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('This command cannot be run in non-interactive mode.', $output);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runMirrorsSourceFilesToTemporaryDirectory(): void
     {
         $temporaryDirectory = $this->targetDirectory.'/.build/src';
@@ -98,9 +94,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         self::assertDirectoryExists($temporaryDirectory);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runShowsWelcomeScreen(): void
     {
         self::$io->setUserInputs(['no']);
@@ -112,9 +106,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('Welcome to the Project Builder', $output);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runAllowsSelectingADifferentTemplateProviderIfTheSelectedProviderProvidesNoTemplates(): void
     {
         self::$io->setUserInputs(['yes', '', 'no']);
@@ -127,9 +119,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('Where can we find the project template?', $output);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runAllowsSelectingADifferentTemplateProviderIfTheSelectedProviderShouldBeChanged(): void
     {
         $this->templateProvider->templateSources = [
@@ -146,9 +136,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsStringMultipleTimes('Try a different provider (e.g. Satis or GitHub)', $output);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runFailsIfProjectGenerationIsAborted(): void
     {
         $this->templateProvider->installationPath = $this->targetDirectory;
@@ -161,9 +149,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         self::assertSame(2, $this->subject->run());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runHandlesErrorDuringProjectGeneration(): void
     {
         $this->templateProvider->installationPath = $this->targetDirectory;
@@ -180,9 +166,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runGeneratesNewProjectFromSelectedTemplate(): void
     {
         $this->templateProvider->installationPath = $this->targetDirectory;
@@ -199,9 +183,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runUsesDefaultTemplateProvidersIfNoProvidersAreConfigured(): void
     {
         /** @var Src\Template\Provider\PackagistProvider $packagistProvider */

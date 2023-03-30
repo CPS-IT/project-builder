@@ -51,9 +51,7 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runProcessesSourceFilesAndAppliesStep(): void
     {
         $actual = $this->subject->run($this->result);
@@ -71,13 +69,11 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
     }
 
     /**
-     * @test
-     *
-     * @dataProvider runCanProcessTheSameSourceFileWithMultipleConditionsDataProvider
-     *
      * @param list<Src\Builder\Config\ValueObject\FileCondition> $fileConditions
      * @param list<string>                                       $notExpected
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('runCanProcessTheSameSourceFileWithMultipleConditionsDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runCanProcessTheSameSourceFileWithMultipleConditions(
         array $fileConditions,
         string $expected,
@@ -106,9 +102,7 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function revertRemovesProcessedFiles(): void
     {
         $this->subject->run($this->result);
@@ -123,7 +117,7 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{list<Src\Builder\Config\ValueObject\FileCondition>, string, list<string>}>
      */
-    public function runCanProcessTheSameSourceFileWithMultipleConditionsDataProvider(): Generator
+    public static function runCanProcessTheSameSourceFileWithMultipleConditionsDataProvider(): Generator
     {
         yield 'one condition without target' => [
             [

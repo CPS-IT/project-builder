@@ -41,9 +41,7 @@ final class ProviderFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Template\Provider\ProviderFactory::class);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getThrowsExceptionIfNoProviderOfGivenTypeIsAvailable(): void
     {
         $this->expectException(Src\Exception\UnsupportedTypeException::class);
@@ -53,9 +51,7 @@ final class ProviderFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject->get('foo');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getReturnsProviderOfGivenType(): void
     {
         self::assertInstanceOf(

@@ -47,9 +47,7 @@ final class StepOptionsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getFileConditionsReturnsFileConditions(): void
     {
         self::assertEquals(
@@ -60,17 +58,13 @@ final class StepOptionsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getTemplateFileReturnsTemplateFile(): void
     {
         self::assertSame('foo', $this->subject->getTemplateFile());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getArtifactPathReturnsArtifactPath(): void
     {
         self::assertSame('artifact.json', $this->subject->getArtifactPath());

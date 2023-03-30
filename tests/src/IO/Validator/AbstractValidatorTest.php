@@ -35,9 +35,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class AbstractValidatorTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function constructorThrowsExceptionIfInvalidOptionsAreGiven(): void
     {
         $this->expectExceptionObject(

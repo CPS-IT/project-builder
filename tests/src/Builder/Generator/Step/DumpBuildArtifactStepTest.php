@@ -60,9 +60,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runDoesNothingIfBuildArtifactWasNotGenerated(): void
     {
         self::assertTrue($this->subject->run($this->buildResult));
@@ -70,9 +68,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         self::assertFileDoesNotExist($this->buildArtifact->getFile()->getPathname());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function runDumpsBuildArtifact(): void
     {
         $this->buildResult->setBuildArtifact($this->buildArtifact);
@@ -86,9 +82,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function revertDoesNothingIfBuildArtifactWasNotGenerated(): void
     {
         $artifactPath = $this->buildArtifact->getFile()->getPathname();
@@ -104,9 +98,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         self::assertStringEqualsFile($artifactPath, 'test');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function revertRemovesDumpedBuildArtifact(): void
     {
         $artifactPath = $this->buildArtifact->getFile()->getPathname();
@@ -124,9 +116,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         self::assertFileDoesNotExist($artifactPath);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function supportsReturnsFalse(): void
     {
         self::assertFalse($this->subject::supports('foo'));

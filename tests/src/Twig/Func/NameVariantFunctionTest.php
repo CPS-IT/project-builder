@@ -43,9 +43,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
         $this->subject = new Src\Twig\Func\NameVariantFunction();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenVariantIsNull(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -54,9 +52,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
         ($this->subject)();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenContextDoesNotContainBuildInstructions(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -67,13 +63,11 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
     }
 
     /**
-     * @test
-     *
-     * @dataProvider invokeReturnsNameVariantDataProvider
-     *
      * @param value-of<Src\Naming\NameVariant> $variant
      * @param value-of<Src\StringCase>|null    $case
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('invokeReturnsNameVariantDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeReturnsNameVariant(string $variant, ?string $case, ?string $expected): void
     {
         $instructions = new Src\Builder\BuildInstructions(
@@ -94,7 +88,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{value-of<Src\Naming\NameVariant>, value-of<Src\StringCase>|null, string}>
      */
-    public function invokeReturnsNameVariantDataProvider(): Generator
+    public static function invokeReturnsNameVariantDataProvider(): Generator
     {
         yield 'abbreviation' => [Src\Naming\NameVariant::Abbreviation->value, null, 'bar'];
         yield 'short name' => [Src\Naming\NameVariant::ShortName->value, null, 'bar'];

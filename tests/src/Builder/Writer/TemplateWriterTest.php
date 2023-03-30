@@ -46,9 +46,7 @@ final class TemplateWriterTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\Writer\TemplateWriter::class);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function writeWritesRenderedTemplateFileToTemporaryDirectory(): void
     {
         $instructions = new Src\Builder\BuildInstructions(
@@ -82,9 +80,7 @@ final class TemplateWriterTest extends Tests\ContainerAwareTestCase
         (new Filesystem\Filesystem())->remove(dirname($expected));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function writeWritesRenderedTemplateFileToGivenTargetFile(): void
     {
         $instructions = new Src\Builder\BuildInstructions(

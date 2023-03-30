@@ -42,33 +42,25 @@ final class FileConditionTest extends TestCase
         $this->subject = new Src\Builder\Config\ValueObject\FileCondition('foo', 'bar', 'target');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getPathReturnsPath(): void
     {
         self::assertSame('foo', $this->subject->getPath());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getConditionReturnsCondition(): void
     {
         self::assertSame('bar', $this->subject->getCondition());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function hasConditionReturnsTrue(): void
     {
         self::assertTrue($this->subject->hasCondition());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function conditionMatchesChecksIfConditionMatches(): void
     {
         $expressionLanguage = new ExpressionLanguage\ExpressionLanguage();
@@ -77,9 +69,7 @@ final class FileConditionTest extends TestCase
         self::assertTrue($this->subject->conditionMatches($expressionLanguage, ['bar' => true]));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getTargetReturnsTarget(): void
     {
         self::assertSame('target', $this->subject->getTarget());

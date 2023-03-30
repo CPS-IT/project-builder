@@ -41,9 +41,7 @@ final class StepFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\Generator\Step\StepFactory::class);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getThrowsExceptionIfGivenStepIsNotSupported(): void
     {
         $step = new Src\Builder\Config\ValueObject\Step('foo');
@@ -55,9 +53,7 @@ final class StepFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject->get($step);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getReturnsStepForGivenStep(): void
     {
         $step = new Src\Builder\Config\ValueObject\Step('collectBuildInstructions');

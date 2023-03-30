@@ -57,17 +57,13 @@ final class SubPropertyTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getPathReturnsPath(): void
     {
         self::assertSame('path', $this->subject->getPath());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getPathConstructsPathFromIdentifierAndParentProperty(): void
     {
         $subject = new Src\Builder\Config\ValueObject\SubProperty(
@@ -80,9 +76,7 @@ final class SubPropertyTest extends TestCase
         self::assertSame('parent-identifier.identifier', $subject->getPath());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getOptionsReturnsOptions(): void
     {
         self::assertEquals(
@@ -93,25 +87,19 @@ final class SubPropertyTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function canHaveMultipleValuesReturnsTrue(): void
     {
         self::assertTrue($this->subject->canHaveMultipleValues());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getDefaultValueReturnsDefaultValue(): void
     {
         self::assertSame('defaultValue', $this->subject->getDefaultValue());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getValidatorsReturnsValidators(): void
     {
         self::assertEquals(
@@ -122,9 +110,7 @@ final class SubPropertyTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function isRequiredChecksIfNotEmptyValidatorIsSet(): void
     {
         self::assertFalse($this->subject->isRequired());
@@ -141,9 +127,7 @@ final class SubPropertyTest extends TestCase
         self::assertTrue($subject->isRequired());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getParentReturnsParentProperty(): void
     {
         self::assertEquals(
@@ -152,9 +136,7 @@ final class SubPropertyTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function setParentAppliesParentProperty(): void
     {
         $newParent = new Src\Builder\Config\ValueObject\Property('new-parent', 'name');

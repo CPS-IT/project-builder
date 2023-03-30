@@ -42,9 +42,7 @@ final class CallbackValidatorTest extends TestCase
         $this->subject = new Src\IO\Validator\CallbackValidator(['callback' => $this->validate(...)]);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function constructorThrowsExceptionIfNoCallbackIsGiven(): void
     {
         $this->expectExceptionObject(
@@ -54,9 +52,7 @@ final class CallbackValidatorTest extends TestCase
         new Src\IO\Validator\CallbackValidator();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function constructorThrowsExceptionIfInvalidCallbackIsGiven(): void
     {
         $this->expectExceptionObject(
@@ -67,11 +63,8 @@ final class CallbackValidatorTest extends TestCase
         new Src\IO\Validator\CallbackValidator(['callback' => 'foo']);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider invokeCallsConfiguredCallbackDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('invokeCallsConfiguredCallbackDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function invokeCallsConfiguredCallback(?string $input, ?string $expected): void
     {
         $actual = ($this->subject)($input);
@@ -82,7 +75,7 @@ final class CallbackValidatorTest extends TestCase
     /**
      * @return Generator<string, array{string|null, string|null}>
      */
-    public function invokeCallsConfiguredCallbackDataProvider(): Generator
+    public static function invokeCallsConfiguredCallbackDataProvider(): Generator
     {
         yield 'null' => [null, null];
         yield 'string' => ['string', 'input is string'];

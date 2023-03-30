@@ -50,9 +50,7 @@ final class BuildStepRevertedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getStepReturnsStep(): void
     {
         self::assertSame(
@@ -61,9 +59,7 @@ final class BuildStepRevertedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getBuildResultReturnsBuildResult(): void
     {
         self::assertSame(
