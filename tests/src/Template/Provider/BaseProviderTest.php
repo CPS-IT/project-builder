@@ -51,12 +51,6 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     private Tests\Fixtures\DummyComposerProvider $subject;
     private MockWebServer\MockWebServer $server;
 
-    public function testConstruct(): void
-    {
-        $this->setUp();
-        self::expectNotToPerformAssertions();
-    }
-
     protected function setUp(): void
     {
         $this->subject = new Tests\Fixtures\DummyComposerProvider(
@@ -90,7 +84,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     #[\PHPUnit\Framework\Attributes\Test]
     public function installTemplateSourceThrowsExceptionIfInstallationFails(): void
     {
-        $package = $this->createPackage('foo/baz');
+        $package = self::createPackage('foo/baz');
         $package->setRequires([
             'foo/boo' => new Package\Link(
                 'foo/boo',
@@ -114,7 +108,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     #[\PHPUnit\Framework\Attributes\Test]
     public function installTemplateSourceThrowsExceptionIfInstallationFailsWithGivenConstraint(): void
     {
-        $package = $this->createPackage('foo/baz');
+        $package = self::createPackage('foo/baz');
         $templateSource = new Src\Template\TemplateSource($this->subject, $package);
 
         self::$io->setUserInputs(['']);
@@ -127,7 +121,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     #[\PHPUnit\Framework\Attributes\Test]
     public function installTemplateSourceFailsSoftlyIfGivenConstraintIsInvalid(): void
     {
-        $package = $this->createPackageFromTemplateFixture();
+        $package = self::createPackageFromTemplateFixture();
         $templateSource = new Src\Template\TemplateSource($this->subject, $package);
 
         $this->subject->packages = [$package];
@@ -147,7 +141,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     #[\PHPUnit\Framework\Attributes\Test]
     public function installTemplateSourceFailsIfGivenConstraintCannotBeResolved(): void
     {
-        $package = $this->createPackageFromTemplateFixture();
+        $package = self::createPackageFromTemplateFixture();
         $templateSource = new Src\Template\TemplateSource($this->subject, $package);
 
         $this->subject->packages = [$package];
@@ -166,7 +160,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     #[\PHPUnit\Framework\Attributes\Test]
     public function installTemplateSourceAllowsSpecifyingOtherConstraintIfInstallationFailsWithGivenConstraint(): void
     {
-        $package = $this->createPackageFromTemplateFixture();
+        $package = self::createPackageFromTemplateFixture();
         $templateSource = new Src\Template\TemplateSource($this->subject, $package);
 
         $this->subject->packages = [$package];
@@ -209,15 +203,12 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public static function createRepositoryReturnsComposerRepositoryForConfiguredUrl(): void
+    public function createRepositoryReturnsComposerRepositoryForConfiguredUrl(): void
     {
-        $instance = new self('BaseProviderTest');
-        $instance->setUp();
-
-        $actual = $instance->subject->testCreateRepository();
+        $actual = $this->subject->testCreateRepository();
 
         self::assertInstanceOf(Repository\ComposerRepository::class, $actual);
-        self::assertSame($instance->subject->getUrl(), $actual->getRepoConfig()['url']);
+        self::assertSame($this->subject->getUrl(), $actual->getRepoConfig()['url']);
     }
 
     /**
@@ -225,25 +216,23 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
      */
     public static function listTemplateSourcesListsAllAvailableTemplateSourcesDataProvider(): Generator
     {
-        $instance = new self('BaseProviderTest');
-
         yield 'no packages' => [
             [],
             [],
         ];
         yield 'unsupported packages only' => [
             [
-                $instance->createPackage('foo/baz-1', 'library'),
-                $instance->createPackage('foo/baz-2', 'library'),
-                $instance->createPackage('foo/baz-3', 'library'),
+                self::createPackage('foo/baz-1', 'library'),
+                self::createPackage('foo/baz-2', 'library'),
+                self::createPackage('foo/baz-3', 'library'),
             ],
             [],
         ];
         yield 'unsupported and supported packages' => [
             [
-                $instance->createPackage('foo/baz-1', 'library'),
-                $package1 = $instance->createPackage('foo/baz-2'),
-                $package2 = $instance->createPackage('foo/baz-3'),
+                self::createPackage('foo/baz-1', 'library'),
+                $package1 = self::createPackage('foo/baz-2'),
+                $package2 = self::createPackage('foo/baz-3'),
             ],
             [
                 $package1,
@@ -257,34 +246,32 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
      */
     public static function installTemplateSourceInstallsComposerPackageDataProvider(): Generator
     {
-        $instance = new self('BaseProviderTest');
-
         yield 'no constraint' => [
-            [$instance->createPackageFromTemplateFixture()],
+            [self::createPackageFromTemplateFixture()],
             '',
             'Installing project template (1.0.0)... Done',
         ];
 
         yield 'constraint with one package' => [
-            [$instance->createPackageFromTemplateFixture(prettyVersion: '1.1.0')],
+            [self::createPackageFromTemplateFixture(prettyVersion: '1.1.0')],
             '^1.0',
             'Installing project template (1.1.0)... Done',
         ];
 
         yield 'constraint with multiple packages' => [
             [
-                $instance->createPackageFromTemplateFixture(prettyVersion: '2.0.0'),
-                $instance->createPackageFromTemplateFixture(prettyVersion: '1.2.0'),
-                $instance->createPackageFromTemplateFixture(prettyVersion: '1.1.23'),
-                $instance->createPackageFromTemplateFixture(prettyVersion: '1.1.0'),
-                $instance->createPackageFromTemplateFixture(),
+                self::createPackageFromTemplateFixture(prettyVersion: '2.0.0'),
+                self::createPackageFromTemplateFixture(prettyVersion: '1.2.0'),
+                self::createPackageFromTemplateFixture(prettyVersion: '1.1.23'),
+                self::createPackageFromTemplateFixture(prettyVersion: '1.1.0'),
+                self::createPackageFromTemplateFixture(),
             ],
             '~1.1.0',
             'Installing project template (1.1.23)... Done',
         ];
     }
 
-    private function createPackage(
+    private static function createPackage(
         string $name,
         string $type = 'project-builder-template',
         string $prettyVersion = '1.0.0',
@@ -297,7 +284,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         return $package;
     }
 
-    private function createPackageFromTemplateFixture(
+    private static function createPackageFromTemplateFixture(
         string $templateName = 'json-template',
         string $prettyVersion = '1.0.0',
     ): Package\Package {
@@ -306,7 +293,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         self::assertDirectoryExists($fixturePath);
 
         $composerJson = Src\Resource\Local\Composer::createComposer($fixturePath);
-        $package = $this->createPackage($composerJson->getPackage()->getName(), prettyVersion: $prettyVersion);
+        $package = self::createPackage($composerJson->getPackage()->getName(), prettyVersion: $prettyVersion);
 
         $package->setDistType('path');
         $package->setDistUrl($fixturePath);
