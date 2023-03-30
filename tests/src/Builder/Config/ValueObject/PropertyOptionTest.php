@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Builder\Config\ValueObject;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 use Symfony\Component\ExpressionLanguage;
 
 /**
@@ -33,7 +33,7 @@ use Symfony\Component\ExpressionLanguage;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class PropertyOptionTest extends TestCase
+final class PropertyOptionTest extends Framework\TestCase
 {
     private Src\Builder\Config\ValueObject\PropertyOption $subject;
 
@@ -42,13 +42,13 @@ final class PropertyOptionTest extends TestCase
         $this->subject = new Src\Builder\Config\ValueObject\PropertyOption('foo', 'bar');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getValueReturnsValue(): void
     {
         self::assertSame('foo', $this->subject->getValue());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function conditionMatchesReturnsDefaultIfNoConditionIsSet(): void
     {
         $expressionLanguage = new ExpressionLanguage\ExpressionLanguage();

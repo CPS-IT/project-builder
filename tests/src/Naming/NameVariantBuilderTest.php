@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Naming;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Generator;
+use PHPUnit\Framework;
 use UnhandledMatchError;
 use Webmozart\Assert;
 
@@ -49,7 +50,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         $this->subject = new Src\Naming\NameVariantBuilder($this->instructions);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function createVariantThrowsExceptionIfGivenVariantIsUnsupported(): void
     {
         $this->expectException(UnhandledMatchError::class);
@@ -58,7 +59,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         $this->subject->createVariant('foo');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function createShortVariantThrowsExceptionIfCustomerNameIsNotAvailable(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -67,8 +68,8 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         $this->subject->createShortVariant();
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('createShortVariantReturnsShortVariantDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('createShortVariantReturnsShortVariantDataProvider')]
     public function createShortVariantReturnsShortVariant(string $customerName, ?string $projectName, string $expected): void
     {
         $this->instructions->addTemplateVariable('project', [
@@ -79,7 +80,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         self::assertSame($expected, $this->subject->createShortVariant());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function createShortVariantRespectsGivenStringCase(): void
     {
         $this->instructions->addTemplateVariable('project.customer_name', 'foo bar');
@@ -87,7 +88,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         self::assertSame('FooBar', $this->subject->createShortVariant(Src\StringCase::UpperCamel->value));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function createAbbreviationVariantThrowsExceptionIfCustomerNameIsNotAvailable(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -96,8 +97,8 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         $this->subject->createAbbreviationVariant();
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('createAbbreviationVariantReturnsAbbreviationVariantDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('createAbbreviationVariantReturnsAbbreviationVariantDataProvider')]
     public function createAbbreviationVariantReturnsAbbreviationVariant(string $customerName, ?string $projectName, string $expected): void
     {
         $this->instructions->addTemplateVariable('project', [
@@ -108,7 +109,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         self::assertSame($expected, $this->subject->createAbbreviationVariant());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function createAbbreviationVariantRespectsGivenStringCase(): void
     {
         $this->instructions->addTemplateVariable('project.customer_abbreviation', 'foo bar');
@@ -116,7 +117,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         self::assertSame('FooBar', $this->subject->createAbbreviationVariant(Src\StringCase::UpperCamel->value));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function createFullVariantThrowsExceptionIfCustomerNameIsNotAvailable(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -125,8 +126,8 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         $this->subject->createFullVariant();
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('createFullVariantReturnsFullVariantDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('createFullVariantReturnsFullVariantDataProvider')]
     public function createFullVariantReturnsFullVariant(string $customerName, ?string $projectName, string $expected): void
     {
         $this->instructions->addTemplateVariable('project', [
@@ -137,7 +138,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         self::assertSame($expected, $this->subject->createFullVariant());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function createFullVariantRespectsGivenStringCase(): void
     {
         $this->instructions->addTemplateVariable('project', [
@@ -148,8 +149,8 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         self::assertSame('FooBarBar', $this->subject->createFullVariant(Src\StringCase::UpperCamel->value));
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('isDefaultProjectNameReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('isDefaultProjectNameReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider')]
     public function isDefaultProjectNameReturnsTrueIfGivenProjectNameIsTheDefault(?string $projectName, bool $expected): void
     {
         self::assertSame($expected, $this->subject::isDefaultProjectName($projectName));

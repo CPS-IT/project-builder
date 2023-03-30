@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Builder\Config\ValueObject;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * PropertyTest.
@@ -32,7 +32,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class PropertyTest extends TestCase
+final class PropertyTest extends Framework\TestCase
 {
     private Src\Builder\Config\ValueObject\Property $subject;
 
@@ -54,7 +54,7 @@ final class PropertyTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getSubPropertiesReturnsSubProperties(): void
     {
         self::assertEquals(
@@ -69,7 +69,7 @@ final class PropertyTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function hasSubPropertiesChecksWhetherPropertyHasSubProperties(): void
     {
         self::assertTrue($this->subject->hasSubProperties());
@@ -79,19 +79,19 @@ final class PropertyTest extends TestCase
         self::assertFalse($subject->hasSubProperties());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getIdentifierReturnsIdentifier(): void
     {
         self::assertSame('identifier', $this->subject->getIdentifier());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getPathReturnsPath(): void
     {
         self::assertSame('path', $this->subject->getPath());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getPathFallsBackToIdentifierIfPathIsNotSet(): void
     {
         $subject = new Src\Builder\Config\ValueObject\Property('identifier', 'name');
@@ -99,19 +99,19 @@ final class PropertyTest extends TestCase
         self::assertSame('identifier', $subject->getPath());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getNameReturnsName(): void
     {
         self::assertSame('name', $this->subject->getName());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getValueReturnsValue(): void
     {
         self::assertSame('value', $this->subject->getValue());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function hasValueChecksIfPropertyHasValue(): void
     {
         self::assertTrue($this->subject->hasValue());

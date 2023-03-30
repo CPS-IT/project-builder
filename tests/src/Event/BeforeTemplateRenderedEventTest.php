@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Event;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use Twig\Environment;
 
 /**
@@ -51,7 +52,7 @@ final class BeforeTemplateRenderedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getTwigReturnsTwigEnvironment(): void
     {
         self::assertSame(
@@ -60,7 +61,7 @@ final class BeforeTemplateRenderedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getInstructionsReturnsBuildInstructions(): void
     {
         self::assertSame(
@@ -69,7 +70,7 @@ final class BeforeTemplateRenderedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getVariablesReturnsVariables(): void
     {
         self::assertSame(
@@ -81,7 +82,7 @@ final class BeforeTemplateRenderedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function setVariablesUpdatesVariables(): void
     {
         $this->subject->setVariables(['dummy' => null]);

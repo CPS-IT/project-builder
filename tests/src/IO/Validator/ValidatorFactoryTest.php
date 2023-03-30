@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\IO\Validator;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * ValidatorFactoryTest.
@@ -41,7 +42,7 @@ final class ValidatorFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\IO\Validator\ValidatorFactory::class);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getThrowsExceptionIfGivenTypeIsNotSupported(): void
     {
         $this->expectException(Src\Exception\UnsupportedTypeException::class);
@@ -53,7 +54,7 @@ final class ValidatorFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject->get($validator);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getReturnsValidatorForGivenType(): void
     {
         $validator = new Src\Builder\Config\ValueObject\PropertyValidator('email');
@@ -61,7 +62,7 @@ final class ValidatorFactoryTest extends Tests\ContainerAwareTestCase
         self::assertInstanceOf(Src\IO\Validator\EmailValidator::class, $this->subject->get($validator));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getAllReturnsChainedValidator(): void
     {
         $emailValidator = new Src\Builder\Config\ValueObject\PropertyValidator('email');

@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * CollectBuildInstructionsStepTest.
@@ -41,7 +42,7 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
         $this->subject = self::$container->get(Src\Builder\Generator\Step\CollectBuildInstructionsStep::class);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runAppliesNullAsDefaultValueOnSkippedProperties(): void
     {
         $config = new Src\Builder\Config\Config(
@@ -71,7 +72,7 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
         self::assertNull($buildResult->getInstructions()->getTemplateVariable('foo'));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runAppliesNullAsDefaultValueOnSkippedSubProperties(): void
     {
         $config = new Src\Builder\Config\Config(

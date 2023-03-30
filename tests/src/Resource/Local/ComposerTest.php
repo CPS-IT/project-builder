@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Resource\Local;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use Symfony\Component\Console;
 
 use function dirname;
@@ -48,7 +49,7 @@ final class ComposerTest extends Tests\ContainerAwareTestCase
         $this->composerJson = dirname(__DIR__, 2).'/Fixtures/Templates/yaml-template/composer.json';
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function installThrowsExceptionIfGivenFileDoesNotExist(): void
     {
         $this->expectException(Src\Exception\IOException::class);
@@ -58,7 +59,7 @@ final class ComposerTest extends Tests\ContainerAwareTestCase
         $this->subject->install('foo');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function installInstallsComposerDependenciesFromGivenFile(): void
     {
         $output = new Console\Output\BufferedOutput();
@@ -71,7 +72,7 @@ final class ComposerTest extends Tests\ContainerAwareTestCase
         self::assertStringNotContainsString('phpunit', $actualOutput);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function installInstallsAllComposerDependenciesIncludingDevDependencies(): void
     {
         $output = new Console\Output\BufferedOutput();
@@ -84,7 +85,7 @@ final class ComposerTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('Installing phpunit/phpunit', $actualOutput);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function installRestoresInitialComposerEnvironmentVariable(): void
     {
         putenv('COMPOSER=foo');

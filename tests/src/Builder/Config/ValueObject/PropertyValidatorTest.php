@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Builder\Config\ValueObject;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * PropertyValidatorTest.
@@ -32,7 +32,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class PropertyValidatorTest extends TestCase
+final class PropertyValidatorTest extends Framework\TestCase
 {
     private Src\Builder\Config\ValueObject\PropertyValidator $subject;
 
@@ -41,13 +41,13 @@ final class PropertyValidatorTest extends TestCase
         $this->subject = new Src\Builder\Config\ValueObject\PropertyValidator('foo', ['bar' => 'bar']);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getOptionsReturnsOptions(): void
     {
         self::assertSame(['bar' => 'bar'], $this->subject->getOptions());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getTypeReturnsType(): void
     {
         self::assertSame('foo', $this->subject->getType());

@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Writer;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
 
@@ -46,7 +47,7 @@ final class GenericFileWriterTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\Writer\GenericFileWriter::class);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function writeCopiesGivenFileToTemporaryDirectory(): void
     {
         $instructions = new Src\Builder\BuildInstructions(
@@ -65,7 +66,7 @@ final class GenericFileWriterTest extends Tests\ContainerAwareTestCase
         (new Filesystem\Filesystem())->remove(dirname($expected));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function writeCopiesGivenFileToGivenTargetFile(): void
     {
         $instructions = new Src\Builder\BuildInstructions(

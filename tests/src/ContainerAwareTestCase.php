@@ -29,7 +29,7 @@ use GuzzleHttp\Handler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Utils;
 use Nyholm\Psr7\Factory;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 use Psr\Http\Client;
 use Psr\Http\Message;
 use Symfony\Component\DependencyInjection;
@@ -40,7 +40,7 @@ use Symfony\Component\DependencyInjection;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-abstract class ContainerAwareTestCase extends TestCase
+abstract class ContainerAwareTestCase extends Framework\TestCase
 {
     protected static DependencyInjection\ContainerInterface $container;
     protected static Factory\HttplugFactory $factory;

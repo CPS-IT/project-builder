@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * StepFactoryTest.
@@ -41,7 +42,7 @@ final class StepFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\Generator\Step\StepFactory::class);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getThrowsExceptionIfGivenStepIsNotSupported(): void
     {
         $step = new Src\Builder\Config\ValueObject\Step('foo');
@@ -53,7 +54,7 @@ final class StepFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject->get($step);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getReturnsStepForGivenStep(): void
     {
         $step = new Src\Builder\Config\ValueObject\Step('collectBuildInstructions');

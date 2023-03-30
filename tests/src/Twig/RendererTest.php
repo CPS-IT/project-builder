@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Twig;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 use function dirname;
 use function json_decode;
@@ -54,7 +55,7 @@ final class RendererTest extends Tests\ContainerAwareTestCase
         $this->eventListener = self::$container->get(Tests\Fixtures\DummyTemplateRenderingEventListener::class);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function renderThrowsExceptionIfNoTemplateIsDefined(): void
     {
         $this->expectException(Src\Exception\TemplateRenderingException::class);
@@ -64,7 +65,7 @@ final class RendererTest extends Tests\ContainerAwareTestCase
         $this->subject->render($this->instructions);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function renderThrowsExceptionIfTemplateIsMissing(): void
     {
         $this->expectException(Src\Exception\TemplateRenderingException::class);
@@ -74,7 +75,7 @@ final class RendererTest extends Tests\ContainerAwareTestCase
         $this->subject->render($this->instructions, 'foo');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function renderWithConfiguredFilesystemLoaderRendersTemplate(): void
     {
         self::assertFalse($this->eventListener->dispatched);
@@ -85,7 +86,7 @@ final class RendererTest extends Tests\ContainerAwareTestCase
         self::assertTrue($this->eventListener->dispatched);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function renderWithConfiguredArrayLoaderRendersTemplate(): void
     {
         $subject = $this->subject->withDefaultTemplate('Hello {{ name }}!');
@@ -98,7 +99,7 @@ final class RendererTest extends Tests\ContainerAwareTestCase
         self::assertTrue($this->eventListener->dispatched);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function renderMergesBuildInstructionsAndAdditionalVariables(): void
     {
         $this->instructions->addTemplateVariable('foo', 'foo');
@@ -118,7 +119,7 @@ final class RendererTest extends Tests\ContainerAwareTestCase
         self::assertSame($expected, json_decode($actual, true, 512, JSON_THROW_ON_ERROR));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function renderRespectsVariablesModifiedThroughDispatchedEvent(): void
     {
         $subject = $this->subject->withDefaultTemplate('Hello {{ name }}!');
@@ -135,7 +136,7 @@ final class RendererTest extends Tests\ContainerAwareTestCase
         self::assertTrue($this->eventListener->dispatched);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function canRenderReturnsChecksWhetherGivenTemplateCanBeRendered(): void
     {
         self::assertTrue($this->subject->canRender('dummy.twig'));

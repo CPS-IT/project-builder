@@ -27,6 +27,7 @@ namespace CPSIT\ProjectBuilder\Tests\Template\Provider;
 use Composer\Json;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use ReflectionObject;
 use ReflectionProperty;
 use SebastianFeldmann\Cli;
@@ -64,7 +65,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         putenv('PROJECT_BUILDER_ROOT_PATH='.$this->temporaryRootPath);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function requestCustomOptionsAsksAndAppliesBaseUrl(): void
     {
         self::$io->setUserInputs(['https://example.com']);
@@ -74,7 +75,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         self::assertSame('https://example.com', $this->subject->getUrl());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getUrlThrowsExceptionIfNoUrlIsConfigured(): void
     {
         $this->expectExceptionObject(Src\Exception\InvalidResourceException::create('url'));
@@ -82,7 +83,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         $this->subject->getUrl();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function setUrlAppliesGivenUrl(): void
     {
         $this->subject->setUrl('https://example.org');
@@ -90,7 +91,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         self::assertSame('https://example.org', $this->subject->getUrl());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function listTemplateSourcesListsTemplatesFromConfiguredRepository(): void
     {
         $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);
@@ -108,7 +109,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         $this->filesystem->remove($repoA);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function installTemplateSourceAsksForAdditionalRepositories(): void
     {
         $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);

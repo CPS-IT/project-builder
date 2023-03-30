@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use LogicException;
+use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
 
 /**
@@ -52,7 +53,7 @@ final class CleanUpStepTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runCleansUpRemainingFilesInTargetDirectory(): void
     {
         $targetDirectory = $this->result->getInstructions()->getTargetDirectory();
@@ -70,7 +71,7 @@ final class CleanUpStepTest extends Tests\ContainerAwareTestCase
         self::assertTrue($this->result->isStepApplied('cleanUp'));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function revertThrowsException(): void
     {
         $this->expectException(LogicException::class);
@@ -80,7 +81,7 @@ final class CleanUpStepTest extends Tests\ContainerAwareTestCase
         $this->subject->revert($this->result);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function supportsReturnsFalse(): void
     {
         self::assertFalse($this->subject::supports('foo'));

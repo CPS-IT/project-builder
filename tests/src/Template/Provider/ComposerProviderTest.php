@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Template\Provider;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use donatj\MockWebServer;
+use PHPUnit\Framework;
 use ReflectionObject;
 use Symfony\Component\Filesystem;
 
@@ -53,7 +54,7 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
         $this->acceptInsecureConnections();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function requestCustomOptionsAsksAndAppliesBaseUrl(): void
     {
         self::$io->setUserInputs(['https://example.com']);
@@ -63,7 +64,7 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
         self::assertSame('https://example.com', $this->subject->getUrl());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getUrlThrowsExceptionIfNoUrlIsConfigured(): void
     {
         $this->expectExceptionObject(Src\Exception\InvalidResourceException::create('url'));
@@ -71,7 +72,7 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
         $this->subject->getUrl();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function setUrlAppliesGivenUrl(): void
     {
         $this->subject->setUrl('https://example.org');
@@ -79,7 +80,7 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
         self::assertSame('https://example.org', $this->subject->getUrl());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function listTemplateSourcesConnectsToComposerHostToFetchAvailablePackages(): void
     {
         $serverUrl = sprintf('http://%s:%s', $this->server->getHost(), $this->server->getPort());

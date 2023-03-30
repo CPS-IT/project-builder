@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Twig\Func;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Generator;
+use PHPUnit\Framework;
 use Webmozart\Assert;
 
 /**
@@ -43,7 +44,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
         $this->subject = new Src\Twig\Func\NameVariantFunction();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenVariantIsNull(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -52,7 +53,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
         ($this->subject)();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenContextDoesNotContainBuildInstructions(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -66,8 +67,8 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
      * @param value-of<Src\Naming\NameVariant> $variant
      * @param value-of<Src\StringCase>|null    $case
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('invokeReturnsNameVariantDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('invokeReturnsNameVariantDataProvider')]
     public function invokeReturnsNameVariant(string $variant, ?string $case, ?string $expected): void
     {
         $instructions = new Src\Builder\BuildInstructions(

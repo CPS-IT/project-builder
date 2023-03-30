@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Generator;
+use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
 
 /**
@@ -54,8 +55,8 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('runAsksForConfirmationIfBuildArtifactPathAlreadyExistsDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('runAsksForConfirmationIfBuildArtifactPathAlreadyExistsDataProvider')]
     public function runAsksForConfirmationIfBuildArtifactPathAlreadyExists(bool $continue, bool $expected): void
     {
         self::$io->setUserInputs([$continue ? 'yes' : 'no']);
@@ -73,7 +74,7 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runGeneratesBuildArtifact(): void
     {
         self::assertTrue($this->subject->run($this->buildResult));

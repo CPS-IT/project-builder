@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Resource\Http;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * PhpApiClientTest.
@@ -41,7 +42,7 @@ final class PhpApiClientTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Resource\Http\PhpApiClient::class);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getLatestStableVersionThrowsExceptionOnInvalidResponse(): void
     {
         self::$mockHandler->append(self::createErroneousResponse());
@@ -53,7 +54,7 @@ final class PhpApiClientTest extends Tests\ContainerAwareTestCase
         $this->subject->getLatestStableVersion('8.0');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getLatestStableVersionReturnsLatestStableVersionOfGivenBranch(): void
     {
         self::$mockHandler->append(self::createJsonResponse(['version' => '8.0.10']));
@@ -61,7 +62,7 @@ final class PhpApiClientTest extends Tests\ContainerAwareTestCase
         self::assertSame('8.0.10', $this->subject->getLatestStableVersion('8.0'));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getLatestStableVersionFallsBackToDotZeroReleaseIfResponseIsErroneous(): void
     {
         self::$mockHandler->append(self::createJsonResponse(['error' => 'Unknown version']));

@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step;
 use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
 
 use function json_encode;
@@ -60,7 +61,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runDoesNothingIfBuildArtifactWasNotGenerated(): void
     {
         self::assertTrue($this->subject->run($this->buildResult));
@@ -68,7 +69,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         self::assertFileDoesNotExist($this->buildArtifact->getFile()->getPathname());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runDumpsBuildArtifact(): void
     {
         $this->buildResult->setBuildArtifact($this->buildArtifact);
@@ -82,7 +83,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function revertDoesNothingIfBuildArtifactWasNotGenerated(): void
     {
         $artifactPath = $this->buildArtifact->getFile()->getPathname();
@@ -98,7 +99,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         self::assertStringEqualsFile($artifactPath, 'test');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function revertRemovesDumpedBuildArtifact(): void
     {
         $artifactPath = $this->buildArtifact->getFile()->getPathname();
@@ -116,7 +117,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         self::assertFileDoesNotExist($artifactPath);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function supportsReturnsFalse(): void
     {
         self::assertFalse($this->subject::supports('foo'));
