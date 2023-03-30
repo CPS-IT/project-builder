@@ -33,7 +33,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class AbstractValidatorTestCase extends TestCase
+final class AbstractValidatorTest extends TestCase
 {
     #[\PHPUnit\Framework\Attributes\Test]
     public function constructorThrowsExceptionIfInvalidOptionsAreGiven(): void
