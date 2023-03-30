@@ -53,10 +53,10 @@ final class FilesystemHelperTest extends TestCase
     #[\PHPUnit\Framework\Attributes\Test]
     public function getNewTemporaryDirectoryReturnsUniqueTemporaryDirectory(): void
     {
-        $actual = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
-        /** @var non-empty-string $prefix */
         $prefix = sys_get_temp_dir();
+        $actual = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
 
+        self::assertNotEmpty($prefix);
         self::assertDirectoryDoesNotExist($actual);
         self::assertStringStartsWith($prefix, $actual);
     }
