@@ -183,6 +183,10 @@ properties:
         defaultValue: basic
         validators:
           - type: notEmpty
+          - type: regex
+            options:
+              pattern: '/^[a-zA-Z]+$/'
+              errorMessage: 'The project name should consist of letters only.'
 
   # Author
   - identifier: author
