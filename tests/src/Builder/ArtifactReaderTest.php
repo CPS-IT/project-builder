@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 use function dirname;
 
@@ -47,9 +48,7 @@ final class ArtifactReaderTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\ArtifactReader::class);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function fromFileThrowsExceptionIfFileIsNotReadable(): void
     {
         $this->expectExceptionObject(Src\Exception\InvalidArtifactException::forFile('foo'));
@@ -57,9 +56,7 @@ final class ArtifactReaderTest extends Tests\ContainerAwareTestCase
         $this->subject->fromFile('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function fromFileThrowsExceptionIfJsonIsInvalid(): void
     {
         $file = dirname(__DIR__).'/Fixtures/Files/invalid-json.json';
@@ -69,9 +66,7 @@ final class ArtifactReaderTest extends Tests\ContainerAwareTestCase
         $this->subject->fromFile($file);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function fromFileThrowsExceptionIfJsonIsUnsupported(): void
     {
         $file = dirname(__DIR__).'/Fixtures/Files/invalid-artifact.json';
@@ -81,9 +76,7 @@ final class ArtifactReaderTest extends Tests\ContainerAwareTestCase
         $this->subject->fromFile($file);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function fromFileThrowsExceptionIfArtifactVersionIsInvalid(): void
     {
         $file = dirname(__DIR__).'/Fixtures/Files/invalid-artifact-version.json';
@@ -93,9 +86,7 @@ final class ArtifactReaderTest extends Tests\ContainerAwareTestCase
         $this->subject->fromFile($file);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function fromFileThrowsExceptionIfMigratedArtifactIsInvalid(): void
     {
         $this->version->remapArguments = [
@@ -110,9 +101,7 @@ final class ArtifactReaderTest extends Tests\ContainerAwareTestCase
         $this->subject->fromFile($this->artifactFile);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function fromFilePerformsMigrations(): void
     {
         $this->version->remapArguments = [

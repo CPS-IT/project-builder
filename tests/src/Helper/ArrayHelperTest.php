@@ -95,9 +95,7 @@ final class ArrayHelperTest extends Framework\TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function removeByPathDoesNothingIfGivenPathDoesNotExist(): void
     {
         $subject = [
@@ -118,9 +116,7 @@ final class ArrayHelperTest extends Framework\TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function removeByPathRemovesGivenPathInSubject(): void
     {
         $subject = [

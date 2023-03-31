@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Builder\Artifact\Migration;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * Version1679497137Test.
@@ -32,7 +32,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class Version1679497137Test extends TestCase
+final class Version1679497137Test extends Framework\TestCase
 {
     private Src\Builder\Artifact\Migration\Version1679497137 $subject;
 
@@ -51,9 +51,7 @@ final class Version1679497137Test extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function migrateMigratesArtifactFileToArtifactPath(): void
     {
         $expected = [

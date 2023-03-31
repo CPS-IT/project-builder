@@ -67,9 +67,7 @@ final class ProviderFactoryTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getAllReturnsAllProviders(): void
     {
         $actual = $this->subject->getAll();

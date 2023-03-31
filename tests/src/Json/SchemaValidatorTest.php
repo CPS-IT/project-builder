@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Json;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Generator;
+use PHPUnit\Framework;
 
 use function dirname;
 
@@ -44,11 +45,8 @@ final class SchemaValidatorTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Json\SchemaValidator::class);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider validateValidatesJsonDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('validateValidatesJsonDataProvider')]
     public function validateValidatesJson(mixed $data, bool $expected): void
     {
         $schemaFile = dirname(__DIR__).'/Fixtures/Files/test.schema.json';
@@ -59,7 +57,7 @@ final class SchemaValidatorTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{mixed, bool}>
      */
-    public function validateValidatesJsonDataProvider(): Generator
+    public static function validateValidatesJsonDataProvider(): Generator
     {
         yield 'valid json' => [(object) ['foo' => 'baz'], true];
         yield 'invalid json' => [null, false];

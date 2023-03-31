@@ -183,9 +183,7 @@ final class FilesystemHelperTest extends Framework\TestCase
         yield 'dot-directory' => ['.foo'];
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function resolveRelativePathReturnsGivenPathIfItIsAnAbsolutePath(): void
     {
         $path = '/foo/baz';
@@ -193,9 +191,7 @@ final class FilesystemHelperTest extends Framework\TestCase
         self::assertSame($path, Src\Helper\FilesystemHelper::resolveRelativePath($path));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function resolveRelativePathMakesRelativePathAbsolute(): void
     {
         $path = 'foo';
