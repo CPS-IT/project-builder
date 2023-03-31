@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Event;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * ProjectBuildStartedEventTest.
@@ -45,9 +46,7 @@ final class ProjectBuildStartedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getInstructionsReturnsBuildInstructions(): void
     {
         self::assertSame(

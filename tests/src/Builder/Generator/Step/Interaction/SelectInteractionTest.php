@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step\Interaction;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * SelectInteractionTest.
@@ -43,9 +44,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         $this->instructions = new Src\Builder\BuildInstructions(self::$config, 'foo');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function interactReturnsNullOnEmptyUserInput(): void
     {
         $interactionSubject = $this->buildInteractionSubject();
@@ -53,9 +52,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         self::assertNull($this->subject->interact($interactionSubject, $this->instructions));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function interactReturnsFirstOptionOnEmptyUserInputAndRequiredSelection(): void
     {
         $propertyOptions = [
@@ -67,9 +64,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         self::assertSame('foo', $this->subject->interact($interactionSubject, $this->instructions));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function interactReturnsDefaultValueOnEmptyUserInputAndRequiredSelection(): void
     {
         $propertyOptions = [
@@ -81,9 +76,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         self::assertSame('bar', $this->subject->interact($interactionSubject, $this->instructions));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function interactReturnsSelectedOption(): void
     {
         $propertyOptions = [
@@ -97,9 +90,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         self::assertSame('bar', $this->subject->interact($interactionSubject, $this->instructions));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function interactReturnsSelectedOptionsIfMultipleOptionsAreAllowed(): void
     {
         $propertyOptions = [
@@ -117,12 +108,11 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
 
     /**
      * @param list<Src\Builder\Config\ValueObject\PropertyOption> $options
-     * @param int|float|string|bool|null                          $defaultValue
      */
     private function buildInteractionSubject(
         array $options = [],
         bool $multiple = false,
-        $defaultValue = null,
+        int|float|string|bool|null $defaultValue = null,
         bool $required = false,
     ): Src\Builder\Config\ValueObject\CustomizableInterface {
         $validators = [];

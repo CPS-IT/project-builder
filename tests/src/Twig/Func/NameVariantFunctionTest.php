@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Twig\Func;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Generator;
+use PHPUnit\Framework;
 use Webmozart\Assert;
 
 /**
@@ -43,9 +44,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
         $this->subject = new Src\Twig\Func\NameVariantFunction();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenVariantIsNull(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -54,9 +53,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
         ($this->subject)();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenContextDoesNotContainBuildInstructions(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -67,13 +64,11 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
     }
 
     /**
-     * @test
-     *
-     * @dataProvider invokeReturnsNameVariantDataProvider
-     *
      * @param value-of<Src\Naming\NameVariant> $variant
      * @param value-of<Src\StringCase>|null    $case
      */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('invokeReturnsNameVariantDataProvider')]
     public function invokeReturnsNameVariant(string $variant, ?string $case, ?string $expected): void
     {
         $instructions = new Src\Builder\BuildInstructions(
@@ -94,7 +89,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{value-of<Src\Naming\NameVariant>, value-of<Src\StringCase>|null, string}>
      */
-    public function invokeReturnsNameVariantDataProvider(): Generator
+    public static function invokeReturnsNameVariantDataProvider(): Generator
     {
         yield 'abbreviation' => [Src\Naming\NameVariant::Abbreviation->value, null, 'bar'];
         yield 'short name' => [Src\Naming\NameVariant::ShortName->value, null, 'bar'];

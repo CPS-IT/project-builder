@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * AbstractStepTest.
@@ -33,7 +33,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class AbstractStepTest extends TestCase
+final class AbstractStepTest extends Framework\TestCase
 {
     private Tests\Fixtures\DummyStep $subject;
 
@@ -42,9 +42,7 @@ final class AbstractStepTest extends TestCase
         $this->subject = new Tests\Fixtures\DummyStep();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function setConfigAppliesGivenConfig(): void
     {
         $config = new Src\Builder\Config\ValueObject\Step('dummy');

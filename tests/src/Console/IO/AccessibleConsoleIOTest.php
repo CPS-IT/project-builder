@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Console\IO;
 use Composer\IO;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use Symfony\Component\Console;
 
 /**
@@ -43,9 +44,7 @@ final class AccessibleConsoleIOTest extends Tests\ContainerAwareTestCase
         $this->subject = Src\Console\IO\AccessibleConsoleIO::fromIO(self::$io);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function fromIOThrowsExceptionIfInvalidIOPropertiesAreGiven(): void
     {
         $io = new Tests\Fixtures\InvalidConsoleIO(
@@ -59,9 +58,7 @@ final class AccessibleConsoleIOTest extends Tests\ContainerAwareTestCase
         Src\Console\IO\AccessibleConsoleIO::fromIO($io);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function fromIOConstructsInputAndOutputIfIOIsNotConsoleIO(): void
     {
         $actual = Src\Console\IO\AccessibleConsoleIO::fromIO(new IO\NullIO());
@@ -70,9 +67,7 @@ final class AccessibleConsoleIOTest extends Tests\ContainerAwareTestCase
         self::assertInstanceOf(Console\Output\ConsoleOutput::class, $actual->getOutput());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getInputReturnsInput(): void
     {
         self::$io->makeInteractive();
@@ -88,9 +83,7 @@ final class AccessibleConsoleIOTest extends Tests\ContainerAwareTestCase
         self::assertFalse(self::$io->isInteractive());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getOutputReturnsOutput(): void
     {
         $output = $this->subject->getOutput();

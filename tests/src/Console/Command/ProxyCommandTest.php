@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Console\Command;
 use Composer\Console;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use Symfony\Component\Console as SymfonyConsole;
 
 /**
@@ -50,9 +51,7 @@ final class ProxyCommandTest extends Tests\ContainerAwareTestCase
         $this->commandTester = new SymfonyConsole\Tester\CommandTester($this->subject);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function executeConfiguresActualCommand(): void
     {
         $this->commandTester->execute([]);
@@ -63,9 +62,7 @@ final class ProxyCommandTest extends Tests\ContainerAwareTestCase
         self::assertTrue($inputDefinition->hasOption('dummy'));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getNameReturnsActualCommandName(): void
     {
         $this->commandTester->execute([]);
@@ -73,9 +70,7 @@ final class ProxyCommandTest extends Tests\ContainerAwareTestCase
         self::assertSame('dummy', $this->subject->getName());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getDescriptionReturnsActualCommandDescription(): void
     {
         $this->commandTester->execute([]);
@@ -83,9 +78,7 @@ final class ProxyCommandTest extends Tests\ContainerAwareTestCase
         self::assertSame('dummy description', $this->subject->getDescription());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getHelpReturnsActualCommandHelp(): void
     {
         $this->commandTester->execute([]);
@@ -93,9 +86,7 @@ final class ProxyCommandTest extends Tests\ContainerAwareTestCase
         self::assertSame('dummy help', $this->subject->getHelp());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getProcessedHelpReturnsActualProcessedCommandHelp(): void
     {
         $this->commandTester->execute([]);
@@ -103,9 +94,7 @@ final class ProxyCommandTest extends Tests\ContainerAwareTestCase
         self::assertSame('dummy help', $this->subject->getProcessedHelp());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getSynopsisReturnsActualCommandSynopsis(): void
     {
         $this->commandTester->execute([]);
@@ -113,17 +102,13 @@ final class ProxyCommandTest extends Tests\ContainerAwareTestCase
         self::assertSame('dummy [--dummy] [--] [<dummy>]', $this->subject->getSynopsis());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function isProxyCommandReturnsTrue(): void
     {
         self::assertTrue($this->subject->isProxyCommand());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function executeCallsActualCommandMethods(): void
     {
         $this->commandTester->execute([]);
@@ -135,9 +120,7 @@ final class ProxyCommandTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('execute was called', $output);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function executePassesInitializedMessengerToActualCommand(): void
     {
         $this->commandTester->execute([]);

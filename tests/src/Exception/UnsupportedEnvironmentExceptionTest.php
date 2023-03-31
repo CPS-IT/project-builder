@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Exception;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * UnsupportedEnvironmentExceptionTest.
@@ -32,11 +32,9 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class UnsupportedEnvironmentExceptionTest extends TestCase
+final class UnsupportedEnvironmentExceptionTest extends Framework\TestCase
 {
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forOutdatedComposerInstallationReturnsExceptionForOutdatedComposerInstallation(): void
     {
         $actual = Src\Exception\UnsupportedEnvironmentException::forOutdatedComposerInstallation();

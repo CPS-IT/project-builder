@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Twig\Func;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use Webmozart\Assert;
 
 /**
@@ -42,9 +43,7 @@ final class PhpVersionFunctionTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Twig\Func\PhpVersionFunction::class);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenBranchIsNull(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -53,9 +52,7 @@ final class PhpVersionFunctionTest extends Tests\ContainerAwareTestCase
         ($this->subject)();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeReturnsAndCachesLatestStableVersionOfGivenBranch(): void
     {
         self::$mockHandler->append(self::createJsonResponse(['version' => '8.0.10']));

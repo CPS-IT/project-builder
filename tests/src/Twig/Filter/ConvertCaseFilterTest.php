@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Twig\Filter;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 use Webmozart\Assert;
 
 /**
@@ -33,7 +33,7 @@ use Webmozart\Assert;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ConvertCaseFilterTest extends TestCase
+final class ConvertCaseFilterTest extends Framework\TestCase
 {
     private Src\Twig\Filter\ConvertCaseFilter $subject;
 
@@ -42,9 +42,7 @@ final class ConvertCaseFilterTest extends TestCase
         $this->subject = new Src\Twig\Filter\ConvertCaseFilter();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeThrowsAssertionErrorIfGivenInputIsNotAString(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -53,9 +51,7 @@ final class ConvertCaseFilterTest extends TestCase
         ($this->subject)(null);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeThrowsAssertionErrorIfGivenCaseIsNotAString(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -64,9 +60,7 @@ final class ConvertCaseFilterTest extends TestCase
         ($this->subject)('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeReturnsCaseConvertedString(): void
     {
         $actual = ($this->subject)('foo', Src\StringCase::Upper->value);

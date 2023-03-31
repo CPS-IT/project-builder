@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\IO;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * InputReaderTest.
@@ -41,9 +42,7 @@ final class InputReaderTest extends Tests\ContainerAwareTestCase
         $this->subject = new Src\IO\InputReader(self::$io);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function staticValueReturnsUserInput(): void
     {
         self::$io->setUserInputs(['Bob']);
@@ -52,17 +51,13 @@ final class InputReaderTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('What\'s your name? (optional) [Alice]', self::$io->getOutput());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function staticValueReturnsDefaultValue(): void
     {
         self::assertSame('Alice', $this->subject->staticValue('What\'s your name?', 'Alice'));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function hiddenValueHidesUserInput(): void
     {
         self::$io->setUserInputs(['s3cr3t']);

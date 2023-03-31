@@ -28,6 +28,7 @@ use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Exception;
+use PHPUnit\Framework;
 use Symfony\Component\Console as SymfonyConsole;
 use Symfony\Component\Filesystem;
 
@@ -72,9 +73,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
         self::$io->makeInteractive();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function createReturnsInstanceWithGivenMessenger(): void
     {
         self::$io->makeInteractive(false);
@@ -93,9 +92,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function executeThrowsExceptionIfInputIsNonInteractive(): void
     {
         self::$io->makeInteractive(false);
@@ -109,9 +106,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('This command cannot be run in non-interactive mode.', $output);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function executeShowsWelcomeScreen(): void
     {
         self::$io->setUserInputs(['no']);
@@ -129,9 +124,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('Welcome to the Project Builder', $output);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function executeAllowsSelectingADifferentTemplateProviderIfTheSelectedProviderProvidesNoTemplates(): void
     {
         self::$io->setUserInputs(['yes', '', 'no']);
@@ -150,9 +143,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('Where can we find the project template?', $output);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function executeAllowsSelectingADifferentTemplateProviderIfTheSelectedProviderShouldBeChanged(): void
     {
         $this->templateProvider->templateSources = [
@@ -172,12 +163,10 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
         $output = self::$io->getOutput();
 
         self::assertStringContainsStringMultipleTimes('Fetching templates from https://www.example.com ...', $output);
-        self::assertStringContainsStringMultipleTimes('Try another template provider.', $output);
+        self::assertStringContainsStringMultipleTimes('Try a different provider (e.g. Satis or GitHub)', $output);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function executeFailsIfProjectGenerationIsAborted(): void
     {
         $this->filesystem->dumpFile($this->targetDirectory.'/foo', 'baz');
@@ -189,9 +178,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function executeHandlesErrorDuringProjectGeneration(): void
     {
         $this->templateProvider->installationPath = $this->targetDirectory;
@@ -210,9 +197,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function executeSkipsOverwriteConfirmationIfForceOptionIsGiven(): void
     {
         $this->filesystem->dumpFile($this->targetDirectory.'/foo', 'baz');
@@ -236,9 +221,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function executeGeneratesNewProjectFromSelectedTemplateAndShowsNumberOfProcessedFiles(): void
     {
         $this->templateProvider->installationPath = $this->targetDirectory;
@@ -262,9 +245,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('Congratulations, your new project was successfully built!', $output);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function executeGeneratesNewProjectFromSelectedTemplateAndShowsAllProcessedFiles(): void
     {
         $this->templateProvider->installationPath = $this->targetDirectory;

@@ -27,6 +27,7 @@ namespace CPSIT\ProjectBuilder\Tests\Template\Provider;
 use Composer\Json;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use ReflectionObject;
 use ReflectionProperty;
 use SebastianFeldmann\Cli;
@@ -61,9 +62,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         $this->acceptInsecureConnections();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function requestCustomOptionsAsksAndAppliesBaseUrl(): void
     {
         self::$io->setUserInputs(['https://example.com']);
@@ -73,40 +72,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         self::assertSame('https://example.com', $this->subject->getUrl());
     }
 
-    /**
-     * @test
-     */
-    public function requestCustomOptionsAsksForAdditionalTransitiveRepositories(): void
-    {
-        self::$io->setUserInputs([
-            'https://example.com',
-            'yes',
-            'vcs',
-            'https://example-2.com',
-            'yes',
-            'composer',
-            'https://example-3.com',
-        ]);
-
-        $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
-
-        $output = self::$io->getOutput();
-        $repositories = $this->fetchConfiguredRepositoriesViaReflection();
-
-        self::assertSame(
-            [
-                ['type' => 'vcs', 'url' => 'https://example-2.com'],
-                ['type' => 'composer', 'url' => 'https://example-3.com'],
-            ],
-            $repositories,
-        );
-        self::assertStringContainsString('Does the repository require additional transitive repositories?', $output);
-        self::assertStringContainsString('Repository added.', $output);
-    }
-
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getUrlThrowsExceptionIfNoUrlIsConfigured(): void
     {
         $this->expectExceptionObject(Src\Exception\InvalidResourceException::create('url'));
@@ -114,9 +80,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         $this->subject->getUrl();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function setUrlAppliesGivenUrl(): void
     {
         $this->subject->setUrl('https://example.org');
@@ -124,20 +88,12 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         self::assertSame('https://example.org', $this->subject->getUrl());
     }
 
-    /**
-     * @test
-     */
-    public function listTemplateSourcesRespectsAllConfiguredRepositories(): void
+    #[Framework\Attributes\Test]
+    public function listTemplateSourcesListsTemplatesFromConfiguredRepository(): void
     {
         $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);
-        $repoB = $this->initializeGitRepository('test/repo-b');
 
-        self::$io->setUserInputs([
-            $repoA,
-            'yes',
-            'vcs',
-            $repoB,
-        ]);
+        self::$io->setUserInputs([$repoA]);
 
         $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
 
@@ -148,19 +104,17 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         self::assertArrayHasKey('test/repo-b', $actual[0]->getPackage()->getRequires());
 
         $this->filesystem->remove($repoA);
-        $this->filesystem->remove($repoB);
     }
 
-    /**
-     * @test
-     */
-    public function installTemplateSourceRespectsAllConfiguredRepositories(): void
+    #[Framework\Attributes\Test]
+    public function installTemplateSourceAsksForAdditionalRepositories(): void
     {
         $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);
         $repoB = $this->initializeGitRepository('test/repo-b');
 
         self::$io->setUserInputs([
             $repoA,
+            '',
             'yes',
             'vcs',
             $repoB,
@@ -179,6 +133,19 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
 
         self::assertDirectoryExists($this->rootPath.'/.build/templates/repo-a');
         self::assertDirectoryExists($this->rootPath.'/.build/templates/repo-b');
+
+        $output = self::$io->getOutput();
+        $repositories = $this->fetchConfiguredRepositoriesViaReflection();
+
+        self::assertSame(
+            [
+                ['type' => 'vcs', 'url' => $repoB],
+            ],
+            $repositories,
+        );
+        self::assertStringContainsString('Unable to install test/repo-a.', $output);
+        self::assertStringContainsString('Are additional transitive packages required?', $output);
+        self::assertStringContainsString('Package added.', $output);
 
         $this->filesystem->remove($repoA);
         $this->filesystem->remove($repoB);

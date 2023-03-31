@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Twig\Filter;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Generator;
+use PHPUnit\Framework;
 use Webmozart\Assert;
 
 use function error_reporting;
@@ -46,9 +47,7 @@ final class SlugifyFilterTest extends Tests\ContainerAwareTestCase
         error_reporting(E_WARNING);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeThrowsAssertionErrorIfGivenInputIsNotAString(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -57,11 +56,8 @@ final class SlugifyFilterTest extends Tests\ContainerAwareTestCase
         ($this->subject)(null);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider invokeReturnsSlugForGivenInputDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('invokeReturnsSlugForGivenInputDataProvider')]
     public function invokeReturnsSlugForGivenInput(?string $separator, string $expected): void
     {
         $actual = ($this->subject)('foo bar', $separator);
@@ -72,7 +68,7 @@ final class SlugifyFilterTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{string|null, string}>
      */
-    public function invokeReturnsSlugForGivenInputDataProvider(): Generator
+    public static function invokeReturnsSlugForGivenInputDataProvider(): Generator
     {
         yield 'default separator' => [null, 'foo-bar'];
         yield 'custom separator' => ['_', 'foo_bar'];

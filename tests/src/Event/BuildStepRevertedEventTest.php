@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Event;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * BuildStepRevertedEventTest.
@@ -50,9 +51,7 @@ final class BuildStepRevertedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getStepReturnsStep(): void
     {
         self::assertSame(
@@ -61,9 +60,7 @@ final class BuildStepRevertedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getBuildResultReturnsBuildResult(): void
     {
         self::assertSame(

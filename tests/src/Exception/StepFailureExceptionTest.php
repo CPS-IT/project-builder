@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Exception;
 
 use CPSIT\ProjectBuilder as Src;
 use Exception;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * StepFailureExceptionTest.
@@ -33,11 +33,9 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class StepFailureExceptionTest extends TestCase
+final class StepFailureExceptionTest extends Framework\TestCase
 {
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function createReturnsExceptionOnStepFailure(): void
     {
         $previous = new Exception();

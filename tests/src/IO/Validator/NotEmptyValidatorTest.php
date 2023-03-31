@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\IO\Validator;
 
 use CPSIT\ProjectBuilder as Src;
 use Generator;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * NotEmptyValidatorTest.
@@ -33,7 +33,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class NotEmptyValidatorTest extends TestCase
+final class NotEmptyValidatorTest extends Framework\TestCase
 {
     private Src\IO\Validator\NotEmptyValidator $subject;
 
@@ -42,11 +42,8 @@ final class NotEmptyValidatorTest extends TestCase
         $this->subject = new Src\IO\Validator\NotEmptyValidator();
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider invokeThrowsExceptionIfGivenInputIsEmptyDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('invokeThrowsExceptionIfGivenInputIsEmptyDataProvider')]
     public function invokeThrowsExceptionIfGivenInputIsEmpty(?string $input): void
     {
         $this->expectException(Src\Exception\ValidationException::class);
@@ -56,9 +53,7 @@ final class NotEmptyValidatorTest extends TestCase
         ($this->subject)($input);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenInputIsAnEmptyStringAndStrictCheckIsEnabled(): void
     {
         $this->expectException(Src\Exception\ValidationException::class);
@@ -69,9 +64,7 @@ final class NotEmptyValidatorTest extends TestCase
         $subject('     ');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeDoesNotThrowExceptionIfGivenInputIsAnEmptyStringAndStrictCheckIsNotEnabled(): void
     {
         $actual = ($this->subject)('     ');
@@ -79,9 +72,7 @@ final class NotEmptyValidatorTest extends TestCase
         self::assertSame('     ', $actual);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeReturnsGivenInputIfGivenInputIsValid(): void
     {
         $actual = ($this->subject)('foo');
@@ -92,7 +83,7 @@ final class NotEmptyValidatorTest extends TestCase
     /**
      * @return Generator<string, array{string|null}>
      */
-    public function invokeThrowsExceptionIfGivenInputIsEmptyDataProvider(): Generator
+    public static function invokeThrowsExceptionIfGivenInputIsEmptyDataProvider(): Generator
     {
         yield 'null' => [null];
         yield 'empty string' => [''];

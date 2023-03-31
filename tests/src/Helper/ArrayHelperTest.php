@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Helper;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 use stdClass;
 
 /**
@@ -33,11 +33,9 @@ use stdClass;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ArrayHelperTest extends TestCase
+final class ArrayHelperTest extends Framework\TestCase
 {
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getValueByPathReturnsValueAtGivenPath(): void
     {
         $object = new stdClass();
@@ -61,9 +59,7 @@ final class ArrayHelperTest extends TestCase
         self::assertNull(Src\Helper\ArrayHelper::getValueByPath($subject, 'foo.baz.boo'));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function setValueByPathSetsValueAtGivenPath(): void
     {
         $subject = [

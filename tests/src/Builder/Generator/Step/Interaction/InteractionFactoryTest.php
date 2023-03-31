@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step\Interaction;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * InteractionFactoryTest.
@@ -41,9 +42,7 @@ final class InteractionFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\Generator\Step\Interaction\InteractionFactory::class);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getThrowsExceptionIfNoInteractionOfGivenTypeIsAvailable(): void
     {
         $this->expectException(Src\Exception\UnsupportedTypeException::class);
@@ -53,9 +52,7 @@ final class InteractionFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject->get('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getReturnsInteractionOfGivenType(): void
     {
         self::assertInstanceOf(

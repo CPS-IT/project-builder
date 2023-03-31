@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Twig\Func;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * DefaultAuthorEmailFunctionTest.
@@ -33,7 +33,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class DefaultAuthorEmailFunctionTest extends TestCase
+final class DefaultAuthorEmailFunctionTest extends Framework\TestCase
 {
     private Tests\Fixtures\DummyRunner $runner;
     private Src\Twig\Func\DefaultAuthorEmailFunction $subject;
@@ -44,9 +44,7 @@ final class DefaultAuthorEmailFunctionTest extends TestCase
         $this->subject = new Src\Twig\Func\DefaultAuthorEmailFunction(new Src\Resource\Local\Git($this->runner));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeReturnsAuthorEmailFromGit(): void
     {
         $this->runner->expectedResults[] = ['foo@bar.de'];

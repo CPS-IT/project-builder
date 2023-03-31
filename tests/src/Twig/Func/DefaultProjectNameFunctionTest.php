@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Twig\Func;
 
 use CPSIT\ProjectBuilder as Src;
 use Generator;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * DefaultProjectNameFunctionTest.
@@ -33,7 +33,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class DefaultProjectNameFunctionTest extends TestCase
+final class DefaultProjectNameFunctionTest extends Framework\TestCase
 {
     private Src\Twig\Func\DefaultProjectNameFunction $subject;
 
@@ -42,11 +42,8 @@ final class DefaultProjectNameFunctionTest extends TestCase
         $this->subject = new Src\Twig\Func\DefaultProjectNameFunction();
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider invokeReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('invokeReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider')]
     public function invokeReturnsTrueIfGivenProjectNameIsTheDefault(?string $projectName, bool $expected): void
     {
         $actual = ($this->subject)($projectName);
@@ -57,7 +54,7 @@ final class DefaultProjectNameFunctionTest extends TestCase
     /**
      * @return Generator<string, array{string|null, bool}>
      */
-    public function invokeReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider(): Generator
+    public static function invokeReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider(): Generator
     {
         yield 'null' => [null, true];
         yield 'basic' => ['basic', true];

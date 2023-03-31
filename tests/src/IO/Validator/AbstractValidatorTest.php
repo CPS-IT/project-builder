@@ -21,25 +21,33 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Tests\Exception;
+namespace CPSIT\ProjectBuilder\Tests\IO\Validator;
 
 use CPSIT\ProjectBuilder as Src;
+use CPSIT\ProjectBuilder\Tests;
 use PHPUnit\Framework;
 
 /**
- * StringConversionExceptionTest.
+ * AbstractValidatorTest.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class StringConversionExceptionTest extends Framework\TestCase
+final class AbstractValidatorTest extends Framework\TestCase
 {
     #[Framework\Attributes\Test]
-    public function forUnmatchedStringReturnsExceptionForUnmatchedString(): void
+    public function constructorThrowsExceptionIfInvalidOptionsAreGiven(): void
     {
-        $actual = Src\Exception\StringConversionException::forUnmatchedString('foo');
+        $this->expectExceptionObject(
+            Src\Exception\MisconfiguredValidatorException::forUnexpectedOptions(
+                Tests\Fixtures\ModifyingValidator::getType(),
+                ['foo', 'baz'],
+            ),
+        );
 
-        self::assertSame('Cannot convert "foo" since it seems not to be supported for conversion.', $actual->getMessage());
-        self::assertSame(1653317297, $actual->getCode());
+        new Tests\Fixtures\ModifyingValidator([
+            'foo' => true,
+            'baz' => false,
+        ]);
     }
 }
