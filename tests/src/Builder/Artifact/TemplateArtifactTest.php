@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Builder\Artifact;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 use function json_encode;
 
@@ -34,7 +34,7 @@ use function json_encode;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class TemplateArtifactTest extends TestCase
+final class TemplateArtifactTest extends Framework\TestCase
 {
     private Src\Builder\Artifact\TemplateArtifact $subject;
 
@@ -57,9 +57,7 @@ final class TemplateArtifactTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function artifactIsJsonSerializable(): void
     {
         $expected = [

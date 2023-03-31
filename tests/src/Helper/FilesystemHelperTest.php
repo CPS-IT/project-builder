@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Helper;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 use function dirname;
 use function putenv;
@@ -35,11 +35,9 @@ use function putenv;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class FilesystemHelperTest extends TestCase
+final class FilesystemHelperTest extends Framework\TestCase
 {
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function createFileObjectReturnsFileObjectForGivenFile(): void
     {
         $baseDir = __DIR__;
@@ -52,20 +50,18 @@ final class FilesystemHelperTest extends TestCase
         self::assertSame($baseDir.'/'.$relativePathname, $actual->getPathname());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getNewTemporaryDirectoryReturnsUniqueTemporaryDirectory(): void
     {
+        $prefix = sys_get_temp_dir();
         $actual = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
 
+        self::assertNotEmpty($prefix);
         self::assertDirectoryDoesNotExist($actual);
-        self::assertStringStartsWith(sys_get_temp_dir(), $actual);
+        self::assertStringStartsWith($prefix, $actual);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getProjectRootPathReturnsProjectRootPathFromEnvironmentVariable(): void
     {
         $projectRootPath = __DIR__.'/..';
@@ -77,17 +73,13 @@ final class FilesystemHelperTest extends TestCase
         putenv('PROJECT_BUILDER_ROOT_PATH');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getProjectRootPathReturnsProjectRootPathFromComposerPackageArtifact(): void
     {
         self::assertSame(dirname(__DIR__, 3), Src\Helper\FilesystemHelper::getProjectRootPath());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function resolveRelativePathReturnsGivenPathIfItIsAnAbsolutePath(): void
     {
         $path = '/foo/baz';
@@ -95,9 +87,7 @@ final class FilesystemHelperTest extends TestCase
         self::assertSame($path, Src\Helper\FilesystemHelper::resolveRelativePath($path));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function resolveRelativePathMakesRelativePathAbsolute(): void
     {
         $path = 'foo';

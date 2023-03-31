@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\IO\Validator;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * UrlValidatorTest.
@@ -32,7 +32,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class UrlValidatorTest extends TestCase
+final class UrlValidatorTest extends Framework\TestCase
 {
     private Src\IO\Validator\UrlValidator $subject;
 
@@ -41,9 +41,7 @@ final class UrlValidatorTest extends TestCase
         $this->subject = new Src\IO\Validator\UrlValidator();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeReturnsNullOnNullInput(): void
     {
         $actual = ($this->subject)(null);
@@ -51,9 +49,7 @@ final class UrlValidatorTest extends TestCase
         self::assertNull($actual);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenInputIsNotAValidEmailAddress(): void
     {
         $this->expectException(Src\Exception\ValidationException::class);
@@ -63,9 +59,7 @@ final class UrlValidatorTest extends TestCase
         ($this->subject)('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeReturnsGivenInputIfGivenInputIsValid(): void
     {
         $actual = ($this->subject)('https://www.example.com');

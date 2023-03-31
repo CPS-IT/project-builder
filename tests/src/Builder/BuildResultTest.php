@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use Symfony\Component\Finder;
 
 use function basename;
@@ -52,26 +53,20 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getInstructionsReturnsInstructions(): void
     {
         self::assertSame($this->instructions, $this->subject->getInstructions());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function isMirroredReturnsMirrorState(): void
     {
         self::assertFalse($this->subject->isMirrored());
         self::assertTrue($this->subject->setMirrored(true)->isMirrored());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getArtifactFileReturnsArtifactFile(): void
     {
         self::assertNull($this->subject->getArtifactFile());
@@ -81,9 +76,7 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
         self::assertSame($artifactFile, $this->subject->setArtifactFile($artifactFile)->getArtifactFile());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getAppliedStepsReturnsAppliedSteps(): void
     {
         $step = new Tests\Fixtures\DummyStep();
@@ -95,9 +88,7 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
         self::assertSame([$step::getType() => $step], $this->subject->getAppliedSteps());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function isStepAppliedTestsWhetherStepIsApplied(): void
     {
         $step = new Tests\Fixtures\DummyStep();
@@ -114,9 +105,7 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
         ));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function applyStepAddsStepToAppliedSteps(): void
     {
         $step = new Tests\Fixtures\DummyStep();
@@ -128,9 +117,7 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
         self::assertTrue($this->subject->isStepApplied($step));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getProcessedFilesReturnsProcessedFiles(): void
     {
         self::assertSame([], $this->subject->getProcessedFiles());
@@ -148,17 +135,13 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
         self::assertSame([$barFile], $this->subject->getProcessedFiles('/bar'));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getWrittenDirectoryReturnsTemporaryDirectoryIfBuildWasNotMirrored(): void
     {
         self::assertSame($this->instructions->getTemporaryDirectory(), $this->subject->getWrittenDirectory());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getWrittenDirectoryReturnsTargetDirectoryIfBuildWasMirrored(): void
     {
         $this->subject->setMirrored(true);

@@ -24,7 +24,8 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Builder\Artifact\Migration;
 
 use CPSIT\ProjectBuilder\Tests;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
+use PHPUnit\Framework\Attributes\Test;
 
 use function strrev;
 
@@ -34,7 +35,7 @@ use function strrev;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class BaseVersionTest extends TestCase
+final class BaseVersionTest extends Framework\TestCase
 {
     private Tests\Fixtures\DummyVersion $subject;
 
@@ -54,9 +55,7 @@ final class BaseVersionTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function remapValueCanRemapPathToOtherPath(): void
     {
         $this->subject->remapArguments = [
@@ -72,9 +71,7 @@ final class BaseVersionTest extends TestCase
         self::assertSame($expected, $this->subject->migrate($this->artifact));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function remapValueCanRemapPathToOtherValue(): void
     {
         $this->subject->remapArguments = [
@@ -93,9 +90,7 @@ final class BaseVersionTest extends TestCase
         self::assertSame($expected, $this->subject->migrate($this->artifact));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function remapValueCanRemapPathToOtherValueFromCallable(): void
     {
         $this->subject->remapArguments = [
@@ -114,9 +109,7 @@ final class BaseVersionTest extends TestCase
         self::assertSame($expected, $this->subject->migrate($this->artifact));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function remapValueCanRemapPathToOtherPathAndValue(): void
     {
         $this->subject->remapArguments = [

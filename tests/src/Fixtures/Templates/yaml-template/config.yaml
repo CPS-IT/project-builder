@@ -1,3 +1,5 @@
+$schema: https://raw.githubusercontent.com/CPS-IT/project-builder/main/resources/config.schema.json
+
 name: Yaml
 
 steps:

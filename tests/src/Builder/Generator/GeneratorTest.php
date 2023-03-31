@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator;
 use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use Symfony\Component\Console;
 use Symfony\Component\Filesystem;
 
@@ -50,9 +51,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         $this->targetDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function runRunsThroughAllConfiguredSteps(): void
     {
         self::$io->setUserInputs(['foo']);
@@ -89,9 +88,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[6]);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function runRevertsAppliedStepsOnStepFailure(): void
     {
         $exception = null;
@@ -120,9 +117,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertInstanceOf(Src\Event\BuildStepRevertedEvent::class, $this->eventListener->dispatchedEvents[2]);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function runRevertsAppliedStepsAndExistsIfStoppableStepFailed(): void
     {
         self::$io->setUserInputs(['foo', 'no']);
@@ -133,9 +128,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertFalse($actual->isMirrored());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function dumpArtifactDumpsBuildArtifact(): void
     {
         self::$io->setUserInputs(['foo']);
@@ -147,9 +140,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertTrue($result->isStepApplied('dumpBuildArtifact'));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function cleanUpCleansUpRemainingFilesInTargetDirectory(): void
     {
         self::$io->setUserInputs(['foo']);

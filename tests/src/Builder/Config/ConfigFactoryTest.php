@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Builder\Config;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 use function dirname;
 use function ucfirst;
@@ -35,7 +35,7 @@ use function ucfirst;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ConfigFactoryTest extends TestCase
+final class ConfigFactoryTest extends Framework\TestCase
 {
     private Src\Builder\Config\ConfigFactory $subject;
 
@@ -44,9 +44,7 @@ final class ConfigFactoryTest extends TestCase
         $this->subject = Src\Builder\Config\ConfigFactory::create();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function buildFromFileThrowsExceptionIfFileContentsAreInvalid(): void
     {
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
@@ -55,9 +53,7 @@ final class ConfigFactoryTest extends TestCase
         $this->subject->buildFromFile(dirname(__DIR__, 2).'/Fixtures/Files/invalid-config.yaml', 'foo');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function buildFromFileReturnsHydratedConfigObject(): void
     {
         $createConfig = fn (string $type): Src\Builder\Config\Config => new Src\Builder\Config\Config(
@@ -136,9 +132,7 @@ final class ConfigFactoryTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function buildFromStringThrowsExceptionIfGivenContentIsInvalid(): void
     {
         $this->expectException(Src\Exception\InvalidConfigurationException::class);

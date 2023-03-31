@@ -28,6 +28,7 @@ use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Exception;
 use Generator;
+use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
 
 use function implode;
@@ -47,9 +48,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get('app.messenger');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function selectProviderCanHandlePackagistProvider(): void
     {
         $packagistProvider = new Src\Template\Provider\PackagistProvider(
@@ -62,9 +61,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         self::assertSame($packagistProvider, $this->subject->selectProvider([$packagistProvider]));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function selectProviderCanHandleCustomComposerProvider(): void
     {
         $customProvider = new Src\Template\Provider\ComposerProvider(
@@ -78,9 +75,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         self::assertSame('https://www.example.com', $customProvider->getUrl());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function selectTemplateSourceThrowsExceptionIfGivenProviderListsNoTemplateSources(): void
     {
         $provider = new Tests\Fixtures\DummyProvider();
@@ -90,11 +85,8 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         $this->subject->selectTemplateSource($provider);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider selectTemplateSourceReturnsSelectedTemplateSourceDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('selectTemplateSourceReturnsSelectedTemplateSourceDataProvider')]
     public function selectTemplateSourceReturnsSelectedTemplateSource(
         Package\PackageInterface $package,
         string $expected,
@@ -109,11 +101,8 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString($expected, self::$io->getOutput());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider confirmTemplateSourceRetryAsksForConfirmationAndReturnsResultDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('confirmTemplateSourceRetryAsksForConfirmationAndReturnsResultDataProvider')]
     public function confirmTemplateSourceRetryAsksForConfirmationAndReturnsResult(string $input, bool $expected): void
     {
         $exception = new Exception('Something went wrong.');
@@ -136,7 +125,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{Package\PackageInterface, string}>
      */
-    public function selectTemplateSourceReturnsSelectedTemplateSourceDataProvider(): Generator
+    public static function selectTemplateSourceReturnsSelectedTemplateSourceDataProvider(): Generator
     {
         $package = new Package\Package('foo/baz', '1.0.0', '1.0.0');
 
@@ -154,7 +143,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{string, bool}>
      */
-    public function confirmTemplateSourceRetryAsksForConfirmationAndReturnsResultDataProvider(): Generator
+    public static function confirmTemplateSourceRetryAsksForConfirmationAndReturnsResultDataProvider(): Generator
     {
         yield 'default' => ['', true];
         yield 'yes' => ['yes', true];

@@ -115,6 +115,9 @@ final class ConfigFactory
         // Enforce custom identifier
         $parsedContent['identifier'] = $identifier;
 
+        // Unset $schema property
+        unset($parsedContent['$schema']);
+
         return Mapper\Source\Source::array($parsedContent);
     }
 
@@ -128,6 +131,9 @@ final class ConfigFactory
         if (!($parsedContent instanceof stdClass)) {
             throw Exception\InvalidConfigurationException::forSource($content);
         }
+
+        // Unset $schema property
+        unset($parsedContent->{'$schema'});
 
         return $parsedContent;
     }

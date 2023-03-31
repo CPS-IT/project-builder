@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Exception;
 
 use CPSIT\ProjectBuilder as Src;
 use Opis\JsonSchema;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * InvalidArtifactExceptionTest.
@@ -33,11 +33,9 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class InvalidArtifactExceptionTest extends TestCase
+final class InvalidArtifactExceptionTest extends Framework\TestCase
 {
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forFileReturnExceptionForFile(): void
     {
         $actual = Src\Exception\InvalidArtifactException::forFile('foo');
@@ -46,9 +44,7 @@ final class InvalidArtifactExceptionTest extends TestCase
         self::assertSame(1677141460, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forPathReturnExceptionForPath(): void
     {
         $actual = Src\Exception\InvalidArtifactException::forPath('foo.baz');
@@ -57,9 +53,7 @@ final class InvalidArtifactExceptionTest extends TestCase
         self::assertSame(1677140440, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forInvalidVersionReturnExceptionForInvalidVersion(): void
     {
         $actual = Src\Exception\InvalidArtifactException::forInvalidVersion();
@@ -68,9 +62,7 @@ final class InvalidArtifactExceptionTest extends TestCase
         self::assertSame(1677141758, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forValidationErrorsReturnsExceptionForGivenValidationErrors(): void
     {
         $validationErrors = $this->generateValidationErrors();

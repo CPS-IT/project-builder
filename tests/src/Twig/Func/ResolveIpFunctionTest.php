@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Twig\Func;
 
 use CPSIT\ProjectBuilder as Src;
 use Generator;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 use Webmozart\Assert;
 
 /**
@@ -34,7 +34,7 @@ use Webmozart\Assert;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ResolveIpFunctionTest extends TestCase
+final class ResolveIpFunctionTest extends Framework\TestCase
 {
     private Src\Twig\Func\ResolveIpFunction $subject;
 
@@ -43,9 +43,7 @@ final class ResolveIpFunctionTest extends TestCase
         $this->subject = new Src\Twig\Func\ResolveIpFunction();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenHostnameIsNull(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -54,9 +52,7 @@ final class ResolveIpFunctionTest extends TestCase
         ($this->subject)();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeReturnsNullIfUrlCannotBeResolved(): void
     {
         $actual = ($this->subject)('https://');
@@ -64,9 +60,7 @@ final class ResolveIpFunctionTest extends TestCase
         self::assertNull($actual);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeReturnsNullIfIpAddressCannotBeResolved(): void
     {
         $actual = ($this->subject)('foo.bar');
@@ -74,11 +68,8 @@ final class ResolveIpFunctionTest extends TestCase
         self::assertNull($actual);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider invokeReturnsResolvedIpAddressDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('invokeReturnsResolvedIpAddressDataProvider')]
     public function invokeReturnsResolvedIpAddress(string $hostname): void
     {
         $actual = ($this->subject)($hostname);
@@ -90,7 +81,7 @@ final class ResolveIpFunctionTest extends TestCase
     /**
      * @return Generator<string, array{string}>
      */
-    public function invokeReturnsResolvedIpAddressDataProvider(): Generator
+    public static function invokeReturnsResolvedIpAddressDataProvider(): Generator
     {
         yield 'hostname' => ['www.example.com'];
         yield 'url' => ['https://www.example.com'];

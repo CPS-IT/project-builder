@@ -9,7 +9,7 @@
 project = "Project Builder"
 copyright = "since 2022 by coding. powerful. systems. CPS GmbH"
 author = "Elias Häußler, Martin Adler"
-release = "1.7.4"
+release = "2.0.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -31,7 +31,6 @@ templates_path = ["_templates"]
 html_static_path = ["_static"]
 html_css_files = [
     "css/sidebar.css"
-#    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
 ]
 
 # -- Options for HTML output -------------------------------------------------

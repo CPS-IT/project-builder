@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Exception;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * MisconfiguredValidatorExceptionTest.
@@ -32,11 +32,9 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class MisconfiguredValidatorExceptionTest extends TestCase
+final class MisconfiguredValidatorExceptionTest extends Framework\TestCase
 {
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forUnexpectedOptionReturnsExceptionForUnexpectedOption(): void
     {
         $actual = Src\Exception\MisconfiguredValidatorException::forUnexpectedOption('foo', 'baz');
@@ -45,9 +43,7 @@ final class MisconfiguredValidatorExceptionTest extends TestCase
         self::assertSame(1673886742, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forUnexpectedOptionsReturnsExceptionForUnexpectedOptions(): void
     {
         $actual = Src\Exception\MisconfiguredValidatorException::forUnexpectedOptions('foo', ['baz', 'boo', 'dummy']);

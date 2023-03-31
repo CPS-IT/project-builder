@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step;
 use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
 
@@ -66,9 +67,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         $this->rootPackage = Src\Resource\Local\Composer::createComposer(dirname(__DIR__, 5))->getPackage();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function runDoesNothingIfArtifactWasNotGenerated(): void
     {
         self::assertTrue($this->subject->run($this->buildResult));
@@ -76,9 +75,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         self::assertFileDoesNotExist($this->artifactFile->getPathname());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function runDumpsArtifact(): void
     {
         $this->buildResult->setArtifactFile($this->artifactFile);
@@ -95,9 +92,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function revertDoesNothingIfArtifactWasNotGenerated(): void
     {
         $artifactPath = $this->artifactFile->getPathname();
@@ -113,9 +108,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         self::assertStringEqualsFile($artifactPath, 'test');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function revertRemovesDumpedArtifact(): void
     {
         $artifactPath = $this->artifactFile->getPathname();
@@ -133,9 +126,7 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         self::assertFileDoesNotExist($artifactPath);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function supportsReturnsFalse(): void
     {
         self::assertFalse($this->subject::supports('foo'));

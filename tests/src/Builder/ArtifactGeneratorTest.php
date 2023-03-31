@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder;
 use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use Symfony\Component\Finder;
 
 use function dirname;
@@ -59,9 +60,7 @@ final class ArtifactGeneratorTest extends Tests\ContainerAwareTestCase
         $this->rootPackage = Src\Resource\Local\Composer::createComposer(dirname(__DIR__, 3))->getPackage();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function buildGeneratesArtifact(): void
     {
         $writtenDirectory = $this->buildResult->getWrittenDirectory();

@@ -25,7 +25,7 @@ It requires Composer and PHP to be installed on your computer. If you
 don't have them installed, you can still use the alternative method with
 Docker.
 
-```{button-ref} usage/composer.md
+```{button-ref} usage/composer
 :ref-type: myst
 :color: light
 :expand:
@@ -57,7 +57,7 @@ installed or if any of the installed versions are outdated.
 
 The only requirement with this method is a local Docker installation.
 
-```{button-ref} usage/docker.md
+```{button-ref} usage/docker
 :ref-type: myst
 :color: primary
 :outline:

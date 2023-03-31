@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Template\Provider;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * ProviderFactoryTest.
@@ -41,9 +42,7 @@ final class ProviderFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Template\Provider\ProviderFactory::class);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getThrowsExceptionIfNoProviderOfGivenTypeIsAvailable(): void
     {
         $this->expectExceptionObject(Src\Exception\UnknownTemplateProviderException::create('foo'));
@@ -51,9 +50,7 @@ final class ProviderFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject->get('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getReturnsProviderOfGivenType(): void
     {
         self::assertInstanceOf(
@@ -70,9 +67,7 @@ final class ProviderFactoryTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getAllReturnsAllProviders(): void
     {
         $actual = $this->subject->getAll();

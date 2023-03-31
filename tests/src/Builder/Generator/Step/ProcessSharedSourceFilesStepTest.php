@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * ProcessSharedSourceFilesStepTest.
@@ -48,9 +49,7 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function runProcessesSourceFilesAndAppliesStep(): void
     {
         $actual = $this->subject->run($this->result);
@@ -67,9 +66,7 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
         self::assertTrue($this->result->isStepApplied($this->subject));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function revertRemovesProcessedFiles(): void
     {
         $this->subject->run($this->result);
