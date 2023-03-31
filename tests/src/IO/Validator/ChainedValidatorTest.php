@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\IO\Validator;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * ChainedValidatorTest.
@@ -33,7 +33,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ChainedValidatorTest extends TestCase
+final class ChainedValidatorTest extends Framework\TestCase
 {
     private Src\IO\Validator\ChainedValidator $subject;
 
@@ -46,9 +46,7 @@ final class ChainedValidatorTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function constructorAddsGivenValidators(): void
     {
         $emailValidator = new Src\IO\Validator\EmailValidator();
@@ -60,9 +58,7 @@ final class ChainedValidatorTest extends TestCase
         self::assertFalse($this->subject->has($urlValidator));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeInvokesAllValidators(): void
     {
         $this->expectException(Src\Exception\ValidationException::class);
@@ -72,9 +68,7 @@ final class ChainedValidatorTest extends TestCase
         ($this->subject)(null);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function invokeInvokesAllValidatorsAndReturnsModifiedInput(): void
     {
         $actual = ($this->subject)('foo@bar.de');
@@ -82,9 +76,7 @@ final class ChainedValidatorTest extends TestCase
         self::assertSame('FOO@BAR.DE', $actual);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function removeRemovesValidator(): void
     {
         $validator = new Src\IO\Validator\EmailValidator();
@@ -93,17 +85,13 @@ final class ChainedValidatorTest extends TestCase
         self::assertFalse($this->subject->remove($validator)->has($validator));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getTypeReturnsType(): void
     {
         self::assertSame('chained', $this->subject::getType());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function supportsReturnsFalse(): void
     {
         self::assertFalse($this->subject::supports('email'));

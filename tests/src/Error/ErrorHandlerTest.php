@@ -30,6 +30,7 @@ use CuyZ\Valinor\Mapper;
 use CuyZ\Valinor\MapperBuilder;
 use Exception;
 use Generator;
+use PHPUnit\Framework;
 use Symfony\Component\Console;
 use Throwable;
 
@@ -49,12 +50,10 @@ final class ErrorHandlerTest extends Tests\ContainerAwareTestCase
     }
 
     /**
-     * @test
-     *
-     * @dataProvider handleExceptionWritesFormattedErrorMessageDataProvider
-     *
      * @param list<string> $expectedOutput
      */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('handleExceptionWritesFormattedErrorMessageDataProvider')]
     public function handleExceptionWritesFormattedErrorMessage(Throwable $exception, array $expectedOutput): void
     {
         $this->subject->handleException($exception);
@@ -66,9 +65,7 @@ final class ErrorHandlerTest extends Tests\ContainerAwareTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function handleExceptionThrowsExceptionIfOutputIsVerbose(): void
     {
         $io = new IO\BufferIO('', Console\Output\OutputInterface::VERBOSITY_VERBOSE);
@@ -83,7 +80,7 @@ final class ErrorHandlerTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{Throwable, list<string>}>
      */
-    public function handleExceptionWritesFormattedErrorMessageDataProvider(): Generator
+    public static function handleExceptionWritesFormattedErrorMessageDataProvider(): Generator
     {
         yield 'exception' => [
             new Exception('Something went wrong.'),

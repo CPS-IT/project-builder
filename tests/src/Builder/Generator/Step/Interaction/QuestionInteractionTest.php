@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step\Interaction;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * QuestionInteractionTest.
@@ -43,9 +44,7 @@ final class QuestionInteractionTest extends Tests\ContainerAwareTestCase
         $this->instructions = new Src\Builder\BuildInstructions(self::$config, 'foo');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function interactUsesTruAndFalseAsDefaultYesNoValues(): void
     {
         $interactionSubject = $this->buildInteractionSubject();
@@ -56,9 +55,7 @@ final class QuestionInteractionTest extends Tests\ContainerAwareTestCase
         self::assertFalse($this->subject->interact($interactionSubject, $this->instructions));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function interactReturnsValueFromMatchingOption(): void
     {
         $interactionSubject = $this->buildInteractionSubject([
@@ -72,9 +69,7 @@ final class QuestionInteractionTest extends Tests\ContainerAwareTestCase
         self::assertSame('bar', $this->subject->interact($interactionSubject, $this->instructions));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function interactUsesFallbackConditionIfOnlyOptionValueIsConfigured(): void
     {
         $interactionSubject = $this->buildInteractionSubject([

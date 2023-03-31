@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Builder\Config;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 use function dirname;
 
@@ -34,7 +34,7 @@ use function dirname;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ConfigReaderTest extends TestCase
+final class ConfigReaderTest extends Framework\TestCase
 {
     private Src\Builder\Config\ConfigReader $subject;
 
@@ -45,9 +45,7 @@ final class ConfigReaderTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function createCreatesTemplateDirectoryIfItDoesNotExist(): void
     {
         $templateDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
@@ -59,9 +57,7 @@ final class ConfigReaderTest extends TestCase
         self::assertDirectoryExists($templateDirectory);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function readConfigThrowsExceptionIfTemplateHasNoComposerJson(): void
     {
         $templateDirectory = dirname(__DIR__, 2).'/Fixtures';
@@ -74,9 +70,7 @@ final class ConfigReaderTest extends TestCase
         $subject->readConfig('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function readConfigThrowsExceptionIfTemplateWithGivenIdentifierDoesNotExist(): void
     {
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
@@ -86,9 +80,7 @@ final class ConfigReaderTest extends TestCase
         $this->subject->readConfig('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function readConfigThrowsExceptionIfTemplateContainsMultipleConfigFiles(): void
     {
         $subject = Src\Builder\Config\ConfigReader::create(
@@ -102,9 +94,7 @@ final class ConfigReaderTest extends TestCase
         $subject->readConfig('cpsit/project-builder-template-invalid');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function readConfigReturnsHydratedConfigObject(): void
     {
         $actual = $this->subject->readConfig('cpsit/project-builder-template-yaml');
@@ -116,9 +106,7 @@ final class ConfigReaderTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function hasConfigChecksWhetherConfigWithGivenIdentifierExists(): void
     {
         self::assertTrue($this->subject->hasConfig('cpsit/project-builder-template-json'));
@@ -126,9 +114,7 @@ final class ConfigReaderTest extends TestCase
         self::assertFalse($this->subject->hasConfig('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function listTemplateListsAllAvailableTemplates(): void
     {
         $expected = [

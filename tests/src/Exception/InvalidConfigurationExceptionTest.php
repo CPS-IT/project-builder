@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Exception;
 
 use CPSIT\ProjectBuilder as Src;
 use Opis\JsonSchema;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 use function dirname;
 
@@ -35,11 +35,9 @@ use function dirname;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class InvalidConfigurationExceptionTest extends TestCase
+final class InvalidConfigurationExceptionTest extends Framework\TestCase
 {
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function createReturnsExceptionForInvalidConfiguration(): void
     {
         $actual = Src\Exception\InvalidConfigurationException::create('foo');
@@ -48,9 +46,7 @@ final class InvalidConfigurationExceptionTest extends TestCase
         self::assertSame(1652952150, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forAmbiguousFilesReturnsExceptionForAmbiguousFiles(): void
     {
         $actual = Src\Exception\InvalidConfigurationException::forAmbiguousFiles('foo', 'baz');
@@ -62,9 +58,7 @@ final class InvalidConfigurationExceptionTest extends TestCase
         self::assertSame(1652950002, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forFileReturnsExceptionForFile(): void
     {
         $actual = Src\Exception\InvalidConfigurationException::forFile('foo');
@@ -73,9 +67,7 @@ final class InvalidConfigurationExceptionTest extends TestCase
         self::assertSame(1652950625, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forSourceReturnsExceptionForSource(): void
     {
         $actual = Src\Exception\InvalidConfigurationException::forSource('foo');
@@ -84,9 +76,7 @@ final class InvalidConfigurationExceptionTest extends TestCase
         self::assertSame(1653058480, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forConflictingPropertiesReturnsExceptionForConflictingProperties(): void
     {
         $actual = Src\Exception\InvalidConfigurationException::forConflictingProperties('foo', 'baz', 'boo');
@@ -95,9 +85,7 @@ final class InvalidConfigurationExceptionTest extends TestCase
         self::assertSame(1652956541, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forValidationErrorsReturnsExceptionWithoutValidationErrors(): void
     {
         $actual = Src\Exception\InvalidConfigurationException::forValidationErrors(null);
@@ -106,9 +94,7 @@ final class InvalidConfigurationExceptionTest extends TestCase
         self::assertSame(1653303396, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forValidationErrorsReturnsExceptionForGivenValidationErrors(): void
     {
         $validationErrors = $this->generateValidationErrors();
@@ -123,9 +109,7 @@ final class InvalidConfigurationExceptionTest extends TestCase
         self::assertSame(1653303396, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forUnknownFileReturnsExceptionForUnknownFile(): void
     {
         $actual = Src\Exception\InvalidConfigurationException::forUnknownFile('foo');
@@ -134,9 +118,7 @@ final class InvalidConfigurationExceptionTest extends TestCase
         self::assertSame(1653424186, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forUnknownTemplateSourceReturnsExceptionForUnknownTemplateSource(): void
     {
         $actual = Src\Exception\InvalidConfigurationException::forUnknownTemplateSource('foo');
@@ -145,9 +127,7 @@ final class InvalidConfigurationExceptionTest extends TestCase
         self::assertSame(1673458682, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forMissingManifestFileReturnsExceptionForMissingManifestFile(): void
     {
         $actual = Src\Exception\InvalidConfigurationException::forMissingManifestFile('foo');

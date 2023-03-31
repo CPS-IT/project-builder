@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Exception;
 
 use CPSIT\ProjectBuilder as Src;
 use Nyholm\Psr7;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * HttpExceptionTest.
@@ -33,11 +33,9 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class HttpExceptionTest extends TestCase
+final class HttpExceptionTest extends Framework\TestCase
 {
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forInvalidResponseReturnsExceptionForInvalidResponse(): void
     {
         $request = new Psr7\Request('GET', 'https://www.example.com');

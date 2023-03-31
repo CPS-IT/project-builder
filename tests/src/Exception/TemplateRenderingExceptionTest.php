@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Exception;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * TemplateRenderingExceptionTest.
@@ -32,11 +32,9 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class TemplateRenderingExceptionTest extends TestCase
+final class TemplateRenderingExceptionTest extends Framework\TestCase
 {
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forMissingTemplateReturnsExceptionForMissingTemplate(): void
     {
         $actual = Src\Exception\TemplateRenderingException::forMissingTemplate('foo');
@@ -45,9 +43,7 @@ final class TemplateRenderingExceptionTest extends TestCase
         self::assertSame(1653901911, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forUndefinedTemplateReturnsExceptionForUndefinedTemplate(): void
     {
         $actual = Src\Exception\TemplateRenderingException::forUndefinedTemplate();

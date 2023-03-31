@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Exception;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * FilesystemFailureExceptionTest.
@@ -32,11 +32,9 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class FilesystemFailureExceptionTest extends TestCase
+final class FilesystemFailureExceptionTest extends Framework\TestCase
 {
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forUnresolvableWorkingDirectoryReturnsExceptionForUnresolvableWorkingDirectory(): void
     {
         $actual = Src\Exception\FilesystemFailureException::forUnresolvableWorkingDirectory();

@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Naming;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Generator;
+use PHPUnit\Framework;
 use UnhandledMatchError;
 use Webmozart\Assert;
 
@@ -49,9 +50,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         $this->subject = new Src\Naming\NameVariantBuilder($this->instructions);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function createVariantThrowsExceptionIfGivenVariantIsUnsupported(): void
     {
         $this->expectException(UnhandledMatchError::class);
@@ -60,9 +59,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         $this->subject->createVariant('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function createShortVariantThrowsExceptionIfCustomerNameIsNotAvailable(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -71,11 +68,8 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         $this->subject->createShortVariant();
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider createShortVariantReturnsShortVariantDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('createShortVariantReturnsShortVariantDataProvider')]
     public function createShortVariantReturnsShortVariant(string $customerName, ?string $projectName, string $expected): void
     {
         $this->instructions->addTemplateVariable('project', [
@@ -86,9 +80,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         self::assertSame($expected, $this->subject->createShortVariant());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function createShortVariantRespectsGivenStringCase(): void
     {
         $this->instructions->addTemplateVariable('project.customer_name', 'foo bar');
@@ -96,9 +88,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         self::assertSame('FooBar', $this->subject->createShortVariant(Src\StringCase::UpperCamel->value));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function createAbbreviationVariantThrowsExceptionIfCustomerNameIsNotAvailable(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -107,11 +97,8 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         $this->subject->createAbbreviationVariant();
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider createAbbreviationVariantReturnsAbbreviationVariantDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('createAbbreviationVariantReturnsAbbreviationVariantDataProvider')]
     public function createAbbreviationVariantReturnsAbbreviationVariant(string $customerName, ?string $projectName, string $expected): void
     {
         $this->instructions->addTemplateVariable('project', [
@@ -122,9 +109,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         self::assertSame($expected, $this->subject->createAbbreviationVariant());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function createAbbreviationVariantRespectsGivenStringCase(): void
     {
         $this->instructions->addTemplateVariable('project.customer_abbreviation', 'foo bar');
@@ -132,9 +117,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         self::assertSame('FooBar', $this->subject->createAbbreviationVariant(Src\StringCase::UpperCamel->value));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function createFullVariantThrowsExceptionIfCustomerNameIsNotAvailable(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -143,11 +126,8 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         $this->subject->createFullVariant();
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider createFullVariantReturnsFullVariantDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('createFullVariantReturnsFullVariantDataProvider')]
     public function createFullVariantReturnsFullVariant(string $customerName, ?string $projectName, string $expected): void
     {
         $this->instructions->addTemplateVariable('project', [
@@ -158,9 +138,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         self::assertSame($expected, $this->subject->createFullVariant());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function createFullVariantRespectsGivenStringCase(): void
     {
         $this->instructions->addTemplateVariable('project', [
@@ -171,11 +149,8 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
         self::assertSame('FooBarBar', $this->subject->createFullVariant(Src\StringCase::UpperCamel->value));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider isDefaultProjectNameReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('isDefaultProjectNameReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider')]
     public function isDefaultProjectNameReturnsTrueIfGivenProjectNameIsTheDefault(?string $projectName, bool $expected): void
     {
         self::assertSame($expected, $this->subject::isDefaultProjectName($projectName));
@@ -184,7 +159,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{string, string|null, string}>
      */
-    public function createShortVariantReturnsShortVariantDataProvider(): Generator
+    public static function createShortVariantReturnsShortVariantDataProvider(): Generator
     {
         yield 'no project name' => ['foo', null, 'foo'];
         yield 'default project name' => ['foo', 'basic', 'foo'];
@@ -194,7 +169,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{string, string|null, string}>
      */
-    public function createAbbreviationVariantReturnsAbbreviationVariantDataProvider(): Generator
+    public static function createAbbreviationVariantReturnsAbbreviationVariantDataProvider(): Generator
     {
         yield 'no project name' => ['foo', null, 'foo'];
         yield 'default project name' => ['foo', 'basic', 'foo'];
@@ -204,7 +179,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{string, string|null, string}>
      */
-    public function createFullVariantReturnsFullVariantDataProvider(): Generator
+    public static function createFullVariantReturnsFullVariantDataProvider(): Generator
     {
         yield 'no project name' => ['foo', null, 'Foo'];
         yield 'default project name' => ['foo', 'basic', 'Foo'];
@@ -214,7 +189,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
     /**
      * @return Generator<string, array{string|null, bool}>
      */
-    public function isDefaultProjectNameReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider(): Generator
+    public static function isDefaultProjectNameReturnsTrueIfGivenProjectNameIsTheDefaultDataProvider(): Generator
     {
         yield 'null' => [null, true];
         yield 'basic' => ['basic', true];

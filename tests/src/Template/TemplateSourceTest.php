@@ -27,7 +27,7 @@ use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Generator;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * TemplateSourceTest.
@@ -35,7 +35,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class TemplateSourceTest extends TestCase
+final class TemplateSourceTest extends Framework\TestCase
 {
     private Tests\Fixtures\DummyProvider $provider;
     private Package\PackageInterface $package;
@@ -48,25 +48,19 @@ final class TemplateSourceTest extends TestCase
         $this->subject = new Src\Template\TemplateSource($this->provider, $this->package);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getProviderReturnsProvider(): void
     {
         self::assertSame($this->provider, $this->subject->getProvider());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getPackageReturnsPackage(): void
     {
         self::assertSame($this->package, $this->subject->getPackage());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function setPackageAppliesGivenPackage(): void
     {
         $newPackage = clone $this->package;
@@ -74,19 +68,14 @@ final class TemplateSourceTest extends TestCase
         self::assertSame($newPackage, $this->subject->setPackage($newPackage)->getPackage());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function shouldUseDynamicVersionConstraintReturnsFalseInitially(): void
     {
         self::assertFalse($this->subject->shouldUseDynamicVersionConstraint());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider useDynamicVersionConstraintDefinesWhetherToUseDynamicVersionConstraintDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('useDynamicVersionConstraintDefinesWhetherToUseDynamicVersionConstraintDataProvider')]
     public function useDynamicVersionConstraintDefinesWhetherToUseDynamicVersionConstraint(
         bool $useDynamicVersionConstraint,
         bool $expected,
@@ -99,7 +88,7 @@ final class TemplateSourceTest extends TestCase
     /**
      * @return Generator<string, array{bool, bool}>
      */
-    public function useDynamicVersionConstraintDefinesWhetherToUseDynamicVersionConstraintDataProvider(): Generator
+    public static function useDynamicVersionConstraintDefinesWhetherToUseDynamicVersionConstraintDataProvider(): Generator
     {
         yield 'true' => [true, true];
         yield 'false' => [false, false];

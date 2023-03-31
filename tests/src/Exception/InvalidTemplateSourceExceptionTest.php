@@ -26,7 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Exception;
 use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * InvalidTemplateSourceExceptionTest.
@@ -34,11 +34,9 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class InvalidTemplateSourceExceptionTest extends TestCase
+final class InvalidTemplateSourceExceptionTest extends Framework\TestCase
 {
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forProviderReturnsExceptionForProvider(): void
     {
         $actual = Src\Exception\InvalidTemplateSourceException::forProvider(new Tests\Fixtures\DummyProvider());
@@ -47,9 +45,7 @@ final class InvalidTemplateSourceExceptionTest extends TestCase
         self::assertSame(1664557140, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forFailedInstallationReturnsExceptionForFailedInstallation(): void
     {
         $actual = Src\Exception\InvalidTemplateSourceException::forFailedInstallation($this->createTemplateSource());
@@ -61,9 +57,7 @@ final class InvalidTemplateSourceExceptionTest extends TestCase
         self::assertSame(1664557307, $actual->getCode());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function forInvalidPackageVersionConstraintReturnsExceptionForInvalidPackageVersionConstraint(): void
     {
         $actual = Src\Exception\InvalidTemplateSourceException::forInvalidPackageVersionConstraint(

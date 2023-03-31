@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\IO\Validator;
 
 use CPSIT\ProjectBuilder as Src;
 use Generator;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * CallbackValidatorTest.
@@ -33,7 +33,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class CallbackValidatorTest extends TestCase
+final class CallbackValidatorTest extends Framework\TestCase
 {
     private Src\IO\Validator\CallbackValidator $subject;
 
@@ -42,9 +42,7 @@ final class CallbackValidatorTest extends TestCase
         $this->subject = new Src\IO\Validator\CallbackValidator(['callback' => $this->validate(...)]);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function constructorThrowsExceptionIfNoCallbackIsGiven(): void
     {
         $this->expectExceptionObject(
@@ -54,9 +52,7 @@ final class CallbackValidatorTest extends TestCase
         new Src\IO\Validator\CallbackValidator();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function constructorThrowsExceptionIfInvalidCallbackIsGiven(): void
     {
         $this->expectExceptionObject(
@@ -67,11 +63,8 @@ final class CallbackValidatorTest extends TestCase
         new Src\IO\Validator\CallbackValidator(['callback' => 'foo']);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider invokeCallsConfiguredCallbackDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('invokeCallsConfiguredCallbackDataProvider')]
     public function invokeCallsConfiguredCallback(?string $input, ?string $expected): void
     {
         $actual = ($this->subject)($input);
@@ -82,7 +75,7 @@ final class CallbackValidatorTest extends TestCase
     /**
      * @return Generator<string, array{string|null, string|null}>
      */
-    public function invokeCallsConfiguredCallbackDataProvider(): Generator
+    public static function invokeCallsConfiguredCallbackDataProvider(): Generator
     {
         yield 'null' => [null, null];
         yield 'string' => ['string', 'input is string'];

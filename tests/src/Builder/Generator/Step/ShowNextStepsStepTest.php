@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 use function dirname;
 
@@ -47,9 +48,7 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function runThrowsExceptionIfNoTemplateFileIsGiven(): void
     {
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
@@ -59,9 +58,7 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
         $this->subject->run($this->result);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function runThrowsExceptionIfTemplateFileDoesNotExist(): void
     {
         $this->subject->setConfig(
@@ -78,9 +75,7 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
         $this->subject->run($this->result);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function runThrowsExceptionIfTemplateFileCannotBeRendered(): void
     {
         $this->subject->setConfig(
@@ -100,9 +95,7 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
         $this->subject->run($this->result);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function runShowsNextStepsFromRenderedTemplateFileAndAppliesStep(): void
     {
         $this->subject->setConfig(

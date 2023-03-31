@@ -3,6 +3,10 @@
 	"type": "object",
 	"title": "Project builder template configuration",
 	"properties": {
+		"$schema": {
+			"type": "string",
+			"title": "Public URL to this JSON schema file"
+		},
 		"name": {
 			"type": "string",
 			"title": "Project template name",

@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Helper;
 
 use CPSIT\ProjectBuilder as Src;
 use Generator;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
 
 use function chdir;
@@ -38,7 +38,7 @@ use function getcwd;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class FilesystemHelperTest extends TestCase
+final class FilesystemHelperTest extends Framework\TestCase
 {
     private Filesystem\Filesystem $filesystem;
 
@@ -47,9 +47,7 @@ final class FilesystemHelperTest extends TestCase
         $this->filesystem = new Filesystem\Filesystem();
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function createFileObjectReturnsFileObjectForGivenFile(): void
     {
         $baseDir = __DIR__;
@@ -62,28 +60,24 @@ final class FilesystemHelperTest extends TestCase
         self::assertSame($baseDir.'/'.$relativePathname, $actual->getPathname());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getNewTemporaryDirectoryReturnsUniqueTemporaryDirectory(): void
     {
+        $prefix = sys_get_temp_dir();
         $actual = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
 
+        self::assertNotEmpty($prefix);
         self::assertDirectoryDoesNotExist($actual);
-        self::assertStringStartsWith(sys_get_temp_dir(), $actual);
+        self::assertStringStartsWith($prefix, $actual);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getPackageDirectoryReturnsPackagePathFromComposerPackageArtifact(): void
     {
         self::assertSame(dirname(__DIR__, 3), Src\Helper\FilesystemHelper::getPackageDirectory());
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getWorkingDirectoryReturnsCurrentWorkingDirectory(): void
     {
         $cwd = dirname(__DIR__, 3);
@@ -97,17 +91,13 @@ final class FilesystemHelperTest extends TestCase
         chdir($cwd);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function resolveRelativePathReturnsAbsolutePathIfGivenPathIsAbsolute(): void
     {
         self::assertSame('/foo', Src\Helper\FilesystemHelper::resolveRelativePath('/foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function resolveRelativePathPrependsProjectRootPath(): void
     {
         $currentWorkingDirectory = getcwd();
@@ -123,9 +113,7 @@ final class FilesystemHelperTest extends TestCase
         chdir($currentWorkingDirectory);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function isDirectoryEmptyReturnsTrueIfDirectoryDoesNotExist(): void
     {
         $directory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
@@ -134,9 +122,7 @@ final class FilesystemHelperTest extends TestCase
         self::assertTrue(Src\Helper\FilesystemHelper::isDirectoryEmpty($directory));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function isDirectoryEmptyReturnsTrueIfDirectoryExistsAndIsEmpty(): void
     {
         $directory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
@@ -149,11 +135,8 @@ final class FilesystemHelperTest extends TestCase
         $this->filesystem->remove($directory);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider isDirectoryEmptyReturnsFalseIfDirectoryHasFilesDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('isDirectoryEmptyReturnsFalseIfDirectoryHasFilesDataProvider')]
     public function isDirectoryEmptyReturnsFalseIfDirectoryHasFiles(string $filename): void
     {
         $directory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
@@ -168,11 +151,8 @@ final class FilesystemHelperTest extends TestCase
         $this->filesystem->remove($directory);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider isDirectoryEmptyReturnsFalseIfDirectoryHasDirectoriesDataProvider
-     */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('isDirectoryEmptyReturnsFalseIfDirectoryHasDirectoriesDataProvider')]
     public function isDirectoryEmptyReturnsFalseIfDirectoryHasDirectories(string $dirname): void
     {
         $directory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
@@ -188,7 +168,7 @@ final class FilesystemHelperTest extends TestCase
     /**
      * @return Generator<string, array{string}>
      */
-    public function isDirectoryEmptyReturnsFalseIfDirectoryHasFilesDataProvider(): Generator
+    public static function isDirectoryEmptyReturnsFalseIfDirectoryHasFilesDataProvider(): Generator
     {
         yield 'normal file' => ['foo'];
         yield 'dotfile' => ['.foo'];
@@ -197,7 +177,7 @@ final class FilesystemHelperTest extends TestCase
     /**
      * @return Generator<string, array{string}>
      */
-    public function isDirectoryEmptyReturnsFalseIfDirectoryHasDirectoriesDataProvider(): Generator
+    public static function isDirectoryEmptyReturnsFalseIfDirectoryHasDirectoriesDataProvider(): Generator
     {
         yield 'normal directory' => ['foo'];
         yield 'dot-directory' => ['.foo'];

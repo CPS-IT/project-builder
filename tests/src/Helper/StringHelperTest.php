@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Helper;
 
 use CPSIT\ProjectBuilder as Src;
 use Generator;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 use UnhandledMatchError;
 
 /**
@@ -34,23 +34,19 @@ use UnhandledMatchError;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class StringHelperTest extends TestCase
+final class StringHelperTest extends Framework\TestCase
 {
     /**
-     * @test
-     *
      * @param value-of<Src\StringCase> $case
-     *
-     * @dataProvider convertCaseConvertsStringToGivenCaseDataProvider
      */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('convertCaseConvertsStringToGivenCaseDataProvider')]
     public function convertCaseConvertsStringToGivenCase(string $string, string $case, string $expected): void
     {
         self::assertSame($expected, Src\Helper\StringHelper::convertCase($string, $case));
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function convertCaseThrowsExceptionWhenConvertingToUnsupportedCase(): void
     {
         $this->expectException(UnhandledMatchError::class);
@@ -60,12 +56,10 @@ final class StringHelperTest extends TestCase
     }
 
     /**
-     * @test
-     *
-     * @dataProvider interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider
-     *
      * @param array<string, string> $replacePairs
      */
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider')]
     public function interpolateInterpolatedGivenStringWithKeyValuePairs(string $string, array $replacePairs, string $expected): void
     {
         self::assertSame($expected, Src\Helper\StringHelper::interpolate($string, $replacePairs));
@@ -74,7 +68,7 @@ final class StringHelperTest extends TestCase
     /**
      * @return Generator<string, array{string, value-of<Src\StringCase>, string}>
      */
-    public function convertCaseConvertsStringToGivenCaseDataProvider(): Generator
+    public static function convertCaseConvertsStringToGivenCaseDataProvider(): Generator
     {
         yield 'lowercase' => ['foo_Bar-123 helloWorld', Src\StringCase::Lower->value, 'foo_bar-123 helloworld'];
         yield 'uppercase' => ['foo_Bar-123 helloWorld', Src\StringCase::Upper->value, 'FOO_BAR-123 HELLOWORLD'];
@@ -86,7 +80,7 @@ final class StringHelperTest extends TestCase
     /**
      * @return Generator<string, array{string, array<string, string>, string}>
      */
-    public function interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider(): Generator
+    public static function interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider(): Generator
     {
         yield 'no placeholders' => ['foo', [], 'foo'];
         yield 'valid placeholder' => ['foo{bar}', ['bar' => 'foo'], 'foofoo'];

@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Writer;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * WriterFactoryTest.
@@ -41,9 +42,7 @@ final class WriterFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\Writer\WriterFactory::class);
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getThrowsExceptionIfFileIsNotSupported(): void
     {
         $subject = new Src\Builder\Writer\WriterFactory([]);
@@ -55,9 +54,7 @@ final class WriterFactoryTest extends Tests\ContainerAwareTestCase
         $subject->get('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Framework\Attributes\Test]
     public function getReturnsWriterForGivenFile(): void
     {
         self::assertInstanceOf(Src\Builder\Writer\GenericFileWriter::class, $this->subject->get('foo'));
