@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Helper;
 
 use CPSIT\ProjectBuilder as Src;
 use Generator;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 use UnhandledMatchError;
 
 /**
@@ -34,19 +34,19 @@ use UnhandledMatchError;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class StringHelperTest extends TestCase
+final class StringHelperTest extends Framework\TestCase
 {
     /**
      * @param value-of<Src\StringCase> $case
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('convertCaseConvertsStringToGivenCaseDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('convertCaseConvertsStringToGivenCaseDataProvider')]
     public function convertCaseConvertsStringToGivenCase(string $string, string $case, string $expected): void
     {
         self::assertSame($expected, Src\Helper\StringHelper::convertCase($string, $case));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function convertCaseThrowsExceptionWhenConvertingToUnsupportedCase(): void
     {
         $this->expectException(UnhandledMatchError::class);
@@ -58,8 +58,8 @@ final class StringHelperTest extends TestCase
     /**
      * @param array<string, string> $replacePairs
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('interpolateInterpolatedGivenStringWithKeyValuePairsDataProvider')]
     public function interpolateInterpolatedGivenStringWithKeyValuePairs(string $string, array $replacePairs, string $expected): void
     {
         self::assertSame($expected, Src\Helper\StringHelper::interpolate($string, $replacePairs));

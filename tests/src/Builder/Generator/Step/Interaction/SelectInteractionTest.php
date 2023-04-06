@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step\Interaction;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * SelectInteractionTest.
@@ -43,7 +44,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         $this->instructions = new Src\Builder\BuildInstructions(self::$config, 'foo');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function interactReturnsNullOnEmptyUserInput(): void
     {
         $interactionSubject = $this->buildInteractionSubject();
@@ -51,7 +52,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         self::assertNull($this->subject->interact($interactionSubject, $this->instructions));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function interactReturnsFirstOptionOnEmptyUserInputAndRequiredSelection(): void
     {
         $propertyOptions = [
@@ -63,7 +64,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         self::assertSame('foo', $this->subject->interact($interactionSubject, $this->instructions));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function interactReturnsDefaultValueOnEmptyUserInputAndRequiredSelection(): void
     {
         $propertyOptions = [
@@ -75,7 +76,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         self::assertSame('bar', $this->subject->interact($interactionSubject, $this->instructions));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function interactReturnsSelectedOption(): void
     {
         $propertyOptions = [
@@ -89,7 +90,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         self::assertSame('bar', $this->subject->interact($interactionSubject, $this->instructions));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function interactReturnsSelectedOptionsIfMultipleOptionsAreAllowed(): void
     {
         $propertyOptions = [

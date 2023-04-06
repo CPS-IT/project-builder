@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Builder\Config\ValueObject;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * StepOptionsTest.
@@ -32,7 +32,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class StepOptionsTest extends TestCase
+final class StepOptionsTest extends Framework\TestCase
 {
     private Src\Builder\Config\ValueObject\StepOptions $subject;
 
@@ -47,7 +47,7 @@ final class StepOptionsTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getFileConditionsReturnsFileConditions(): void
     {
         self::assertEquals(
@@ -58,13 +58,13 @@ final class StepOptionsTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getTemplateFileReturnsTemplateFile(): void
     {
         self::assertSame('foo', $this->subject->getTemplateFile());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getArtifactPathReturnsArtifactPath(): void
     {
         self::assertSame('artifact.json', $this->subject->getArtifactPath());

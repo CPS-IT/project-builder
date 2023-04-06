@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
 
@@ -52,14 +53,14 @@ final class InstallComposerDependenciesStepTest extends Tests\ContainerAwareTest
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runInstallsComposerDependencies(): void
     {
         self::assertTrue($this->subject->run($this->buildResult));
         self::assertTrue($this->buildResult->isStepApplied($this->subject));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runWritesComposerInstallOutputAndFailsOnFailure(): void
     {
         $newConfig = self::createConfig();

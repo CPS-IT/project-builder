@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Builder\Config\ValueObject;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 use Symfony\Component\ExpressionLanguage;
 
 /**
@@ -33,7 +33,7 @@ use Symfony\Component\ExpressionLanguage;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class FileConditionTest extends TestCase
+final class FileConditionTest extends Framework\TestCase
 {
     private Src\Builder\Config\ValueObject\FileCondition $subject;
 
@@ -42,25 +42,25 @@ final class FileConditionTest extends TestCase
         $this->subject = new Src\Builder\Config\ValueObject\FileCondition('foo', 'bar', 'target');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getPathReturnsPath(): void
     {
         self::assertSame('foo', $this->subject->getPath());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getConditionReturnsCondition(): void
     {
         self::assertSame('bar', $this->subject->getCondition());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function hasConditionReturnsTrue(): void
     {
         self::assertTrue($this->subject->hasCondition());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function conditionMatchesChecksIfConditionMatches(): void
     {
         $expressionLanguage = new ExpressionLanguage\ExpressionLanguage();
@@ -69,7 +69,7 @@ final class FileConditionTest extends TestCase
         self::assertTrue($this->subject->conditionMatches($expressionLanguage, ['bar' => true]));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getTargetReturnsTarget(): void
     {
         self::assertSame('target', $this->subject->getTarget());

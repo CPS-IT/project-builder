@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Helper;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 use function dirname;
 use function putenv;
@@ -35,9 +35,9 @@ use function putenv;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class FilesystemHelperTest extends TestCase
+final class FilesystemHelperTest extends Framework\TestCase
 {
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function createFileObjectReturnsFileObjectForGivenFile(): void
     {
         $baseDir = __DIR__;
@@ -50,7 +50,7 @@ final class FilesystemHelperTest extends TestCase
         self::assertSame($baseDir.'/'.$relativePathname, $actual->getPathname());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getNewTemporaryDirectoryReturnsUniqueTemporaryDirectory(): void
     {
         $prefix = sys_get_temp_dir();
@@ -61,7 +61,7 @@ final class FilesystemHelperTest extends TestCase
         self::assertStringStartsWith($prefix, $actual);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getProjectRootPathReturnsProjectRootPathFromEnvironmentVariable(): void
     {
         $projectRootPath = __DIR__.'/..';
@@ -73,7 +73,7 @@ final class FilesystemHelperTest extends TestCase
         putenv('PROJECT_BUILDER_ROOT_PATH');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getProjectRootPathReturnsProjectRootPathFromComposerPackageArtifact(): void
     {
         self::assertSame(dirname(__DIR__, 3), Src\Helper\FilesystemHelper::getProjectRootPath());

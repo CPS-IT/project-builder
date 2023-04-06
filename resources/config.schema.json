@@ -197,6 +197,7 @@
 					"enum": [
 						"email",
 						"notEmpty",
+						"regex",
 						"url"
 					]
 				},

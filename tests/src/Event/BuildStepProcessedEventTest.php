@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Event;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 /**
  * BuildStepProcessedEventTest.
@@ -51,7 +52,7 @@ final class BuildStepProcessedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getStepReturnsStep(): void
     {
         self::assertSame(
@@ -60,7 +61,7 @@ final class BuildStepProcessedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getBuildResultReturnsBuildResult(): void
     {
         self::assertSame(
@@ -69,7 +70,7 @@ final class BuildStepProcessedEventTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function isSuccessfulReturnsState(): void
     {
         self::assertFalse($this->subject->isSuccessful());

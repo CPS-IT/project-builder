@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Twig\Func;
 
 use CPSIT\ProjectBuilder as Src;
 use Generator;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 use Webmozart\Assert;
 
 /**
@@ -34,7 +34,7 @@ use Webmozart\Assert;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ResolveIpFunctionTest extends TestCase
+final class ResolveIpFunctionTest extends Framework\TestCase
 {
     private Src\Twig\Func\ResolveIpFunction $subject;
 
@@ -43,7 +43,7 @@ final class ResolveIpFunctionTest extends TestCase
         $this->subject = new Src\Twig\Func\ResolveIpFunction();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenHostnameIsNull(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
@@ -52,7 +52,7 @@ final class ResolveIpFunctionTest extends TestCase
         ($this->subject)();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function invokeReturnsNullIfUrlCannotBeResolved(): void
     {
         $actual = ($this->subject)('https://');
@@ -60,7 +60,7 @@ final class ResolveIpFunctionTest extends TestCase
         self::assertNull($actual);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function invokeReturnsNullIfIpAddressCannotBeResolved(): void
     {
         $actual = ($this->subject)('foo.bar');
@@ -68,8 +68,8 @@ final class ResolveIpFunctionTest extends TestCase
         self::assertNull($actual);
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('invokeReturnsResolvedIpAddressDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('invokeReturnsResolvedIpAddressDataProvider')]
     public function invokeReturnsResolvedIpAddress(string $hostname): void
     {
         $actual = ($this->subject)($hostname);

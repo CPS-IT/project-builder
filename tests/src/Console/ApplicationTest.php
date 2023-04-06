@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Console;
 use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
 
 use function dirname;
@@ -68,7 +69,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         self::$io->makeInteractive();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runThrowsExceptionIfInputIsNonInteractive(): void
     {
         self::$io->makeInteractive(false);
@@ -80,7 +81,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('This command cannot be run in non-interactive mode.', $output);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runMirrorsSourceFilesToTemporaryDirectory(): void
     {
         $temporaryDirectory = $this->targetDirectory.'/.build/src';
@@ -94,7 +95,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         self::assertDirectoryExists($temporaryDirectory);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runShowsWelcomeScreen(): void
     {
         self::$io->setUserInputs(['no']);
@@ -106,7 +107,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('Welcome to the Project Builder', $output);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runAllowsSelectingADifferentTemplateProviderIfTheSelectedProviderProvidesNoTemplates(): void
     {
         self::$io->setUserInputs(['yes', '', 'no']);
@@ -119,7 +120,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('Where can we find the project template?', $output);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runAllowsSelectingADifferentTemplateProviderIfTheSelectedProviderShouldBeChanged(): void
     {
         $this->templateProvider->templateSources = [
@@ -136,7 +137,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsStringMultipleTimes('Try a different provider (e.g. Satis or GitHub)', $output);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runFailsIfProjectGenerationIsAborted(): void
     {
         $this->templateProvider->installationPath = $this->targetDirectory;
@@ -149,7 +150,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         self::assertSame(2, $this->subject->run());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runHandlesErrorDuringProjectGeneration(): void
     {
         $this->templateProvider->installationPath = $this->targetDirectory;
@@ -166,7 +167,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runGeneratesNewProjectFromSelectedTemplate(): void
     {
         $this->templateProvider->installationPath = $this->targetDirectory;
@@ -183,7 +184,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function runUsesDefaultTemplateProvidersIfNoProvidersAreConfigured(): void
     {
         /** @var Src\Template\Provider\PackagistProvider $packagistProvider */

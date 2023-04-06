@@ -31,6 +31,7 @@ use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use donatj\MockWebServer;
 use Generator;
+use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
 
 use function array_map;
@@ -67,8 +68,8 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
      * @param list<Package\PackageInterface> $packages
      * @param list<Package\PackageInterface> $expected
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('listTemplateSourcesListsAllAvailableTemplateSourcesDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('listTemplateSourcesListsAllAvailableTemplateSourcesDataProvider')]
     public function listTemplateSourcesListsAllAvailableTemplateSources(array $packages, array $expected): void
     {
         $this->subject->packages = $packages;
@@ -81,7 +82,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         self::assertEquals($expectedTemplateSources, $this->subject->listTemplateSources());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function installTemplateSourceThrowsExceptionIfInstallationFails(): void
     {
         $package = self::createPackage('foo/baz');
@@ -105,7 +106,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         $this->subject->installTemplateSource($templateSource);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function installTemplateSourceThrowsExceptionIfInstallationFailsWithGivenConstraint(): void
     {
         $package = self::createPackage('foo/baz');
@@ -118,7 +119,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         $this->subject->installTemplateSource($templateSource);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function installTemplateSourceFailsSoftlyIfGivenConstraintIsInvalid(): void
     {
         $package = self::createPackageFromTemplateFixture();
@@ -138,7 +139,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function installTemplateSourceFailsIfGivenConstraintCannotBeResolved(): void
     {
         $package = self::createPackageFromTemplateFixture();
@@ -157,7 +158,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         $this->subject->installTemplateSource($templateSource);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function installTemplateSourceAllowsSpecifyingOtherConstraintIfInstallationFailsWithGivenConstraint(): void
     {
         $package = self::createPackageFromTemplateFixture();
@@ -182,8 +183,8 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     /**
      * @param non-empty-list<Package\PackageInterface> $packages
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('installTemplateSourceInstallsComposerPackageDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('installTemplateSourceInstallsComposerPackageDataProvider')]
     public function installTemplateSourceInstallsComposerPackage(
         array $packages,
         string $constraint,
@@ -202,7 +203,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString($expected, self::$io->getOutput());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function createRepositoryReturnsComposerRepositoryForConfiguredUrl(): void
     {
         $actual = $this->subject->testCreateRepository();

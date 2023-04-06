@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use PHPUnit\Framework;
 
 use function dirname;
 use function sys_get_temp_dir;
@@ -47,31 +48,31 @@ final class BuildInstructionsTest extends Tests\ContainerAwareTestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getConfigReturnsConfig(): void
     {
         self::assertSame(self::$container->get('app.config'), $this->subject->getConfig());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getTemplateDirectoryReturnsTemplateDirectory(): void
     {
         self::assertSame(dirname(__DIR__), $this->subject->getTemplateDirectory());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getSourceDirectoryReturnsSourceDirectory(): void
     {
         self::assertSame(dirname(__DIR__).'/templates/src', $this->subject->getSourceDirectory());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getSharedSourceDirectoryReturnsSharedSourceDirectory(): void
     {
         self::assertSame(dirname(__DIR__).'/templates/shared', $this->subject->getSharedSourceDirectory());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getTemporaryDirectoryReturnsUniqueTemporaryDirectory(): void
     {
         $prefix = sys_get_temp_dir();
@@ -82,13 +83,13 @@ final class BuildInstructionsTest extends Tests\ContainerAwareTestCase
         self::assertStringStartsWith($prefix, $actual);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getTargetDirectoryReturnsTargetDirectory(): void
     {
         self::assertSame('foo', $this->subject->getTargetDirectory());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getTemplateVariablesReturnsTemplateVariables(): void
     {
         self::assertSame([], $this->subject->getTemplateVariables());
@@ -98,7 +99,7 @@ final class BuildInstructionsTest extends Tests\ContainerAwareTestCase
         self::assertSame(['foo' => 'bar'], $this->subject->getTemplateVariables());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getTemplateVariableReturnsTemplateVariableAtGivenPath(): void
     {
         self::assertNull($this->subject->getTemplateVariable('foo.bar.hello'));
@@ -112,7 +113,7 @@ final class BuildInstructionsTest extends Tests\ContainerAwareTestCase
         self::assertSame('world!', $this->subject->getTemplateVariable('foo.bar.hello'));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function addTemplateVariableSetsTemplateVariableAtGivenPath(): void
     {
         self::assertNull($this->subject->getTemplateVariable('foo.bar.hello'));

@@ -1,5 +1,7 @@
 ---
 hide-toc: true
+og:description: A Composer package for creating new projects based on various specific project
+                templates. Start now by running 'composer create-project cpsit/project-builder'.
 ---
 
 # Project Builder

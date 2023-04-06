@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\IO\Validator;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * EmailValidatorTest.
@@ -32,7 +32,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class EmailValidatorTest extends TestCase
+final class EmailValidatorTest extends Framework\TestCase
 {
     private Src\IO\Validator\EmailValidator $subject;
 
@@ -41,7 +41,7 @@ final class EmailValidatorTest extends TestCase
         $this->subject = new Src\IO\Validator\EmailValidator();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function invokeReturnsNullOnNullInput(): void
     {
         $actual = ($this->subject)(null);
@@ -49,7 +49,7 @@ final class EmailValidatorTest extends TestCase
         self::assertNull($actual);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function invokeThrowsExceptionIfGivenInputIsNotAValidEmailAddress(): void
     {
         $this->expectException(Src\Exception\ValidationException::class);
@@ -59,7 +59,7 @@ final class EmailValidatorTest extends TestCase
         ($this->subject)('foo');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function invokeReturnsGivenInputIfGivenInputIsValid(): void
     {
         $actual = ($this->subject)('foo@bar.de');

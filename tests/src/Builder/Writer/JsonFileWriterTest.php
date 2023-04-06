@@ -27,6 +27,7 @@ use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Generator;
 use JsonSerializable;
+use PHPUnit\Framework;
 
 /**
  * JsonFileWriterTest.
@@ -43,8 +44,8 @@ final class JsonFileWriterTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\Writer\JsonFileWriter::class);
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('writeDumpsJsonToGivenFileDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('writeDumpsJsonToGivenFileDataProvider')]
     public function writeDumpsJsonToGivenFile(string|JsonSerializable $json, string $expected): void
     {
         $file = Src\Helper\FilesystemHelper::createFileObject(

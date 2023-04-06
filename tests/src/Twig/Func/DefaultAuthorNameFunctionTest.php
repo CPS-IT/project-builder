@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Twig\Func;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * DefaultAuthorNameFunctionTest.
@@ -33,7 +33,7 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class DefaultAuthorNameFunctionTest extends TestCase
+final class DefaultAuthorNameFunctionTest extends Framework\TestCase
 {
     private Tests\Fixtures\DummyRunner $runner;
     private Src\Twig\Func\DefaultAuthorNameFunction $subject;
@@ -44,7 +44,7 @@ final class DefaultAuthorNameFunctionTest extends TestCase
         $this->subject = new Src\Twig\Func\DefaultAuthorNameFunction(new Src\Resource\Local\Git($this->runner));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function invokeReturnsAuthorNameFromGit(): void
     {
         $this->runner->expectedResults[] = ['Foo Bar'];

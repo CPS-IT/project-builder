@@ -28,6 +28,7 @@ use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use Exception;
 use Generator;
+use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
 
 use function implode;
@@ -47,7 +48,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get('app.messenger');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function selectProviderCanHandlePackagistProvider(): void
     {
         $packagistProvider = new Src\Template\Provider\PackagistProvider(
@@ -60,7 +61,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         self::assertSame($packagistProvider, $this->subject->selectProvider([$packagistProvider]));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function selectProviderCanHandleCustomComposerProvider(): void
     {
         $customProvider = new Src\Template\Provider\ComposerProvider(
@@ -74,7 +75,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         self::assertSame('https://www.example.com', $customProvider->getUrl());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function selectTemplateSourceThrowsExceptionIfGivenProviderListsNoTemplateSources(): void
     {
         $provider = new Tests\Fixtures\DummyProvider();
@@ -84,8 +85,8 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         $this->subject->selectTemplateSource($provider);
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('selectTemplateSourceReturnsSelectedTemplateSourceDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('selectTemplateSourceReturnsSelectedTemplateSourceDataProvider')]
     public function selectTemplateSourceReturnsSelectedTemplateSource(
         Package\PackageInterface $package,
         string $expected,
@@ -100,8 +101,8 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString($expected, self::$io->getOutput());
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('confirmTemplateSourceRetryAsksForConfirmationAndReturnsResultDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('confirmTemplateSourceRetryAsksForConfirmationAndReturnsResultDataProvider')]
     public function confirmTemplateSourceRetryAsksForConfirmationAndReturnsResult(string $input, bool $expected): void
     {
         $exception = new Exception('Something went wrong.');

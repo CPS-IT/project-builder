@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Resource\Local;
 
 use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 use Symfony\Component\Finder;
 
 /**
@@ -33,7 +33,7 @@ use Symfony\Component\Finder;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ProcessedFileTest extends TestCase
+final class ProcessedFileTest extends Framework\TestCase
 {
     private Finder\SplFileInfo $originalFile;
     private Finder\SplFileInfo $targetFile;
@@ -46,13 +46,13 @@ final class ProcessedFileTest extends TestCase
         $this->subject = new Src\Resource\Local\ProcessedFile($this->originalFile, $this->targetFile);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getOriginalFileReturnsOriginalFile(): void
     {
         self::assertSame($this->originalFile, $this->subject->getOriginalFile());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function getTargetFileReturnsTargetFile(): void
     {
         self::assertSame($this->targetFile, $this->subject->getTargetFile());

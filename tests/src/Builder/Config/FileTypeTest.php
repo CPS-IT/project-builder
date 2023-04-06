@@ -25,7 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Config;
 
 use CPSIT\ProjectBuilder as Src;
 use Generator;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework;
 
 /**
  * FileTypeTest.
@@ -33,9 +33,9 @@ use PHPUnit\Framework\TestCase;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class FileTypeTest extends TestCase
+final class FileTypeTest extends Framework\TestCase
 {
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function fromExtensionThrowsExceptionIfGivenExtensionIsNotSupported(): void
     {
         $this->expectException(Src\Exception\UnsupportedTypeException::class);
@@ -45,8 +45,8 @@ final class FileTypeTest extends TestCase
         Src\Builder\Config\FileType::fromExtension('php');
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('fromExtensionReturnsFileTypeOfGivenExtensionDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('fromExtensionReturnsFileTypeOfGivenExtensionDataProvider')]
     public function fromExtensionReturnsFileTypeOfGivenExtension(
         string $extension,
         Src\Builder\Config\FileType $expected,
@@ -54,7 +54,7 @@ final class FileTypeTest extends TestCase
         self::assertSame($expected, Src\Builder\Config\FileType::fromExtension($extension));
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
     public function fromFileThrowsExceptionIfExtensionOfGivenFileIsNotSupported(): void
     {
         $this->expectException(Src\Exception\UnsupportedTypeException::class);
@@ -64,8 +64,8 @@ final class FileTypeTest extends TestCase
         Src\Builder\Config\FileType::fromFile(__FILE__);
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('fromFileReturnsFileTypeOfGivenFileDataProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('fromFileReturnsFileTypeOfGivenFileDataProvider')]
     public function fromFileReturnsFileTypeOfGivenFile(
         string $file,
         Src\Builder\Config\FileType $expected,
