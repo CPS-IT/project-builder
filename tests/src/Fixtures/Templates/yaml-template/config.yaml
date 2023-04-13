@@ -17,7 +17,6 @@ steps:
           if: 'true'
           target: 'overrides/dummy-4.yaml'
         - path: 'dummy/*'
-          if: 'true'
           target: 'foo-{{ foo }}-dummy/*'
   - type: processSharedSourceFiles
     options:
@@ -30,7 +29,6 @@ steps:
           if: 'true'
           target: 'overrides/shared-dummy-4.yaml'
         - path: 'shared-dummy/*'
-          if: 'true'
           target: 'foo-{{ foo }}-shared-dummy/*'
   - type: generateBuildArtifact
     options:

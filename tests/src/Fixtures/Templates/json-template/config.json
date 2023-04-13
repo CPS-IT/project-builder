@@ -28,7 +28,6 @@
 					},
 					{
 						"path": "dummy/*",
-						"if": "true",
 						"target": "foo-{{ foo }}-dummy/*"
 					}
 				]
@@ -53,7 +52,6 @@
 					},
 					{
 						"path": "shared-dummy/*",
-						"if": "true",
 						"target": "foo-{{ foo }}-shared-dummy/*"
 					}
 				]
