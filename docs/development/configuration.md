@@ -166,11 +166,9 @@ steps:
           if: 'false'
         # Mirror an entire directory
         - path: 'source-dir/*'
-          if: 'true'
           target: 'target-dir/*'
         # Apply Twig expression for custom target directory names
         - path: 'source-dir/*'
-          if: 'true'
           target: '{{ project.name | slugify }}-target-dir/*'
   - type: mirrorProcessedFiles
   - type: showNextSteps
