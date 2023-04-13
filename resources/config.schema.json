@@ -310,44 +310,61 @@
 							"type": "string",
 							"title": "Relative path to a file, can contain symbols processable by `fnmatch`",
 							"description": "Can also be a directory ending with `/*`, to recursively match all files below"
-						},
-						"target": {
-							"type": "string",
-							"title": "Relative path to target file, can be used to override the default path",
-							"description": "Can also be a directory ending with `/*`, to exchange the base source path"
 						}
 					}
 				},
 				{
 					"oneOf": [
 						{
-							"properties": {
-								"path": {
-									"pattern": "/\\*$"
-								},
-								"target": {
-									"pattern": "/\\*$"
-								}
-							}
+							"not": {
+								"required": [
+									"target"
+								]
+							},
+							"required": [
+								"path",
+								"if"
+							]
 						},
 						{
 							"properties": {
-								"path": {
-									"pattern": "(?<!\\*)$"
-								},
 								"target": {
-									"pattern": "(?<!\\*)$"
+									"type": "string",
+									"title": "Relative path to target file, can be used to override the default path",
+									"description": "Can also be a directory ending with `/*`, to exchange the base source path"
 								}
-							}
+							},
+							"oneOf": [
+								{
+									"properties": {
+										"path": {
+											"pattern": "/\\*$"
+										},
+										"target": {
+											"pattern": "/\\*$"
+										}
+									}
+								},
+								{
+									"properties": {
+										"path": {
+											"pattern": "(?<!\\*)$"
+										},
+										"target": {
+											"pattern": "(?<!\\*)$"
+										}
+									}
+								}
+							],
+							"required": [
+								"path",
+								"target"
+							]
 						}
 					]
 				}
 			],
-			"unevaluatedProperties": false,
-			"required": [
-				"if",
-				"path"
-			]
+			"unevaluatedProperties": false
 		},
 		"condition": {
 			"type": "string",

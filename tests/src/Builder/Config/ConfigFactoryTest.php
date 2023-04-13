@@ -70,7 +70,7 @@ final class ConfigFactoryTest extends Framework\TestCase
                         new Src\Builder\Config\ValueObject\FileCondition('*-3.'.$type, 'false'),
                         new Src\Builder\Config\ValueObject\FileCondition('dummy-4.'.$type, 'false'),
                         new Src\Builder\Config\ValueObject\FileCondition('dummy-4.'.$type, 'true', 'overrides/dummy-4.'.$type),
-                        new Src\Builder\Config\ValueObject\FileCondition('dummy/*', 'true', 'foo-{{ foo }}-dummy/*'),
+                        new Src\Builder\Config\ValueObject\FileCondition('dummy/*', null, 'foo-{{ foo }}-dummy/*'),
                     ]),
                 ),
                 new Src\Builder\Config\ValueObject\Step(
@@ -79,7 +79,7 @@ final class ConfigFactoryTest extends Framework\TestCase
                         new Src\Builder\Config\ValueObject\FileCondition('shared-dummy-2.'.$type, 'false'),
                         new Src\Builder\Config\ValueObject\FileCondition('shared-*-3.'.$type, 'false'),
                         new Src\Builder\Config\ValueObject\FileCondition('shared-dummy-4.'.$type, 'true', 'overrides/shared-dummy-4.'.$type),
-                        new Src\Builder\Config\ValueObject\FileCondition('shared-dummy/*', 'true', 'foo-{{ foo }}-shared-dummy/*'),
+                        new Src\Builder\Config\ValueObject\FileCondition('shared-dummy/*', null, 'foo-{{ foo }}-shared-dummy/*'),
                     ]),
                 ),
                 new Src\Builder\Config\ValueObject\Step(
