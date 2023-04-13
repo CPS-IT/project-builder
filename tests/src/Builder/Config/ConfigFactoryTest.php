@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Builder\Config;
 
 use CPSIT\ProjectBuilder as Src;
+use Generator;
 use PHPUnit\Framework;
 
 use function dirname;
@@ -45,12 +46,13 @@ final class ConfigFactoryTest extends Framework\TestCase
     }
 
     #[Framework\Attributes\Test]
-    public function buildFromFileThrowsExceptionIfFileContentsAreInvalid(): void
+    #[Framework\Attributes\DataProvider('buildFromFileThrowsExceptionIfFileContentsAreInvalidDataProvider')]
+    public function buildFromFileThrowsExceptionIfFileContentsAreInvalid(string $file): void
     {
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
         $this->expectExceptionCode(1653303396);
 
-        $this->subject->buildFromFile(dirname(__DIR__, 2).'/Fixtures/Files/invalid-config.yaml', 'foo');
+        $this->subject->buildFromFile($file, 'foo');
     }
 
     #[Framework\Attributes\Test]
@@ -68,6 +70,7 @@ final class ConfigFactoryTest extends Framework\TestCase
                         new Src\Builder\Config\ValueObject\FileCondition('*-3.'.$type, 'false'),
                         new Src\Builder\Config\ValueObject\FileCondition('dummy-4.'.$type, 'false'),
                         new Src\Builder\Config\ValueObject\FileCondition('dummy-4.'.$type, 'true', 'overrides/dummy-4.'.$type),
+                        new Src\Builder\Config\ValueObject\FileCondition('dummy/*', null, 'foo-{{ foo }}-dummy/*'),
                     ]),
                 ),
                 new Src\Builder\Config\ValueObject\Step(
@@ -76,6 +79,7 @@ final class ConfigFactoryTest extends Framework\TestCase
                         new Src\Builder\Config\ValueObject\FileCondition('shared-dummy-2.'.$type, 'false'),
                         new Src\Builder\Config\ValueObject\FileCondition('shared-*-3.'.$type, 'false'),
                         new Src\Builder\Config\ValueObject\FileCondition('shared-dummy-4.'.$type, 'true', 'overrides/shared-dummy-4.'.$type),
+                        new Src\Builder\Config\ValueObject\FileCondition('shared-dummy/*', null, 'foo-{{ foo }}-shared-dummy/*'),
                     ]),
                 ),
                 new Src\Builder\Config\ValueObject\Step(
@@ -140,5 +144,17 @@ final class ConfigFactoryTest extends Framework\TestCase
         $this->expectExceptionMessage('The config source "foo" is invalid and cannot be processed.');
 
         $this->subject->buildFromString('foo', 'baz', Src\Builder\Config\FileType::Yaml);
+    }
+
+    /**
+     * @return Generator<string, array{string}>
+     */
+    public static function buildFromFileThrowsExceptionIfFileContentsAreInvalidDataProvider(): Generator
+    {
+        $fixturePath = dirname(__DIR__, 2).'/Fixtures/Files';
+
+        yield 'invalid file' => [$fixturePath.'/invalid-config-file.yaml'];
+        yield 'invalid path at file condition' => [$fixturePath.'/invalid-config-file-condition-path.yaml'];
+        yield 'invalid target at file condition' => [$fixturePath.'/invalid-config-file-condition-target.yaml'];
     }
 }

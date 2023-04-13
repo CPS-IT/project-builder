@@ -52,10 +52,12 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
     #[Framework\Attributes\Test]
     public function runProcessesSourceFilesAndAppliesStep(): void
     {
+        $this->result->getInstructions()->addTemplateVariable('foo', 'baz');
+
         $actual = $this->subject->run($this->result);
 
         self::assertTrue($actual);
-        self::assertCount(2, $this->subject->getProcessedFiles());
+        self::assertCount(4, $this->subject->getProcessedFiles());
         self::assertSame('overrides/shared-dummy-4.yaml', $this->subject->getProcessedFiles()[0]->getTargetFile()->getRelativePathname());
         self::assertSame('shared-dummy.yaml', $this->subject->getProcessedFiles()[1]->getTargetFile()->getRelativePathname());
         self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy.yaml');
@@ -63,6 +65,8 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
         self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy-3.yaml');
         self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy-4.yaml');
         self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/overrides/shared-dummy-4.yaml');
+        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/foo-baz-shared-dummy/shared-dummy-1.yaml');
+        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/foo-baz-shared-dummy/shared-dummy-2.yaml');
         self::assertTrue($this->result->isStepApplied($this->subject));
     }
 
