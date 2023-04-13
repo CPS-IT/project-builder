@@ -29,7 +29,7 @@
 					{
 						"path": "dummy/*",
 						"if": "true",
-						"target": "{{ bar.name }}-dummy/*"
+						"target": "foo-{{ foo }}-dummy/*"
 					}
 				]
 			}
@@ -54,7 +54,7 @@
 					{
 						"path": "shared-dummy/*",
 						"if": "true",
-						"target": "{{ bar.name }}-shared-dummy/*"
+						"target": "foo-{{ foo }}-shared-dummy/*"
 					}
 				]
 			}

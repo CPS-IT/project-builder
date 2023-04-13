@@ -29,6 +29,7 @@ use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\IO;
 use CPSIT\ProjectBuilder\Paths;
 use CPSIT\ProjectBuilder\Resource;
+use CPSIT\ProjectBuilder\Twig;
 use Symfony\Component\ExpressionLanguage;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
@@ -50,11 +51,13 @@ final class MirrorProcessedFilesStep extends AbstractStep implements ProcessingS
     public function __construct(
         ExpressionLanguage\ExpressionLanguage $expressionLanguage,
         Filesystem\Filesystem $filesystem,
+        Twig\Renderer $renderer,
         private readonly IO\Messenger $messenger,
     ) {
         parent::__construct();
         $this->expressionLanguage = $expressionLanguage;
         $this->filesystem = $filesystem;
+        $this->renderer = $renderer;
     }
 
     public function run(Builder\BuildResult $buildResult): bool
