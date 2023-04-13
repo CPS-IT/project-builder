@@ -15,7 +15,7 @@
 [![Docker](https://img.shields.io/docker/v/cpsit/project-builder?label=docker&sort=semver)](https://hub.docker.com/r/cpsit/project-builder)
 [![License](http://poser.pugx.org/cpsit/project-builder/license)](LICENSE)
 
-📙&nbsp;**[Documentation](https://project-builder.cps-it.de/)** |
+📙&nbsp;[Documentation](https://project-builder.cps-it.de/) |
 📦&nbsp;[Packagist](https://packagist.org/packages/cpsit/project-builder) |
 💾&nbsp;[Repository](https://github.com/CPS-IT/project-builder) |
 🐛&nbsp;[Issue tracker](https://github.com/CPS-IT/project-builder/issues)
