@@ -25,11 +25,17 @@ namespace CPSIT\ProjectBuilder\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder\Builder;
 use CPSIT\ProjectBuilder\Resource;
+use CPSIT\ProjectBuilder\Twig;
 use Symfony\Component\ExpressionLanguage;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
 
 use function fnmatch;
+use function preg_quote;
+use function preg_replace;
+use function sprintf;
+use function str_ends_with;
+use function substr;
 
 /**
  * ProcessingFilesTrait.
@@ -41,6 +47,7 @@ trait ProcessingFilesTrait
 {
     protected ExpressionLanguage\ExpressionLanguage $expressionLanguage;
     protected Filesystem\Filesystem $filesystem;
+    protected Twig\Renderer $renderer;
 
     /**
      * @var list<Resource\Local\ProcessedFile>
@@ -94,9 +101,26 @@ trait ProcessingFilesTrait
                 continue;
             }
 
-            if ($this->fileConditionMatches($fileCondition, $instructions)) {
-                return $fileCondition->getTarget();
+            if (!$this->fileConditionMatches($fileCondition, $instructions)) {
+                continue;
             }
+
+            // Handle Twig syntax in target
+            $target = $this->renderer->withDefaultTemplate($fileCondition->getTarget())->render($instructions);
+
+            // Exchange current file's base path with target's base path
+            if ($this->isConfiguredAsBasePath($fileCondition->getPath()) && $this->isConfiguredAsBasePath($target)) {
+                $baseSourcePath = substr($fileCondition->getPath(), 0, -1);
+                $baseTargetPath = substr($target, 0, -1);
+
+                $target = preg_replace(
+                    sprintf('#^%s#', preg_quote($baseSourcePath, '#')),
+                    $baseTargetPath,
+                    $file->getRelativePathname(),
+                );
+            }
+
+            return $target;
         }
 
         return null;
@@ -111,5 +135,10 @@ trait ProcessingFilesTrait
             $instructions->getTemplateVariables(),
             true,
         );
+    }
+
+    protected function isConfiguredAsBasePath(string $path): bool
+    {
+        return str_ends_with($path, '/*');
     }
 }
