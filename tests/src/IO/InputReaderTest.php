@@ -58,6 +58,20 @@ final class InputReaderTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
+    public function staticValueReturnsTrimmedAnswerValue(): void
+    {
+        self::$io->setUserInputs([' Bob ']);
+        self::assertSame('Bob', $this->subject->staticValue('What\'s your name?'));
+    }
+
+    #[Framework\Attributes\Test]
+    public function staticValueReturnsNullForEmptyAnswerValue(): void
+    {
+        self::$io->setUserInputs([' ']);
+        self::assertNull($this->subject->staticValue('What\'s your name?'));
+    }
+
+    #[Framework\Attributes\Test]
     public function hiddenValueHidesUserInput(): void
     {
         self::$io->setUserInputs(['s3cr3t']);
