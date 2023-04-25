@@ -156,6 +156,11 @@ final class InputReader
             array_filter($answers, fn ($answer): bool => $noSelectionIndex !== (int) $answer),
         );
 
+        // Early return if no selection was made
+        if (null !== $noSelectionIndex && [] === $selections) {
+            return [];
+        }
+
         // @codeCoverageIgnoreStart
         if ([] === $selections) {
             throw Exception\ValidationException::create('No selection was made. Please try again.');
