@@ -69,4 +69,15 @@ final class InputReaderTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('What\'s your password?', $output);
         self::assertStringNotContainsString('s3cr3t', $output);
     }
+
+    #[Framework\Attributes\Test]
+    public function choicesReturnsEmptyArrayIfNoSelectionWasMade(): void
+    {
+        self::$io->setUserInputs(['']);
+
+        self::assertSame(
+            [],
+            $this->subject->choices('Please make a selection.', ['foo', 'baz'], multiple: true),
+        );
+    }
 }
