@@ -28,7 +28,7 @@ use CPSIT\ProjectBuilder as Src;
 use GuzzleHttp\Handler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Utils;
-use Nyholm\Psr7\Factory;
+use Nyholm\Psr7;
 use PHPUnit\Framework;
 use Psr\Http\Client;
 use Psr\Http\Message;
@@ -43,14 +43,12 @@ use Symfony\Component\DependencyInjection;
 abstract class ContainerAwareTestCase extends Framework\TestCase
 {
     protected static DependencyInjection\ContainerInterface $container;
-    protected static Factory\HttplugFactory $factory;
     protected static ClearableBufferIO $io;
     protected static Handler\MockHandler $mockHandler;
     protected static Src\Builder\Config\Config $config;
 
     public static function setUpBeforeClass(): void
     {
-        self::$factory = new Factory\HttplugFactory();
         self::$io = static::createIO();
         self::$config = static::createConfig();
 
@@ -115,9 +113,8 @@ abstract class ContainerAwareTestCase extends Framework\TestCase
      */
     protected static function createJsonResponse(array $json): Message\ResponseInterface
     {
-        return self::$factory->createResponse(
+        return new Psr7\Response(
             200,
-            null,
             ['Content-Type' => 'application/json'],
             Utils::jsonEncode($json),
         );
@@ -125,7 +122,7 @@ abstract class ContainerAwareTestCase extends Framework\TestCase
 
     protected static function createErroneousResponse(int $statusCode = 500): Message\ResponseInterface
     {
-        return self::$factory->createResponse($statusCode, null, [], 'Something went wrong.');
+        return new Psr7\Response($statusCode, [], 'Something went wrong.');
     }
 
     protected function tearDown(): void
