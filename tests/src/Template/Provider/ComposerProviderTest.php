@@ -109,8 +109,6 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
     {
         $reflectionObject = new ReflectionObject($object);
         $reflectionProperty = $reflectionObject->getProperty($propertyName);
-
-        $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($object, $value);
     }
 

@@ -186,10 +186,8 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
     private function getReflectionProperty(object $object, string $propertyName): ReflectionProperty
     {
         $reflectionObject = new ReflectionObject($object);
-        $reflectionProperty = $reflectionObject->getProperty($propertyName);
-        $reflectionProperty->setAccessible(true);
 
-        return $reflectionProperty;
+        return $reflectionObject->getProperty($propertyName);
     }
 
     /**
