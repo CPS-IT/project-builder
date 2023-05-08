@@ -61,16 +61,8 @@ final class InputReader
         $validator = $this->makeValidator($validator, $required);
         $answer = $this->io->askAndValidate($label, $validator, 3, $default);
 
-        if (!is_string($answer) && null !== $answer) {
-            return null;
-        }
-
-        if (is_string($answer) && '' !== trim($answer)) {
-            return trim($answer);
-        }
-
-        if (is_string($default) && '' !== trim($default)) {
-            return trim($default);
+        if (is_string($answer) && '' !== $answer) {
+            return $answer;
         }
 
         return null;
