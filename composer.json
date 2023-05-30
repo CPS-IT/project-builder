@@ -52,7 +52,7 @@
 		"phpstan/phpstan-strict-rules": "^1.2",
 		"phpstan/phpstan-symfony": "^1.2",
 		"phpstan/phpstan-webmozart-assert": "^1.2",
-		"phpunit/phpunit": "^10.0.0",
+		"phpunit/phpunit": "^10.1",
 		"rector/rector": "^0.16.0",
 		"seld/jsonlint": "^1.9"
 	},
@@ -122,8 +122,8 @@
 			"@test:docker --cache"
 		],
 		"test:docker": "tests/docker/docker-build.sh",
-		"test:unit": "phpunit -c phpunit.xml",
-		"test:unit:coverage": "phpunit -c phpunit.coverage.xml",
+		"test:unit": "@test:unit:coverage --no-coverage",
+		"test:unit:coverage": "phpunit -c phpunit.xml",
 		"validate-schema": "docker run --rm -v \"$(pwd)\":/code swaggest/json-cli json-cli validate-schema resources/config.schema.json"
 	}
 }

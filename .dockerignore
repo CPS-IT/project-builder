@@ -10,7 +10,6 @@
 /dependency-checker.json
 /Dockerfile
 /phpstan.neon
-/phpunit.coverage.xml
 /phpunit.xml
 /README.md
 /rector.php
