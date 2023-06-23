@@ -290,6 +290,29 @@
 					"required": [
 						"options"
 					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": "runCommand"
+						},
+						"options": {
+							"type": "object",
+							"properties": {
+								"command": {
+									"type": "string",
+									"title": "Shell command to be executed",
+									"description": "Specify the command that should be run in the project or temporary directory"
+								}
+							},
+							"required": [
+								"command"
+							]
+						}
+					},
+					"required": [
+						"options"
+					]
 				}
 			],
 			"unevaluatedProperties": false,
