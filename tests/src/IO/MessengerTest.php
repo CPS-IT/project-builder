@@ -122,6 +122,21 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         );
     }
 
+    #[Framework\Attributes\Test]
+    public function confirmProjectGenerationAsksForConfirmationAndReturnsResult(): void
+    {
+        self::$io->setUserInputs(['yes']);
+
+        self::assertTrue($this->subject->confirmProjectRegeneration());
+        self::assertStringContainsString(
+            implode(PHP_EOL, [
+                'If you want, you can restart project generation now.',
+                'Restart? [Y/n]',
+            ]),
+            self::$io->getOutput(),
+        );
+    }
+
     /**
      * @return Generator<string, array{Package\PackageInterface, string}>
      */

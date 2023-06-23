@@ -215,6 +215,15 @@ final class Messenger
         return $this->getIO()->askConfirmation($label);
     }
 
+    public function confirmProjectRegeneration(): bool
+    {
+        $this->getIO()->write('If you want, you can restart project generation now.');
+
+        $label = self::decorateLabel('Restart?', 'Y', true, ['n']);
+
+        return $this->getIO()->askConfirmation($label);
+    }
+
     /**
      * @param int-mask-of<IO\IOInterface::*> $verbosity
      */

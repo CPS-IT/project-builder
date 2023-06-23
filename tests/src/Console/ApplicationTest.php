@@ -158,7 +158,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
             $this->createTemplateSource(),
         ];
 
-        self::$io->setUserInputs(['', '']);
+        self::$io->setUserInputs(['', '', '', '', 'no']);
 
         self::assertSame(1, $this->subject->run());
         self::assertStringContainsString(
