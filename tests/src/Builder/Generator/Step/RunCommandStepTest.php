@@ -60,8 +60,9 @@ class RunCommandStepTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
-    public function runPromptsIfConfiguredCommandShouldBeRun(): void
+    public function runThrowsExceptionIfRevertingIsAttempted(): void
     {
-        $this->expectNotToPerformAssertions();
+        $this->expectException('\LogicException');
+        $this->subject->revert($this->result);
     }
 }
