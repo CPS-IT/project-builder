@@ -77,6 +77,8 @@ final class RunCommandStep extends AbstractStep implements StepInterface, Stoppa
             return false;
         }
 
+        $buildResult->applyStep($this);
+
         return true;
     }
 

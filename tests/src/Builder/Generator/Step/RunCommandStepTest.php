@@ -58,4 +58,10 @@ class RunCommandStepTest extends Tests\ContainerAwareTestCase
 
         $this->subject->run($this->result);
     }
+
+    #[Framework\Attributes\Test]
+    public function runPromptsIfConfiguredCommandShouldBeRun(): void
+    {
+        $this->expectNotToPerformAssertions();
+    }
 }

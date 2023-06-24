@@ -65,6 +65,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertTrue($actual->isStepApplied('processSharedSourceFiles'));
         self::assertTrue($actual->isStepApplied('generateBuildArtifact'));
         self::assertTrue($actual->isStepApplied('mirrorProcessedFiles'));
+        self::assertTrue($actual->isStepApplied('runCommand'));
         self::assertTrue($actual->isMirrored());
 
         $output = self::$io->getOutput();
@@ -74,18 +75,19 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('Running step #3 "processSharedSourceFiles"...', $output);
         self::assertStringContainsString('Running step #4 "generateBuildArtifact"...', $output);
         self::assertStringContainsString('Running step #5 "mirrorProcessedFiles"...', $output);
+        self::assertStringContainsString('Running step #6 "runCommand"...', $output);
 
         self::assertFileExists($this->targetDirectory.'/dummy.yaml');
         self::assertStringEqualsFile($this->targetDirectory.'/dummy.yaml', 'name: "foo"'.PHP_EOL);
 
-        self::assertCount(7, $this->eventListener->dispatchedEvents);
+        self::assertCount(8, $this->eventListener->dispatchedEvents);
         self::assertInstanceOf(Src\Event\ProjectBuildStartedEvent::class, $this->eventListener->dispatchedEvents[0]);
 
-        for ($i = 1; $i <= 5; ++$i) {
+        for ($i = 1; $i <= 6; ++$i) {
             self::assertInstanceOf(Src\Event\BuildStepProcessedEvent::class, $this->eventListener->dispatchedEvents[$i]);
         }
 
-        self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[6]);
+        self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[7]);
     }
 
     #[Framework\Attributes\Test]
