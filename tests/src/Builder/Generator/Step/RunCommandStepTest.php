@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use PHPUnit\Framework;
+use Symfony\Component\Filesystem;
 
 /**
  * RunCommandStepTest.
@@ -55,14 +56,68 @@ class RunCommandStepTest extends Tests\ContainerAwareTestCase
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
         $this->expectExceptionCode(1652952150);
         $this->expectExceptionMessage('The config for "options.command" does not exist or is not valid.');
-
         $this->subject->run($this->result);
     }
 
     #[Framework\Attributes\Test]
-    public function runThrowsExceptionIfRevertingIsAttempted(): void
+    public function runThrowsExceptionIfRevertingIsAttempted(): never
     {
         $this->expectException('\LogicException');
+        $this->expectExceptionCode(1687518806);
+        $this->expectExceptionMessage('An already run command cannot be reverted.');
         $this->subject->revert($this->result);
+    }
+
+    #[Framework\Attributes\Test]
+    public function runCommandIsSupported(): void
+    {
+        self::assertTrue(
+            $this->subject::supports('runCommand'),
+        );
+    }
+
+    #[Framework\Attributes\Test]
+    public function negatedQuestionForExecutionResultsInStoppedRun(): void
+    {
+        $this->subject->setConfig(
+            new Src\Builder\Config\ValueObject\Step(
+                Src\Builder\Generator\Step\RunCommandStep::getType(),
+                new Src\Builder\Config\ValueObject\StepOptions(
+                    command: 'echo \'foo\'',
+                ),
+            ),
+        );
+
+        self::$io->setUserInputs(['no']);
+        self::assertFalse($this->subject->run($this->result));
+        self::assertTrue($this->subject->isStopped());
+    }
+
+    #[Framework\Attributes\Test]
+    public function invalidCommandPrintProcessErrorMessage(): void
+    {
+        $this->subject->setConfig(
+            new Src\Builder\Config\ValueObject\Step(
+                Src\Builder\Generator\Step\RunCommandStep::getType(),
+                new Src\Builder\Config\ValueObject\StepOptions(
+                    command: 'f00bär --?',
+                ),
+            ),
+        );
+
+        $workingDirectory = $this->result->getWrittenDirectory();
+
+        $fileSystem = new Filesystem\Filesystem();
+        if (!$fileSystem->exists($workingDirectory)) {
+            $fileSystem->mkdir($workingDirectory);
+        }
+
+        self::$io->setUserInputs(['yes']);
+        $actual = $this->subject->run($this->result);
+        $output = self::$io->getOutput();
+
+        self::assertFalse($actual);
+
+        $fileSystem->remove($workingDirectory);
     }
 }

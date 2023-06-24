@@ -67,7 +67,10 @@ final class RunCommandStep extends AbstractStep implements StepInterface, Stoppa
             $buildResult->getWrittenDirectory(),
         );
 
-        $process->run();
+        $process->setTty(true);
+        $process->run(function ($type, $buffer): void {
+            $this->messenger->write($buffer, false);
+        });
 
         if (!$process->isSuccessful()) {
             $this->messenger->error(

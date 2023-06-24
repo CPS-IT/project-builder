@@ -89,12 +89,7 @@ final class ConfigFactoryTest extends Framework\TestCase
                 new Src\Builder\Config\ValueObject\Step('mirrorProcessedFiles'),
                 new Src\Builder\Config\ValueObject\Step(
                     'runCommand',
-                    new Src\Builder\Config\ValueObject\StepOptions(
-                        [],
-                        null,
-                        null,
-                        'echo \'foo\'',
-                    ),
+                    new Src\Builder\Config\ValueObject\StepOptions(command: 'echo \'foo\''),
                 ),
             ],
             [
