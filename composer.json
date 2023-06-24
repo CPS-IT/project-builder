@@ -6,9 +6,13 @@
 	"authors": [
 		{
 			"name": "Elias Häußler",
-			"email": "e.haeussler@familie-redlich.de",
-			"homepage": "https://www.cps-it.de",
+			"email": "elias@haeussler.dev",
 			"role": "Maintainer"
+		},
+		{
+			"name": "Martin Adler",
+			"email": "mteu@mailbox.org",
+			"role": "Developer"
 		}
 	],
 	"require": {
