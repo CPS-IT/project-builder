@@ -178,6 +178,17 @@ step.
 Read more at [`Configuration#Shared source files`](configuration.md#shared-source-files).
 ```
 
+### Run Command
+
+* Identifier: **`runCommand`**
+* Implementation: [`Builder\Generator\Step\RunCommandStep`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Generator/Step/RunCommandStep.php)
+
+The `runCommand` enables you to execute custom shell commands in the generated project directory.
+Since this steps requires a `BuildResult` it makes most sense to execute your command after dependent steps have
+been executed. That can be either in the temporary or working (target) directory.
+
+Please keep in mind that an already executed command cannot be reverted.
+
 ### Show next steps
 
 * Identifier: **`showNextSteps`**
