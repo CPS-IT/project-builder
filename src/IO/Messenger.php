@@ -227,14 +227,14 @@ final class Messenger
     /**
      * @param int-mask-of<IO\IOInterface::*> $verbosity
      */
-    public function progress(string $message, int $verbosity = IO\IOInterface::VERBOSE): void
+    public function progress(string $message, int $verbosity = IO\IOInterface::VERBOSE, bool $overwrite = false): void
     {
         if (!$this->checkVerbosity($verbosity)) {
             return;
         }
 
         $message = sprintf('<comment>%s</comment> ', rtrim($message));
-        $this->writeWithEmoji(Emoji::HourglassFlowingSand->value, $message);
+        $this->writeWithEmoji(Emoji::HourglassFlowingSand->value, $message, $overwrite);
 
         self::$lastProgressOutput = $message;
     }
