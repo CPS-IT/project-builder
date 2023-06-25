@@ -16,6 +16,7 @@ services:
       - '../src/Console/*'
       - '../src/DependencyInjection/*'
       - '../src/Event/*'
+      - '../src/IO/Console/TraceableConsoleIO.php'
       - '../src/Naming/NameVariantBuilder.php'
       - '../src/Resource/Local/ProcessedFile.php'
       - '../src/Template/TemplateSource.php'
