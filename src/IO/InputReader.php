@@ -47,7 +47,7 @@ final class InputReader
     }
 
     /**
-     * @return ($required is true ? string : string|null)
+     * @return ($required is true ? non-empty-string : non-empty-string|null)
      *
      * @throws Exception\IOException
      */
