@@ -49,7 +49,7 @@ final class SubProperty implements CustomizableInterface
         string $type,
         string $path = null,
         string $if = null,
-        int|float|string|bool|null $value = null,
+        int|float|string|bool $value = null,
         private readonly array $options = [],
         private readonly bool $multiple = false,
         private readonly int|float|string|bool|null $defaultValue = null,
