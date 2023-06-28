@@ -87,7 +87,7 @@ final class InputReader
     public function choices(
         string $label,
         array $choices,
-        bool|string|null $default = null,
+        bool|string $default = null,
         bool $required = false,
         bool $multiple = false,
     ): string|array|null {
