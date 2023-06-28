@@ -95,17 +95,24 @@
 			"Composer\\Config::disableProcessTimeout",
 			"docker-compose -f docs/_build/docker-compose.yaml run --rm -it --service-ports serve"
 		],
+		"fix": [
+			"@fix:composer",
+			"@fix:editorconfig",
+			"@fix:php"
+		],
+		"fix:composer": "@composer normalize",
+		"fix:editorconfig": "@lint:editorconfig --fix",
+		"fix:php": "php-cs-fixer fix",
 		"lint": [
 			"@lint:composer",
-			"@lint:editorconfig:fix",
+			"@lint:editorconfig",
 			"@lint:json",
 			"@lint:php"
 		],
-		"lint:composer": "@composer normalize",
+		"lint:composer": "@fix:composer --dry-run",
 		"lint:editorconfig": "ec",
-		"lint:editorconfig:fix": "@lint:editorconfig --fix",
 		"lint:json": "jsonlint resources/config.schema.json",
-		"lint:php": "php-cs-fixer fix",
+		"lint:php": "@fix:php --dry-run",
 		"migration": [
 			"@migration:rector"
 		],
