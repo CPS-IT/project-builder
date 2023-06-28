@@ -47,7 +47,7 @@ final class InputReader
     }
 
     /**
-     * @return ($required is true ? string : string|null)
+     * @return ($required is true ? non-empty-string : non-empty-string|null)
      *
      * @throws Exception\IOException
      */
@@ -87,7 +87,7 @@ final class InputReader
     public function choices(
         string $label,
         array $choices,
-        bool|string|null $default = null,
+        bool|string $default = null,
         bool $required = false,
         bool $multiple = false,
     ): string|array|null {
