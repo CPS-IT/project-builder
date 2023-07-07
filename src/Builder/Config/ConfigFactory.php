@@ -100,7 +100,7 @@ final class ConfigFactory
 
     private function validateConfig(stdClass $parsedContent): JsonSchema\ValidationResult
     {
-        $schemaFile = Filesystem\Path::join(Helper\FilesystemHelper::getProjectRootPath(), Paths::PROJECT_SCHEMA_CONFIG);
+        $schemaFile = Filesystem\Path::join(Helper\FilesystemHelper::getPackageDirectory(), Paths::PROJECT_SCHEMA_CONFIG);
         $schemaReference = 'file://'.$schemaFile;
         $schemaResolver = $this->validator->resolver();
 

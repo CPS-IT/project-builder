@@ -205,14 +205,13 @@ final class Messenger
     public function confirmOverwrite(string $directory): bool
     {
         $this->getIO()->write([
-            'All project files are temporarily generated.',
-            sprintf('To complete the project creation, they are now moved to "%s".', $directory),
-            '<comment>Note: This removes all existing files in this directory!</comment>',
+            sprintf('The target directory "%s" is not empty.', $directory),
+            '<comment>Note: When continuing, all existing files in this directory will be removed!</comment>',
         ]);
 
-        $label = self::decorateLabel('Continue?', 'Y', true, ['n']);
+        $label = self::decorateLabel('Continue?', 'N', true, ['y']);
 
-        return $this->getIO()->askConfirmation($label);
+        return $this->getIO()->askConfirmation($label, false);
     }
 
     public function confirmProjectRegeneration(): bool

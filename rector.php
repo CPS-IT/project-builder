@@ -49,6 +49,7 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__.'/src/DependencyInjection/CompilerPass/FactoryServicesPass.php',
             __DIR__.'/src/DependencyInjection/CompilerPass/PublicServicePass.php',
             __DIR__.'/src/DependencyInjection/ContainerFactory.php',
+            __DIR__.'/src/ProjectBuilderPlugin.php',
         ],
         NullToStrictStringFuncCallArgRector::class => [
             __DIR__.'/src/Builder/Generator/Step/ProcessingFilesTrait.php',

@@ -25,8 +25,10 @@ where to install and set up your new project. Make sure to always mount
 the volume to `/app`.
 
 ```{note}
-In the entrypoint, `composer create-project` is executed. It already
-contains all [recommended command options](composer.md#recommended-usage).
+In the Docker entrypoint,
+[`composer project:create`](composer.md#project-level-usage) is executed.
+You can pass all available command parameters as Docker command (except
+for `target-directory`, which is explicitly set to `/app` within the container).
 ```
 
 ## Available image tags
