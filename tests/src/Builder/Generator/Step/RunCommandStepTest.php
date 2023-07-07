@@ -114,7 +114,7 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
 
         self::$io->setUserInputs(['yes']);
         $actual = $this->subject->run($this->result);
-        $output = self::$io->getOutput();
+        self::$io->getOutput();
 
         self::assertFalse($actual);
 
