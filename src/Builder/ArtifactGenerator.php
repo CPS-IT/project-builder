@@ -24,16 +24,11 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Builder;
 
 use Composer\Package;
-use CPSIT\ProjectBuilder\Exception;
-use CPSIT\ProjectBuilder\Json;
-use CPSIT\ProjectBuilder\Paths;
 use CPSIT\ProjectBuilder\Resource;
 use Symfony\Component\Finder;
 
 use function array_map;
 use function getenv;
-use function json_decode;
-use function json_encode;
 
 /**
  * ArtifactGenerator.
@@ -47,37 +42,18 @@ final class ArtifactGenerator
 {
     public const VERSION = 1;
 
-    public function __construct(
-        private readonly Json\SchemaValidator $schemaValidator,
-    ) {
-    }
-
-    /**
-     * @throws Exception\InvalidArtifactException
-     */
     public function build(
         Finder\SplFileInfo $file,
         BuildResult $buildResult,
         Package\RootPackageInterface $rootPackage,
         int $version = self::VERSION,
     ): Artifact\Artifact {
-        // Generate artifact
-        $artifact = new Artifact\Artifact(
+        return new Artifact\Artifact(
             $this->generateBuildArtifact($file, $version),
             $this->generateTemplateArtifact($buildResult),
             $this->generateGeneratorArtifact($rootPackage),
             $this->generateResultArtifact($buildResult),
         );
-
-        // Validate generated artifact
-        $json = json_decode((string) json_encode($artifact));
-        $validationResult = $this->schemaValidator->validate($json, Paths::BUILD_ARTIFACT_SCHEMA);
-
-        if (!$validationResult->isValid()) {
-            throw Exception\InvalidArtifactException::forValidationErrors($validationResult->error());
-        }
-
-        return $artifact;
     }
 
     private function generateBuildArtifact(Finder\SplFileInfo $file, int $version): Artifact\BuildArtifact
