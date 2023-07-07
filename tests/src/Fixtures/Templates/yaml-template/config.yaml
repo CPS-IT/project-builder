@@ -37,6 +37,10 @@ steps:
   - type: runCommand
     options:
       command: "echo 'foo'"
+  - type: runCommand
+    options:
+      command: "echo 'baz'"
+      skipConfirmation: true
 
 properties:
   - identifier: foo

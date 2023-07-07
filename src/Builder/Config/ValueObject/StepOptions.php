@@ -39,6 +39,7 @@ final class StepOptions
         private readonly ?string $templateFile = null,
         private readonly ?string $artifactPath = null,
         private readonly ?string $command = null,
+        private readonly bool $skipConfirmation = false,
     ) {
     }
 
@@ -63,5 +64,10 @@ final class StepOptions
     public function getCommand(): ?string
     {
         return $this->command;
+    }
+
+    public function shouldSkipConfirmation(): bool
+    {
+        return $this->skipConfirmation;
     }
 }

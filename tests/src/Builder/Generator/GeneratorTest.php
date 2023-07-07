@@ -79,14 +79,14 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertFileExists($this->targetDirectory.'/dummy.yaml');
         self::assertStringEqualsFile($this->targetDirectory.'/dummy.yaml', 'name: "foo"'.PHP_EOL);
 
-        self::assertCount(8, $this->eventListener->dispatchedEvents);
+        self::assertCount(9, $this->eventListener->dispatchedEvents);
         self::assertInstanceOf(Src\Event\ProjectBuildStartedEvent::class, $this->eventListener->dispatchedEvents[0]);
 
-        for ($i = 1; $i <= 6; ++$i) {
+        for ($i = 1; $i <= 7; ++$i) {
             self::assertInstanceOf(Src\Event\BuildStepProcessedEvent::class, $this->eventListener->dispatchedEvents[$i]);
         }
 
-        self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[7]);
+        self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[8]);
     }
 
     #[Framework\Attributes\Test]
@@ -111,17 +111,17 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertFileExists($this->targetDirectory.'/dummy.yaml');
         self::assertStringEqualsFile($this->targetDirectory.'/dummy.yaml', 'name: "foo"'.PHP_EOL);
 
-        self::assertCount(11, $this->eventListener->dispatchedEvents);
+        self::assertCount(12, $this->eventListener->dispatchedEvents);
         self::assertInstanceOf(Src\Event\ProjectBuildStartedEvent::class, $this->eventListener->dispatchedEvents[0]);
         self::assertInstanceOf(Src\Event\BuildStepProcessedEvent::class, $this->eventListener->dispatchedEvents[1]);
         self::assertInstanceOf(Src\Event\BuildStepRevertedEvent::class, $this->eventListener->dispatchedEvents[2]);
         self::assertInstanceOf(Src\Event\ProjectBuildStartedEvent::class, $this->eventListener->dispatchedEvents[3]);
 
-        for ($i = 4; $i <= 9; ++$i) {
+        for ($i = 4; $i <= 10; ++$i) {
             self::assertInstanceOf(Src\Event\BuildStepProcessedEvent::class, $this->eventListener->dispatchedEvents[$i]);
         }
 
-        self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[10]);
+        self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[11]);
     }
 
     #[Framework\Attributes\Test]

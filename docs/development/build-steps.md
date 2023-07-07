@@ -188,6 +188,11 @@ Place your command step after dependent steps have been executed. Multiple steps
 
 Please keep in mind that an already executed command cannot be reverted.
 
+```{tip}
+Command execution needs to be confirmed by default. This can be skipped by setting
+`skipConfirmation: true` in step options.
+```
+
 ### Show next steps
 
 * Identifier: **`showNextSteps`**
