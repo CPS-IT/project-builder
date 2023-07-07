@@ -205,6 +205,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
             $this->filesystem,
             self::$container->get(EventDispatcher\EventDispatcherInterface::class),
             self::$container->get(Src\Builder\Writer\JsonFileWriter::class),
+            self::$container->get(Src\Builder\ArtifactGenerator::class),
         );
 
         $actual = $subject->run($this->targetDirectory);

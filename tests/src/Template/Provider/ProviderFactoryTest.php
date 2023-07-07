@@ -45,9 +45,7 @@ final class ProviderFactoryTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function getThrowsExceptionIfNoProviderOfGivenTypeIsAvailable(): void
     {
-        $this->expectException(Src\Exception\UnsupportedTypeException::class);
-        $this->expectExceptionCode(1652800199);
-        $this->expectExceptionMessage('The type "foo" is not supported.');
+        $this->expectExceptionObject(Src\Exception\UnknownTemplateProviderException::create('foo'));
 
         $this->subject->get('foo');
     }
@@ -67,5 +65,16 @@ final class ProviderFactoryTest extends Tests\ContainerAwareTestCase
             Src\Template\Provider\VcsProvider::class,
             $this->subject->get('vcs'),
         );
+    }
+
+    #[Framework\Attributes\Test]
+    public function getAllReturnsAllProviders(): void
+    {
+        $actual = $this->subject->getAll();
+
+        self::assertCount(3, $actual);
+        self::assertInstanceOf(Src\Template\Provider\PackagistProvider::class, $actual[0]);
+        self::assertInstanceOf(Src\Template\Provider\ComposerProvider::class, $actual[1]);
+        self::assertInstanceOf(Src\Template\Provider\VcsProvider::class, $actual[2]);
     }
 }

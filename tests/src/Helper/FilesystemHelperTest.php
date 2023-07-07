@@ -182,4 +182,21 @@ final class FilesystemHelperTest extends Framework\TestCase
         yield 'normal directory' => ['foo'];
         yield 'dot-directory' => ['.foo'];
     }
+
+    #[Framework\Attributes\Test]
+    public function resolveRelativePathReturnsGivenPathIfItIsAnAbsolutePath(): void
+    {
+        $path = '/foo/baz';
+
+        self::assertSame($path, Src\Helper\FilesystemHelper::resolveRelativePath($path));
+    }
+
+    #[Framework\Attributes\Test]
+    public function resolveRelativePathMakesRelativePathAbsolute(): void
+    {
+        $path = 'foo';
+        $expected = dirname(__DIR__, 3).'/foo';
+
+        self::assertSame($expected, Src\Helper\FilesystemHelper::resolveRelativePath($path));
+    }
 }

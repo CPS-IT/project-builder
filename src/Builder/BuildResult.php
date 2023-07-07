@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Builder;
 
 use CPSIT\ProjectBuilder\Resource;
 use Symfony\Component\Filesystem;
+use Symfony\Component\Finder;
 
 use function array_values;
 
@@ -37,7 +38,7 @@ use function array_values;
 final class BuildResult
 {
     private bool $mirrored = false;
-    private ?Artifact\BuildArtifact $buildArtifact = null;
+    private ?Finder\SplFileInfo $artifactFile = null;
 
     /**
      * @var array<string, Generator\Step\StepInterface>
@@ -66,14 +67,17 @@ final class BuildResult
         return $this;
     }
 
-    public function getBuildArtifact(): ?Artifact\BuildArtifact
+    public function getArtifactFile(): ?Finder\SplFileInfo
     {
-        return $this->buildArtifact;
+        return $this->artifactFile;
     }
 
-    public function setBuildArtifact(Artifact\BuildArtifact $buildArtifact): self
+    /**
+     * @impure
+     */
+    public function setArtifactFile(?Finder\SplFileInfo $artifactFile): self
     {
-        $this->buildArtifact = $buildArtifact;
+        $this->artifactFile = $artifactFile;
 
         return $this;
     }

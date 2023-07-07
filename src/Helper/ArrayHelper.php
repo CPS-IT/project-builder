@@ -25,6 +25,9 @@ namespace CPSIT\ProjectBuilder\Helper;
 
 use ArrayObject;
 
+use function count;
+use function is_array;
+
 /**
  * ArrayHelper.
  *
@@ -76,6 +79,33 @@ final class ArrayHelper
         }
 
         $reference = $value;
+    }
+
+    /**
+     * @param iterable<string, mixed> $subject
+     * @param non-empty-string        $path
+     */
+    public static function removeByPath(iterable &$subject, string $path): void
+    {
+        $pathSegments = array_filter(explode('.', $path));
+        $maxSegmentIndex = count($pathSegments) - 1;
+        $reference = &$subject;
+
+        foreach ($pathSegments as $currentSegmentIndex => $pathSegment) {
+            // Early return if given path segment does not exist
+            if (!self::pathSegmentExists($reference, $pathSegment)) {
+                return;
+            }
+
+            // Unset target path
+            if ($currentSegmentIndex === $maxSegmentIndex) {
+                unset($reference[$pathSegment]);
+
+                return;
+            }
+
+            $reference = &$reference[$pathSegment];
+        }
     }
 
     private static function pathSegmentExists(mixed $subject, string $pathSegment): bool

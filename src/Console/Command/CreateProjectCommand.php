@@ -50,36 +50,27 @@ final class CreateProjectCommand extends Command\BaseCommand
     private const ABORTED = 2;
 
     /**
-     * @var non-empty-list<Template\Provider\ProviderInterface>
-     */
-    private array $templateProviders;
-
-    /**
-     * @param list<Template\Provider\ProviderInterface> $templateProviders
+     * @param non-empty-list<Template\Provider\ProviderInterface> $templateProviders
      */
     public function __construct(
         private readonly IO\Messenger $messenger,
         private readonly Builder\Config\ConfigReader $configReader,
         private readonly Error\ErrorHandler $errorHandler,
-        private readonly Filesystem\Filesystem $filesystem,
-        array $templateProviders = [],
+        private array $templateProviders,
     ) {
         parent::__construct('project:create');
-
-        if ([] === $templateProviders) {
-            $templateProviders = $this->createDefaultTemplateProviders();
-        }
-
-        $this->templateProviders = $templateProviders;
     }
 
     public static function create(IO\Messenger $messenger): self
     {
+        $filesystem = new Filesystem\Filesystem();
+        $providerFactory = new Template\Provider\ProviderFactory($messenger, $filesystem);
+
         return new self(
             $messenger,
             Builder\Config\ConfigReader::create(),
             new Error\ErrorHandler($messenger),
-            new Filesystem\Filesystem(),
+            $providerFactory->getAll(),
         );
     }
 
@@ -202,17 +193,5 @@ final class CreateProjectCommand extends Command\BaseCommand
         $container->set('app.messenger', $this->messenger);
 
         return $container;
-    }
-
-    /**
-     * @return non-empty-list<Template\Provider\ProviderInterface>
-     */
-    private function createDefaultTemplateProviders(): array
-    {
-        return [
-            new Template\Provider\PackagistProvider($this->messenger, $this->filesystem),
-            new Template\Provider\ComposerProvider($this->messenger, $this->filesystem),
-            new Template\Provider\VcsProvider($this->messenger, $this->filesystem),
-        ];
     }
 }

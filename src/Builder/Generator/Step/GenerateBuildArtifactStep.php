@@ -26,7 +26,6 @@ namespace CPSIT\ProjectBuilder\Builder\Generator\Step;
 use CPSIT\ProjectBuilder\Builder;
 use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\IO;
-use CPSIT\ProjectBuilder\Resource;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
 
@@ -64,13 +63,7 @@ final class GenerateBuildArtifactStep extends AbstractStep implements StoppableS
             return !$this->stopped;
         }
 
-        $artifact = new Builder\Artifact\BuildArtifact(
-            $artifactFile->getRelativePathname(),
-            $buildResult,
-            Resource\Local\Composer::createComposer(Helper\FilesystemHelper::getPackageDirectory())->getPackage(),
-        );
-
-        $buildResult->setBuildArtifact($artifact);
+        $buildResult->setArtifactFile($artifactFile);
         $buildResult->applyStep($this);
 
         return true;

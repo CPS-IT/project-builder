@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
+use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
 use Rector\Php74\Rector\LNumber\AddLiteralSeparatorToNumberRector;
 use Rector\Php80\Rector\Class_\AnnotationToAttributeRector;
 use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
@@ -50,6 +51,10 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__.'/src/DependencyInjection/CompilerPass/PublicServicePass.php',
             __DIR__.'/src/DependencyInjection/ContainerFactory.php',
             __DIR__.'/src/ProjectBuilderPlugin.php',
+        ],
+        JsonThrowOnErrorRector::class => [
+            __DIR__.'/src/Builder/ArtifactGenerator.php',
+            __DIR__.'/src/Builder/ArtifactReader.php',
         ],
         NullToStrictStringFuncCallArgRector::class => [
             __DIR__.'/src/Builder/Generator/Step/ProcessingFilesTrait.php',

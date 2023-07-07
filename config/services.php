@@ -26,10 +26,10 @@ namespace CPSIT\ProjectBuilder\DependencyInjection;
 use Cocur\Slugify;
 use CPSIT\ProjectBuilder\Builder;
 use CPSIT\ProjectBuilder\IO;
-use CPSIT\ProjectBuilder\Template;
 use CPSIT\ProjectBuilder\Twig;
 use GuzzleHttp\Client as GuzzleClient;
 use Nyholm\Psr7;
+use Opis\JsonSchema;
 use Psr\Http\Client;
 use Psr\Http\Message;
 use SebastianFeldmann\Cli;
@@ -43,6 +43,9 @@ return static function (
     DependencyInjection\Loader\Configurator\ContainerConfigurator $configurator,
     DependencyInjection\ContainerBuilder $container,
 ): void {
+    $container->registerForAutoconfiguration(Builder\Artifact\Migration\Migration::class)
+        ->addTag('artifact.migration')
+    ;
     $container->registerForAutoconfiguration(Builder\Writer\WriterInterface::class)
         ->addTag('builder.writer')
     ;
@@ -54,9 +57,6 @@ return static function (
     ;
     $container->registerForAutoconfiguration(IO\Validator\ValidatorInterface::class)
         ->addTag('io.validator')
-    ;
-    $container->registerForAutoconfiguration(Template\Provider\ProviderInterface::class)
-        ->addTag('template.provider')
     ;
     $container->registerForAutoconfiguration(Twig\Filter\TwigFilterInterface::class)
         ->addTag('twig.filter')
@@ -84,6 +84,7 @@ return static function (
     // Add external services
     $services->set(ExpressionLanguage\ExpressionLanguage::class);
     $services->set(Filesystem\Filesystem::class);
+    $services->set(JsonSchema\Validator::class);
     $services->set(Slugify\Slugify::class);
     $services->set(Client\ClientInterface::class, GuzzleClient::class);
     $services->set(Loader\LoaderInterface::class, Loader\FilesystemLoader::class);

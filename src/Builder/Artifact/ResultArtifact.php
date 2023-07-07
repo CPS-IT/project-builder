@@ -23,8 +23,8 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Builder\Artifact;
 
-use CPSIT\ProjectBuilder\Builder;
-use CPSIT\ProjectBuilder\Resource;
+use JsonSerializable;
+use stdClass;
 
 /**
  * ResultArtifact.
@@ -33,38 +33,34 @@ use CPSIT\ProjectBuilder\Resource;
  * @license GPL-3.0-or-later
  *
  * @internal
- *
- * @extends Artifact<array{
- *     properties: array<string, mixed>,
- *     steps: list<array{type: string, applied: bool}>,
- *     processedFiles: list<array{source: string, target: string}>
- * }>
  */
-final class ResultArtifact extends Artifact
+final class ResultArtifact implements JsonSerializable
 {
+    /**
+     * @param array<string, mixed>                        $properties
+     * @param list<array{type: string, applied: bool}>    $steps
+     * @param list<array{source: string, target: string}> $processedFiles
+     */
     public function __construct(
-        private readonly Builder\BuildResult $buildResult,
+        public readonly array $properties,
+        public readonly array $steps,
+        public readonly array $processedFiles,
     ) {
     }
 
-    public function dump(): array
+    /**
+     * @return array{
+     *     properties: stdClass,
+     *     steps: list<array{type: string, applied: bool}>,
+     *     processedFiles: list<array{source: string, target: string}>,
+     * }
+     */
+    public function jsonSerialize(): array
     {
         return [
-            'properties' => $this->buildResult->getInstructions()->getTemplateVariables(),
-            'steps' => array_map(
-                fn (Builder\Config\ValueObject\Step $step) => [
-                    'type' => $step->getType(),
-                    'applied' => $this->buildResult->isStepApplied($step->getType()),
-                ],
-                $this->buildResult->getInstructions()->getConfig()->getSteps(),
-            ),
-            'processedFiles' => array_map(
-                fn (Resource\Local\ProcessedFile $processedFile) => [
-                    'source' => $processedFile->getOriginalFile()->getRelativePathname(),
-                    'target' => $processedFile->getTargetFile()->getRelativePathname(),
-                ],
-                $this->buildResult->getProcessedFiles(),
-            ),
+            'properties' => (object) $this->properties,
+            'steps' => $this->steps,
+            'processedFiles' => $this->processedFiles,
         ];
     }
 }
