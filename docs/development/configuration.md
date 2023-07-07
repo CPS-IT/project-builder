@@ -59,7 +59,7 @@ supported by your package:
 ```
 :::
 
-## Structure
+## File structure
 
 Within the external Composer template package, the following file
 structure must exist:
