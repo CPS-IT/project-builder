@@ -34,7 +34,7 @@ use Symfony\Component\Filesystem;
  * @author Martin Adler <mteu@mailbox.org>
  * @license GPL-3.0-or-later
  */
-class RunCommandStepTest extends Tests\ContainerAwareTestCase
+final class RunCommandStepTest extends Tests\ContainerAwareTestCase
 {
     private Src\Builder\Generator\Step\RunCommandStep $subject;
     private Src\Builder\BuildResult $result;
