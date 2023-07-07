@@ -47,7 +47,7 @@ final class InputReader
     }
 
     /**
-     * @return ($required is true ? string : string|null)
+     * @return ($required is true ? non-empty-string : non-empty-string|null)
      *
      * @throws Exception\IOException
      */
@@ -61,16 +61,8 @@ final class InputReader
         $validator = $this->makeValidator($validator, $required);
         $answer = $this->io->askAndValidate($label, $validator, 3, $default);
 
-        if (!is_string($answer) && null !== $answer) {
-            return null;
-        }
-
-        if (is_string($answer) && '' !== trim($answer)) {
-            return trim($answer);
-        }
-
-        if (is_string($default) && '' !== trim($default)) {
-            return trim($default);
+        if (is_string($answer) && '' !== $answer) {
+            return $answer;
         }
 
         return null;
@@ -95,7 +87,7 @@ final class InputReader
     public function choices(
         string $label,
         array $choices,
-        bool|string|null $default = null,
+        bool|string $default = null,
         bool $required = false,
         bool $multiple = false,
     ): string|array|null {
@@ -155,6 +147,11 @@ final class InputReader
             fn ($answer): string => $choices[(int) $answer],
             array_filter($answers, fn ($answer): bool => $noSelectionIndex !== (int) $answer),
         );
+
+        // Early return if no selection was made
+        if (null !== $noSelectionIndex && [] === $selections) {
+            return [];
+        }
 
         // @codeCoverageIgnoreStart
         if ([] === $selections) {

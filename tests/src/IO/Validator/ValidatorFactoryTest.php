@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\IO\Validator;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use Generator;
 use PHPUnit\Framework;
 
 /**
@@ -54,12 +55,18 @@ final class ValidatorFactoryTest extends Tests\ContainerAwareTestCase
         $this->subject->get($validator);
     }
 
+    /**
+     * @param non-empty-string                                  $type
+     * @param array<string, int|float|string|bool>              $options
+     * @param class-string<Src\IO\Validator\ValidatorInterface> $expected
+     */
     #[Framework\Attributes\Test]
-    public function getReturnsValidatorForGivenType(): void
+    #[Framework\Attributes\DataProvider('getReturnsValidatorForGivenTypeDataProvider')]
+    public function getReturnsValidatorForGivenType(string $type, array $options, string $expected): void
     {
-        $validator = new Src\Builder\Config\ValueObject\PropertyValidator('email');
+        $validator = new Src\Builder\Config\ValueObject\PropertyValidator($type, $options);
 
-        self::assertInstanceOf(Src\IO\Validator\EmailValidator::class, $this->subject->get($validator));
+        self::assertInstanceOf($expected, $this->subject->get($validator));
     }
 
     #[Framework\Attributes\Test]
@@ -72,6 +79,20 @@ final class ValidatorFactoryTest extends Tests\ContainerAwareTestCase
 
         self::assertTrue($actual->has(new Src\IO\Validator\EmailValidator()));
         self::assertTrue($actual->has(new Src\IO\Validator\NotEmptyValidator()));
+        self::assertFalse($actual->has(new Src\IO\Validator\CallbackValidator(['callback' => fn () => null])));
+        self::assertFalse($actual->has(new Src\IO\Validator\RegexValidator(['pattern' => '/.*/'])));
         self::assertFalse($actual->has(new Src\IO\Validator\UrlValidator()));
+    }
+
+    /**
+     * @return Generator<string, array{non-empty-string, array<string, int|float|string|bool>, class-string<Src\IO\Validator\ValidatorInterface>}>
+     */
+    public static function getReturnsValidatorForGivenTypeDataProvider(): Generator
+    {
+        yield 'callback' => ['callback', ['callback' => 'trim'], Src\IO\Validator\CallbackValidator::class];
+        yield 'email' => ['email', [], Src\IO\Validator\EmailValidator::class];
+        yield 'notEmpty' => ['notEmpty', [], Src\IO\Validator\NotEmptyValidator::class];
+        yield 'regex' => ['regex', ['pattern' => '/.*/'], Src\IO\Validator\RegexValidator::class];
+        yield 'url' => ['url', [], Src\IO\Validator\UrlValidator::class];
     }
 }

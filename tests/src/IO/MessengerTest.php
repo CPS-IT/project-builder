@@ -124,6 +124,21 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
+    public function confirmProjectRegenerationAsksForConfirmationAndReturnsResult(): void
+    {
+        self::$io->setUserInputs(['yes']);
+
+        self::assertTrue($this->subject->confirmProjectRegeneration());
+        self::assertStringContainsString(
+            implode(PHP_EOL, [
+                'If you want, you can restart project generation now.',
+                'Restart? [Y/n]',
+            ]),
+            self::$io->getOutput(),
+        );
+    }
+
+    #[Framework\Attributes\Test]
     public function isVerboseReturnsTrueIfVerbosityLevelIsVerbose(): void
     {
         self::assertFalse($this->subject->isVerbose());

@@ -214,17 +214,26 @@ final class Messenger
         return $this->getIO()->askConfirmation($label, false);
     }
 
+    public function confirmProjectRegeneration(): bool
+    {
+        $this->getIO()->write('If you want, you can restart project generation now.');
+
+        $label = self::decorateLabel('Restart?', 'Y', true, ['n']);
+
+        return $this->getIO()->askConfirmation($label);
+    }
+
     /**
      * @param int-mask-of<IO\IOInterface::*> $verbosity
      */
-    public function progress(string $message, int $verbosity = IO\IOInterface::VERBOSE): void
+    public function progress(string $message, int $verbosity = IO\IOInterface::VERBOSE, bool $overwrite = false): void
     {
         if (!$this->checkVerbosity($verbosity)) {
             return;
         }
 
         $message = sprintf('<comment>%s</comment> ', rtrim($message));
-        $this->writeWithEmoji(Emoji::HourglassFlowingSand->value, $message);
+        $this->writeWithEmoji(Emoji::HourglassFlowingSand->value, $message, $overwrite);
 
         self::$lastProgressOutput = $message;
     }

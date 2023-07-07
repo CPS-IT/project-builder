@@ -54,12 +54,12 @@ final class Bootstrap
         string $targetDirectory = null,
         bool $exitOnFailure = true,
     ): int {
-        $targetDirectory ??= Helper\FilesystemHelper::getWorkingDirectory();
-
         // Early return if current environment is unsupported
         if (self::runsOnAnUnsupportedEnvironment()) {
             throw Exception\UnsupportedEnvironmentException::forOutdatedComposerInstallation();
         }
+
+        $targetDirectory ??= Helper\FilesystemHelper::getWorkingDirectory();
 
         // Trigger autoload for all classes in order to keep them loaded
         // when files are moved around

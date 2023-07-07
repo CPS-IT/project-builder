@@ -164,6 +164,12 @@ steps:
       fileConditions:
         - path: composer.json
           if: 'false'
+        # Mirror an entire directory
+        - path: 'source-dir/*'
+          target: 'target-dir/*'
+        # Apply Twig expression for custom target directory names
+        - path: 'source-dir/*'
+          target: '{{ project.name | slugify }}-target-dir/*'
   - type: mirrorProcessedFiles
   - type: showNextSteps
     options:
@@ -183,6 +189,10 @@ properties:
         defaultValue: basic
         validators:
           - type: notEmpty
+          - type: regex
+            options:
+              pattern: '/^[a-zA-Z]+$/'
+              errorMessage: 'The project name should consist of letters only.'
 
   # Author
   - identifier: author

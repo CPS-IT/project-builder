@@ -93,6 +93,41 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
+    public function runRestartsProjectGenerationOnStepFailure(): void
+    {
+        self::$io->setUserInputs(['', '', '', 'yes', 'foo']);
+
+        self::assertCount(0, $this->eventListener->dispatchedEvents);
+
+        $actual = $this->subject->run($this->targetDirectory);
+
+        self::assertTrue($actual->isStepApplied('collectBuildInstructions'));
+        self::assertTrue($actual->isStepApplied('processSourceFiles'));
+        self::assertTrue($actual->isStepApplied('processSharedSourceFiles'));
+        self::assertTrue($actual->isStepApplied('generateBuildArtifact'));
+        self::assertTrue($actual->isStepApplied('mirrorProcessedFiles'));
+        self::assertTrue($actual->isMirrored());
+
+        $output = self::$io->getOutput();
+
+        self::assertStringContainsString('If you want, you can restart project generation now.', $output);
+        self::assertFileExists($this->targetDirectory.'/dummy.yaml');
+        self::assertStringEqualsFile($this->targetDirectory.'/dummy.yaml', 'name: "foo"'.PHP_EOL);
+
+        self::assertCount(10, $this->eventListener->dispatchedEvents);
+        self::assertInstanceOf(Src\Event\ProjectBuildStartedEvent::class, $this->eventListener->dispatchedEvents[0]);
+        self::assertInstanceOf(Src\Event\BuildStepProcessedEvent::class, $this->eventListener->dispatchedEvents[1]);
+        self::assertInstanceOf(Src\Event\BuildStepRevertedEvent::class, $this->eventListener->dispatchedEvents[2]);
+        self::assertInstanceOf(Src\Event\ProjectBuildStartedEvent::class, $this->eventListener->dispatchedEvents[3]);
+
+        for ($i = 4; $i <= 8; ++$i) {
+            self::assertInstanceOf(Src\Event\BuildStepProcessedEvent::class, $this->eventListener->dispatchedEvents[$i]);
+        }
+
+        self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[9]);
+    }
+
+    #[Framework\Attributes\Test]
     public function runRevertsAppliedStepsOnStepFailure(): void
     {
         $listener = function (Src\Event\ProjectBuildStartedEvent $event): void {

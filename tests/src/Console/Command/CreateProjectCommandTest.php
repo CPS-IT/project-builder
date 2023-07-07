@@ -186,7 +186,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
             $this->createTemplateSource(),
         ];
 
-        self::$io->setUserInputs(['', '']);
+        self::$io->setUserInputs(['', '', '', '', 'no']);
 
         self::assertSame(1, $this->commandTester->execute([
             'target-directory' => $this->targetDirectory,
@@ -239,7 +239,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
 
         self::assertSame(0, $this->commandTester->getStatusCode());
         self::assertStringContainsString(
-            'Written files: overrides/dummy-4.json, dummy.json, overrides/shared-dummy-4.json, shared-dummy.json',
+            'Written files: overrides/dummy-4.json, dummy.json',
             $output,
         );
         self::assertStringContainsString('Congratulations, your new project was successfully built!', $output);

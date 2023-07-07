@@ -58,7 +58,6 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         );
         $this->rootPath = Src\Helper\FilesystemHelper::getPackageDirectory();
 
-        $this->overwriteIO();
         $this->acceptInsecureConnections();
     }
 
@@ -89,8 +88,28 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
+    public function listTemplateSourcesAddsAdditionalEmptyLineOnWrittenOutput(): void
+    {
+        $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);
+        $io = $this->fetchIOViaReflection();
+
+        self::$io->setUserInputs([$repoA]);
+
+        $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
+
+        $this->subject->listTemplateSources();
+
+        self::assertTrue($io->isOutputWritten());
+        self::assertStringContainsString(PHP_EOL, self::$io->getOutput());
+
+        $this->filesystem->remove($repoA);
+    }
+
+    #[Framework\Attributes\Test]
     public function listTemplateSourcesListsTemplatesFromConfiguredRepository(): void
     {
+        $this->overwriteIO();
+
         $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);
 
         self::$io->setUserInputs([$repoA]);
@@ -109,6 +128,8 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function installTemplateSourceAsksForAdditionalRepositories(): void
     {
+        $this->overwriteIO();
+
         $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);
         $repoB = $this->initializeGitRepository('test/repo-b');
 
@@ -163,6 +184,16 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         $this->setPropertyValueOnObject($this->subject, 'acceptInsecureConnections', true);
     }
 
+    private function fetchIOViaReflection(): Src\IO\Console\TraceableConsoleIO
+    {
+        $reflectionProperty = $this->getReflectionProperty($this->subject, 'io');
+        $io = $reflectionProperty->getValue($this->subject);
+
+        self::assertInstanceOf(Src\IO\Console\TraceableConsoleIO::class, $io);
+
+        return $io;
+    }
+
     /**
      * @return list<array{type: string, url: string}>
      */
@@ -185,10 +216,8 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
     private function getReflectionProperty(object $object, string $propertyName): ReflectionProperty
     {
         $reflectionObject = new ReflectionObject($object);
-        $reflectionProperty = $reflectionObject->getProperty($propertyName);
-        $reflectionProperty->setAccessible(true);
 
-        return $reflectionProperty;
+        return $reflectionObject->getProperty($propertyName);
     }
 
     /**

@@ -28,6 +28,7 @@ use CPSIT\ProjectBuilder\Tests;
 use donatj\MockWebServer;
 use PHPUnit\Framework;
 use ReflectionObject;
+use ReflectionProperty;
 use Symfony\Component\Filesystem;
 
 /**
@@ -50,13 +51,14 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
         $this->server = new MockWebServer\MockWebServer();
         $this->server->start();
 
-        $this->overwriteIO();
         $this->acceptInsecureConnections();
     }
 
     #[Framework\Attributes\Test]
     public function requestCustomOptionsAsksAndAppliesBaseUrl(): void
     {
+        $this->overwriteIO();
+
         self::$io->setUserInputs(['https://example.com']);
 
         $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
@@ -81,8 +83,27 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
+    public function listTemplateSourcesAddsAdditionalEmptyLineOnWrittenOutput(): void
+    {
+        $serverUrl = sprintf('http://%s:%s', $this->server->getHost(), $this->server->getPort());
+        $io = $this->fetchIOViaReflection();
+
+        $this->subject->setUrl($serverUrl);
+
+        $io->silence();
+        $io->write('foo');
+
+        $this->subject->listTemplateSources();
+
+        self::assertTrue($io->isOutputWritten());
+        self::assertSame(PHP_EOL, self::$io->getOutput());
+    }
+
+    #[Framework\Attributes\Test]
     public function listTemplateSourcesConnectsToComposerHostToFetchAvailablePackages(): void
     {
+        $this->overwriteIO();
+
         $serverUrl = sprintf('http://%s:%s', $this->server->getHost(), $this->server->getPort());
 
         $this->subject->setUrl($serverUrl);
@@ -105,13 +126,27 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
         $this->setPropertyValueOnObject($this->subject, 'acceptInsecureConnections', true);
     }
 
+    private function fetchIOViaReflection(): Src\IO\Console\TraceableConsoleIO
+    {
+        $reflectionProperty = $this->getReflectionProperty($this->subject, 'io');
+        $io = $reflectionProperty->getValue($this->subject);
+
+        self::assertInstanceOf(Src\IO\Console\TraceableConsoleIO::class, $io);
+
+        return $io;
+    }
+
     private function setPropertyValueOnObject(object $object, string $propertyName, mixed $value): void
     {
-        $reflectionObject = new ReflectionObject($object);
-        $reflectionProperty = $reflectionObject->getProperty($propertyName);
-
-        $reflectionProperty->setAccessible(true);
+        $reflectionProperty = $this->getReflectionProperty($object, $propertyName);
         $reflectionProperty->setValue($object, $value);
+    }
+
+    private function getReflectionProperty(object $object, string $propertyName): ReflectionProperty
+    {
+        $reflectionObject = new ReflectionObject($object);
+
+        return $reflectionObject->getProperty($propertyName);
     }
 
     protected function tearDown(): void
