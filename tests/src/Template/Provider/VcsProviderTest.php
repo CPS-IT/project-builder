@@ -59,7 +59,6 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         );
         $this->temporaryRootPath = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
 
-        $this->overwriteIO();
         $this->acceptInsecureConnections();
 
         putenv('PROJECT_BUILDER_ROOT_PATH='.$this->temporaryRootPath);
@@ -92,8 +91,28 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
+    public function listTemplateSourcesAddsAdditionalEmptyLineOnWrittenOutput(): void
+    {
+        $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);
+        $io = $this->fetchIOViaReflection();
+
+        self::$io->setUserInputs([$repoA]);
+
+        $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
+
+        $this->subject->listTemplateSources();
+
+        self::assertTrue($io->isOutputWritten());
+        self::assertStringContainsString(PHP_EOL, self::$io->getOutput());
+
+        $this->filesystem->remove($repoA);
+    }
+
+    #[Framework\Attributes\Test]
     public function listTemplateSourcesListsTemplatesFromConfiguredRepository(): void
     {
+        $this->overwriteIO();
+
         $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);
 
         self::$io->setUserInputs([$repoA]);
@@ -112,6 +131,8 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function installTemplateSourceAsksForAdditionalRepositories(): void
     {
+        $this->overwriteIO();
+
         $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);
         $repoB = $this->initializeGitRepository('test/repo-b');
 
@@ -162,6 +183,16 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
     private function acceptInsecureConnections(): void
     {
         $this->setPropertyValueOnObject($this->subject, 'acceptInsecureConnections', true);
+    }
+
+    private function fetchIOViaReflection(): Src\IO\Console\TraceableConsoleIO
+    {
+        $reflectionProperty = $this->getReflectionProperty($this->subject, 'io');
+        $io = $reflectionProperty->getValue($this->subject);
+
+        self::assertInstanceOf(Src\IO\Console\TraceableConsoleIO::class, $io);
+
+        return $io;
     }
 
     /**

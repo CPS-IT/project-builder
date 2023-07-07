@@ -21,7 +21,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
-          tools: composer:v2, composer-require-checker, composer-unused:0.7, cs2pr
+          tools: composer:v2, composer-require-checker, composer-unused, cs2pr
           coverage: none
 
       # Validation
@@ -40,17 +40,17 @@ jobs:
       - name: Re-install Composer dependencies
         uses: ramsey/composer-install@v2
       - name: Check for unused dependencies
-        run: composer-unused --excludePackage=symfony/polyfill-php80
+        run: composer-unused --excludePackage=nyholm/psr7
 
       # Linting
       - name: Lint composer.json
-        run: composer lint:composer -- --dry-run
+        run: composer lint:composer
       - name: Lint Editorconfig
         run: composer lint:editorconfig
       - name: Lint JSON
         run: composer lint:json
       - name: Lint PHP
-        run: composer lint:php -- --dry-run --format=checkstyle | cs2pr
+        run: composer lint:php -- --format=checkstyle | cs2pr
 
       # SCA
       - name: SCA PHP
