@@ -24,7 +24,6 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Template\Provider;
 
 use Composer\Factory;
-use Composer\IO as ComposerIO;
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\IO;
 use Symfony\Component\Console;
@@ -48,13 +47,24 @@ final class ComposerProvider extends BaseProvider implements CustomProviderInter
     ) {
         parent::__construct($messenger, $filesystem);
 
-        $this->io = new ComposerIO\ConsoleIO(
+        $this->io = new IO\Console\TraceableConsoleIO(
             new Console\Input\StringInput(''),
             Factory::createOutput(),
             new Console\Helper\HelperSet([
                 new Console\Helper\QuestionHelper(),
             ]),
         );
+    }
+
+    public function listTemplateSources(): array
+    {
+        $templateSources = parent::listTemplateSources();
+
+        if ($this->io instanceof IO\Console\TraceableConsoleIO && $this->io->isOutputWritten()) {
+            $this->messenger->newLine();
+        }
+
+        return $templateSources;
     }
 
     public function requestCustomOptions(IO\Messenger $messenger): void

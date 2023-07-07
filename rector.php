@@ -26,6 +26,7 @@ use Rector\Core\ValueObject\PhpVersion;
 use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
 use Rector\Php74\Rector\LNumber\AddLiteralSeparatorToNumberRector;
 use Rector\Php80\Rector\Class_\AnnotationToAttributeRector;
+use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
 use Rector\PHPUnit\Set\PHPUnitLevelSetList;
 use Rector\Set\ValueObject\LevelSetList;
 
@@ -53,6 +54,9 @@ return static function (RectorConfig $rectorConfig): void {
         JsonThrowOnErrorRector::class => [
             __DIR__.'/src/Builder/ArtifactGenerator.php',
             __DIR__.'/src/Builder/ArtifactReader.php',
+        ],
+        NullToStrictStringFuncCallArgRector::class => [
+            __DIR__.'/src/Builder/Generator/Step/ProcessingFilesTrait.php',
         ],
     ]);
 

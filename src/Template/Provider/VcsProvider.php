@@ -23,9 +23,12 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Template\Provider;
 
+use Composer\Factory;
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\IO;
 use CPSIT\ProjectBuilder\Template;
+use Symfony\Component\Console;
+use Symfony\Component\Filesystem;
 
 /**
  * VcsProvider.
@@ -44,6 +47,19 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
      */
     private array $repositories = [];
 
+    public function __construct(IO\Messenger $messenger, Filesystem\Filesystem $filesystem)
+    {
+        parent::__construct($messenger, $filesystem);
+
+        $this->io = new IO\Console\TraceableConsoleIO(
+            new Console\Input\StringInput(''),
+            Factory::createOutput(),
+            new Console\Helper\HelperSet([
+                new Console\Helper\QuestionHelper(),
+            ]),
+        );
+    }
+
     public function requestCustomOptions(IO\Messenger $messenger): void
     {
         $inputReader = $messenger->createInputReader();
@@ -52,6 +68,17 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
             'Repository URL <fg=gray>(e.g. https://github.com/vendor/template.git)</>',
             required: true,
         );
+    }
+
+    public function listTemplateSources(): array
+    {
+        $templateSources = parent::listTemplateSources();
+
+        if ($this->io instanceof IO\Console\TraceableConsoleIO && $this->io->isOutputWritten()) {
+            $this->messenger->newLine();
+        }
+
+        return $templateSources;
     }
 
     public function installTemplateSource(Template\TemplateSource $templateSource): void

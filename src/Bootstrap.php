@@ -50,14 +50,15 @@ final class Bootstrap
         string $targetDirectory = null,
         bool $exitOnFailure = true,
     ): int {
-        $messenger = IO\Messenger::create($event->getIO());
-        $targetDirectory ??= Helper\FilesystemHelper::getProjectRootPath();
-
         // Early return if current environment is unsupported
         if (self::runsOnAnUnsupportedEnvironment()) {
             throw Exception\UnsupportedEnvironmentException::forOutdatedComposerInstallation();
         }
 
+        $messenger = IO\Messenger::create($event->getIO());
+        $targetDirectory ??= Helper\FilesystemHelper::getProjectRootPath();
+
+        // Create new project
         $exitCode = self::createApplication($messenger, $targetDirectory)->run();
 
         $event->stopPropagation();

@@ -9,7 +9,7 @@
 project = "Project Builder"
 copyright = "since 2022 by coding. powerful. systems. CPS GmbH"
 author = "Elias Häußler, Martin Adler"
-release = "2.0.1"
+release = "2.2.4"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -55,8 +55,8 @@ html_theme_options = {
 # -- OpenGraph configuration -------------------------------------------------
 # https://github.com/wpilibsuite/sphinxext-opengraph#options
 
-opg_site_url = "https://project-builder.cps-it.de/"
-opg_image = "_static/img/header.png"
+ogp_site_url = "https://project-builder.cps-it.de/"
+ogp_image = "_static/img/header.png"
 ogp_enable_meta_description = False
 
 ## -- Syntax Highlighting ----------------------------------------------------

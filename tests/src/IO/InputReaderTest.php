@@ -58,6 +58,20 @@ final class InputReaderTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
+    public function staticValueReturnsTrimmedAnswerValue(): void
+    {
+        self::$io->setUserInputs([' Bob ']);
+        self::assertSame('Bob', $this->subject->staticValue('What\'s your name?'));
+    }
+
+    #[Framework\Attributes\Test]
+    public function staticValueReturnsNullForEmptyAnswerValue(): void
+    {
+        self::$io->setUserInputs([' ']);
+        self::assertNull($this->subject->staticValue('What\'s your name?'));
+    }
+
+    #[Framework\Attributes\Test]
     public function hiddenValueHidesUserInput(): void
     {
         self::$io->setUserInputs(['s3cr3t']);
@@ -68,5 +82,16 @@ final class InputReaderTest extends Tests\ContainerAwareTestCase
 
         self::assertStringContainsString('What\'s your password?', $output);
         self::assertStringNotContainsString('s3cr3t', $output);
+    }
+
+    #[Framework\Attributes\Test]
+    public function choicesReturnsEmptyArrayIfNoSelectionWasMade(): void
+    {
+        self::$io->setUserInputs(['']);
+
+        self::assertSame(
+            [],
+            $this->subject->choices('Please make a selection.', ['foo', 'baz'], multiple: true),
+        );
     }
 }

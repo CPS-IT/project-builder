@@ -25,6 +25,10 @@
 						"path": "dummy-4.json",
 						"if": "true",
 						"target": "overrides/dummy-4.json"
+					},
+					{
+						"path": "dummy/*",
+						"target": "foo-{{ foo }}-dummy/*"
 					}
 				]
 			}
@@ -45,6 +49,10 @@
 						"path": "shared-dummy-4.json",
 						"if": "true",
 						"target": "overrides/shared-dummy-4.json"
+					},
+					{
+						"path": "shared-dummy/*",
+						"target": "foo-{{ foo }}-shared-dummy/*"
 					}
 				]
 			}

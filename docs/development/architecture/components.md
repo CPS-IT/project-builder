@@ -61,6 +61,7 @@ As an additional I/O component, some **validators** exist, ready to be used by t
 | `callback` | [`CallbackValidator`](https://github.com/CPS-IT/project-builder/blob/main/src/IO/Validator/CallbackValidator.php) | User input is validated by a given callback          |
 | `email`    | [`EmailValidator`](https://github.com/CPS-IT/project-builder/blob/main/src/IO/Validator/EmailValidator.php)       | User input must be a valid e-mail address            |
 | `notEmpty` | [`NotEmptyValidator`](https://github.com/CPS-IT/project-builder/blob/main/src/IO/Validator/NotEmptyValidator.php) | User input must not be empty (strict mode available) |
+| `regex`    | [`RegexValidator`](https://github.com/CPS-IT/project-builder/blob/main/src/IO/Validator/RegexValidator.php)       | User input must match a given regular expression     |
 | `url`      | [`UrlValidator`](https://github.com/CPS-IT/project-builder/blob/main/src/IO/Validator/UrlValidator.php)           | User input must be a valid URL                       |
 
 Each validator implements [`ValidatorInterface`](https://github.com/CPS-IT/project-builder/blob/main/src/IO/Validator/ValidatorInterface.php).

@@ -197,6 +197,7 @@
 					"enum": [
 						"email",
 						"notEmpty",
+						"regex",
 						"url"
 					]
 				},
@@ -299,24 +300,71 @@
 		"file-condition": {
 			"type": "object",
 			"title": "A condition to include or exclude a file",
-			"properties": {
-				"if": {
-					"$ref": "#/definitions/condition"
+			"allOf": [
+				{
+					"properties": {
+						"if": {
+							"$ref": "#/definitions/condition"
+						},
+						"path": {
+							"type": "string",
+							"title": "Relative path to a file, can contain symbols processable by `fnmatch`",
+							"description": "Can also be a directory ending with `/*`, to recursively match all files below"
+						}
+					}
 				},
-				"path": {
-					"type": "string",
-					"title": "Relative path to a file, can contain symbols processable by `fnmatch`"
-				},
-				"target": {
-					"type": "string",
-					"title": "Relative path to target file, can be used to override the default path"
+				{
+					"oneOf": [
+						{
+							"not": {
+								"required": [
+									"target"
+								]
+							},
+							"required": [
+								"path",
+								"if"
+							]
+						},
+						{
+							"properties": {
+								"target": {
+									"type": "string",
+									"title": "Relative path to target file, can be used to override the default path",
+									"description": "Can also be a directory ending with `/*`, to exchange the base source path"
+								}
+							},
+							"oneOf": [
+								{
+									"properties": {
+										"path": {
+											"pattern": "/\\*$"
+										},
+										"target": {
+											"pattern": "/\\*$"
+										}
+									}
+								},
+								{
+									"properties": {
+										"path": {
+											"pattern": "(?<!\\*)$"
+										},
+										"target": {
+											"pattern": "(?<!\\*)$"
+										}
+									}
+								}
+							],
+							"required": [
+								"path",
+								"target"
+							]
+						}
+					]
 				}
-			},
-			"additionalProperties": false,
-			"required": [
-				"if",
-				"path"
-			]
+			],
+			"unevaluatedProperties": false
 		},
 		"condition": {
 			"type": "string",

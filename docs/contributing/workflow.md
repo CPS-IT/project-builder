@@ -41,7 +41,14 @@ composer lint:composer
 composer lint:editorconfig
 composer lint:json
 composer lint:php
-composer lint:yaml
+
+# Fix all CGL issues
+composer fix
+
+# Fix specific CGL issues
+composer fix:composer
+composer fix:editorconfig
+composer fix:php
 ```
 
 ### Run static code analysis

@@ -60,12 +60,16 @@ final class Generator
 
     public function run(string $targetDirectory): Builder\BuildResult
     {
+        // Reset cache of reverted steps
+        $this->revertedSteps = [];
+
         if (!$this->filesystem->exists($targetDirectory)) {
             $this->filesystem->mkdir($targetDirectory);
         }
 
         $instructions = new Builder\BuildInstructions($this->config, $targetDirectory);
         $result = new Builder\BuildResult($instructions);
+        $restart = false;
 
         $this->eventDispatcher->dispatch(new Event\ProjectBuildStartedEvent($instructions));
 
@@ -93,10 +97,14 @@ final class Generator
             $this->messenger->newLine();
 
             if (!$successful) {
-                $this->handleStepFailure($result, $step->getType(), $currentStep, $exception);
+                $restart = $this->handleStepFailure($result, $step->getType(), $currentStep, $exception);
 
                 break;
             }
+        }
+
+        if ($restart) {
+            return $this->run($targetDirectory);
         }
 
         $this->eventDispatcher->dispatch(new Event\ProjectBuildFinishedEvent($result));
@@ -121,7 +129,7 @@ final class Generator
         string $stepType,
         Step\StepInterface $step = null,
         Throwable $exception = null,
-    ): void {
+    ): bool {
         $this->messenger->error('Project generation failed. All processed steps will be reverted.');
         $this->messenger->newLine();
 
@@ -131,10 +139,18 @@ final class Generator
 
         $this->revertAllSteps($result);
 
-        $this->messenger->newLine();
+        if ([] !== $result->getAppliedSteps()) {
+            $this->messenger->newLine();
+        }
 
         if ($step instanceof Step\StoppableStepInterface && $step->isStopped()) {
-            return;
+            return false;
+        }
+
+        if ($this->messenger->confirmProjectRegeneration()) {
+            $this->messenger->newLine();
+
+            return true;
         }
 
         throw Exception\StepFailureException::create($stepType, $exception);

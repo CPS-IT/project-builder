@@ -155,13 +155,13 @@ abstract class BaseProvider implements ProviderInterface
         }
 
         // Show installed template version
-        $this->messenger->clearLine();
         $this->messenger->progress(
             sprintf(
                 'Installing project template (<info>%s</info>)...',
                 $templateSource->getPackage()->getPrettyVersion(),
             ),
             ComposerIO\IOInterface::NORMAL,
+            true,
         );
         $this->messenger->done();
         $this->messenger->newLine();
