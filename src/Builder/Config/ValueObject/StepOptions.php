@@ -38,6 +38,7 @@ final class StepOptions
         private readonly array $fileConditions = [],
         private readonly ?string $templateFile = null,
         private readonly ?string $artifactPath = null,
+        private readonly ?string $command = null,
     ) {
     }
 
@@ -57,5 +58,10 @@ final class StepOptions
     public function getArtifactPath(): ?string
     {
         return $this->artifactPath;
+    }
+
+    public function getCommand(): ?string
+    {
+        return $this->command;
     }
 }
