@@ -136,7 +136,7 @@ final class ArtifactGenerator
     {
         return new Artifact\PackageArtifact(
             $package->getName(),
-            $package->getVersion(),
+            $package->getPrettyVersion(),
             $package->getSourceReference(),
             $package->getSourceUrl(),
             $package->getDistUrl(),
