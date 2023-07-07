@@ -303,6 +303,12 @@
 									"type": "string",
 									"title": "Shell command to be executed",
 									"description": "Specify the command that should be run in the project or temporary directory"
+								},
+								"skipConfirmation": {
+									"type": "boolean",
+									"title": "Do not ask for confirmation",
+									"description": "Skip user confirmation to run the configured command",
+									"default": false
 								}
 							},
 							"required": [

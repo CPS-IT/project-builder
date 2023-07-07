@@ -91,6 +91,10 @@ final class ConfigFactoryTest extends Framework\TestCase
                     'runCommand',
                     new Src\Builder\Config\ValueObject\StepOptions(command: 'echo \'foo\''),
                 ),
+                new Src\Builder\Config\ValueObject\Step(
+                    'runCommand',
+                    new Src\Builder\Config\ValueObject\StepOptions(command: 'echo \'baz\'', skipConfirmation: true),
+                ),
             ],
             [
                 new Src\Builder\Config\ValueObject\Property(

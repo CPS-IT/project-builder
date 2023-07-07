@@ -77,6 +77,31 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
+    public function runExecutesCommandWithoutConfirmationIfSKipConfirmationIsConfigured(): void
+    {
+        $this->subject->setConfig(
+            new Src\Builder\Config\ValueObject\Step(
+                Src\Builder\Generator\Step\RunCommandStep::getType(),
+                new Src\Builder\Config\ValueObject\StepOptions(
+                    command: 'echo \'foo\'',
+                    skipConfirmation: true,
+                ),
+            ),
+        );
+
+        $workingDirectory = $this->result->getWrittenDirectory();
+
+        $fileSystem = new Filesystem\Filesystem();
+        if (!$fileSystem->exists($workingDirectory)) {
+            $fileSystem->mkdir($workingDirectory);
+        }
+
+        self::assertTrue($this->subject->run($this->result));
+        self::assertFalse($this->subject->isStopped());
+        self::assertStringNotContainsString('Do you wish to run this command?', self::$io->getOutput());
+    }
+
+    #[Framework\Attributes\Test]
     public function negatedQuestionForExecutionResultsInStoppedRun(): void
     {
         $this->subject->setConfig(
