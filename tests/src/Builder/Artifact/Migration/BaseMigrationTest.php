@@ -30,14 +30,14 @@ use PHPUnit\Framework\Attributes\Test;
 use function strrev;
 
 /**
- * BaseVersionTest.
+ * BaseMigrationTest.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class BaseVersionTest extends Framework\TestCase
+final class BaseMigrationTest extends Framework\TestCase
 {
-    private Tests\Fixtures\DummyVersion $subject;
+    private Tests\Fixtures\DummyMigration $subject;
 
     /**
      * @var array<string, mixed>
@@ -46,7 +46,7 @@ final class BaseVersionTest extends Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->subject = new Tests\Fixtures\DummyVersion();
+        $this->subject = new Tests\Fixtures\DummyMigration();
         $this->artifact = [
             'foo' => [
                 'baz' => 'hello world',

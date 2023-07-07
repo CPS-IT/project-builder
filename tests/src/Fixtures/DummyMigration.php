@@ -21,45 +21,41 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Tests\Builder\Artifact\Migration;
+namespace CPSIT\ProjectBuilder\Tests\Fixtures;
 
-use CPSIT\ProjectBuilder as Src;
-use PHPUnit\Framework;
+use CPSIT\ProjectBuilder\Builder;
 
 /**
- * Version1679497137Test.
+ * DummyMigration.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
+ *
+ * @internal
  */
-final class Version1679497137Test extends Framework\TestCase
+final class DummyMigration extends Builder\Artifact\Migration\BaseMigration
 {
-    private Src\Builder\Artifact\Migration\Version1679497137 $subject;
-
     /**
-     * @var array<string, mixed>
+     * @var array{}|array{0: non-empty-string, 1?: non-empty-string|null, 2?: mixed}
      */
-    private array $artifact;
+    public array $remapArguments = [];
 
-    protected function setUp(): void
+    public function migrate(array $artifact): array
     {
-        $this->subject = new Src\Builder\Artifact\Migration\Version1679497137();
-        $this->artifact = [
-            'artifact' => [
-                'file' => 'foo',
-            ],
-        ];
+        if ([] !== $this->remapArguments) {
+            $this->remapValue($artifact, ...$this->remapArguments);
+        }
+
+        return $artifact;
     }
 
-    #[Framework\Attributes\Test]
-    public function migrateMigratesArtifactFileToArtifactPath(): void
+    public static function getSourceVersion(): int
     {
-        $expected = [
-            'artifact' => [
-                'path' => 'foo',
-            ],
-        ];
+        return 1;
+    }
 
-        self::assertSame($expected, $this->subject->migrate($this->artifact));
+    public static function getTargetVersion(): int
+    {
+        return 2;
     }
 }

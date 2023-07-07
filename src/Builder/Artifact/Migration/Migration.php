@@ -21,41 +21,26 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Tests\Fixtures;
-
-use CPSIT\ProjectBuilder\Builder;
+namespace CPSIT\ProjectBuilder\Builder\Artifact\Migration;
 
 /**
- * DummyVersion.
+ * Migration.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  *
  * @internal
  */
-final class DummyVersion extends Builder\Artifact\Migration\BaseVersion
+interface Migration
 {
     /**
-     * @var array{}|array{0: non-empty-string, 1?: non-empty-string|null, 2?: mixed}
+     * @param array<string, mixed> $artifact
+     *
+     * @return array<string, mixed>
      */
-    public array $remapArguments = [];
+    public function migrate(array $artifact): array;
 
-    public function migrate(array $artifact): array
-    {
-        if ([] !== $this->remapArguments) {
-            $this->remapValue($artifact, ...$this->remapArguments);
-        }
+    public static function getSourceVersion(): int;
 
-        return $artifact;
-    }
-
-    public static function getSourceVersion(): int
-    {
-        return 1;
-    }
-
-    public static function getTargetVersion(): int
-    {
-        return 2;
-    }
+    public static function getTargetVersion(): int;
 }

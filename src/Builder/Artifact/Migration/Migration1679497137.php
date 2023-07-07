@@ -23,42 +23,34 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Builder\Artifact\Migration;
 
-use CPSIT\ProjectBuilder\Helper;
-
-use function is_callable;
-
 /**
- * BaseVersion.
+ * Migration1679497137.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-abstract class BaseVersion implements Version
+final class Migration1679497137 extends BaseMigration
 {
-    /**
-     * @param array<string, mixed>  $artifact
-     * @param non-empty-string      $path
-     * @param non-empty-string|null $targetPath
-     */
-    protected function remapValue(
-        array &$artifact,
-        string $path,
-        string $targetPath = null,
-        mixed $newValue = null,
-    ): void {
-        $currentValue = Helper\ArrayHelper::getValueByPath($artifact, $path);
+    public function migrate(array $artifact): array
+    {
+        // Silent migration from artifact.file to artifact.path
+        // since this was wrong implemented in the first place
+        $this->remapValue(
+            $artifact,
+            'artifact.file',
+            'artifact.path',
+        );
 
-        if (is_callable($newValue)) {
-            $newValue = $newValue($currentValue);
-        } elseif (null === $newValue) {
-            $newValue = $currentValue;
-        }
+        return $artifact;
+    }
 
-        if (null === $targetPath) {
-            Helper\ArrayHelper::setValueByPath($artifact, $path, $newValue);
-        } else {
-            Helper\ArrayHelper::setValueByPath($artifact, $targetPath, $newValue);
-            Helper\ArrayHelper::removeByPath($artifact, $path);
-        }
+    public static function getSourceVersion(): int
+    {
+        return 1;
+    }
+
+    public static function getTargetVersion(): int
+    {
+        return 1;
     }
 }

@@ -38,13 +38,13 @@ use function dirname;
 final class ArtifactReaderTest extends Tests\ContainerAwareTestCase
 {
     private string $artifactFile;
-    private Tests\Fixtures\DummyVersion $version;
+    private Tests\Fixtures\DummyMigration $migration;
     private Src\Builder\ArtifactReader $subject;
 
     protected function setUp(): void
     {
         $this->artifactFile = dirname(__DIR__).'/Fixtures/Files/build-artifact.json';
-        $this->version = self::$container->get(Tests\Fixtures\DummyVersion::class);
+        $this->migration = self::$container->get(Tests\Fixtures\DummyMigration::class);
         $this->subject = self::$container->get(Src\Builder\ArtifactReader::class);
     }
 
@@ -89,7 +89,7 @@ final class ArtifactReaderTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function fromFileThrowsExceptionIfMigratedArtifactIsInvalid(): void
     {
-        $this->version->remapArguments = [
+        $this->migration->remapArguments = [
             'artifact',
             null,
             'foo',
@@ -104,7 +104,7 @@ final class ArtifactReaderTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function fromFilePerformsMigrations(): void
     {
-        $this->version->remapArguments = [
+        $this->migration->remapArguments = [
             'generator.executor',
             null,
             'docker',

@@ -21,26 +21,45 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace CPSIT\ProjectBuilder\Builder\Artifact\Migration;
+namespace CPSIT\ProjectBuilder\Tests\Builder\Artifact\Migration;
+
+use CPSIT\ProjectBuilder as Src;
+use PHPUnit\Framework;
 
 /**
- * Version.
+ * Migration1679497137Test.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
- *
- * @internal
  */
-interface Version
+final class Migration1679497137Test extends Framework\TestCase
 {
+    private Src\Builder\Artifact\Migration\Migration1679497137 $subject;
+
     /**
-     * @param array<string, mixed> $artifact
-     *
-     * @return array<string, mixed>
+     * @var array<string, mixed>
      */
-    public function migrate(array $artifact): array;
+    private array $artifact;
 
-    public static function getSourceVersion(): int;
+    protected function setUp(): void
+    {
+        $this->subject = new Src\Builder\Artifact\Migration\Migration1679497137();
+        $this->artifact = [
+            'artifact' => [
+                'file' => 'foo',
+            ],
+        ];
+    }
 
-    public static function getTargetVersion(): int;
+    #[Framework\Attributes\Test]
+    public function migrateMigratesArtifactFileToArtifactPath(): void
+    {
+        $expected = [
+            'artifact' => [
+                'path' => 'foo',
+            ],
+        ];
+
+        self::assertSame($expected, $this->subject->migrate($this->artifact));
+    }
 }

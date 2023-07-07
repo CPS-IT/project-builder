@@ -54,20 +54,20 @@ final class ArtifactReader
     private readonly Valinor\Mapper\TreeMapper $mapper;
 
     /**
-     * @var list<Artifact\Migration\Version>
+     * @var list<Artifact\Migration\Migration>
      */
-    private readonly array $versions;
+    private readonly array $migrations;
 
     /**
-     * @param iterable<Artifact\Migration\Version> $versions
+     * @param iterable<Artifact\Migration\Migration> $migrations
      */
     public function __construct(
-        iterable $versions,
+        iterable $migrations,
         private readonly Filesystem\Filesystem $filesystem,
         private readonly Json\SchemaValidator $schemaValidator,
     ) {
         $this->mapper = $this->createMapper();
-        $this->versions = $this->orderVersions($versions);
+        $this->migrations = $this->orderMigrations($migrations);
     }
 
     /**
@@ -141,9 +141,9 @@ final class ArtifactReader
         $migrationPath = range($artifactVersion, ArtifactGenerator::VERSION);
 
         foreach ($migrationPath as $sourceVersion) {
-            foreach ($this->versions as $version) {
-                if ($sourceVersion === $version::getSourceVersion()) {
-                    $artifact = $version->migrate($artifact);
+            foreach ($this->migrations as $migration) {
+                if ($sourceVersion === $migration::getSourceVersion()) {
+                    $artifact = $migration->migrate($artifact);
                 }
             }
         }
@@ -177,26 +177,26 @@ final class ArtifactReader
     }
 
     /**
-     * @param iterable<Artifact\Migration\Version> $versions
+     * @param iterable<Artifact\Migration\Migration> $migrations
      *
-     * @return list<Artifact\Migration\Version>
+     * @return list<Artifact\Migration\Migration>
      */
-    private function orderVersions(iterable $versions): array
+    private function orderMigrations(iterable $migrations): array
     {
-        $prefixedVersions = [];
+        $prefixedMigrations = [];
 
-        foreach ($versions as $version) {
-            $reflectionObject = new ReflectionObject($version);
-            $versionIdentifier = implode('_', [
-                $version::getSourceVersion(),
-                $version::getTargetVersion(),
+        foreach ($migrations as $migration) {
+            $reflectionObject = new ReflectionObject($migration);
+            $migrationIdentifier = implode('_', [
+                $migration::getSourceVersion(),
+                $migration::getTargetVersion(),
                 $reflectionObject->getShortName(),
             ]);
-            $prefixedVersions[$versionIdentifier] = $version;
+            $prefixedMigrations[$migrationIdentifier] = $migration;
         }
 
-        ksort($prefixedVersions);
+        ksort($prefixedMigrations);
 
-        return array_values($prefixedVersions);
+        return array_values($prefixedMigrations);
     }
 }
