@@ -117,12 +117,12 @@ Read more at [`Configuration`](configuration.md).
 
 * Identifier: **`mirrorProcessedFiles`**
 * Implementation: [`Builder\Generator\Step\MirrorProcessedFilesStep`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Generator/Step/MirrorProcessedFilesStep.php)
-* Variants: _processing_, _stoppable_
+* Variants: _processing_
 
-This is typically one of the **last configured steps**. It asks for confirmation to
-mirror all previously processed source files and shared source files to the target
-project directory. It also takes care of cleaning up the target directory as
-well as removing the previously generated temporary directory.
+This is typically one of the **last configured steps**. It mirrors all previously
+processed source files and shared source files to the target project directory.
+It also takes care of cleaning up the target directory as well as removing the
+previously generated temporary directory.
 
 ### Process source files
 
@@ -177,6 +177,16 @@ step.
 ```{seealso}
 Read more at [`Configuration#Shared source files`](configuration.md#shared-source-files).
 ```
+
+### Run Command
+
+* Identifier: **`runCommand`**
+* Implementation: [`Builder\Generator\Step\RunCommandStep`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Generator/Step/RunCommandStep.php)
+
+The `runCommand` enables you to execute custom shell commands in the generated project directory.
+Place your command step after dependent steps have been executed. Multiple steps are permitted.
+
+Please keep in mind that an already executed command cannot be reverted.
 
 ### Show next steps
 

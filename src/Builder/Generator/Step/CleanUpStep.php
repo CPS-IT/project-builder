@@ -109,7 +109,7 @@ final class CleanUpStep extends AbstractStep
     private function restoreBuildArtifact(Builder\BuildResult $buildResult, Finder\SplFileInfo $artifactBackup): void
     {
         if (null === $buildResult->getArtifactFile()) {
-            return;
+            return; // @codeCoverageIgnore
         }
 
         $this->filesystem->copy(

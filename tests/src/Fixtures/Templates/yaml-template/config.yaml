@@ -34,6 +34,9 @@ steps:
     options:
       artifactPath: foo.json
   - type: mirrorProcessedFiles
+  - type: runCommand
+    options:
+      command: "echo 'foo'"
 
 properties:
   - identifier: foo

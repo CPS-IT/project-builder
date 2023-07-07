@@ -19,11 +19,9 @@ RUN apk update \
 ARG PROJECT_BUILDER_VERSION=0.0.0
 RUN composer config version "$PROJECT_BUILDER_VERSION" \
     && composer update --prefer-dist --no-dev --no-install --ignore-platform-req=ext-sockets \
-    && git add -f composer.lock \
-    && mkdir artifacts \
-    && git stash \
-    && git archive --format=tar --output="artifacts/project-builder-$PROJECT_BUILDER_VERSION.tar" "stash@{0}" \
-    && git stash pop
+    && composer global config repositories.project-builder path /project-builder \
+    && composer global config allow-plugins.cpsit/project-builder true \
+    && composer global require cpsit/project-builder:$PROJECT_BUILDER_VERSION
 
 WORKDIR /app
 ENTRYPOINT ["/project-builder/docker-entrypoint.sh"]

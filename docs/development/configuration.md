@@ -171,6 +171,9 @@ steps:
         - path: 'source-dir/*'
           target: '{{ project.name | slugify }}-target-dir/*'
   - type: mirrorProcessedFiles
+  - type: runCommand
+    options:
+      command: 'composer install'
   - type: showNextSteps
     options:
       templateFile: templates/next-steps.html.twig

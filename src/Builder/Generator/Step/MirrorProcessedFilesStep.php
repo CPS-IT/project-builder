@@ -40,13 +40,11 @@ use Symfony\Component\Finder;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class MirrorProcessedFilesStep extends AbstractStep implements ProcessingStepInterface, StoppableStepInterface
+final class MirrorProcessedFilesStep extends AbstractStep implements ProcessingStepInterface
 {
     use ProcessingFilesTrait;
 
     private const TYPE = 'mirrorProcessedFiles';
-
-    private bool $stopped = false;
 
     public function __construct(
         ExpressionLanguage\ExpressionLanguage $expressionLanguage,
@@ -63,14 +61,6 @@ final class MirrorProcessedFilesStep extends AbstractStep implements ProcessingS
     public function run(Builder\BuildResult $buildResult): bool
     {
         $instructions = $buildResult->getInstructions();
-
-        if (!$this->messenger->confirmOverwrite($instructions->getTargetDirectory())) {
-            $buildResult->setMirrored(false);
-
-            $this->stopped = true;
-
-            return false;
-        }
 
         $this->messenger->newLine(ComposerIO\IOInterface::VERBOSE);
 
@@ -97,11 +87,6 @@ final class MirrorProcessedFilesStep extends AbstractStep implements ProcessingS
         $buildResult->setMirrored(true);
 
         return true;
-    }
-
-    public function isStopped(): bool
-    {
-        return $this->stopped;
     }
 
     public static function getType(): string

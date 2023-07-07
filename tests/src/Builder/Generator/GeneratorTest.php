@@ -27,6 +27,7 @@ use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use PHPUnit\Framework;
+use Symfony\Component\EventDispatcher;
 use Symfony\Component\Filesystem;
 
 use function dirname;
@@ -40,13 +41,17 @@ use function dirname;
 final class GeneratorTest extends Tests\ContainerAwareTestCase
 {
     private Src\Builder\Generator\Generator $subject;
+    private EventDispatcher\EventDispatcher $eventDispatcher;
     private Tests\Fixtures\DummyEventListener $eventListener;
+    private Filesystem\Filesystem $filesystem;
     private string $targetDirectory;
 
     protected function setUp(): void
     {
         $this->subject = self::$container->get(Src\Builder\Generator\Generator::class);
+        $this->eventDispatcher = self::$container->get(EventDispatcher\EventDispatcherInterface::class);
         $this->eventListener = self::$container->get(Tests\Fixtures\DummyEventListener::class);
+        $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
         $this->targetDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
     }
 
@@ -64,6 +69,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertTrue($actual->isStepApplied('processSharedSourceFiles'));
         self::assertTrue($actual->isStepApplied('generateBuildArtifact'));
         self::assertTrue($actual->isStepApplied('mirrorProcessedFiles'));
+        self::assertTrue($actual->isStepApplied('runCommand'));
         self::assertTrue($actual->isMirrored());
 
         $output = self::$io->getOutput();
@@ -73,18 +79,19 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('Running step #3 "processSharedSourceFiles"...', $output);
         self::assertStringContainsString('Running step #4 "generateBuildArtifact"...', $output);
         self::assertStringContainsString('Running step #5 "mirrorProcessedFiles"...', $output);
+        self::assertStringContainsString('Running step #6 "runCommand"...', $output);
 
         self::assertFileExists($this->targetDirectory.'/dummy.yaml');
         self::assertStringEqualsFile($this->targetDirectory.'/dummy.yaml', 'name: "foo"'.PHP_EOL);
 
-        self::assertCount(7, $this->eventListener->dispatchedEvents);
+        self::assertCount(8, $this->eventListener->dispatchedEvents);
         self::assertInstanceOf(Src\Event\ProjectBuildStartedEvent::class, $this->eventListener->dispatchedEvents[0]);
 
-        for ($i = 1; $i <= 5; ++$i) {
+        for ($i = 1; $i <= 6; ++$i) {
             self::assertInstanceOf(Src\Event\BuildStepProcessedEvent::class, $this->eventListener->dispatchedEvents[$i]);
         }
 
-        self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[6]);
+        self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[7]);
     }
 
     #[Framework\Attributes\Test]
@@ -109,56 +116,101 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertFileExists($this->targetDirectory.'/dummy.yaml');
         self::assertStringEqualsFile($this->targetDirectory.'/dummy.yaml', 'name: "foo"'.PHP_EOL);
 
-        self::assertCount(10, $this->eventListener->dispatchedEvents);
+        self::assertCount(11, $this->eventListener->dispatchedEvents);
         self::assertInstanceOf(Src\Event\ProjectBuildStartedEvent::class, $this->eventListener->dispatchedEvents[0]);
         self::assertInstanceOf(Src\Event\BuildStepProcessedEvent::class, $this->eventListener->dispatchedEvents[1]);
         self::assertInstanceOf(Src\Event\BuildStepRevertedEvent::class, $this->eventListener->dispatchedEvents[2]);
         self::assertInstanceOf(Src\Event\ProjectBuildStartedEvent::class, $this->eventListener->dispatchedEvents[3]);
 
-        for ($i = 4; $i <= 8; ++$i) {
+        for ($i = 4; $i <= 9; ++$i) {
             self::assertInstanceOf(Src\Event\BuildStepProcessedEvent::class, $this->eventListener->dispatchedEvents[$i]);
         }
 
-        self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[9]);
+        self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[10]);
     }
 
     #[Framework\Attributes\Test]
     public function runRevertsAppliedStepsOnStepFailure(): void
     {
-        $exception = null;
+        $listener = function (Src\Event\ProjectBuildStartedEvent $event): void {
+            $this->filesystem->dumpFile(
+                Filesystem\Path::join($event->getInstructions()->getTemporaryDirectory(), 'foo.json'),
+                '{}',
+            );
+        };
 
-        self::$io->setUserInputs(['', '', '', 'no']);
+        // Register custom listener that lets the GenerateBuildArtifactStep fail
+        $this->eventDispatcher->addListener(Src\Event\ProjectBuildStartedEvent::class, $listener);
 
-        try {
-            $this->subject->run($this->targetDirectory);
-        } catch (Src\Exception\StepFailureException $exception) {
-        }
+        self::$io->setUserInputs(['foo', 'no']);
 
-        self::assertInstanceOf(Src\Exception\StepFailureException::class, $exception);
-        self::assertSame(1652954290, $exception->getCode());
-        self::assertSame('Running step "collectBuildInstructions" failed. All applied steps were reverted.', $exception->getMessage());
-        self::assertInstanceOf(Src\Exception\ValidationException::class, $exception->getPrevious());
+        $this->subject->run($this->targetDirectory);
 
-        self::assertCount(1, $this->subject->getRevertedSteps());
+        self::assertCount(4, $this->subject->getRevertedSteps());
         self::assertInstanceOf(
-            Src\Builder\Generator\Step\CollectBuildInstructionsStep::class,
+            Src\Builder\Generator\Step\GenerateBuildArtifactStep::class,
             $this->subject->getRevertedSteps()[0],
         );
+        self::assertInstanceOf(
+            Src\Builder\Generator\Step\ProcessSharedSourceFilesStep::class,
+            $this->subject->getRevertedSteps()[1],
+        );
+        self::assertInstanceOf(
+            Src\Builder\Generator\Step\ProcessSourceFilesStep::class,
+            $this->subject->getRevertedSteps()[2],
+        );
+        self::assertInstanceOf(
+            Src\Builder\Generator\Step\CollectBuildInstructionsStep::class,
+            $this->subject->getRevertedSteps()[3],
+        );
 
-        self::assertCount(3, $this->eventListener->dispatchedEvents);
+        self::assertCount(10, $this->eventListener->dispatchedEvents);
         self::assertInstanceOf(Src\Event\ProjectBuildStartedEvent::class, $this->eventListener->dispatchedEvents[0]);
-        self::assertInstanceOf(Src\Event\BuildStepProcessedEvent::class, $this->eventListener->dispatchedEvents[1]);
-        self::assertInstanceOf(Src\Event\BuildStepRevertedEvent::class, $this->eventListener->dispatchedEvents[2]);
+
+        for ($i = 1; $i <= 4; ++$i) {
+            self::assertInstanceOf(Src\Event\BuildStepProcessedEvent::class, $this->eventListener->dispatchedEvents[$i]);
+        }
+
+        for ($i = 5; $i <= 8; ++$i) {
+            self::assertInstanceOf(Src\Event\BuildStepRevertedEvent::class, $this->eventListener->dispatchedEvents[$i]);
+        }
+
+        self::assertInstanceOf(Src\Event\ProjectBuildFinishedEvent::class, $this->eventListener->dispatchedEvents[9]);
+
+        $this->eventDispatcher->removeListener(
+            Src\Event\ProjectBuildStartedEvent::class,
+            $listener,
+        );
     }
 
     #[Framework\Attributes\Test]
     public function runRevertsAppliedStepsAndExistsIfStoppableStepFailed(): void
     {
-        self::$io->setUserInputs(['foo', 'no']);
+        $config = new Src\Builder\Config\Config(
+            'foo',
+            'Foo',
+            [
+                new Src\Builder\Config\ValueObject\Step('dummyStoppable'),
+            ],
+        );
 
-        $actual = $this->subject->run($this->targetDirectory);
+        $step = new Tests\Fixtures\DummyStoppableStep();
+        $step->stopped = true;
+        $stepFactory = new Src\Builder\Generator\Step\StepFactory([$step]);
 
-        self::assertCount(4, $actual->getAppliedSteps());
+        $subject = new Src\Builder\Generator\Generator(
+            $config,
+            self::$container->get('app.messenger'),
+            $stepFactory,
+            $this->filesystem,
+            self::$container->get(EventDispatcher\EventDispatcherInterface::class),
+            self::$container->get(Src\Builder\Writer\JsonFileWriter::class),
+            self::$container->get(Src\Builder\ArtifactGenerator::class),
+        );
+
+        $actual = $subject->run($this->targetDirectory);
+
+        self::assertCount(0, $actual->getAppliedSteps());
         self::assertFalse($actual->isMirrored());
     }
 
@@ -210,10 +262,8 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
 
         $this->eventListener->dispatchedEvents = [];
 
-        $filesystem = new Filesystem\Filesystem();
-
-        if ($filesystem->exists($this->targetDirectory)) {
-            $filesystem->remove($this->targetDirectory);
+        if ($this->filesystem->exists($this->targetDirectory)) {
+            $this->filesystem->remove($this->targetDirectory);
         }
     }
 }

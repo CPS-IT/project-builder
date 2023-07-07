@@ -29,6 +29,7 @@ use CPSIT\ProjectBuilder\Tests;
 use Exception;
 use Generator;
 use PHPUnit\Framework;
+use Symfony\Component\Console;
 use Symfony\Component\Filesystem;
 
 use function implode;
@@ -123,7 +124,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
-    public function confirmProjectGenerationAsksForConfirmationAndReturnsResult(): void
+    public function confirmProjectRegenerationAsksForConfirmationAndReturnsResult(): void
     {
         self::$io->setUserInputs(['yes']);
 
@@ -135,6 +136,56 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
             ]),
             self::$io->getOutput(),
         );
+    }
+
+    #[Framework\Attributes\Test]
+    public function confirmProjectGenerationAsksForRunCommandAndReturnsResult(): void
+    {
+        self::$io->setUserInputs(['yes']);
+
+        $dummyCommand = 'foo --bar';
+
+        self::assertTrue($this->subject->confirmRunCommand($dummyCommand));
+        self::assertStringContainsString(
+            implode(PHP_EOL, [
+                sprintf(
+                    'Preparing to run "%s" in the project dir.',
+                    $dummyCommand,
+                ),
+                'Do you wish to run this command? [Y/n]',
+            ]),
+            self::$io->getOutput(),
+        );
+    }
+
+    #[Framework\Attributes\Test]
+    public function isVerboseReturnsTrueIfVerbosityLevelIsVerbose(): void
+    {
+        self::assertFalse($this->subject->isVerbose());
+
+        self::$io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_VERBOSE);
+
+        self::assertTrue($this->subject->isVerbose());
+    }
+
+    #[Framework\Attributes\Test]
+    public function isVeryVerboseReturnsTrueIfVerbosityLevelIsVeryVerbose(): void
+    {
+        self::assertFalse($this->subject->isVeryVerbose());
+
+        self::$io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_VERY_VERBOSE);
+
+        self::assertTrue($this->subject->isVeryVerbose());
+    }
+
+    #[Framework\Attributes\Test]
+    public function isDebugReturnsTrueIfVerbosityLevelIsDebug(): void
+    {
+        self::assertFalse($this->subject->isDebug());
+
+        self::$io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_DEBUG);
+
+        self::assertTrue($this->subject->isDebug());
     }
 
     /**

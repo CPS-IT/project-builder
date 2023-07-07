@@ -24,11 +24,15 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Helper;
 
 use Composer\InstalledVersions;
+use Composer\Util;
+use CPSIT\ProjectBuilder\Exception;
+use DirectoryIterator;
+use OutOfBoundsException;
 use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
 
 use function dirname;
-use function getenv;
+use function file_exists;
 
 /**
  * FilesystemHelper.
@@ -56,17 +60,41 @@ final class FilesystemHelper
         return $dir;
     }
 
-    public static function getProjectRootPath(): string
+    public static function getPackageDirectory(): string
     {
-        if (false === ($rootPath = getenv('PROJECT_BUILDER_ROOT_PATH'))) {
-            $rootPath = InstalledVersions::getInstallPath('cpsit/project-builder');
+        try {
+            $packageDirectory = InstalledVersions::getInstallPath('cpsit/project-builder');
+            // @codeCoverageIgnoreStart
+        } catch (OutOfBoundsException) {
+            $packageDirectory = null;
+        }
+        // @codeCoverageIgnoreEnd
+
+        if (null === $packageDirectory) {
+            $packageDirectory = dirname(__DIR__, 2);
         }
 
-        if (null !== $rootPath) {
-            $rootPath = Filesystem\Path::canonicalize($rootPath);
+        return Filesystem\Path::canonicalize($packageDirectory);
+    }
+
+    public static function getWorkingDirectory(): string
+    {
+        /* @phpstan-ignore-next-line */
+        if (method_exists(Util\Platform::class, 'getCwd')) {
+            // Composer >= 2.3
+            $cwd = Util\Platform::getCwd(true);
+        } else {
+            // Composer < 2.3
+            $cwd = (string) getcwd(); // @codeCoverageIgnore
         }
 
-        return $rootPath ?? dirname(__DIR__, 2);
+        $cwd = realpath($cwd);
+
+        if (false === $cwd) {
+            throw Exception\FilesystemFailureException::forUnresolvableWorkingDirectory(); // @codeCoverageIgnore
+        }
+
+        return Filesystem\Path::canonicalize($cwd);
     }
 
     public static function resolveRelativePath(string $relativePath): string
@@ -75,6 +103,21 @@ final class FilesystemHelper
             return $relativePath;
         }
 
-        return Filesystem\Path::makeAbsolute($relativePath, self::getProjectRootPath());
+        return Filesystem\Path::makeAbsolute($relativePath, self::getWorkingDirectory());
+    }
+
+    public static function isDirectoryEmpty(string $directory): bool
+    {
+        if (!file_exists($directory)) {
+            return true;
+        }
+
+        foreach (new DirectoryIterator($directory) as $file) {
+            if (!$file->isDot()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

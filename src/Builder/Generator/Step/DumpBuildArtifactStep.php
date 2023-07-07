@@ -58,7 +58,7 @@ final class DumpBuildArtifactStep extends AbstractStep
 
         $buildResult->applyStep($this);
 
-        $composer = Resource\Local\Composer::createComposer(Helper\FilesystemHelper::getProjectRootPath());
+        $composer = Resource\Local\Composer::createComposer(Helper\FilesystemHelper::getWorkingDirectory());
         $artifact = $this->artifactGenerator->build($artifactFile, $buildResult, $composer->getPackage());
 
         return $this->writer->write($artifactFile, $artifact);

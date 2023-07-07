@@ -44,6 +44,7 @@ final class StepOptionsTest extends Framework\TestCase
             ],
             'foo',
             'artifact.json',
+            'echo \'foo\'',
         );
     }
 
@@ -68,5 +69,11 @@ final class StepOptionsTest extends Framework\TestCase
     public function getArtifactPathReturnsArtifactPath(): void
     {
         self::assertSame('artifact.json', $this->subject->getArtifactPath());
+    }
+
+    #[Framework\Attributes\Test]
+    public function getRunCommandCommand(): void
+    {
+        self::assertSame('echo \'foo\'', $this->subject->getCommand());
     }
 }
