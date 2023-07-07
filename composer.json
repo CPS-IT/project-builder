@@ -38,6 +38,7 @@
 		"symfony/expression-language": "^5.4 || ^6.0",
 		"symfony/filesystem": "^5.4 || ^6.0",
 		"symfony/finder": "^5.4 || ^6.0",
+		"symfony/process": "^5.4 || ^6.0",
 		"symfony/yaml": "^5.4 || ^6.0",
 		"twig/twig": "^3.3.3",
 		"webmozart/assert": "^1.11"

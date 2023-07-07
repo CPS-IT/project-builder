@@ -65,6 +65,12 @@
 		},
 		{
 			"type": "mirrorProcessedFiles"
+		},
+		{
+			"type": "runCommand",
+			"options": {
+				"command": "echo 'foo'"
+			}
 		}
 	],
 	"properties": [

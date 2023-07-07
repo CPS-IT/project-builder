@@ -139,6 +139,26 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
+    public function confirmProjectGenerationAsksForRunCommandAndReturnsResult(): void
+    {
+        self::$io->setUserInputs(['yes']);
+
+        $dummyCommand = 'foo --bar';
+
+        self::assertTrue($this->subject->confirmRunCommand($dummyCommand));
+        self::assertStringContainsString(
+            implode(PHP_EOL, [
+                sprintf(
+                    'Preparing to run "%s" in the project dir.',
+                    $dummyCommand,
+                ),
+                'Do you wish to run this command? [Y/n]',
+            ]),
+            self::$io->getOutput(),
+        );
+    }
+
+    #[Framework\Attributes\Test]
     public function isVerboseReturnsTrueIfVerbosityLevelIsVerbose(): void
     {
         self::assertFalse($this->subject->isVerbose());
