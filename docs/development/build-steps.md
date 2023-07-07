@@ -189,8 +189,9 @@ Place your command step after dependent steps have been executed. Multiple steps
 Please keep in mind that an already executed command cannot be reverted.
 
 ```{tip}
-Command execution needs to be confirmed by default. This can be skipped by setting
-`skipConfirmation: true` in step options.
+Users need to confirm each `runCommand` by default. You may, however, skip this confirmation and have the command run
+without user intervention by setting the `skipConfirmation: true` in the
+[step option configuration](https://github.com/CPS-IT/project-builder/blob/main/docs/development/configuration.md#structure-1).
 ```
 
 ### Show next steps

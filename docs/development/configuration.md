@@ -173,7 +173,8 @@ steps:
   - type: mirrorProcessedFiles
   - type: runCommand
     options:
-      command: 'composer install'
+      command: 'git init --initial-branch=main'
+      skipConfirmation: true
   - type: showNextSteps
     options:
       templateFile: templates/next-steps.html.twig
