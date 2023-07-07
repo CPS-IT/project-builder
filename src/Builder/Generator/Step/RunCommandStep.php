@@ -54,7 +54,7 @@ final class RunCommandStep extends AbstractStep implements StepInterface, Stoppa
     {
         $command = $this->config->getOptions()->getCommand() ?? throw InvalidConfigurationException::create('options.command');
 
-        if (!$this->messenger->confirmRunCommand($command)) {
+        if (!$this->config->getOptions()->shouldSkipConfirmation() && !$this->messenger->confirmRunCommand($command)) {
             $this->stopped = true;
 
             return false;
