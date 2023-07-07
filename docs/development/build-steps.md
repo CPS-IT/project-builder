@@ -191,7 +191,7 @@ Please keep in mind that an already executed command cannot be reverted.
 ```{tip}
 Users need to confirm each `runCommand` by default. You may, however, skip this confirmation and have the command run
 without user intervention by setting the `skipConfirmation: true` in the
-[step option configuration](https://github.com/CPS-IT/project-builder/blob/main/docs/development/configuration.md#structure-1).
+[step option configuration](configuration.md#structure).
 ```
 
 ### Show next steps
