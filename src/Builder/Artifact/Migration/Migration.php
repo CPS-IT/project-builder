@@ -40,7 +40,5 @@ interface Migration
      */
     public function migrate(array $artifact): array;
 
-    public static function getSourceVersion(): int;
-
-    public static function getTargetVersion(): int;
+    public static function getVersion(): int;
 }

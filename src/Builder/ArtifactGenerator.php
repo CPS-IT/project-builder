@@ -40,7 +40,7 @@ use function getenv;
  */
 final class ArtifactGenerator
 {
-    public const VERSION = 2;
+    public const VERSION = Artifact\Migration\Migration1688738958::VERSION;
 
     public function build(
         Finder\SplFileInfo $file,

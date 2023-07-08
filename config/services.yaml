@@ -23,7 +23,7 @@ services:
 
   CPSIT\ProjectBuilder\Builder\ArtifactReader:
     arguments:
-      $migrations: !tagged_iterator artifact.migration
+      $migrations: !tagged_iterator { tag: artifact.migration, default_index_method: getVersion }
 
   CPSIT\ProjectBuilder\Builder\Config\Config:
     alias: 'app.config'

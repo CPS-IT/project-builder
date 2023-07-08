@@ -34,6 +34,8 @@ use CPSIT\ProjectBuilder\Template;
  */
 final class Migration1688738958 extends BaseMigration
 {
+    public const VERSION = 1688738958;
+
     public function __construct(
         private readonly Template\Provider\ProviderFactory $providerFactory,
     ) {
@@ -51,14 +53,9 @@ final class Migration1688738958 extends BaseMigration
         return $artifact;
     }
 
-    public static function getSourceVersion(): int
+    public static function getVersion(): int
     {
-        return 1;
-    }
-
-    public static function getTargetVersion(): int
-    {
-        return 2;
+        return self::VERSION;
     }
 
     /**
