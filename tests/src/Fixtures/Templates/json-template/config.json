@@ -65,6 +65,19 @@
 		},
 		{
 			"type": "mirrorProcessedFiles"
+		},
+		{
+			"type": "runCommand",
+			"options": {
+				"command": "echo 'foo'"
+			}
+		},
+		{
+			"type": "runCommand",
+			"options": {
+				"command": "echo 'baz'",
+				"skipConfirmation": true
+			}
 		}
 	],
 	"properties": [

@@ -59,7 +59,7 @@ supported by your package:
 ```
 :::
 
-## Structure
+## File structure
 
 Within the external Composer template package, the following file
 structure must exist:
@@ -171,6 +171,10 @@ steps:
         - path: 'source-dir/*'
           target: '{{ project.name | slugify }}-target-dir/*'
   - type: mirrorProcessedFiles
+  - type: runCommand
+    options:
+      command: 'git init --initial-branch=main'
+      skipConfirmation: true
   - type: showNextSteps
     options:
       templateFile: templates/next-steps.html.twig

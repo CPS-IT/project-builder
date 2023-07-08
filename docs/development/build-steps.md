@@ -178,6 +178,22 @@ step.
 Read more at [`Configuration#Shared source files`](configuration.md#shared-source-files).
 ```
 
+### Run Command
+
+* Identifier: **`runCommand`**
+* Implementation: [`Builder\Generator\Step\RunCommandStep`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Generator/Step/RunCommandStep.php)
+
+The `runCommand` enables you to execute custom shell commands in the generated project directory.
+Place your command step after dependent steps have been executed. Multiple steps are permitted.
+
+Please keep in mind that an already executed command cannot be reverted.
+
+```{tip}
+Users need to confirm each `runCommand` by default. You may, however, skip this confirmation and have the command run
+without user intervention by setting the `skipConfirmation: true` in the
+[step option configuration](configuration.md#structure).
+```
+
 ### Show next steps
 
 * Identifier: **`showNextSteps`**

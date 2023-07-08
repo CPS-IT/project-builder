@@ -224,6 +224,20 @@ final class Messenger
         return $this->getIO()->askConfirmation($label);
     }
 
+    public function confirmRunCommand(string $command): bool
+    {
+        $this->getIO()->write([
+            sprintf(
+                'Preparing to run "%s" in the project dir.',
+                $command,
+            ),
+        ]);
+
+        $label = self::decorateLabel('Do you wish to run this command?', 'Y', true, ['n']);
+
+        return $this->getIO()->askConfirmation($label);
+    }
+
     /**
      * @param int-mask-of<IO\IOInterface::*> $verbosity
      */
