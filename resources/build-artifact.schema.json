@@ -31,10 +31,7 @@
 				"version": {
 					"type": "integer",
 					"title": "Version of build artifact when originally dumped",
-					"enum": [
-						1
-					],
-					"default": 1
+					"const": 1679497137
 				},
 				"path": {
 					"type": "string",

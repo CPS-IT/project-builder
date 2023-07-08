@@ -49,13 +49,9 @@ final class DummyMigration extends Builder\Artifact\Migration\BaseMigration
         return $artifact;
     }
 
-    public static function getSourceVersion(): int
+    public static function getVersion(): int
     {
-        return 1;
-    }
-
-    public static function getTargetVersion(): int
-    {
-        return 2;
+        // Make sure to always perform this migration
+        return PHP_INT_MAX;
     }
 }
