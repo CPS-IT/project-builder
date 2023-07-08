@@ -134,6 +134,8 @@ final class ArtifactReader
             }
         }
 
+        Helper\ArrayHelper::setValueByPath($artifact, 'artifact.version', ArtifactGenerator::VERSION);
+
         return $artifact;
     }
 
