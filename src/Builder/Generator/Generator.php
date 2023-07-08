@@ -54,6 +54,7 @@ final class Generator
         private readonly Filesystem\Filesystem $filesystem,
         private readonly EventDispatcher\EventDispatcherInterface $eventDispatcher,
         private readonly Builder\Writer\JsonFileWriter $writer,
+        private readonly Builder\ArtifactGenerator $artifactGenerator,
     ) {
     }
 
@@ -113,7 +114,7 @@ final class Generator
 
     public function dumpArtifact(Builder\BuildResult $result): void
     {
-        $step = new Builder\Generator\Step\DumpBuildArtifactStep($this->filesystem, $this->writer);
+        $step = new Builder\Generator\Step\DumpBuildArtifactStep($this->filesystem, $this->writer, $this->artifactGenerator);
         $step->run($result);
     }
 

@@ -28,7 +28,9 @@ use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
+use Symfony\Component\Finder;
 
+use function dirname;
 use function json_encode;
 
 /**
@@ -41,52 +43,59 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
 {
     private Filesystem\Filesystem $filesystem;
     private Src\Builder\Generator\Step\DumpBuildArtifactStep $subject;
+    private Src\Builder\ArtifactGenerator $artifactGenerator;
     private Src\Builder\BuildResult $buildResult;
-    private Src\Builder\Artifact\BuildArtifact $buildArtifact;
+    private Finder\SplFileInfo $artifactFile;
+    private Package\RootPackageInterface $rootPackage;
 
     protected function setUp(): void
     {
         $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
+        $this->artifactGenerator = self::$container->get(Src\Builder\ArtifactGenerator::class);
         $this->subject = new Src\Builder\Generator\Step\DumpBuildArtifactStep(
             $this->filesystem,
             self::$container->get(Src\Builder\Writer\JsonFileWriter::class),
+            $this->artifactGenerator,
         );
         $this->buildResult = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(self::$config, 'foo'),
         );
-        $this->buildArtifact = new Src\Builder\Artifact\BuildArtifact(
-            'foo.json',
-            $this->buildResult,
-            new Package\RootPackage('foo/baz', '1.0.0', '1.0.0'),
+        $this->artifactFile = Src\Helper\FilesystemHelper::createFileObject(
+            $this->buildResult->getWrittenDirectory(),
+            '.build/build-artifact.json',
         );
+        $this->rootPackage = Src\Resource\Local\Composer::createComposer(dirname(__DIR__, 5))->getPackage();
     }
 
     #[Framework\Attributes\Test]
-    public function runDoesNothingIfBuildArtifactWasNotGenerated(): void
+    public function runDoesNothingIfArtifactWasNotGenerated(): void
     {
         self::assertTrue($this->subject->run($this->buildResult));
         self::assertFalse($this->buildResult->isStepApplied($this->subject));
-        self::assertFileDoesNotExist($this->buildArtifact->getFile()->getPathname());
+        self::assertFileDoesNotExist($this->artifactFile->getPathname());
     }
 
     #[Framework\Attributes\Test]
-    public function runDumpsBuildArtifact(): void
+    public function runDumpsArtifact(): void
     {
-        $this->buildResult->setBuildArtifact($this->buildArtifact);
+        $this->buildResult->setArtifactFile($this->artifactFile);
 
         self::assertTrue($this->subject->run($this->buildResult));
         self::assertTrue($this->buildResult->isStepApplied($this->subject));
-        self::assertFileExists($this->buildArtifact->getFile()->getPathname());
+        self::assertFileExists($this->artifactFile->getPathname());
+
+        $artifact = $this->artifactGenerator->build($this->artifactFile, $this->buildResult, $this->rootPackage);
+
         self::assertJsonStringEqualsJsonFile(
-            $this->buildArtifact->getFile()->getPathname(),
-            json_encode($this->buildArtifact, JSON_THROW_ON_ERROR),
+            $this->artifactFile->getPathname(),
+            json_encode($artifact, JSON_THROW_ON_ERROR),
         );
     }
 
     #[Framework\Attributes\Test]
-    public function revertDoesNothingIfBuildArtifactWasNotGenerated(): void
+    public function revertDoesNothingIfArtifactWasNotGenerated(): void
     {
-        $artifactPath = $this->buildArtifact->getFile()->getPathname();
+        $artifactPath = $this->artifactFile->getPathname();
 
         $this->filesystem->dumpFile($artifactPath, 'test');
 
@@ -100,11 +109,11 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
-    public function revertRemovesDumpedBuildArtifact(): void
+    public function revertRemovesDumpedArtifact(): void
     {
-        $artifactPath = $this->buildArtifact->getFile()->getPathname();
+        $artifactPath = $this->artifactFile->getPathname();
 
-        $this->buildResult->setBuildArtifact($this->buildArtifact);
+        $this->buildResult->setArtifactFile($this->artifactFile);
 
         self::assertFileDoesNotExist($artifactPath);
 
@@ -127,6 +136,6 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
     {
         parent::tearDown();
 
-        $this->filesystem->remove($this->buildArtifact->getFile()->getPathname());
+        $this->filesystem->remove($this->artifactFile->getPathname());
     }
 }

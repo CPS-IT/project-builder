@@ -87,19 +87,19 @@ final class CleanUpStep extends AbstractStep
 
     private function backupBuildArtifact(Builder\BuildResult $buildResult): ?Finder\SplFileInfo
     {
-        $buildArtifact = $buildResult->getBuildArtifact();
+        $artifactFile = $buildResult->getArtifactFile();
 
-        if (null === $buildArtifact || !$this->filesystem->exists($buildArtifact->getFile()->getPathname())) {
+        if (null === $artifactFile || !$this->filesystem->exists($artifactFile->getPathname())) {
             return null;
         }
 
         $backupFile = Helper\FilesystemHelper::createFileObject(
             Helper\FilesystemHelper::getNewTemporaryDirectory(),
-            $buildArtifact->getFile()->getFilename(),
+            $artifactFile->getFilename(),
         );
 
         $this->filesystem->copy(
-            $buildArtifact->getFile()->getPathname(),
+            $artifactFile->getPathname(),
             $backupFile->getPathname(),
         );
 
@@ -108,13 +108,13 @@ final class CleanUpStep extends AbstractStep
 
     private function restoreBuildArtifact(Builder\BuildResult $buildResult, Finder\SplFileInfo $artifactBackup): void
     {
-        if (null === $buildResult->getBuildArtifact()) {
+        if (null === $buildResult->getArtifactFile()) {
             return; // @codeCoverageIgnore
         }
 
         $this->filesystem->copy(
             $artifactBackup->getPathname(),
-            $buildResult->getBuildArtifact()->getFile()->getPathname(),
+            $buildResult->getArtifactFile()->getPathname(),
         );
         $this->filesystem->remove($artifactBackup->getPath());
     }

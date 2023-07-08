@@ -75,9 +75,4 @@ final class DummyComposerProvider extends Template\Provider\BaseProvider
     {
         return self::TYPE;
     }
-
-    public static function supports(string $type): bool
-    {
-        return self::TYPE === $type;
-    }
 }

@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Tests\Builder;
 
-use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use PHPUnit\Framework;
@@ -49,7 +48,9 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
             self::$container->get('app.config'),
             'foo',
         );
-        $this->subject = new Src\Builder\BuildResult($this->instructions);
+        $this->subject = new Src\Builder\BuildResult(
+            $this->instructions,
+        );
     }
 
     #[Framework\Attributes\Test]
@@ -66,17 +67,13 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
-    public function getBuildArtifactReturnsBuildArtifact(): void
+    public function getArtifactFileReturnsArtifactFile(): void
     {
-        self::assertNull($this->subject->getBuildArtifact());
+        self::assertNull($this->subject->getArtifactFile());
 
-        $buildArtifact = new Src\Builder\Artifact\BuildArtifact(
-            'foo.json',
-            $this->subject,
-            new Package\RootPackage('foo/baz', '1.0.0', '1.0.0'),
-        );
+        $artifactFile = Src\Helper\FilesystemHelper::createFileObject('/foo', 'baz');
 
-        self::assertSame($buildArtifact, $this->subject->setBuildArtifact($buildArtifact)->getBuildArtifact());
+        self::assertSame($artifactFile, $this->subject->setArtifactFile($artifactFile)->getArtifactFile());
     }
 
     #[Framework\Attributes\Test]

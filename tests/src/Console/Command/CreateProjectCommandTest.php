@@ -63,7 +63,6 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
             $this->messenger,
             $configReader,
             new Src\Error\ErrorHandler($this->messenger),
-            $this->filesystem,
             [$this->templateProvider],
         );
         $command->setApplication(new Console\Application());

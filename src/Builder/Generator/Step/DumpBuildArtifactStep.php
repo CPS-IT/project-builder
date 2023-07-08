@@ -24,6 +24,8 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder\Builder;
+use CPSIT\ProjectBuilder\Helper;
+use CPSIT\ProjectBuilder\Resource;
 use Symfony\Component\Filesystem;
 
 /**
@@ -41,27 +43,31 @@ final class DumpBuildArtifactStep extends AbstractStep
     public function __construct(
         private readonly Filesystem\Filesystem $filesystem,
         private readonly Builder\Writer\JsonFileWriter $writer,
+        private readonly Builder\ArtifactGenerator $artifactGenerator,
     ) {
         parent::__construct();
     }
 
     public function run(Builder\BuildResult $buildResult): bool
     {
-        $buildArtifact = $buildResult->getBuildArtifact();
+        $artifactFile = $buildResult->getArtifactFile();
 
-        if (null === $buildArtifact) {
+        if (null === $artifactFile) {
             return true;
         }
 
         $buildResult->applyStep($this);
 
-        return $this->writer->write($buildArtifact->getFile(), $buildArtifact);
+        $composer = Resource\Local\Composer::createComposer(Helper\FilesystemHelper::getWorkingDirectory());
+        $artifact = $this->artifactGenerator->build($artifactFile, $buildResult, $composer->getPackage());
+
+        return $this->writer->write($artifactFile, $artifact);
     }
 
     public function revert(Builder\BuildResult $buildResult): void
     {
-        if (null !== $buildResult->getBuildArtifact()) {
-            $this->filesystem->remove($buildResult->getBuildArtifact()->getFile()->getPathname());
+        if (null !== $buildResult->getArtifactFile()) {
+            $this->filesystem->remove($buildResult->getArtifactFile()->getPathname());
         }
     }
 

@@ -28,6 +28,7 @@ use CPSIT\ProjectBuilder\Tests;
 use Generator;
 use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
+use Symfony\Component\Finder;
 
 /**
  * GenerateBuildArtifactStepTest.
@@ -40,7 +41,7 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
     private Src\Builder\Generator\Step\GenerateBuildArtifactStep $subject;
     private Filesystem\Filesystem $filesystem;
     private Src\Builder\BuildResult $buildResult;
-    private string $artifactPath;
+    private Finder\SplFileInfo $artifactFile;
 
     protected function setUp(): void
     {
@@ -49,25 +50,25 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         $this->buildResult = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(self::$config, 'foo'),
         );
-        $this->artifactPath = Filesystem\Path::join(
+        $this->artifactFile = Src\Helper\FilesystemHelper::createFileObject(
             $this->buildResult->getWrittenDirectory(),
             '.build/build-artifact.json',
         );
     }
 
     #[Framework\Attributes\Test]
-    #[Framework\Attributes\DataProvider('runAsksForConfirmationIfBuildArtifactPathAlreadyExistsDataProvider')]
-    public function runAsksForConfirmationIfBuildArtifactPathAlreadyExists(bool $continue, bool $expected): void
+    #[Framework\Attributes\DataProvider('runAsksForConfirmationIfArtifactPathAlreadyExistsDataProvider')]
+    public function runAsksForConfirmationIfArtifactPathAlreadyExists(bool $continue, bool $expected): void
     {
         self::$io->setUserInputs([$continue ? 'yes' : 'no']);
 
-        $this->filesystem->dumpFile($this->artifactPath, 'test');
+        $this->filesystem->dumpFile($this->artifactFile->getPathname(), 'test');
 
-        self::assertFileExists($this->artifactPath);
+        self::assertFileExists($this->artifactFile->getPathname());
         self::assertSame($expected, $this->subject->run($this->buildResult));
         self::assertSame(!$expected, $this->subject->isStopped());
         self::assertFalse($this->buildResult->isStepApplied($this->subject));
-        self::assertNull($this->buildResult->getBuildArtifact());
+        self::assertNull($this->buildResult->getArtifactFile());
         self::assertStringContainsString(
             'The build artifact cannot be generated because the resulting file already exists.',
             self::$io->getOutput(),
@@ -75,17 +76,17 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
-    public function runGeneratesBuildArtifact(): void
+    public function runGeneratesArtifact(): void
     {
         self::assertTrue($this->subject->run($this->buildResult));
-        self::assertInstanceOf(Src\Builder\Artifact\BuildArtifact::class, $this->buildResult->getBuildArtifact());
+        self::assertEquals($this->artifactFile, $this->buildResult->getArtifactFile());
         self::assertTrue($this->buildResult->isStepApplied($this->subject));
     }
 
     /**
      * @return Generator<string, array{bool, bool}>
      */
-    public static function runAsksForConfirmationIfBuildArtifactPathAlreadyExistsDataProvider(): Generator
+    public static function runAsksForConfirmationIfArtifactPathAlreadyExistsDataProvider(): Generator
     {
         yield 'continue' => [true, true];
         yield 'do not continue' => [false, false];
@@ -95,6 +96,6 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
     {
         parent::tearDown();
 
-        $this->filesystem->remove($this->artifactPath);
+        $this->filesystem->remove($this->artifactFile->getPathname());
     }
 }

@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Builder\Artifact;
 
-use Composer\Package;
+use JsonSerializable;
 
 /**
  * PackageArtifact.
@@ -32,30 +32,35 @@ use Composer\Package;
  * @license GPL-3.0-or-later
  *
  * @internal
- *
- * @extends Artifact<array{
- *     name: string,
- *     version: string,
- *     sourceReference: string|null,
- *     sourceUrl: string|null,
- *     distUrl: string|null
- * }>
  */
-final class PackageArtifact extends Artifact
+final class PackageArtifact implements JsonSerializable
 {
     public function __construct(
-        private readonly Package\PackageInterface $package,
+        public readonly string $name,
+        public readonly string $version,
+        public readonly ?string $sourceReference,
+        public readonly ?string $sourceUrl,
+        public readonly ?string $distUrl,
     ) {
     }
 
-    public function dump(): array
+    /**
+     * @return array{
+     *     name: string,
+     *     version: string,
+     *     sourceReference: string|null,
+     *     sourceUrl: string|null,
+     *     distUrl: string|null,
+     * }
+     */
+    public function jsonSerialize(): array
     {
         return [
-            'name' => $this->package->getName(),
-            'version' => $this->package->getVersion(),
-            'sourceReference' => $this->package->getSourceReference(),
-            'sourceUrl' => $this->package->getSourceUrl(),
-            'distUrl' => $this->package->getDistUrl(),
+            'name' => $this->name,
+            'version' => $this->version,
+            'sourceReference' => $this->sourceReference,
+            'sourceUrl' => $this->sourceUrl,
+            'distUrl' => $this->distUrl,
         ];
     }
 }
