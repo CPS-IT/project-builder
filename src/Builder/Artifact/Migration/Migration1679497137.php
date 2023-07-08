@@ -31,6 +31,8 @@ namespace CPSIT\ProjectBuilder\Builder\Artifact\Migration;
  */
 final class Migration1679497137 extends BaseMigration
 {
+    public const VERSION = 1679497137;
+
     public function migrate(array $artifact): array
     {
         // Silent migration from artifact.file to artifact.path
@@ -44,13 +46,8 @@ final class Migration1679497137 extends BaseMigration
         return $artifact;
     }
 
-    public static function getSourceVersion(): int
+    public static function getVersion(): int
     {
-        return 1;
-    }
-
-    public static function getTargetVersion(): int
-    {
-        return 1;
+        return self::VERSION;
     }
 }

@@ -30,18 +30,13 @@ use CPSIT\ProjectBuilder\Paths;
 use CuyZ\Valinor;
 use DateTimeInterface;
 use Opis\JsonSchema;
-use ReflectionObject;
 use Symfony\Component\Filesystem;
 
 use function array_filter;
-use function array_values;
 use function file_get_contents;
-use function implode;
 use function is_array;
 use function is_numeric;
 use function json_decode;
-use function ksort;
-use function range;
 
 /**
  * ArtifactReader.
@@ -54,20 +49,14 @@ final class ArtifactReader
     private readonly Valinor\Mapper\TreeMapper $mapper;
 
     /**
-     * @var list<Artifact\Migration\Migration>
-     */
-    private readonly array $migrations;
-
-    /**
      * @param iterable<Artifact\Migration\Migration> $migrations
      */
     public function __construct(
-        iterable $migrations,
+        private readonly iterable $migrations,
         private readonly Filesystem\Filesystem $filesystem,
         private readonly Json\SchemaValidator $schemaValidator,
     ) {
         $this->mapper = $this->createMapper();
-        $this->migrations = $this->orderMigrations($migrations);
     }
 
     /**
@@ -138,15 +127,14 @@ final class ArtifactReader
     private function performMigrations(array $artifact): array
     {
         $artifactVersion = $this->determineArtifactVersion($artifact);
-        $migrationPath = range($artifactVersion, ArtifactGenerator::VERSION);
 
-        foreach ($migrationPath as $sourceVersion) {
-            foreach ($this->migrations as $migration) {
-                if ($sourceVersion === $migration::getSourceVersion()) {
-                    $artifact = $migration->migrate($artifact);
-                }
+        foreach ($this->migrations as $migration) {
+            if ($migration::getVersion() > $artifactVersion) {
+                $artifact = $migration->migrate($artifact);
             }
         }
+
+        Helper\ArrayHelper::setValueByPath($artifact, 'artifact.version', ArtifactGenerator::VERSION);
 
         return $artifact;
     }
@@ -174,29 +162,5 @@ final class ArtifactReader
             ->supportDateFormats(DateTimeInterface::ATOM)
             ->mapper()
         ;
-    }
-
-    /**
-     * @param iterable<Artifact\Migration\Migration> $migrations
-     *
-     * @return list<Artifact\Migration\Migration>
-     */
-    private function orderMigrations(iterable $migrations): array
-    {
-        $prefixedMigrations = [];
-
-        foreach ($migrations as $migration) {
-            $reflectionObject = new ReflectionObject($migration);
-            $migrationIdentifier = implode('_', [
-                $migration::getSourceVersion(),
-                $migration::getTargetVersion(),
-                $reflectionObject->getShortName(),
-            ]);
-            $prefixedMigrations[$migrationIdentifier] = $migration;
-        }
-
-        ksort($prefixedMigrations);
-
-        return array_values($prefixedMigrations);
     }
 }
