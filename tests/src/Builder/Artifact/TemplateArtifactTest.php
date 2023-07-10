@@ -51,7 +51,7 @@ final class TemplateArtifactTest extends Framework\TestCase
                 'distUrl',
             ),
             [
-                'name' => 'name',
+                'type' => 'type',
                 'url' => 'url',
             ],
         );

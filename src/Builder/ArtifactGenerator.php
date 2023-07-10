@@ -40,7 +40,7 @@ use function getenv;
  */
 final class ArtifactGenerator
 {
-    public const VERSION = Artifact\Migration\Migration1679497137::VERSION;
+    public const VERSION = Artifact\Migration\Migration1688738958::VERSION;
 
     public function build(
         Finder\SplFileInfo $file,
@@ -72,7 +72,7 @@ final class ArtifactGenerator
         $provider = $config->getTemplateSource()->getProvider();
 
         $providerArtifact = [
-            'name' => $provider::getName(),
+            'type' => $provider::getType(),
             'url' => $provider->getUrl(),
         ];
 

@@ -54,7 +54,7 @@ final class ArtifactTest extends Framework\TestCase
                 'distUrl',
             ),
             [
-                'name' => 'name',
+                'type' => 'type',
                 'url' => 'url',
             ],
         );

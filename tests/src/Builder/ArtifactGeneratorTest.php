@@ -94,7 +94,7 @@ final class ArtifactGeneratorTest extends Tests\ContainerAwareTestCase
                     null,
                 ),
                 [
-                    'name' => 'dummy',
+                    'type' => 'dummy',
                     'url' => 'https://www.example.com',
                 ],
             ),

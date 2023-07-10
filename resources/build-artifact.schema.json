@@ -31,7 +31,7 @@
 				"version": {
 					"type": "integer",
 					"title": "Version of build artifact when originally dumped",
-					"const": 1679497137
+					"const": 1688738958
 				},
 				"path": {
 					"type": "string",
@@ -181,10 +181,10 @@
 			"type": "object",
 			"title": "Template source provider",
 			"properties": {
-				"name": {
+				"type": {
 					"type": "string",
-					"title": "Name of the provider",
-					"description": "Declared in the appropriate provider class"
+					"title": "Provider type",
+					"description": "Defined in the provider class"
 				},
 				"url": {
 					"type": "string",
@@ -194,7 +194,7 @@
 			},
 			"additionalProperties": false,
 			"required": [
-				"name",
+				"type",
 				"url"
 			]
 		},
