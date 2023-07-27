@@ -253,6 +253,7 @@ properties:
 The following configuration options are currently processed by the Twig renderer:
 
 * `steps.*.options.fileConditions.*.target`
+* `properties.*.value`
 * `properties.*.properties.*.defaultValue`
 * `properties.*.properties.*.options.*.value`
 
