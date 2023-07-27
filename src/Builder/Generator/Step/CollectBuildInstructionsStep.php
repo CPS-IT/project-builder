@@ -26,7 +26,10 @@ namespace CPSIT\ProjectBuilder\Builder\Generator\Step;
 use CPSIT\ProjectBuilder\Builder;
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\IO;
+use CPSIT\ProjectBuilder\Twig;
 use Symfony\Component\ExpressionLanguage;
+
+use function is_string;
 
 /**
  * CollectBuildInstructionsStep.
@@ -42,6 +45,7 @@ final class CollectBuildInstructionsStep extends AbstractStep
         private readonly ExpressionLanguage\ExpressionLanguage $expressionLanguage,
         private readonly IO\Messenger $messenger,
         private readonly Interaction\InteractionFactory $interactionFactory,
+        private readonly Twig\Renderer $renderer,
     ) {
         parent::__construct();
     }
@@ -89,7 +93,11 @@ final class CollectBuildInstructionsStep extends AbstractStep
     private function applyProperty(Builder\Config\ValueObject\Property $property, Builder\BuildResult $buildResult): void
     {
         if ($property->hasValue()) {
-            $this->apply($property->getPath(), $property->getValue(), $buildResult);
+            $this->apply(
+                $property->getPath(),
+                $this->renderValue($property->getValue(), $buildResult),
+                $buildResult,
+            );
 
             return;
         }
@@ -153,5 +161,14 @@ final class CollectBuildInstructionsStep extends AbstractStep
         }
 
         return null;
+    }
+
+    private function renderValue(float|bool|int|string|null $value, Builder\BuildResult $buildResult): int|float|string|bool|null
+    {
+        if (!is_string($value)) {
+            return $value;
+        }
+
+        return $this->renderer->withDefaultTemplate($value)->render($buildResult->getInstructions());
     }
 }

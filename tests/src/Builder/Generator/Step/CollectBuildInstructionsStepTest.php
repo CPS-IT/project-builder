@@ -111,4 +111,41 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
         self::assertSame(['bar' => null], $buildResult->getInstructions()->getTemplateVariable('foo'));
         self::assertNull($buildResult->getInstructions()->getTemplateVariable('foo/bar'));
     }
+
+    #[Framework\Attributes\Test]
+    public function runRendersPropertyValueAsTwigTemplate(): void
+    {
+        $config = new Src\Builder\Config\Config(
+            'test',
+            'Test',
+            [
+                new Src\Builder\Config\ValueObject\Step('dummy'),
+            ],
+            [
+                new Src\Builder\Config\ValueObject\Property(
+                    'foo',
+                    'Foo',
+                    null,
+                    null,
+                    '{{ "foo"|convert_case("upper") }}',
+                ),
+                new Src\Builder\Config\ValueObject\Property(
+                    'bar',
+                    'Bar',
+                    null,
+                    null,
+                    0,
+                ),
+            ],
+        );
+
+        $buildResult = new Src\Builder\BuildResult(
+            new Src\Builder\BuildInstructions($config, 'foo'),
+        );
+
+        $this->subject->run($buildResult);
+
+        self::assertSame('FOO', $buildResult->getInstructions()->getTemplateVariable('foo'));
+        self::assertSame(0, $buildResult->getInstructions()->getTemplateVariable('bar'));
+    }
 }
