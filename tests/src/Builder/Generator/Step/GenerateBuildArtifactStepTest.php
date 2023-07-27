@@ -48,10 +48,10 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         $this->subject = self::$container->get(Src\Builder\Generator\Step\GenerateBuildArtifactStep::class);
         $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
         $this->buildResult = new Src\Builder\BuildResult(
-            new Src\Builder\BuildInstructions(self::$config, 'foo'),
+            new Src\Builder\BuildInstructions(self::$config, Src\Helper\FilesystemHelper::getNewTemporaryDirectory()),
         );
         $this->artifactFile = Src\Helper\FilesystemHelper::createFileObject(
-            $this->buildResult->getWrittenDirectory(),
+            $this->buildResult->getInstructions()->getTargetDirectory(),
             '.build/build-artifact.json',
         );
     }
