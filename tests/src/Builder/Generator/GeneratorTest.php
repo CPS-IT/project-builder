@@ -142,7 +142,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         // Register custom listener that lets the GenerateBuildArtifactStep fail
         $this->eventDispatcher->addListener(Src\Event\ProjectBuildStartedEvent::class, $listener);
 
-        self::$io->setUserInputs(['foo', 'no']);
+        self::$io->setUserInputs(['', '', 'foo', 'no']);
 
         $this->subject->run($this->targetDirectory);
 
