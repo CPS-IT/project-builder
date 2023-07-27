@@ -134,7 +134,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
     {
         $listener = function (Src\Event\ProjectBuildStartedEvent $event): void {
             $this->filesystem->dumpFile(
-                Filesystem\Path::join($event->getInstructions()->getTemporaryDirectory(), 'foo.json'),
+                Filesystem\Path::join($event->getInstructions()->getTargetDirectory(), 'foo.json'),
                 '{}',
             );
         };
