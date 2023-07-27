@@ -213,6 +213,73 @@ properties:
           - type: email
 ```
 
+### Twig integration
+
+Some configuration parts may be configured as Twig templates. For example, the
+`defaultValue` option of a configured property may contain the processed value
+of a previously added property:
+
+```{code-block} yaml
+:linenos:
+:caption: config.yaml
+:emphasize-lines: 18
+
+properties:
+  - identifier: project
+    name: Project
+    properties:
+      - identifier: name
+        name: Name
+        type: staticValue
+        validators:
+          - type: notEmpty
+      - identifier: vendor
+        name: Vendor
+        type: staticValue
+        validators:
+          - type: notEmpty
+      - identifier: package_name
+        name: Package name
+        type: staticValue
+        defaultValue: '{{ project.vendor | slugify }}/{{ project.name | slugify }}'
+        validators:
+          - type: notEmpty
+```
+
+The following configuration options are currently processed by the Twig renderer:
+
+* `steps.*.options.fileConditions.*.target`
+* `properties.*.properties.*.defaultValue`
+* `properties.*.properties.*.options.*.value`
+
+### Symfony Expression Language integration
+
+Several configuration options use conditions to determine whether a property or step
+should be applied. All used conditions are parsed by the [Symfony Expression Language][5].
+
+Example:
+
+```{code-block} yaml
+:linenos:
+:caption: config.yaml
+:emphasize-lines: 6
+
+steps:
+  - type: processSharedSourceFiles
+    options:
+      fileConditions:
+        - path: composer.json
+          if: 'features["composer"] == true'
+```
+
+The following configuration options are currently evaluated by the Symfony Expression
+Language:
+
+* `steps.*.options.fileConditions.*.if`
+* `properties.*.if`
+* `properties.*.properties.*.if`
+* `properties.*.properties.*.options.*.if`
+
 ### Mapping and hydration
 
 Config files are located by the [`ConfigReader`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Config/ConfigReader.php)
@@ -338,3 +405,4 @@ my-fancy-shared-resource
 [2]: https://github.com/justinrainbow/json-schema
 [3]: https://packagist.org/packages/oomphinc/composer-installers-extender
 [4]: https://github.com/composer/satis
+[5]: https://symfony.com/doc/current/components/expression_language.html
