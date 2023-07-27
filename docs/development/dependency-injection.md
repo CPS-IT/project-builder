@@ -11,14 +11,15 @@ bootstrapping. It depends on the following resources:
 
 Some special services exist that are tagged during container build-time:
 
-| Tag name         | Resource                                                                                                                                   |
-|------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| `builder.writer` | [`Builder\Writer\WriterInterface`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Writer/WriterInterface.php)             |
-| `event.listener` | –                                                                                                                                          |
-| `generator.step` | [`Builder\Generator\Step\StepInterface`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Generator/Step/StepInterface.php) |
-| `io.validator`   | [`IO\Validator\ValidatorInterface`](https://github.com/CPS-IT/project-builder/blob/main/src/IO/Validator/ValidatorInterface.php)           |
-| `twig.filter`    | [`Twig\Filter\TwigFilterInterface`](https://github.com/CPS-IT/project-builder/blob/main/src/Twig/Filter/TwigFilterInterface.php)           |
-| `twig.function`  | [`Twig\Func\TwigFunctionInterface`](https://github.com/CPS-IT/project-builder/blob/main/src/Twig/Func/TwigFunctionInterface.php)           |
+| Tag name                       | Resource                                                                                                                                   |
+|--------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| `builder.writer`               | [`Builder\Writer\WriterInterface`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Writer/WriterInterface.php)             |
+| `event.listener`               | –                                                                                                                                          |
+| `expression_language.provider` | `Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface`                                                                 |
+| `generator.step`               | [`Builder\Generator\Step\StepInterface`](https://github.com/CPS-IT/project-builder/blob/main/src/Builder/Generator/Step/StepInterface.php) |
+| `io.validator`                 | [`IO\Validator\ValidatorInterface`](https://github.com/CPS-IT/project-builder/blob/main/src/IO/Validator/ValidatorInterface.php)           |
+| `twig.filter`                  | [`Twig\Filter\TwigFilterInterface`](https://github.com/CPS-IT/project-builder/blob/main/src/Twig/Filter/TwigFilterInterface.php)           |
+| `twig.function`                | [`Twig\Func\TwigFunctionInterface`](https://github.com/CPS-IT/project-builder/blob/main/src/Twig/Func/TwigFunctionInterface.php)           |
 
 ## Synthetic services
 
