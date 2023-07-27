@@ -186,10 +186,12 @@ properties:
     properties:
       - identifier: customer_name
         name: Customer name
+        type: staticValue
         validators:
           - type: notEmpty
       - identifier: project_name
         name: Project name
+        type: staticValue
         defaultValue: basic
         validators:
           - type: notEmpty
@@ -204,10 +206,12 @@ properties:
     properties:
       - identifier: name
         name: Your name
+        type: staticValue
         validators:
           - type: notEmpty
       - identifier: email
         name: Your e-mail address
+        type: staticValue
         validators:
           - type: notEmpty
           - type: email
