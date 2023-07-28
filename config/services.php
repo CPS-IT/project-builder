@@ -46,6 +46,9 @@ return static function (
     $container->registerForAutoconfiguration(Builder\Writer\WriterInterface::class)
         ->addTag('builder.writer')
     ;
+    $container->registerForAutoconfiguration(ExpressionLanguage\ExpressionFunctionProviderInterface::class)
+        ->addTag('expression_language.provider')
+    ;
     $container->registerForAutoconfiguration(Builder\Generator\Step\Interaction\InteractionInterface::class)
         ->addTag('generator.interaction')
     ;
@@ -76,6 +79,12 @@ return static function (
         new CompilerPass\EventListenerPass(
             'event.listener',
             EventDispatcher\EventDispatcherInterface::class,
+        ),
+    );
+    $container->addCompilerPass(
+        new CompilerPass\ExpressionLanguageProviderPass(
+            'expression_language.provider',
+            ExpressionLanguage\ExpressionLanguage::class,
         ),
     );
 

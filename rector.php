@@ -46,6 +46,7 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__.'/src/Console/Simulation.php',
             __DIR__.'/src/DependencyInjection/CompilerPass/ContainerBuilderDebugDumpPass.php',
             __DIR__.'/src/DependencyInjection/CompilerPass/EventListenerPass.php',
+            __DIR__.'/src/DependencyInjection/CompilerPass/ExpressionLanguageProviderPass.php',
             __DIR__.'/src/DependencyInjection/CompilerPass/FactoryServicesPass.php',
             __DIR__.'/src/DependencyInjection/CompilerPass/PublicServicePass.php',
             __DIR__.'/src/DependencyInjection/ContainerFactory.php',
