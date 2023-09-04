@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         php-version: ["8.1", "8.2"]
-        composer-version: ["2.1", "2.2", "2.3", "2.4", "2.5"]
+        composer-version: ["2.1", "2.2", "2.3", "2.4", "2.5", "2.6"]
         dependencies: ["highest", "lowest"]
     steps:
       - uses: actions/checkout@v3
