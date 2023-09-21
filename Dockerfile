@@ -1,4 +1,4 @@
-FROM composer:2.5 AS composer
+FROM composer:2.6 AS composer
 LABEL maintainer="Elias Häußler <e.haeussler@familie-redlich.de>"
 
 FROM php:8.2-alpine
