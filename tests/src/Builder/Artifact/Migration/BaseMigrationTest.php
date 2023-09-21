@@ -25,7 +25,6 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Artifact\Migration;
 
 use CPSIT\ProjectBuilder\Tests;
 use PHPUnit\Framework;
-use PHPUnit\Framework\Attributes\Test;
 
 use function strrev;
 
