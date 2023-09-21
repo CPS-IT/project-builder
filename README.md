@@ -4,16 +4,12 @@
 
 # Project Builder
 
-[![Coverage](https://codecov.io/gh/CPS-IT/Project-Builder/branch/develop/graph/badge.svg?token=u5Clk9nd9Q)](https://codecov.io/gh/CPS-IT/Project-Builder)
-[![Maintainability](https://api.codeclimate.com/v1/badges/a84923d4d61c50561186/maintainability)](https://codeclimate.com/github/CPS-IT/project-builder/maintainability)
-[![Tests](https://github.com/CPS-IT/project-builder/actions/workflows/tests.yaml/badge.svg)](https://github.com/CPS-IT/project-builder/actions/workflows/tests.yaml)
-[![CGL](https://github.com/CPS-IT/project-builder/actions/workflows/cgl.yaml/badge.svg)](https://github.com/CPS-IT/project-builder/actions/workflows/cgl.yaml)
-[![Docker deploy](https://github.com/CPS-IT/project-builder/actions/workflows/docker.yaml/badge.svg)](https://github.com/CPS-IT/project-builder/actions/workflows/docker.yaml)
-[![Documentation](https://github.com/CPS-IT/project-builder/actions/workflows/documentation.yaml/badge.svg)](https://github.com/CPS-IT/project-builder/actions/workflows/documentation.yaml)
-[![Latest Stable Version](http://poser.pugx.org/cpsit/project-builder/v)](https://packagist.org/packages/cpsit/project-builder)
-[![Total Downloads](http://poser.pugx.org/cpsit/project-builder/downloads)](https://packagist.org/packages/cpsit/project-builder)
-[![Docker](https://img.shields.io/docker/v/cpsit/project-builder?label=docker&sort=semver)](https://hub.docker.com/r/cpsit/project-builder)
-[![License](http://poser.pugx.org/cpsit/project-builder/license)](LICENSE)
+[![Coverage](https://img.shields.io/codecov/c/github/CPS-IT/project-builder?logo=codecov&token=u5Clk9nd9Q)](https://codecov.io/gh/CPS-IT/project-builder)
+[![Maintainability](https://img.shields.io/codeclimate/maintainability/CPS-IT/project-builder?logo=codeclimate)](https://codeclimate.com/github/CPS-IT/project-builder/maintainability)
+[![CGL](https://img.shields.io/github/actions/workflow/status/CPS-IT/project-builder/cgl.yaml?label=cgl&logo=github)](https://github.com/CPS-IT/project-builder/actions/workflows/cgl.yaml)
+[![Docker deploy](https://img.shields.io/github/actions/workflow/status/CPS-IT/project-builder/docker.yaml?label=docker&logo=github)](https://github.com/CPS-IT/project-builder/actions/workflows/docker.yaml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/CPS-IT/project-builder/tests.yaml?label=tests&logo=github)](https://github.com/CPS-IT/project-builder/actions/workflows/tests.yaml)
+[![Supported PHP Versions](https://img.shields.io/packagist/dependency-v/cpsit/project-builder/php?logo=php)](https://packagist.org/packages/cpsit/project-builder)
 
 📙&nbsp;[Documentation](https://project-builder.cps-it.de/) |
 📦&nbsp;[Packagist](https://packagist.org/packages/cpsit/project-builder) |
@@ -29,6 +25,36 @@ in a very flexible way.
 
 ➡️ Read more in the [official documentation][1].
 
+## ⚡ Quickstart
+
+### Composer
+
+[![Packagist](https://img.shields.io/packagist/v/cpsit/project-builder?label=version&logo=packagist)](https://packagist.org/packages/cpsit/project-builder)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/cpsit/project-builder?color=brightgreen)](https://packagist.org/packages/cpsit/project-builder)
+
+```bash
+composer create-project cpsit/project-builder <projectname>
+```
+
+### Docker
+
+[![Docker](https://img.shields.io/docker/v/cpsit/project-builder?label=version&logo=docker&sort=semver)](https://hub.docker.com/r/cpsit/project-builder)
+[![Docker Pulls](https://img.shields.io/docker/pulls/cpsit/project-builder?color=brightgreen)](https://hub.docker.com/r/cpsit/project-builder)
+
+```bash
+docker run --rm -it -v <target-dir>:/app cpsit/project-builder
+```
+
+You can also use the image from [GitHub Container Registry][2]:
+
+```bash
+docker run --rm -it -v <target-dir>:/app ghcr.io/cps-it/project-builder
+```
+
+## 📙 Documentation
+
+Please have a look at the [official documentation][1].
+
 ## 🧑‍💻 Contributing
 
 Please have a look at [`CONTRIBUTING.md`](CONTRIBUTING.md).
@@ -38,3 +64,4 @@ Please have a look at [`CONTRIBUTING.md`](CONTRIBUTING.md).
 This project is licensed under [GNU General Public License 3.0 (or later)](LICENSE).
 
 [1]: https://project-builder.cps-it.de/
+[2]: https://github.com/CPS-IT/project-builder/pkgs/container/project-builder
