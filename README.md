@@ -29,6 +29,36 @@ in a very flexible way.
 
 ➡️ Read more in the [official documentation][1].
 
+## ⚡ Quickstart
+
+### Composer
+
+[![Packagist](https://img.shields.io/packagist/v/cpsit/project-builder?label=version&logo=packagist)](https://packagist.org/packages/cpsit/project-builder)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/cpsit/project-builder?color=brightgreen)](https://packagist.org/packages/cpsit/project-builder)
+
+```bash
+composer create-project cpsit/project-builder <projectname>
+```
+
+### Docker
+
+[![Docker](https://img.shields.io/docker/v/cpsit/project-builder?label=version&logo=docker&sort=semver)](https://hub.docker.com/r/cpsit/project-builder)
+[![Docker Pulls](https://img.shields.io/docker/pulls/cpsit/project-builder?color=brightgreen)](https://hub.docker.com/r/cpsit/project-builder)
+
+```bash
+docker run --rm -it -v <target-dir>:/app cpsit/project-builder
+```
+
+You can also use the image from [GitHub Container Registry][2]:
+
+```bash
+docker run --rm -it -v <target-dir>:/app ghcr.io/cps-it/project-builder
+```
+
+## 📙 Documentation
+
+Please have a look at the [official documentation][1].
+
 ## 🧑‍💻 Contributing
 
 Please have a look at [`CONTRIBUTING.md`](CONTRIBUTING.md).
@@ -38,3 +68,4 @@ Please have a look at [`CONTRIBUTING.md`](CONTRIBUTING.md).
 This project is licensed under [GNU General Public License 3.0 (or later)](LICENSE).
 
 [1]: https://project-builder.cps-it.de/
+[2]: https://github.com/CPS-IT/project-builder/pkgs/container/project-builder
