@@ -20,7 +20,7 @@ jobs:
         composer-version: ["2.1", "2.2", "2.3", "2.4", "2.5", "2.6"]
         dependencies: ["highest", "lowest"]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -46,7 +46,7 @@ jobs:
     name: Test coverage
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -94,7 +94,7 @@ jobs:
     name: Docker tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
