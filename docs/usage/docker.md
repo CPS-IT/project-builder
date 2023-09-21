@@ -7,6 +7,13 @@
 {octicon}`link-external;1em;sd-mr-1` View image on Docker Hub
 ```
 
+```{button-link} https://github.com/CPS-IT/project-builder/pkgs/container/project-builder
+:color: primary
+:outline:
+
+{octicon}`link-external;1em;sd-mr-1` View image on GitHub Container Registry
+```
+
 ## Requirements
 
 * [Docker][1]
@@ -17,7 +24,11 @@ As an alternative to the usage with Composer, there's also a ready-to-use
 [Docker image][2]:
 
 ```bash
+# Docker Hub
 docker run --rm -it -v <target-dir>:/app cpsit/project-builder
+
+# GitHub Container Registry
+docker run --rm -it -v <target-dir>:/app ghcr.io/cps-it/project-builder
 ```
 
 Replace `<target-dir>` with an absolute or relative path to the directory
