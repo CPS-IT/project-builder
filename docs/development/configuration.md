@@ -165,8 +165,9 @@ steps:
         - path: composer.json.twig
           if: 'features["composer"]'
         # ... or use static files
-        - path: phpstan.neon
-          if: 'features["phpstan"]'
+        - path: example-v3.conf
+          if: 'features["example"] && example["version"] == "3"'
+          target: example.conf
   - type: processSharedSourceFiles
     options:
       fileConditions:
