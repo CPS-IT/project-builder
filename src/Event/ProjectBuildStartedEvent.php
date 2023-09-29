@@ -35,8 +35,7 @@ final class ProjectBuildStartedEvent
 {
     public function __construct(
         private readonly Builder\BuildInstructions $instructions,
-    ) {
-    }
+    ) {}
 
     public function getInstructions(): Builder\BuildInstructions
     {

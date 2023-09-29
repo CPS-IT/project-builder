@@ -45,8 +45,7 @@ final class PackageArtifact extends Artifact
 {
     public function __construct(
         private readonly Package\PackageInterface $package,
-    ) {
-    }
+    ) {}
 
     public function dump(): array
     {

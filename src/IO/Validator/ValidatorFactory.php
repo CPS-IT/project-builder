@@ -39,8 +39,7 @@ final class ValidatorFactory
      */
     public function __construct(
         private readonly array $validators,
-    ) {
-    }
+    ) {}
 
     public function get(Builder\Config\ValueObject\PropertyValidator $validator): ValidatorInterface
     {

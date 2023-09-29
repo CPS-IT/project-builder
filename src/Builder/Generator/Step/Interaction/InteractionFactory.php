@@ -38,8 +38,7 @@ final class InteractionFactory
      */
     public function __construct(
         private readonly iterable $interactions,
-    ) {
-    }
+    ) {}
 
     public function get(string $type): InteractionInterface
     {

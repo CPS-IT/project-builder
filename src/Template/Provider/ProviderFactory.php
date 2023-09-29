@@ -38,8 +38,7 @@ final class ProviderFactory
      */
     public function __construct(
         private readonly iterable $providers,
-    ) {
-    }
+    ) {}
 
     public function get(string $type): ProviderInterface
     {

@@ -54,8 +54,7 @@ final class Generator
         private readonly Filesystem\Filesystem $filesystem,
         private readonly EventDispatcher\EventDispatcherInterface $eventDispatcher,
         private readonly Builder\Writer\JsonFileWriter $writer,
-    ) {
-    }
+    ) {}
 
     public function run(string $targetDirectory): Builder\BuildResult
     {

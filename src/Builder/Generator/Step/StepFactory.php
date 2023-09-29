@@ -39,8 +39,7 @@ final class StepFactory
      */
     public function __construct(
         private readonly iterable $steps,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws Exception\UnsupportedTypeException
