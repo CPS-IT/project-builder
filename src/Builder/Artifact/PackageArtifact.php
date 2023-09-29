@@ -41,8 +41,7 @@ final class PackageArtifact implements JsonSerializable
         public readonly ?string $sourceReference,
         public readonly ?string $sourceUrl,
         public readonly ?string $distUrl,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array{

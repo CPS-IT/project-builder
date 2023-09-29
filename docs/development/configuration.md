@@ -159,11 +159,21 @@ steps:
   - type: installComposerDependencies
   - type: collectBuildInstructions
   - type: processSourceFiles
+    options:
+      fileConditions:
+        # You can define a Twig template to render...
+        - path: composer.json.twig
+          if: 'features["composer"]'
+        # ... or use static files
+        - path: example-v3.conf
+          if: 'features["example"] && example["version"] == "3"'
+          target: example.conf
   - type: processSharedSourceFiles
     options:
       fileConditions:
-        - path: composer.json
-          if: 'false'
+        # Use Symfony Expression Language to define file conditions
+        - path: phpunit.xml
+          if: 'features["phpunit"]'
         # Mirror an entire directory
         - path: 'source-dir/*'
           target: 'target-dir/*'
@@ -199,6 +209,21 @@ properties:
             options:
               pattern: '/^[a-zA-Z]+$/'
               errorMessage: 'The project name should consist of letters only.'
+
+  # Features
+  - identifier: features
+    name: Features
+    properties:
+      - identifier: composer
+        name: Enable <comment>Composer</comment> support?
+        type: question
+        defaultValue: true
+      - identifier: phpstan
+        name: Do you need <comment>PHPStan</comment> support?
+        type: question
+      - identifier: phpunit
+        name: Do you want to run tests with <comment>PHPUnit</comment>?
+        type: question
 
   # Author
   - identifier: author

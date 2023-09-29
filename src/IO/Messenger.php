@@ -52,8 +52,7 @@ final class Messenger
     private function __construct(
         private readonly IO\IOInterface $io,
         private readonly Console\Terminal $terminal,
-    ) {
-    }
+    ) {}
 
     public static function create(IO\IOInterface $io): self
     {

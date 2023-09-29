@@ -43,8 +43,7 @@ final class PhpApiClient
     public function __construct(
         private readonly Client\ClientInterface $client,
         private readonly Message\RequestFactoryInterface $requestFactory,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws Client\ClientExceptionInterface

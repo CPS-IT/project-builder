@@ -39,8 +39,7 @@ final class BuildArtifact implements JsonSerializable
         public readonly int $version,
         public readonly string $path,
         public readonly int $date,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array{

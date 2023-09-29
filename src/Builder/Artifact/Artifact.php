@@ -47,8 +47,7 @@ final class Artifact implements JsonSerializable
         public readonly TemplateArtifact $template,
         public readonly GeneratorArtifact $generator,
         public readonly ResultArtifact $result,
-    ) {
-    }
+    ) {}
 
     /**
      * @phpstan-return ArtifactType

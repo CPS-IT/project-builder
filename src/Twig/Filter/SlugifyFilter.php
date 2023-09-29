@@ -38,8 +38,7 @@ final class SlugifyFilter implements TwigFilterInterface
 
     public function __construct(
         private readonly Slugify\Slugify $slugify,
-    ) {
-    }
+    ) {}
 
     public function __invoke(mixed $input, string $separator = null): string
     {

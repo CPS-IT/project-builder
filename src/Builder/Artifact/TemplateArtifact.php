@@ -43,8 +43,7 @@ final class TemplateArtifact implements JsonSerializable
         public readonly string $hash,
         public readonly PackageArtifact $package,
         public readonly array $provider,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array{

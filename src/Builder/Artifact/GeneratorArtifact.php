@@ -38,8 +38,7 @@ final class GeneratorArtifact implements JsonSerializable
     public function __construct(
         public readonly PackageArtifact $package,
         public readonly string $executor,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array{

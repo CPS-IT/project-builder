@@ -38,8 +38,7 @@ final class Migration1688738958 extends BaseMigration
 
     public function __construct(
         private readonly Template\Provider\ProviderFactory $providerFactory,
-    ) {
-    }
+    ) {}
 
     public function migrate(array $artifact): array
     {

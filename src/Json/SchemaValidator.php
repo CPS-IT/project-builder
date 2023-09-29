@@ -36,8 +36,7 @@ final class SchemaValidator
 {
     public function __construct(
         private readonly JsonSchema\Validator $validator,
-    ) {
-    }
+    ) {}
 
     public function validate(mixed $data, string $schemaFile): JsonSchema\ValidationResult
     {

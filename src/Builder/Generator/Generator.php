@@ -55,8 +55,7 @@ final class Generator
         private readonly EventDispatcher\EventDispatcherInterface $eventDispatcher,
         private readonly Builder\Writer\JsonFileWriter $writer,
         private readonly Builder\ArtifactGenerator $artifactGenerator,
-    ) {
-    }
+    ) {}
 
     public function run(string $targetDirectory): Builder\BuildResult
     {

@@ -43,8 +43,7 @@ final class ContainerBuilderDebugDumpPass implements DependencyInjection\Compile
 {
     public function __construct(
         private readonly string $cachePath,
-    ) {
-    }
+    ) {}
 
     public function process(DependencyInjection\ContainerBuilder $container): void
     {

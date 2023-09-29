@@ -45,8 +45,7 @@ final class ResultArtifact implements JsonSerializable
         public readonly array $properties,
         public readonly array $steps,
         public readonly array $processedFiles,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array{
