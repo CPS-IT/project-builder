@@ -43,8 +43,7 @@ final class ProjectBuilderExtension extends Extension\AbstractExtension
     public function __construct(
         private readonly iterable $filters,
         private readonly iterable $functions,
-    ) {
-    }
+    ) {}
 
     public function getFilters(): array
     {

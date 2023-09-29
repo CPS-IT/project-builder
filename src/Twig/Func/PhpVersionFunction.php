@@ -43,8 +43,7 @@ final class PhpVersionFunction implements TwigFunctionInterface
 
     public function __construct(
         private readonly Resource\Http\PhpApiClient $client,
-    ) {
-    }
+    ) {}
 
     public function __invoke(string $branch = null): string
     {

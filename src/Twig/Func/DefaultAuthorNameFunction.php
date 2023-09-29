@@ -37,8 +37,7 @@ final class DefaultAuthorNameFunction implements TwigFunctionInterface
 
     public function __construct(
         private readonly Resource\Local\Git $git,
-    ) {
-    }
+    ) {}
 
     public function __invoke(): ?string
     {

@@ -43,8 +43,7 @@ final class StaticValueInteraction implements InteractionInterface
         private readonly IO\InputReader $reader,
         private readonly Twig\Renderer $renderer,
         private readonly IO\Validator\ValidatorFactory $validatorFactory,
-    ) {
-    }
+    ) {}
 
     public function interact(
         Builder\Config\ValueObject\CustomizableInterface $subject,

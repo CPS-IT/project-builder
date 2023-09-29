@@ -45,8 +45,7 @@ final class EventListenerPass implements DependencyInjection\Compiler\CompilerPa
     public function __construct(
         private readonly string $tagName,
         private readonly string $dispatcherId,
-    ) {
-    }
+    ) {}
 
     public function process(DependencyInjection\ContainerBuilder $container): void
     {

@@ -41,8 +41,7 @@ final class ExpressionLanguageProviderPass implements DependencyInjection\Compil
     public function __construct(
         private readonly string $tagName,
         private readonly string $expressionLanguageId,
-    ) {
-    }
+    ) {}
 
     public function process(DependencyInjection\ContainerBuilder $container): void
     {

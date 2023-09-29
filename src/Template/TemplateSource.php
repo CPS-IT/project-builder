@@ -38,8 +38,7 @@ final class TemplateSource
     public function __construct(
         private readonly Provider\ProviderInterface $provider,
         private Package\PackageInterface $package,
-    ) {
-    }
+    ) {}
 
     public function getProvider(): Provider\ProviderInterface
     {
