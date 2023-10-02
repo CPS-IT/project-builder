@@ -35,8 +35,7 @@ final class ProjectBuildFinishedEvent
 {
     public function __construct(
         private readonly Builder\BuildResult $buildResult,
-    ) {
-    }
+    ) {}
 
     public function getBuildResult(): Builder\BuildResult
     {

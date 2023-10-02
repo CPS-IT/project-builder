@@ -41,8 +41,7 @@ final class NameVariantBuilder
 {
     public function __construct(
         private readonly Builder\BuildInstructions $instructions,
-    ) {
-    }
+    ) {}
 
     /**
      * @param value-of<NameVariant>     $variant

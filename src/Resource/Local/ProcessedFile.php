@@ -36,8 +36,7 @@ final class ProcessedFile
     public function __construct(
         private readonly Finder\SplFileInfo $originalFile,
         private readonly Finder\SplFileInfo $targetFile,
-    ) {
-    }
+    ) {}
 
     public function getOriginalFile(): Finder\SplFileInfo
     {

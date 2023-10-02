@@ -40,8 +40,7 @@ final class StepOptions
         private readonly ?string $artifactPath = null,
         private readonly ?string $command = null,
         private readonly bool $skipConfirmation = false,
-    ) {
-    }
+    ) {}
 
     /**
      * @return list<FileCondition>

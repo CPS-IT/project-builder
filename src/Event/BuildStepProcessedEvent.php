@@ -37,8 +37,7 @@ final class BuildStepProcessedEvent
         private readonly Builder\Generator\Step\StepInterface $step,
         private readonly Builder\BuildResult $buildResult,
         private readonly bool $successful,
-    ) {
-    }
+    ) {}
 
     public function getStep(): Builder\Generator\Step\StepInterface
     {

@@ -3,5 +3,8 @@
 	"extends": [
 		"local>CPS-IT/renovate-config",
 		"local>CPS-IT/renovate-config:git-flow"
+	],
+	"assignees": [
+		"eliashaeussler"
 	]
 }

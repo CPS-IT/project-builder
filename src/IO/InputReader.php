@@ -43,8 +43,7 @@ final class InputReader
 {
     public function __construct(
         private readonly IO\IOInterface $io,
-    ) {
-    }
+    ) {}
 
     /**
      * @return ($required is true ? non-empty-string : non-empty-string|null)
