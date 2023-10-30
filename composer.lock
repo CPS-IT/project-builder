@@ -4094,16 +4094,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.36.0",
+            "version": "v3.37.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "e5148ae59b3759ad170ad87bd56bdc687d001031"
+                "reference": "c3fe76976081ab871aa654e872da588077e19679"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/e5148ae59b3759ad170ad87bd56bdc687d001031",
-                "reference": "e5148ae59b3759ad170ad87bd56bdc687d001031",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/c3fe76976081ab871aa654e872da588077e19679",
+                "reference": "c3fe76976081ab871aa654e872da588077e19679",
                 "shasum": ""
             },
             "require": {
@@ -4175,7 +4175,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.36.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.37.1"
             },
             "funding": [
                 {
@@ -4183,7 +4183,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-27T10:06:50+00:00"
+            "time": "2023-10-29T20:51:23+00:00"
         },
         {
             "name": "idiosyncratic/editorconfig",
