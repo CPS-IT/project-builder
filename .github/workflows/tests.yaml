@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ["8.1", "8.2"]
+        php-version: ["8.1", "8.2", "8.3"]
         composer-version: ["2.1", "2.2", "2.3", "2.4", "2.5", "2.6"]
         dependencies: ["highest", "lowest"]
     steps:
@@ -53,7 +53,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: 8.3
           tools: composer:v2
           coverage: pcov
 
