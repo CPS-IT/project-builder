@@ -55,7 +55,7 @@ final class TemplateWriter implements WriterInterface
         $renderResult = $renderer->render($instructions, $file->getFilename(), $variables);
         $targetFile = Helper\FilesystemHelper::createFileObject(
             $instructions->getTemporaryDirectory(),
-            $targetFile ?? (string) preg_replace('/\.twig$/', '', $file->getRelativePathname()),
+            (string) preg_replace('/\.twig$/', '', $targetFile ?? $file->getRelativePathname()),
         );
 
         $this->filesystem->dumpFile($targetFile->getPathname(), $renderResult);
