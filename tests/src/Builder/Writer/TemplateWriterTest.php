@@ -95,7 +95,7 @@ final class TemplateWriterTest extends Tests\ContainerAwareTestCase
         $file = new Finder\SplFileInfo($templateFile, dirname($templateFile), basename($templateFile));
 
         $expected = $instructions->getTemporaryDirectory().'/overrides/dump.json';
-        $actual = $this->subject->write($instructions, $file, 'overrides/dump.json', ['bar' => 'bar']);
+        $actual = $this->subject->write($instructions, $file, 'overrides/dump.json.twig', ['bar' => 'bar']);
 
         self::assertSame($expected, $actual->getPathname());
         self::assertFileExists($expected);
