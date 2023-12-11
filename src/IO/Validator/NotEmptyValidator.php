@@ -41,7 +41,7 @@ final class NotEmptyValidator extends AbstractValidator
         'strict' => false,
     ];
 
-    public function __invoke(?string $input): ?string
+    public function __invoke(?string $input): string
     {
         if (null === $input || '' === $input) {
             throw Exception\ValidationException::create('The given input must not be empty.');

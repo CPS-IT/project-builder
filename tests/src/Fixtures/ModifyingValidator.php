@@ -41,7 +41,7 @@ final class ModifyingValidator extends IO\Validator\AbstractValidator
 {
     private const TYPE = 'modifying';
 
-    public function __invoke(?string $input): ?string
+    public function __invoke(?string $input): string
     {
         return strtoupper((string) $input);
     }
