@@ -68,7 +68,7 @@ final class FactoryServicesPass implements DependencyInjection\Compiler\Compiler
         }
 
         $container->findDefinition($this->factoryService)->setArgument(
-            '$'.ltrim($this->argumentName, '$'),
+            '$' . ltrim($this->argumentName, '$'),
             $services,
         );
     }

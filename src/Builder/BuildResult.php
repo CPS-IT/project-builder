@@ -115,7 +115,7 @@ final class BuildResult
         if (null !== $withinPath) {
             $files = array_filter(
                 $files,
-                fn (Resource\Local\ProcessedFile $file): bool => Filesystem\Path::isBasePath(
+                fn(Resource\Local\ProcessedFile $file): bool => Filesystem\Path::isBasePath(
                     $withinPath,
                     $file->getTargetFile()->getPathname(),
                 ),

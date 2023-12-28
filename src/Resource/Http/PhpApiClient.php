@@ -66,7 +66,7 @@ final class PhpApiClient
 
         // Fall back to .0 release if version cannot be determined via API
         if (!($json instanceof stdClass) || !property_exists($json, 'version')) {
-            return $branch.'.0';
+            return $branch . '.0';
         }
 
         return $json->version;

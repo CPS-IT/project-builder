@@ -51,14 +51,14 @@ final class ResultArtifact extends Artifact
         return [
             'properties' => $this->buildResult->getInstructions()->getTemplateVariables(),
             'steps' => array_map(
-                fn (Builder\Config\ValueObject\Step $step) => [
+                fn(Builder\Config\ValueObject\Step $step) => [
                     'type' => $step->getType(),
                     'applied' => $this->buildResult->isStepApplied($step->getType()),
                 ],
                 $this->buildResult->getInstructions()->getConfig()->getSteps(),
             ),
             'processedFiles' => array_map(
-                fn (Resource\Local\ProcessedFile $processedFile) => [
+                fn(Resource\Local\ProcessedFile $processedFile) => [
                     'source' => $processedFile->getOriginalFile()->getRelativePathname(),
                     'target' => $processedFile->getTargetFile()->getRelativePathname(),
                 ],

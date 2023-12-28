@@ -98,7 +98,7 @@ final class ProcessSourceFilesStep extends AbstractStep implements ProcessingSte
             ->files()
             ->ignoreDotFiles(false)
             ->in($instructions->getSourceDirectory())
-            ->filter(fn (Finder\SplFileInfo $file): bool => $this->shouldProcessFile($file, $instructions))
+            ->filter(fn(Finder\SplFileInfo $file): bool => $this->shouldProcessFile($file, $instructions))
             ->sortByName()
         ;
     }

@@ -57,10 +57,10 @@ final class TemplateWriterTest extends Tests\ContainerAwareTestCase
         $instructions->addTemplateVariable('foo', 'foo');
         $instructions->addTemplateVariable('bar', 'foo');
 
-        $templateFile = dirname(__DIR__, 3).'/templates/dump.json.twig';
+        $templateFile = dirname(__DIR__, 3) . '/templates/dump.json.twig';
         $file = new Finder\SplFileInfo($templateFile, dirname($templateFile), basename($templateFile));
 
-        $expected = $instructions->getTemporaryDirectory().'/dump.json';
+        $expected = $instructions->getTemporaryDirectory() . '/dump.json';
         $actual = $this->subject->write($instructions, $file, variables: ['bar' => 'bar']);
 
         self::assertSame($expected, $actual->getPathname());
@@ -68,8 +68,8 @@ final class TemplateWriterTest extends Tests\ContainerAwareTestCase
 
         $expectedJson = [
             'instructions' => [
-                'sourceDirectory' => dirname(__DIR__, 2).'/templates/src',
-                'sharedSourceDirectory' => dirname(__DIR__, 2).'/templates/shared',
+                'sourceDirectory' => dirname(__DIR__, 2) . '/templates/src',
+                'sharedSourceDirectory' => dirname(__DIR__, 2) . '/templates/shared',
             ],
             'foo' => 'foo',
             'bar' => 'bar',
@@ -91,10 +91,10 @@ final class TemplateWriterTest extends Tests\ContainerAwareTestCase
         $instructions->addTemplateVariable('foo', 'foo');
         $instructions->addTemplateVariable('bar', 'foo');
 
-        $templateFile = dirname(__DIR__, 3).'/templates/dump.json.twig';
+        $templateFile = dirname(__DIR__, 3) . '/templates/dump.json.twig';
         $file = new Finder\SplFileInfo($templateFile, dirname($templateFile), basename($templateFile));
 
-        $expected = $instructions->getTemporaryDirectory().'/overrides/dump.json';
+        $expected = $instructions->getTemporaryDirectory() . '/overrides/dump.json';
         $actual = $this->subject->write($instructions, $file, 'overrides/dump.json.twig', ['bar' => 'bar']);
 
         self::assertSame($expected, $actual->getPathname());
@@ -102,8 +102,8 @@ final class TemplateWriterTest extends Tests\ContainerAwareTestCase
 
         $expectedJson = [
             'instructions' => [
-                'sourceDirectory' => dirname(__DIR__, 2).'/templates/src',
-                'sharedSourceDirectory' => dirname(__DIR__, 2).'/templates/shared',
+                'sourceDirectory' => dirname(__DIR__, 2) . '/templates/src',
+                'sharedSourceDirectory' => dirname(__DIR__, 2) . '/templates/shared',
             ],
             'foo' => 'foo',
             'bar' => 'bar',

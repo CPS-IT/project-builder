@@ -63,13 +63,13 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
         self::assertCount(4, $this->subject->getProcessedFiles());
         self::assertSame('overrides/dummy-4.yaml', $this->subject->getProcessedFiles()[0]->getTargetFile()->getRelativePathname());
         self::assertSame('dummy.yaml', $this->subject->getProcessedFiles()[1]->getTargetFile()->getRelativePathname());
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/dummy.yaml');
-        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/dummy-2.yaml');
-        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/dummy-3.yaml');
-        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/dummy-4.yaml');
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/overrides/dummy-4.yaml');
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/foo-baz-dummy/dummy-1.yaml');
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/foo-baz-dummy/dummy-2.yaml');
+        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory() . '/dummy.yaml');
+        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory() . '/dummy-2.yaml');
+        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory() . '/dummy-3.yaml');
+        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory() . '/dummy-4.yaml');
+        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory() . '/overrides/dummy-4.yaml');
+        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory() . '/foo-baz-dummy/dummy-1.yaml');
+        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory() . '/foo-baz-dummy/dummy-2.yaml');
         self::assertTrue($this->result->isStepApplied($this->subject));
     }
 
@@ -84,7 +84,7 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
         string $expected,
         array $notExpected,
     ): void {
-        $declaringFile = dirname(__DIR__, 3).'/Fixtures/Templates/yaml-template/config.yaml';
+        $declaringFile = dirname(__DIR__, 3) . '/Fixtures/Templates/yaml-template/config.yaml';
         $step = new Src\Builder\Config\ValueObject\Step(
             'processSourceFiles',
             new Src\Builder\Config\ValueObject\StepOptions($fileConditions),
@@ -100,10 +100,10 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
 
         $this->subject->run($result);
 
-        self::assertFileExists($result->getInstructions()->getTemporaryDirectory().'/'.$expected);
+        self::assertFileExists($result->getInstructions()->getTemporaryDirectory() . '/' . $expected);
 
         foreach ($notExpected as $notExpectedFile) {
-            self::assertFileDoesNotExist($result->getInstructions()->getTemporaryDirectory().'/'.$notExpectedFile);
+            self::assertFileDoesNotExist($result->getInstructions()->getTemporaryDirectory() . '/' . $notExpectedFile);
         }
     }
 
@@ -112,11 +112,11 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
     {
         $this->subject->run($this->result);
 
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/dummy.yaml');
+        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory() . '/dummy.yaml');
 
         $this->subject->revert($this->result);
 
-        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/dummy.yaml');
+        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory() . '/dummy.yaml');
     }
 
     /**
@@ -167,7 +167,7 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
         $configFactory = Src\Builder\Config\ConfigFactory::create();
 
         return $configFactory->buildFromFile(
-            dirname(__DIR__, 3).'/Fixtures/Templates/yaml-template/config.yaml',
+            dirname(__DIR__, 3) . '/Fixtures/Templates/yaml-template/config.yaml',
             'yaml',
         );
     }

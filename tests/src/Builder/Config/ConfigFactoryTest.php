@@ -58,7 +58,7 @@ final class ConfigFactoryTest extends Framework\TestCase
     #[Framework\Attributes\Test]
     public function buildFromFileReturnsHydratedConfigObject(): void
     {
-        $createConfig = fn (string $type): Src\Builder\Config\Config => new Src\Builder\Config\Config(
+        $createConfig = fn(string $type): Src\Builder\Config\Config => new Src\Builder\Config\Config(
             $type,
             ucfirst($type),
             [
@@ -66,19 +66,19 @@ final class ConfigFactoryTest extends Framework\TestCase
                 new Src\Builder\Config\ValueObject\Step(
                     'processSourceFiles',
                     new Src\Builder\Config\ValueObject\StepOptions([
-                        new Src\Builder\Config\ValueObject\FileCondition('dummy-2.'.$type, 'false'),
-                        new Src\Builder\Config\ValueObject\FileCondition('*-3.'.$type, 'false'),
-                        new Src\Builder\Config\ValueObject\FileCondition('dummy-4.'.$type, 'false'),
-                        new Src\Builder\Config\ValueObject\FileCondition('dummy-4.'.$type, 'true', 'overrides/dummy-4.'.$type),
+                        new Src\Builder\Config\ValueObject\FileCondition('dummy-2.' . $type, 'false'),
+                        new Src\Builder\Config\ValueObject\FileCondition('*-3.' . $type, 'false'),
+                        new Src\Builder\Config\ValueObject\FileCondition('dummy-4.' . $type, 'false'),
+                        new Src\Builder\Config\ValueObject\FileCondition('dummy-4.' . $type, 'true', 'overrides/dummy-4.' . $type),
                         new Src\Builder\Config\ValueObject\FileCondition('dummy/*', null, 'foo-{{ foo }}-dummy/*'),
                     ]),
                 ),
                 new Src\Builder\Config\ValueObject\Step(
                     'processSharedSourceFiles',
                     new Src\Builder\Config\ValueObject\StepOptions([
-                        new Src\Builder\Config\ValueObject\FileCondition('shared-dummy-2.'.$type, 'false'),
-                        new Src\Builder\Config\ValueObject\FileCondition('shared-*-3.'.$type, 'false'),
-                        new Src\Builder\Config\ValueObject\FileCondition('shared-dummy-4.'.$type, 'true', 'overrides/shared-dummy-4.'.$type),
+                        new Src\Builder\Config\ValueObject\FileCondition('shared-dummy-2.' . $type, 'false'),
+                        new Src\Builder\Config\ValueObject\FileCondition('shared-*-3.' . $type, 'false'),
+                        new Src\Builder\Config\ValueObject\FileCondition('shared-dummy-4.' . $type, 'true', 'overrides/shared-dummy-4.' . $type),
                         new Src\Builder\Config\ValueObject\FileCondition('shared-dummy/*', null, 'foo-{{ foo }}-shared-dummy/*'),
                     ]),
                 ),
@@ -136,7 +136,7 @@ final class ConfigFactoryTest extends Framework\TestCase
         );
 
         foreach (['json', 'yaml'] as $fileType) {
-            $configFile = dirname(__DIR__, 2).'/Fixtures/Templates/'.$fileType.'-template/config.'.$fileType;
+            $configFile = dirname(__DIR__, 2) . '/Fixtures/Templates/' . $fileType . '-template/config.' . $fileType;
             $expected = $createConfig($fileType);
             $expected->setDeclaringFile($configFile);
 
@@ -159,10 +159,10 @@ final class ConfigFactoryTest extends Framework\TestCase
      */
     public static function buildFromFileThrowsExceptionIfFileContentsAreInvalidDataProvider(): Generator
     {
-        $fixturePath = dirname(__DIR__, 2).'/Fixtures/Files';
+        $fixturePath = dirname(__DIR__, 2) . '/Fixtures/Files';
 
-        yield 'invalid file' => [$fixturePath.'/invalid-config-file.yaml'];
-        yield 'invalid path at file condition' => [$fixturePath.'/invalid-config-file-condition-path.yaml'];
-        yield 'invalid target at file condition' => [$fixturePath.'/invalid-config-file-condition-target.yaml'];
+        yield 'invalid file' => [$fixturePath . '/invalid-config-file.yaml'];
+        yield 'invalid path at file condition' => [$fixturePath . '/invalid-config-file-condition-path.yaml'];
+        yield 'invalid target at file condition' => [$fixturePath . '/invalid-config-file-condition-target.yaml'];
     }
 }

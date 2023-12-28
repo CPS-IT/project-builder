@@ -54,7 +54,7 @@ final class CleanUpStep extends AbstractStep
         $artifactBackup = $this->backupBuildArtifact($buildResult);
 
         $directoriesToRemove = array_map(
-            fn (string $path): string => Filesystem\Path::makeAbsolute($path, $targetDirectory),
+            fn(string $path): string => Filesystem\Path::makeAbsolute($path, $targetDirectory),
             Paths::PROTECTED_PATHS,
         );
 

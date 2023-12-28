@@ -87,7 +87,7 @@ final class Bootstrap
         $targetDirectory = $simulation->prepare();
 
         $exitCode = $simulation->run(
-            static fn (): int => self::createProject($event, $targetDirectory, false),
+            static fn(): int => self::createProject($event, $targetDirectory, false),
         );
 
         exit($exitCode);

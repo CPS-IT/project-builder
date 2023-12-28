@@ -87,6 +87,6 @@ final class CallbackValidatorTest extends Framework\TestCase
             return null;
         }
 
-        return 'input is '.$input;
+        return 'input is ' . $input;
     }
 }

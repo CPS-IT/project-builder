@@ -72,7 +72,7 @@ final class Simulation
     public function prepare(): string
     {
         // Override current root path
-        putenv('PROJECT_BUILDER_ROOT_PATH='.$this->targetDirectory);
+        putenv('PROJECT_BUILDER_ROOT_PATH=' . $this->targetDirectory);
 
         // Remove old simulations
         $this->removeLegacySimulations();

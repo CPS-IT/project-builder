@@ -58,7 +58,7 @@ final class StringHelper
     public static function interpolate(string $string, array $replacePairs): string
     {
         foreach (array_keys($replacePairs) as $replaceKey) {
-            $replacePairs['{'.trim($replaceKey, '{}').'}'] = $replacePairs[$replaceKey];
+            $replacePairs['{' . trim($replaceKey, '{}') . '}'] = $replacePairs[$replaceKey];
             unset($replacePairs[$replaceKey]);
         }
 

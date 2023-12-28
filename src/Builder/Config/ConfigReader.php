@@ -96,7 +96,7 @@ final class ConfigReader
     {
         $this->parseConfig();
 
-        return array_map(fn (Config $config): string => $config->getName(), $this->parsedConfig);
+        return array_map(fn(Config $config): string => $config->getName(), $this->parsedConfig);
     }
 
     /**
@@ -121,7 +121,7 @@ final class ConfigReader
             $this->parsedConfig[$config->getIdentifier()] = $config;
         }
 
-        uasort($this->parsedConfig, fn (Config $a, Config $b): int => strcasecmp($a->getName(), $b->getName()));
+        uasort($this->parsedConfig, fn(Config $a, Config $b): int => strcasecmp($a->getName(), $b->getName()));
 
         $this->parsed = true;
     }

@@ -26,7 +26,6 @@ $config = new \PhpCsFixer\Config();
 $config
     ->setRules([
         '@PER-CS' => true,
-        '@Symfony' => true,
         'global_namespace_import' => [
             'import_classes' => true,
             'import_functions' => true,

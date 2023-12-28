@@ -61,7 +61,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
 
         $this->acceptInsecureConnections();
 
-        putenv('PROJECT_BUILDER_ROOT_PATH='.$this->temporaryRootPath);
+        putenv('PROJECT_BUILDER_ROOT_PATH=' . $this->temporaryRootPath);
     }
 
     #[Framework\Attributes\Test]
@@ -150,13 +150,13 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
 
         [$templateSource] = $this->subject->listTemplateSources();
 
-        self::assertDirectoryDoesNotExist($this->temporaryRootPath.'/.build/templates/repo-a');
-        self::assertDirectoryDoesNotExist($this->temporaryRootPath.'/.build/templates/repo-b');
+        self::assertDirectoryDoesNotExist($this->temporaryRootPath . '/.build/templates/repo-a');
+        self::assertDirectoryDoesNotExist($this->temporaryRootPath . '/.build/templates/repo-b');
 
         $this->subject->installTemplateSource($templateSource);
 
-        self::assertDirectoryExists($this->temporaryRootPath.'/.build/templates/repo-a');
-        self::assertDirectoryExists($this->temporaryRootPath.'/.build/templates/repo-b');
+        self::assertDirectoryExists($this->temporaryRootPath . '/.build/templates/repo-a');
+        self::assertDirectoryExists($this->temporaryRootPath . '/.build/templates/repo-b');
 
         $output = self::$io->getOutput();
         $repositories = $this->fetchConfiguredRepositoriesViaReflection();
@@ -262,7 +262,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
             self::assertTrue($runner->run($configSignCommand)->isSuccessful());
 
             // Add composer.json
-            $this->filesystem->dumpFile($repoDir.'/composer.json', Json\JsonFile::encode([
+            $this->filesystem->dumpFile($repoDir . '/composer.json', Json\JsonFile::encode([
                 'name' => $composerName,
                 'type' => 'project-builder-template',
                 'require' => $requirements,

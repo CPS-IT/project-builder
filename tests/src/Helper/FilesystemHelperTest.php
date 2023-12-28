@@ -47,7 +47,7 @@ final class FilesystemHelperTest extends Framework\TestCase
 
         self::assertSame($relativePathname, $actual->getRelativePathname());
         self::assertSame('.', $actual->getRelativePath());
-        self::assertSame($baseDir.'/'.$relativePathname, $actual->getPathname());
+        self::assertSame($baseDir . '/' . $relativePathname, $actual->getPathname());
     }
 
     #[Framework\Attributes\Test]
@@ -64,9 +64,9 @@ final class FilesystemHelperTest extends Framework\TestCase
     #[Framework\Attributes\Test]
     public function getProjectRootPathReturnsProjectRootPathFromEnvironmentVariable(): void
     {
-        $projectRootPath = __DIR__.'/..';
+        $projectRootPath = __DIR__ . '/..';
 
-        putenv('PROJECT_BUILDER_ROOT_PATH='.$projectRootPath);
+        putenv('PROJECT_BUILDER_ROOT_PATH=' . $projectRootPath);
 
         self::assertSame(dirname(__DIR__), Src\Helper\FilesystemHelper::getProjectRootPath());
 

@@ -21,7 +21,7 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-require_once dirname(__DIR__).'/.build/vendor/autoload.php';
+require_once dirname(__DIR__) . '/.build/vendor/autoload.php';
 
 $factory = \CPSIT\ProjectBuilder\DependencyInjection\ContainerFactory::createForTesting();
 $factory->get();

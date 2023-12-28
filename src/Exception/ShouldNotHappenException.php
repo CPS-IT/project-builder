@@ -49,7 +49,7 @@ final class ShouldNotHappenException extends Exception
         $function = $debugBacktrace[2]['function'];
         $line = $debugBacktrace[1]['line'] ?? 0;
 
-        $method = null !== $class ? ($class.'::'.$function) : $function;
+        $method = null !== $class ? ($class . '::' . $function) : $function;
 
         return sprintf('Sorry, this should not have happened. Error raised at "%s()" on line %d.', $method, $line);
     }

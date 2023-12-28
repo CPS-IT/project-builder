@@ -57,7 +57,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
     public function invokeThrowsExceptionIfGivenContextDoesNotContainBuildInstructions(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Expected an instance of '.Src\Builder\BuildInstructions::class.'. Got: NULL');
+        $this->expectExceptionMessage('Expected an instance of ' . Src\Builder\BuildInstructions::class . '. Got: NULL');
 
         /* @phpstan-ignore-next-line */
         ($this->subject)([], 'foo');

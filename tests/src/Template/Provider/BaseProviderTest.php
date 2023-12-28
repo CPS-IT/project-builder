@@ -75,7 +75,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         $this->subject->packages = $packages;
 
         $expectedTemplateSources = array_map(
-            fn (Package\PackageInterface $package) => new Src\Template\TemplateSource($this->subject, $package),
+            fn(Package\PackageInterface $package) => new Src\Template\TemplateSource($this->subject, $package),
             $expected,
         );
 
@@ -289,7 +289,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         string $templateName = 'json-template',
         string $prettyVersion = '1.0.0',
     ): Package\Package {
-        $fixturePath = dirname(__DIR__, 2).'/Fixtures/Templates/'.$templateName;
+        $fixturePath = dirname(__DIR__, 2) . '/Fixtures/Templates/' . $templateName;
 
         self::assertDirectoryExists($fixturePath);
 

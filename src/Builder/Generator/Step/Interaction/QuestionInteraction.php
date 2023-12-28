@@ -77,7 +77,7 @@ final class QuestionInteraction implements InteractionInterface
     {
         $yesValue = true;
         $noValue = false;
-        $matches = fn (string $condition, bool $selected): bool => (bool) $this->expressionLanguage->evaluate(
+        $matches = fn(string $condition, bool $selected): bool => (bool) $this->expressionLanguage->evaluate(
             $condition,
             [...$instructions->getTemplateVariables(), ...['selected' => $selected]],
         );

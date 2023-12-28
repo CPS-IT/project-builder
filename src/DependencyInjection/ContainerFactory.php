@@ -115,7 +115,7 @@ final class ContainerFactory
 
         if ($this->debug && null !== $this->containerPath) {
             $containerXmlFilename = Filesystem\Path::getFilenameWithoutExtension($this->containerPath);
-            $containerXmlPath = Filesystem\Path::join(dirname($this->containerPath), $containerXmlFilename.'.xml');
+            $containerXmlPath = Filesystem\Path::join(dirname($this->containerPath), $containerXmlFilename . '.xml');
             $container->addCompilerPass(new CompilerPass\ContainerBuilderDebugDumpPass($containerXmlPath));
         }
 

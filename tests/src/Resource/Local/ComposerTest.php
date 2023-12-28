@@ -46,7 +46,7 @@ final class ComposerTest extends Tests\ContainerAwareTestCase
     protected function setUp(): void
     {
         $this->subject = self::$container->get(Src\Resource\Local\Composer::class);
-        $this->composerJson = dirname(__DIR__, 2).'/Fixtures/Templates/yaml-template/composer.json';
+        $this->composerJson = dirname(__DIR__, 2) . '/Fixtures/Templates/yaml-template/composer.json';
     }
 
     #[Framework\Attributes\Test]

@@ -143,8 +143,8 @@ final class InputReader
     private function parseMultipleAnswers(array $answers, array $choices, int $noSelectionIndex = null): array
     {
         $selections = array_map(
-            fn ($answer): string => $choices[(int) $answer],
-            array_filter($answers, fn ($answer): bool => $noSelectionIndex !== (int) $answer),
+            fn($answer): string => $choices[(int) $answer],
+            array_filter($answers, fn($answer): bool => $noSelectionIndex !== (int) $answer),
         );
 
         // Early return if no selection was made

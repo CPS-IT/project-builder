@@ -43,7 +43,7 @@ final class ErrorHandler
     {
         $previousException = $exception->getPrevious();
 
-        $this->messenger->error($exception->getMessage().$this->formatExceptionCode($exception));
+        $this->messenger->error($exception->getMessage() . $this->formatExceptionCode($exception));
 
         if ($exception instanceof Mapper\MappingError) {
             $this->formatMappingErrors($exception->node());
@@ -51,7 +51,7 @@ final class ErrorHandler
 
         if (null !== $previousException) {
             $this->messenger->error(
-                'Caused by: '.$previousException->getMessage().$this->formatExceptionCode($previousException),
+                'Caused by: ' . $previousException->getMessage() . $this->formatExceptionCode($previousException),
             );
         }
 
@@ -67,7 +67,7 @@ final class ErrorHandler
         $errors = Mapper\Tree\Message\Messages::flattenFromNode($node)->errors();
 
         foreach ($errors as $error) {
-            $this->messenger->error('- '.$error);
+            $this->messenger->error('- ' . $error);
         }
     }
 

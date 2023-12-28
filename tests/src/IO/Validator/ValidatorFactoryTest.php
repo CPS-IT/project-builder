@@ -79,7 +79,7 @@ final class ValidatorFactoryTest extends Tests\ContainerAwareTestCase
 
         self::assertTrue($actual->has(new Src\IO\Validator\EmailValidator()));
         self::assertTrue($actual->has(new Src\IO\Validator\NotEmptyValidator()));
-        self::assertFalse($actual->has(new Src\IO\Validator\CallbackValidator(['callback' => fn () => null])));
+        self::assertFalse($actual->has(new Src\IO\Validator\CallbackValidator(['callback' => fn() => null])));
         self::assertFalse($actual->has(new Src\IO\Validator\RegexValidator(['pattern' => '/.*/'])));
         self::assertFalse($actual->has(new Src\IO\Validator\UrlValidator()));
     }

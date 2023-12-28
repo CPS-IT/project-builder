@@ -63,7 +63,7 @@ final class DummyProvider implements Template\Provider\ProviderInterface
         }
 
         $package = $templateSource->getPackage();
-        $jsonFile = new Json\JsonFile($this->installationPath.'/composer.json');
+        $jsonFile = new Json\JsonFile($this->installationPath . '/composer.json');
         $json = [
             'require' => [
                 $package->getName() => '*',

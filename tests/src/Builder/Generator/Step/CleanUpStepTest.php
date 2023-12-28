@@ -58,16 +58,16 @@ final class CleanUpStepTest extends Tests\ContainerAwareTestCase
     {
         $targetDirectory = $this->result->getInstructions()->getTargetDirectory();
 
-        $this->filesystem->mkdir($targetDirectory.'/.build');
-        $this->filesystem->touch($targetDirectory.'/foo');
+        $this->filesystem->mkdir($targetDirectory . '/.build');
+        $this->filesystem->touch($targetDirectory . '/foo');
 
-        self::assertDirectoryExists($targetDirectory.'/.build');
-        self::assertFileExists($targetDirectory.'/foo');
+        self::assertDirectoryExists($targetDirectory . '/.build');
+        self::assertFileExists($targetDirectory . '/foo');
 
         $this->subject->run($this->result);
 
-        self::assertDirectoryDoesNotExist($targetDirectory.'/.build');
-        self::assertFileExists($targetDirectory.'/foo');
+        self::assertDirectoryDoesNotExist($targetDirectory . '/.build');
+        self::assertFileExists($targetDirectory . '/foo');
         self::assertTrue($this->result->isStepApplied('cleanUp'));
     }
 

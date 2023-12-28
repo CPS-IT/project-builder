@@ -107,7 +107,7 @@ final class ProcessSharedSourceFilesStep extends AbstractStep implements Process
             ->ignoreDotFiles(false)
             ->ignoreVCS(true)
             ->in($basePath)
-            ->filter(fn (Finder\SplFileInfo $file): bool => $this->shouldProcessFile($file, $instructions))
+            ->filter(fn(Finder\SplFileInfo $file): bool => $this->shouldProcessFile($file, $instructions))
             ->sortByName()
         ;
     }

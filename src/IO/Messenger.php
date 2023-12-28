@@ -83,7 +83,7 @@ final class Messenger
     public function welcome(): void
     {
         $this->getIO()->write([
-            '<comment>'.Emoji::Sparkles->value.' Welcome to the Project Builder!</comment>',
+            '<comment>' . Emoji::Sparkles->value . ' Welcome to the Project Builder!</comment>',
             '<comment>==================================</comment>',
             '',
             'The <comment>Project Builder</comment> helps you create Composer based projects with templates.',
@@ -109,7 +109,7 @@ final class Messenger
 
     public function comment(string $comment): void
     {
-        $this->write('<fg=gray>'.$comment.'</>');
+        $this->write('<fg=gray>' . $comment . '</>');
     }
 
     /**
@@ -118,7 +118,7 @@ final class Messenger
     public function selectProvider(array $providers): Template\Provider\ProviderInterface
     {
         $labels = array_map(
-            fn (Template\Provider\ProviderInterface $provider) => $provider::getName(),
+            fn(Template\Provider\ProviderInterface $provider) => $provider::getName(),
             array_values($providers),
         );
         $defaultIdentifier = array_key_first($providers);
@@ -187,7 +187,7 @@ final class Messenger
     public function confirmTemplateSourceRetry(\Exception $exception): bool
     {
         $this->getIO()->write([
-            '<error>'.$exception->getMessage().'</error>',
+            '<error>' . $exception->getMessage() . '</error>',
             'You can go one step back and select another template provider.',
             sprintf(
                 'For more information, take a look at the <href=%s>documentation</>.',
@@ -257,7 +257,7 @@ final class Messenger
         if (null !== self::$lastProgressOutput) {
             $this->writeWithEmoji(
                 Emoji::WhiteHeavyCheckMark->value,
-                self::$lastProgressOutput.'<info>Done</info>',
+                self::$lastProgressOutput . '<info>Done</info>',
                 true,
             );
         }
@@ -268,7 +268,7 @@ final class Messenger
         if (null !== self::$lastProgressOutput) {
             $this->writeWithEmoji(
                 Emoji::Prohibited->value,
-                self::$lastProgressOutput.'<error>Failed</error>',
+                self::$lastProgressOutput . '<error>Failed</error>',
                 true,
             );
         }
@@ -284,8 +284,8 @@ final class Messenger
 
         $resultMessages = [
             'Exit status' => $result->isMirrored()
-                ? Emoji::WhiteHeavyCheckMark->value.' Completed'
-                : Emoji::Prohibited->value.' <comment>Aborted</comment>',
+                ? Emoji::WhiteHeavyCheckMark->value . ' Completed'
+                : Emoji::Prohibited->value . ' <comment>Aborted</comment>',
             'Project type' => $result->getInstructions()->getConfig()->getName(),
         ];
 
@@ -388,12 +388,12 @@ final class Messenger
             $this->clearLine();
         }
 
-        $this->write($emoji.' '.$message);
+        $this->write($emoji . ' ' . $message);
     }
 
     public function error(string $message): void
     {
-        $this->writeWithEmoji(Emoji::RotatingLight->value, '<error>'.$message.'</error>');
+        $this->writeWithEmoji(Emoji::RotatingLight->value, '<error>' . $message . '</error>');
     }
 
     public function isVerbose(): bool

@@ -31,28 +31,28 @@ use Rector\Set\ValueObject\LevelSetList;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
-        __DIR__.'/config',
-        __DIR__.'/src',
-        __DIR__.'/tests',
+        __DIR__ . '/config',
+        __DIR__ . '/src',
+        __DIR__ . '/tests',
     ]);
 
     $rectorConfig->skip([
-        __DIR__.'/tests/src/Fixtures/Templates/*/vendor/*',
+        __DIR__ . '/tests/src/Fixtures/Templates/*/vendor/*',
 
         AddLiteralSeparatorToNumberRector::class,
         AnnotationToAttributeRector::class => [
-            __DIR__.'/src/Bootstrap.php',
-            __DIR__.'/src/Builder/Config/ConfigFactory.php',
-            __DIR__.'/src/Console/Simulation.php',
-            __DIR__.'/src/DependencyInjection/CompilerPass/ContainerBuilderDebugDumpPass.php',
-            __DIR__.'/src/DependencyInjection/CompilerPass/EventListenerPass.php',
-            __DIR__.'/src/DependencyInjection/CompilerPass/ExpressionLanguageProviderPass.php',
-            __DIR__.'/src/DependencyInjection/CompilerPass/FactoryServicesPass.php',
-            __DIR__.'/src/DependencyInjection/CompilerPass/PublicServicePass.php',
-            __DIR__.'/src/DependencyInjection/ContainerFactory.php',
+            __DIR__ . '/src/Bootstrap.php',
+            __DIR__ . '/src/Builder/Config/ConfigFactory.php',
+            __DIR__ . '/src/Console/Simulation.php',
+            __DIR__ . '/src/DependencyInjection/CompilerPass/ContainerBuilderDebugDumpPass.php',
+            __DIR__ . '/src/DependencyInjection/CompilerPass/EventListenerPass.php',
+            __DIR__ . '/src/DependencyInjection/CompilerPass/ExpressionLanguageProviderPass.php',
+            __DIR__ . '/src/DependencyInjection/CompilerPass/FactoryServicesPass.php',
+            __DIR__ . '/src/DependencyInjection/CompilerPass/PublicServicePass.php',
+            __DIR__ . '/src/DependencyInjection/ContainerFactory.php',
         ],
         NullToStrictStringFuncCallArgRector::class => [
-            __DIR__.'/src/Builder/Generator/Step/ProcessingFilesTrait.php',
+            __DIR__ . '/src/Builder/Generator/Step/ProcessingFilesTrait.php',
         ],
     ]);
 

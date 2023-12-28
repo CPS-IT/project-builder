@@ -65,7 +65,7 @@ final class Composer
 
         $initialComposerEnvValue = getenv('COMPOSER');
 
-        putenv('COMPOSER='.basename($composerJson));
+        putenv('COMPOSER=' . basename($composerJson));
 
         $input = new SymfonyConsole\Input\ArrayInput([
             'command' => 'update',
@@ -84,7 +84,7 @@ final class Composer
         $exitCode = $application->run($input, $output);
 
         if (false !== $initialComposerEnvValue) {
-            putenv('COMPOSER='.$initialComposerEnvValue);
+            putenv('COMPOSER=' . $initialComposerEnvValue);
         } else {
             putenv('COMPOSER');
         }
@@ -105,7 +105,7 @@ final class Composer
         $templatePackages = InstalledVersions::getInstalledPackagesByType(Template\Provider\ProviderInterface::PACKAGE_TYPE);
         $packages = array_filter(
             $repository->getPackages(),
-            fn (Package\BasePackage $package): bool => in_array($package->getName(), $templatePackages, true),
+            fn(Package\BasePackage $package): bool => in_array($package->getName(), $templatePackages, true),
         );
         $packages[] = $composer->getPackage();
 

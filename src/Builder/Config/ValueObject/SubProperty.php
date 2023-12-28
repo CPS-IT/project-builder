@@ -73,7 +73,7 @@ final class SubProperty implements CustomizableInterface
         $path = $this->identifier;
 
         if (null !== $this->parent) {
-            $path = $this->parent->getPath().'.'.$path;
+            $path = $this->parent->getPath() . '.' . $path;
         }
 
         return $path;
