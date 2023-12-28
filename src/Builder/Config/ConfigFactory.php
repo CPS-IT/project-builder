@@ -51,7 +51,8 @@ final class ConfigFactory
     private function __construct(
         private readonly Mapper\TreeMapper $mapper,
         private readonly JsonSchema\Validator $validator,
-    ) {}
+    ) {
+    }
 
     public static function create(): self
     {

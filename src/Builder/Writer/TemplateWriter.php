@@ -40,7 +40,8 @@ final class TemplateWriter implements WriterInterface
     public function __construct(
         private readonly Filesystem\Filesystem $filesystem,
         private readonly Twig\Renderer $renderer,
-    ) {}
+    ) {
+    }
 
     /**
      * @param array<string, mixed> $variables

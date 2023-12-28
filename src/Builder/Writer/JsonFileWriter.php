@@ -39,7 +39,8 @@ final class JsonFileWriter
 {
     public function __construct(
         private readonly Filesystem\Filesystem $filesystem,
-    ) {}
+    ) {
+    }
 
     public function write(Finder\SplFileInfo $file, string|JsonSerializable $json): bool
     {

@@ -44,7 +44,8 @@ final class ResultArtifact extends Artifact
 {
     public function __construct(
         private readonly Builder\BuildResult $buildResult,
-    ) {}
+    ) {
+    }
 
     public function dump(): array
     {

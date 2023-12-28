@@ -37,7 +37,8 @@ final class ErrorHandler
 {
     public function __construct(
         private readonly IO\Messenger $messenger,
-    ) {}
+    ) {
+    }
 
     public function handleException(Throwable $exception): void
     {

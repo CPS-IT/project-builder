@@ -52,7 +52,8 @@ final class Composer
 {
     public function __construct(
         private readonly Filesystem\Filesystem $filesystem,
-    ) {}
+    ) {
+    }
 
     public function install(
         string $composerJson,

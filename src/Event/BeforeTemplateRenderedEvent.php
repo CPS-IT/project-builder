@@ -41,7 +41,8 @@ final class BeforeTemplateRenderedEvent
         private readonly Environment $twig,
         private readonly Builder\BuildInstructions $instructions,
         private array $variables,
-    ) {}
+    ) {
+    }
 
     public function getTwig(): Environment
     {

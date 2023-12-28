@@ -38,7 +38,8 @@ final class GenericFileWriter implements WriterInterface
 {
     public function __construct(
         private readonly Filesystem\Filesystem $filesystem,
-    ) {}
+    ) {
+    }
 
     public function write(
         Builder\BuildInstructions $instructions,

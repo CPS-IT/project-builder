@@ -46,7 +46,8 @@ final class BuildResult
 
     public function __construct(
         private readonly BuildInstructions $instructions,
-    ) {}
+    ) {
+    }
 
     public function getInstructions(): BuildInstructions
     {

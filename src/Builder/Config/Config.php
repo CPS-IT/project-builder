@@ -49,7 +49,8 @@ final class Config
         private readonly string $name,
         private readonly array $steps,
         private readonly array $properties = [],
-    ) {}
+    ) {
+    }
 
     public function getIdentifier(): string
     {

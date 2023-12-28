@@ -44,7 +44,8 @@ final class SelectInteraction implements InteractionInterface
         private readonly ExpressionLanguage\ExpressionLanguage $expressionLanguage,
         private readonly IO\InputReader $reader,
         private readonly Twig\Renderer $renderer,
-    ) {}
+    ) {
+    }
 
     /**
      * @return string|list<string>|null

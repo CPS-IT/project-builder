@@ -46,7 +46,8 @@ final class Renderer
     public function __construct(
         private Environment $twig,
         private readonly EventDispatcher\EventDispatcherInterface $eventDispatcher,
-    ) {}
+    ) {
+    }
 
     /**
      * @param array<string, mixed> $variables

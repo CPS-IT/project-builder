@@ -58,7 +58,8 @@ final class ContainerFactory
         private readonly array $resources,
         private readonly ?string $containerPath = null,
         private readonly bool $debug = false,
-    ) {}
+    ) {
+    }
 
     /**
      * @param list<string> $resourcePaths

@@ -42,7 +42,8 @@ final class GeneratorArtifact extends Artifact
 {
     public function __construct(
         private readonly Package\RootPackageInterface $rootPackage,
-    ) {}
+    ) {
+    }
 
     public function dump(): array
     {

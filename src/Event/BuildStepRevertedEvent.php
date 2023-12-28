@@ -36,7 +36,8 @@ final class BuildStepRevertedEvent
     public function __construct(
         private readonly Builder\Generator\Step\StepInterface $step,
         private readonly Builder\BuildResult $buildResult,
-    ) {}
+    ) {
+    }
 
     public function getStep(): Builder\Generator\Step\StepInterface
     {

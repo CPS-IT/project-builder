@@ -44,7 +44,8 @@ final class TemplateArtifact extends Artifact
 {
     public function __construct(
         private readonly BuildResult $buildResult,
-    ) {}
+    ) {
+    }
 
     public function dump(): array
     {

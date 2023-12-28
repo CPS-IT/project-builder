@@ -44,7 +44,8 @@ final class FactoryServicesPass implements DependencyInjection\Compiler\Compiler
         private readonly string $tagName,
         private readonly string $factoryService,
         private readonly string $argumentName,
-    ) {}
+    ) {
+    }
 
     public function process(DependencyInjection\ContainerBuilder $container): void
     {

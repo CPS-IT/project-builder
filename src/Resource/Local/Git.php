@@ -37,7 +37,8 @@ final class Git
 {
     public function __construct(
         private readonly Cli\Command\Runner $runner,
-    ) {}
+    ) {
+    }
 
     public function getAuthorName(): ?string
     {

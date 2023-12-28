@@ -38,7 +38,8 @@ final class WriterFactory
      */
     public function __construct(
         private readonly iterable $writers,
-    ) {}
+    ) {
+    }
 
     public function get(string $file): WriterInterface
     {

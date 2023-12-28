@@ -53,7 +53,8 @@ final class BuildArtifact extends Artifact
         private readonly string $file,
         private readonly Builder\BuildResult $buildResult,
         private readonly Package\RootPackageInterface $rootPackage,
-    ) {}
+    ) {
+    }
 
     public function dump(): array
     {

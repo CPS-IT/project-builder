@@ -42,7 +42,8 @@ final class QuestionInteraction implements InteractionInterface
         private readonly ExpressionLanguage\ExpressionLanguage $expressionLanguage,
         private readonly IO\InputReader $reader,
         private readonly Twig\Renderer $renderer,
-    ) {}
+    ) {
+    }
 
     public function interact(
         Builder\Config\ValueObject\CustomizableInterface $subject,
