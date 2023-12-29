@@ -43,7 +43,7 @@
 		"webmozart/assert": "^1.11"
 	},
 	"require-dev": {
-		"armin/editorconfig-cli": "^1.5",
+		"armin/editorconfig-cli": "^1.6 || ^2.0",
 		"composer/composer": "~2.2.13 || ^2.3.6",
 		"composer/semver": "^3.0",
 		"composer/xdebug-handler": "^3.0",
