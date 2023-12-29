@@ -86,7 +86,7 @@ composer test:unit:coverage
 
 ### View coverage report
 
-[![Coverage](https://codecov.io/gh/CPS-IT/Project-Builder/branch/develop/graph/badge.svg?token=u5Clk9nd9Q)][5]
+[![Coverage](https://codecov.io/gh/CPS-IT/project-builder/branch/main/graph/badge.svg?token=u5Clk9nd9Q)][5]
 
 Code coverage reports are written to `.build/coverage`. You can open the
 last HTML report like follows:
