@@ -1,10 +1,12 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"extends": [
-		"local>CPS-IT/renovate-config",
-		"local>CPS-IT/renovate-config:git-flow"
+		"local>CPS-IT/renovate-config"
 	],
 	"assignees": [
 		"eliashaeussler"
-	]
+	],
+	"constraints": {
+		"php": "8.1.*"
+	}
 }

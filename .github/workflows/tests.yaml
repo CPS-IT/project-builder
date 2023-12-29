@@ -3,11 +3,11 @@ on:
   push:
     branches:
       - main
-      - develop
       - 3.x
   pull_request:
     branches:
-      - '**'
+      - main
+      - 3.x
 
 jobs:
   tests:
@@ -37,6 +37,8 @@ jobs:
         uses: ramsey/composer-install@v2
         with:
           dependency-versions: ${{ matrix.dependencies }}
+          # Composer < 2.7 is not compatible with symfony/console 7.x
+          composer-options: ${{ matrix.composer-version != '2.7' && '--with symfony/console:<7' }}
 
       # Run tests
       - name: Run tests
@@ -63,6 +65,9 @@ jobs:
         uses: ramsey/composer-install@v2
         with:
           dependency-versions: highest
+          # @todo Remove once Composer 2.7 is released and supported
+          # Composer < 2.7 is not compatible with symfony/console 7.x
+          composer-options: "--with symfony/console:<7"
 
       # Run Unit tests
       - name: Build coverage directory
@@ -75,7 +80,7 @@ jobs:
         working-directory: .build/coverage
         run: sed -i 's#/home/runner/work/project-builder/project-builder#${{ github.workspace }}#g' clover.xml
       - name: Upload coverage artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage
           path: .build/coverage/clover.xml
@@ -93,7 +98,7 @@ jobs:
       # Download artifact
       - name: Download coverage artifact
         id: download
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: coverage
 
