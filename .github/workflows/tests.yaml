@@ -36,6 +36,8 @@ jobs:
         uses: ramsey/composer-install@v2
         with:
           dependency-versions: ${{ matrix.dependencies }}
+          # Composer < 2.7 is not compatible with symfony/console 7.x
+          composer-options: ${{ matrix.composer-version != '2.7' && '--with symfony/console:<7' }}
 
       # Run tests
       - name: Run tests
@@ -62,6 +64,9 @@ jobs:
         uses: ramsey/composer-install@v2
         with:
           dependency-versions: highest
+          # @todo Remove once Composer 2.7 is released and supported
+          # Composer < 2.7 is not compatible with symfony/console 7.x
+          composer-options: "--with symfony/console:<7"
 
       # Run Unit tests
       - name: Build coverage directory
