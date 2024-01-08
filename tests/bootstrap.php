@@ -23,5 +23,5 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__).'/.build/vendor/autoload.php';
 
-$factory = \CPSIT\ProjectBuilder\DependencyInjection\ContainerFactory::createForTesting();
+$factory = CPSIT\ProjectBuilder\DependencyInjection\ContainerFactory::createForTesting();
 $factory->get();
