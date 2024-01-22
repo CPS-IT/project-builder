@@ -44,7 +44,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
     private string $targetDirectory;
     private Src\IO\Messenger $messenger;
     private Filesystem\Filesystem $filesystem;
-    private Src\Tests\Fixtures\DummyProvider $templateProvider;
+    private Tests\Fixtures\DummyProvider $templateProvider;
     private Src\Builder\Config\ConfigReader $configReader;
     private Src\Console\Application $subject;
 
@@ -53,7 +53,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         $this->targetDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
         $this->messenger = self::$container->get('app.messenger');
         $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
-        $this->templateProvider = new Src\Tests\Fixtures\DummyProvider();
+        $this->templateProvider = new Tests\Fixtures\DummyProvider();
         $this->configReader = Src\Builder\Config\ConfigReader::create(dirname(__DIR__).'/Fixtures/Templates');
         $this->subject = new Src\Console\Application(
             $this->messenger,

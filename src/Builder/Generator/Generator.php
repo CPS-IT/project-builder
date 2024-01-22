@@ -50,7 +50,7 @@ final class Generator
     public function __construct(
         private readonly Builder\Config\Config $config,
         private readonly IO\Messenger $messenger,
-        private readonly Builder\Generator\Step\StepFactory $stepFactory,
+        private readonly Step\StepFactory $stepFactory,
         private readonly Filesystem\Filesystem $filesystem,
         private readonly EventDispatcher\EventDispatcherInterface $eventDispatcher,
         private readonly Builder\Writer\JsonFileWriter $writer,
@@ -112,13 +112,13 @@ final class Generator
 
     public function dumpArtifact(Builder\BuildResult $result): void
     {
-        $step = new Builder\Generator\Step\DumpBuildArtifactStep($this->filesystem, $this->writer);
+        $step = new Step\DumpBuildArtifactStep($this->filesystem, $this->writer);
         $step->run($result);
     }
 
     public function cleanUp(Builder\BuildResult $result): void
     {
-        $step = new Builder\Generator\Step\CleanUpStep($this->filesystem);
+        $step = new Step\CleanUpStep($this->filesystem);
         $step->run($result);
     }
 

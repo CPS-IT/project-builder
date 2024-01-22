@@ -86,7 +86,7 @@ abstract class ContainerAwareTestCase extends Framework\TestCase
         $config->setDeclaringFile(__FILE__);
         $config->setTemplateSource(
             new Src\Template\TemplateSource(
-                new Src\Tests\Fixtures\DummyProvider(),
+                new Fixtures\DummyProvider(),
                 new Package\Package('foo/baz', '1.0.0', '1.0.0'),
             ),
         );
