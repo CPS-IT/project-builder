@@ -198,7 +198,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         );
         $config->setTemplateSource(
             new Src\Template\TemplateSource(
-                new Src\Tests\Fixtures\DummyProvider(),
+                new Tests\Fixtures\DummyProvider(),
                 new Package\Package('foo/baz', '1.0.0', '1.0.0'),
             ),
         );
