@@ -109,7 +109,7 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
                 Src\Builder\Generator\Step\RunCommandStep::getType(),
                 new Src\Builder\Config\ValueObject\StepOptions(
                     command: 'foo',
-                    allowFailures: true,
+                    allowFailure: true,
                 ),
             ),
         );

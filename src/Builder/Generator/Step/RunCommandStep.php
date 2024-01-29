@@ -79,7 +79,7 @@ final class RunCommandStep extends AbstractStep implements StepInterface, Stoppa
             $this->messenger->write($buffer, false);
         });
 
-        if (!$process->isSuccessful() && !$this->config->getOptions()->shouldAllowFailures()) {
+        if (!$process->isSuccessful() && !$this->config->getOptions()->shouldAllowFailure()) {
             return false;
         }
 

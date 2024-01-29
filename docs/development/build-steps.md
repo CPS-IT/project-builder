@@ -193,7 +193,7 @@ Users need to confirm the execution of each `runCommand` by default. You may, ho
 confirmation and have the command run without user intervention by setting the `skipConfirmation: true`
 in the [step option configuration](configuration.md#structure).
 
-Additionally, you can opt to ignore the result of a potentially failing command run with `allowFailures: true`
+Additionally, you can opt to ignore the result of a potentially failing command run with `allowFailure: true`
 to ensure the project generation would not abort because of that failure.
 ```
 

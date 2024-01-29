@@ -185,7 +185,7 @@ steps:
     options:
       command: 'git init --initial-branch=main'
       skipConfirmation: true
-      allowFailures: true
+      allowFailure: true
   - type: showNextSteps
     options:
       templateFile: templates/next-steps.html.twig

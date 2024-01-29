@@ -310,9 +310,9 @@
 									"description": "Skip user confirmation to run the configured command",
 									"default": false
 								},
-								"allowFailures": {
+								"allowFailure": {
 									"type": "boolean",
-									"title": "Allow command execution failures",
+									"title": "Allow command execution failure",
 									"description": "Ignore errors occurred during command execution and continue as normal",
 									"default": false
 								}
