@@ -190,7 +190,7 @@ Please keep in mind that an already executed command cannot be reverted.
 
 ```{tip}
 Users need to confirm the execution of each `runCommand` by default. You may, however, skip this
-confirmation and have the command run without user intervention by setting the `skipConfirmation: true`
+confirmation and have the command run without user intervention by setting `skipConfirmation: true`
 in the [step option configuration](configuration.md#structure).
 
 Additionally, you can opt to ignore the result of a potentially failing command run with `allowFailure: true`
