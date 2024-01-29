@@ -14,7 +14,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
@@ -87,8 +87,12 @@ abstract class BaseProvider implements ProviderInterface
             self::PACKAGE_TYPE,
         );
 
-        foreach ($searchResult as ['name' => $packageName]) {
-            $package = $repository->findPackage($packageName, $constraint);
+        foreach ($searchResult as $result) {
+            if (array_key_exists('abandoned', $result)) {
+                continue;
+            }
+
+            $package = $repository->findPackage($result['name'], $constraint);
 
             if (null !== $package && self::PACKAGE_TYPE === $package->getType()) {
                 $templateSources[] = $this->createTemplateSource($package);
