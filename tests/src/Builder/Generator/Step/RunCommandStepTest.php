@@ -102,6 +102,31 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
+    public function runExecutesCommandAndAllowsExecutionFailures(): void
+    {
+        $this->subject->setConfig(
+            new Src\Builder\Config\ValueObject\Step(
+                Src\Builder\Generator\Step\RunCommandStep::getType(),
+                new Src\Builder\Config\ValueObject\StepOptions(
+                    command: 'foo',
+                    allowFailure: true,
+                ),
+            ),
+        );
+
+        $workingDirectory = $this->result->getWrittenDirectory();
+
+        $fileSystem = new Filesystem\Filesystem();
+        if (!$fileSystem->exists($workingDirectory)) {
+            $fileSystem->mkdir($workingDirectory);
+        }
+
+        self::assertTrue($this->subject->run($this->result));
+        self::assertFalse($this->subject->isStopped());
+        self::assertStringContainsString('not found', self::$io->getOutput());
+    }
+
+    #[Framework\Attributes\Test]
     public function negatedQuestionForExecutionResultsInStoppedRun(): void
     {
         $this->subject->setConfig(

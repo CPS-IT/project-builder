@@ -40,6 +40,7 @@ final class StepOptions
         private readonly ?string $artifactPath = null,
         private readonly ?string $command = null,
         private readonly bool $skipConfirmation = false,
+        private readonly bool $allowFailure = false,
     ) {}
 
     /**
@@ -68,5 +69,10 @@ final class StepOptions
     public function shouldSkipConfirmation(): bool
     {
         return $this->skipConfirmation;
+    }
+
+    public function shouldAllowFailure(): bool
+    {
+        return $this->allowFailure;
     }
 }
