@@ -189,9 +189,12 @@ Place your command step after dependent steps have been executed. Multiple steps
 Please keep in mind that an already executed command cannot be reverted.
 
 ```{tip}
-Users need to confirm each `runCommand` by default. You may, however, skip this confirmation and have the command run
-without user intervention by setting the `skipConfirmation: true` in the
-[step option configuration](configuration.md#structure).
+Users need to confirm the execution of each `runCommand` by default. You may, however, skip this
+confirmation and have the command run without user intervention by setting the `skipConfirmation: true`
+in the [step option configuration](configuration.md#structure).
+
+Additionally, you can opt to ignore the result of a potentially failing command run with `allowFailures: true`
+to ensure the project generation would not abort because of that failure.
 ```
 
 ### Show next steps
