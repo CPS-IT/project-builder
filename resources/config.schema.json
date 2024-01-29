@@ -309,6 +309,12 @@
 									"title": "Do not ask for confirmation",
 									"description": "Skip user confirmation to run the configured command",
 									"default": false
+								},
+								"allowFailures": {
+									"type": "boolean",
+									"title": "Allow command execution failures",
+									"description": "Ignore errors occurred during command execution and continue as normal",
+									"default": false
 								}
 							},
 							"required": [
