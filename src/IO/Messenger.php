@@ -469,30 +469,26 @@ final class Messenger
         }
 
         return sprintf(
-            '%s <fg=gray>(%s)</>%s',
+            '%s <fg=gray>(%s)</>',
             $description,
-            $name,
-            $this->decorateAbandonedPackagesInTemplateSource($package),
+            $this->disclaimAbandonedPackagesInTemplateSource($package),
         );
     }
 
-    private function decorateAbandonedPackagesInTemplateSource(Package\CompletePackageInterface $package): string
+    private function disclaimAbandonedPackagesInTemplateSource(Package\CompletePackageInterface $package): string
     {
         if (!$package->isAbandoned()) {
-            return '';
+            return $package->getPrettyName();
         }
 
-        $disclaimerMessage = 'Abandoned. ';
-
-        $replacementMessage = match ($package->getReplacementPackage()) {
-            null => 'No replacement was suggested.',
-            default => 'Use '.$package->getReplacementPackage().' instead.',
-        };
-
         return sprintf(
-            '%s<bg=yellow>%s</>',
-            ' ',
-            $disclaimerMessage.$replacementMessage,
+            '%s %s%s',
+            $package->getPrettyName(),
+            'is abandoned.',
+            match ($package->getReplacementPackage()) {
+                null => ' No replacement was suggested.',
+                default => ' Use '.$package->getReplacementPackage().' instead.',
+            },
         );
     }
 
