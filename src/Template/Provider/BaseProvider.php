@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Composer package "cpsit/project-builder".
+ * This file is part of the Composer package "eliashaeussler/composer-package-template".
  *
- * Copyright (C) 2022 Elias Häußler <e.haeussler@familie-redlich.de>
+ * Copyright (C) 2023-2024 Elias Häußler <elias@haeussler.dev>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -88,10 +88,6 @@ abstract class BaseProvider implements ProviderInterface
         );
 
         foreach ($searchResult as $result) {
-            if (array_key_exists('abandoned', $result)) {
-                continue;
-            }
-
             $package = $repository->findPackage($result['name'], $constraint);
 
             if (null !== $package && self::PACKAGE_TYPE === $package->getType()) {
@@ -99,7 +95,30 @@ abstract class BaseProvider implements ProviderInterface
             }
         }
 
-        return $templateSources;
+        return $this->sortAbandonedPackagesToBottomOfTemplateSources($templateSources);
+    }
+
+    /**
+     * @param list<Template\TemplateSource> $templateSources
+     *
+     * @return list<Template\TemplateSource>
+     */
+    private function sortAbandonedPackagesToBottomOfTemplateSources(array $templateSources): array
+    {
+        $orderedTemplateSources = [];
+        $abandonedPackages = [];
+
+        foreach ($templateSources as $templateSource) {
+            assert($templateSource->getPackage() instanceof Package\CompletePackageInterface);
+            if ($templateSource->getPackage()->isAbandoned()) {
+                $abandonedPackages[] = $templateSource;
+                continue;
+            }
+
+            $orderedTemplateSources[] = $templateSource;
+        }
+
+        return array_merge($orderedTemplateSources, $abandonedPackages);
     }
 
     /**

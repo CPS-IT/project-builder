@@ -468,7 +468,32 @@ final class Messenger
             return $name;
         }
 
-        return sprintf('%s <fg=gray>(%s)</>', $description, $name);
+        return sprintf(
+            '%s <fg=gray>(%s)</>%s',
+            $description,
+            $name,
+            $this->decorateAbandonedPackagesInTemplateSource($package),
+        );
+    }
+
+    private function decorateAbandonedPackagesInTemplateSource(Package\CompletePackageInterface $package): string
+    {
+        if (!$package->isAbandoned()) {
+            return '';
+        }
+
+        $disclaimerMessage = 'Abandoned. ';
+
+        $replacementMessage = match ($package->getReplacementPackage()) {
+            null => 'No replacement was suggested.',
+            default => 'Use '.$package->getReplacementPackage().' instead.',
+        };
+
+        return sprintf(
+            '%s<bg=yellow>%s</>',
+            ' ',
+            $disclaimerMessage.$replacementMessage,
+        );
     }
 
     /**
