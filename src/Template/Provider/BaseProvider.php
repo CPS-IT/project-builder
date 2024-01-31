@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Composer package "eliashaeussler/composer-package-template".
+ * This file is part of the Composer package "cpsit/project-builder".
  *
- * Copyright (C) 2023-2024 Elias Häußler <elias@haeussler.dev>
+ * Copyright (C) 2022 Elias Häußler <e.haeussler@familie-redlich.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -65,8 +65,8 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     }
 
     /**
-     * @param list<Package\PackageInterface> $packages
-     * @param list<Package\PackageInterface> $expected
+     * @param list<Package\CompletePackageInterface> $packages
+     * @param list<Package\CompletePackageInterface> $expected
      */
     #[Framework\Attributes\Test]
     #[Framework\Attributes\DataProvider('listTemplateSourcesListsAllAvailableTemplateSourcesDataProvider')]
@@ -75,7 +75,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         $this->subject->packages = $packages;
 
         $expectedTemplateSources = array_map(
-            fn (Package\PackageInterface $package) => new Src\Template\TemplateSource($this->subject, $package),
+            fn (Package\CompletePackageInterface $package) => new Src\Template\TemplateSource($this->subject, $package),
             $expected,
         );
 
@@ -213,7 +213,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     }
 
     /**
-     * @return Generator<string, array{list<Package\PackageInterface>, list<Package\PackageInterface>}>
+     * @return Generator<string, array{list<Package\CompletePackageInterface>, list<Package\CompletePackageInterface>}>
      */
     public static function listTemplateSourcesListsAllAvailableTemplateSourcesDataProvider(): Generator
     {
@@ -276,10 +276,10 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         string $name,
         string $type = 'project-builder-template',
         string $prettyVersion = '1.0.0',
-    ): Package\Package {
+    ): Package\CompletePackage {
         $versionParser = new VersionParser();
 
-        $package = new Package\Package($name, $versionParser->normalize($prettyVersion), $prettyVersion);
+        $package = new Package\CompletePackage($name, $versionParser->normalize($prettyVersion), $prettyVersion);
         $package->setType($type);
 
         return $package;
