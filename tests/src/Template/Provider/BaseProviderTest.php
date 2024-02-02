@@ -65,8 +65,8 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     }
 
     /**
-     * @param list<Package\CompletePackageInterface> $packages
-     * @param list<Package\CompletePackageInterface> $expected
+     * @param list<Package\PackageInterface> $packages
+     * @param list<Package\PackageInterface> $expected
      */
     #[Framework\Attributes\Test]
     #[Framework\Attributes\DataProvider('listTemplateSourcesListsAllAvailableTemplateSourcesDataProvider')]
@@ -75,7 +75,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         $this->subject->packages = $packages;
 
         $expectedTemplateSources = array_map(
-            fn (Package\CompletePackageInterface $package) => new Src\Template\TemplateSource($this->subject, $package),
+            fn (Package\PackageInterface $package) => new Src\Template\TemplateSource($this->subject, $package),
             $expected,
         );
 
@@ -213,7 +213,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     }
 
     /**
-     * @return Generator<string, array{list<Package\CompletePackageInterface>, list<Package\CompletePackageInterface>}>
+     * @return Generator<string, array{list<Package\PackageInterface>, list<Package\PackageInterface>}>
      */
     public static function listTemplateSourcesListsAllAvailableTemplateSourcesDataProvider(): Generator
     {
@@ -238,6 +238,22 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
             [
                 $package1,
                 $package2,
+            ],
+        ];
+        yield 'abandoned packages after maintained' => [
+            [
+                $abandonedPackage1 = self::createAbandonedPackage('foo/baz-1', true),
+                $package1 = self::createPackage('foo/baz-2'),
+                $abandonedPackage2 = self::createAbandonedPackage('foo/baz-3', 'foo/bar-3'),
+                $package2 = self::createPackage('foo/baz-4'),
+                $package3 = self::createPackage('foo/baz-5'),
+            ],
+            [
+                $package1,
+                $package2,
+                $package3,
+                $abandonedPackage1,
+                $abandonedPackage2,
             ],
         ];
     }
@@ -281,6 +297,16 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
 
         $package = new Package\CompletePackage($name, $versionParser->normalize($prettyVersion), $prettyVersion);
         $package->setType($type);
+
+        return $package;
+    }
+
+    private static function createAbandonedPackage(
+        string $name,
+        bool|string $abandoned,
+    ): Package\CompletePackage {
+        $package = self::createPackage($name);
+        $package->setAbandoned($abandoned);
 
         return $package;
     }

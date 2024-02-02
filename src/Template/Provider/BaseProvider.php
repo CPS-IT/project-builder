@@ -109,8 +109,10 @@ abstract class BaseProvider implements ProviderInterface
         $abandonedPackages = [];
 
         foreach ($templateSources as $templateSource) {
-            assert($templateSource->getPackage() instanceof Package\CompletePackageInterface);
-            if ($templateSource->getPackage()->isAbandoned()) {
+            if (
+                $templateSource->getPackage() instanceof Package\CompletePackageInterface
+                && $templateSource->getPackage()->isAbandoned()
+            ) {
                 $abandonedPackages[] = $templateSource;
                 continue;
             }
