@@ -33,14 +33,11 @@ final class Step
 {
     use TypeTrait;
 
-    private readonly StepOptions $options;
-
     public function __construct(
         string $type,
-        ?StepOptions $options = null,
+        private readonly StepOptions $options = new StepOptions(),
     ) {
         $this->type = $type;
-        $this->options = $options ?? new StepOptions();
     }
 
     public function getOptions(): StepOptions
