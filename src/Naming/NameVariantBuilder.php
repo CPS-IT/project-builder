@@ -49,7 +49,7 @@ final class NameVariantBuilder
      *
      * @throws Exception\StringConversionException
      */
-    public function createVariant(string $variant, string $case = null): string
+    public function createVariant(string $variant, ?string $case = null): string
     {
         return match ($variant) {
             NameVariant::Abbreviation->value => $this->createAbbreviationVariant($case),
@@ -63,7 +63,7 @@ final class NameVariantBuilder
      *
      * @throws Exception\StringConversionException
      */
-    public function createShortVariant(string $case = null): string
+    public function createShortVariant(?string $case = null): string
     {
         $customerName = $this->instructions->getTemplateVariable('project.customer_name');
         $projectName = $this->instructions->getTemplateVariable('project.name');
@@ -88,7 +88,7 @@ final class NameVariantBuilder
      *
      * @throws Exception\StringConversionException
      */
-    public function createAbbreviationVariant(string $case = null): string
+    public function createAbbreviationVariant(?string $case = null): string
     {
         $customerAbbreviation = $this->instructions->getTemplateVariable('project.customer_abbreviation');
         $projectName = $this->instructions->getTemplateVariable('project.name');
@@ -113,7 +113,7 @@ final class NameVariantBuilder
      *
      * @throws Exception\StringConversionException
      */
-    public function createFullVariant(string $case = null): string
+    public function createFullVariant(?string $case = null): string
     {
         $customerName = $this->instructions->getTemplateVariable('project.customer_name');
         $projectName = $this->instructions->getTemplateVariable('project.name');

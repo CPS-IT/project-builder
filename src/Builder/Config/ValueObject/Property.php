@@ -42,9 +42,9 @@ final class Property
     public function __construct(
         string $identifier,
         string $name,
-        string $path = null,
-        string $if = null,
-        int|float|string|bool $value = null,
+        ?string $path = null,
+        ?string $if = null,
+        int|float|string|bool|null $value = null,
         private readonly array $properties = [],
     ) {
         $this->identifier = $identifier;

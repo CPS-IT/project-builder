@@ -40,7 +40,7 @@ final class ResolveIpFunction implements TwigFunctionInterface
 {
     private const NAME = 'resolve_ip';
 
-    public function __invoke(string $hostname = null): ?string
+    public function __invoke(?string $hostname = null): ?string
     {
         Assert\Assert::string($hostname);
 

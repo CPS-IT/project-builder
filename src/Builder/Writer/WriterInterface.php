@@ -37,7 +37,7 @@ interface WriterInterface
     public function write(
         Builder\BuildInstructions $instructions,
         Finder\SplFileInfo $file,
-        string $targetFile = null,
+        ?string $targetFile = null,
     ): Finder\SplFileInfo;
 
     public static function supports(string $file): bool;

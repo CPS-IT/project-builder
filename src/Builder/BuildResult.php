@@ -102,7 +102,7 @@ final class BuildResult
     /**
      * @return list<Resource\Local\ProcessedFile>
      */
-    public function getProcessedFiles(string $withinPath = null): array
+    public function getProcessedFiles(?string $withinPath = null): array
     {
         $files = [];
 

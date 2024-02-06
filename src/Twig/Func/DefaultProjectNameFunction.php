@@ -35,7 +35,7 @@ final class DefaultProjectNameFunction implements TwigFunctionInterface
 {
     private const NAME = 'is_default_project_name';
 
-    public function __invoke(string $projectName = null): bool
+    public function __invoke(?string $projectName = null): bool
     {
         return NameVariantBuilder::isDefaultProjectName($projectName);
     }

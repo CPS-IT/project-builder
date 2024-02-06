@@ -33,7 +33,7 @@ use Throwable;
  */
 final class StepFailureException extends Exception
 {
-    public static function create(string $type, Throwable $previous = null): self
+    public static function create(string $type, ?Throwable $previous = null): self
     {
         return new self(
             sprintf('Running step "%s" failed. All applied steps were reverted.', $type),

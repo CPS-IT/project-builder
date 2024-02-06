@@ -50,7 +50,7 @@ final class ClearableBufferIO extends IO\BufferIO
     public function __construct(
         string $input = '',
         int $verbosity = Console\Output\OutputInterface::VERBOSITY_NORMAL,
-        Console\Formatter\OutputFormatterInterface $formatter = null,
+        ?Console\Formatter\OutputFormatterInterface $formatter = null,
     ) {
         parent::__construct($input, $verbosity, $formatter);
 

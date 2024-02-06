@@ -47,7 +47,7 @@ final class Bootstrap
      */
     public static function createProject(
         Script\Event $event,
-        string $targetDirectory = null,
+        ?string $targetDirectory = null,
         bool $exitOnFailure = true,
     ): int {
         // Early return if current environment is unsupported

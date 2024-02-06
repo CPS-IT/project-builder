@@ -52,9 +52,9 @@ final class InputReader
      */
     public function staticValue(
         string $label,
-        string $default = null,
+        ?string $default = null,
         bool $required = false,
-        Validator\ValidatorInterface $validator = null,
+        ?Validator\ValidatorInterface $validator = null,
     ): ?string {
         $label = Messenger::decorateLabel($label, $default, $required);
         $validator = $this->makeValidator($validator, $required);
@@ -86,7 +86,7 @@ final class InputReader
     public function choices(
         string $label,
         array $choices,
-        bool|string $default = null,
+        bool|string|null $default = null,
         bool $required = false,
         bool $multiple = false,
     ): string|array|null {
@@ -140,7 +140,7 @@ final class InputReader
      *
      * @return list<string>
      */
-    private function parseMultipleAnswers(array $answers, array $choices, int $noSelectionIndex = null): array
+    private function parseMultipleAnswers(array $answers, array $choices, ?int $noSelectionIndex = null): array
     {
         $selections = array_map(
             fn ($answer): string => $choices[(int) $answer],
@@ -164,7 +164,7 @@ final class InputReader
     /**
      * @param list<string> $choices
      */
-    private function parseSingleAnswer(int $answer, array $choices, int $noSelectionIndex = null): ?string
+    private function parseSingleAnswer(int $answer, array $choices, ?int $noSelectionIndex = null): ?string
     {
         $selection = null;
 
@@ -186,7 +186,7 @@ final class InputReader
     }
 
     private function makeValidator(
-        Validator\ValidatorInterface $validator = null,
+        ?Validator\ValidatorInterface $validator = null,
         bool $required = false,
     ): Validator\ChainedValidator {
         $chainedValidator = new Validator\ChainedValidator();

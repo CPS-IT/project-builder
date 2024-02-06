@@ -25,7 +25,7 @@ use Rector\Config\RectorConfig;
 use Rector\Php74\Rector\LNumber\AddLiteralSeparatorToNumberRector;
 use Rector\Php80\Rector\Class_\AnnotationToAttributeRector;
 use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
-use Rector\PHPUnit\Set\PHPUnitLevelSetList;
+use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\ValueObject\PhpVersion;
 
@@ -60,6 +60,6 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->sets([
         LevelSetList::UP_TO_PHP_81,
-        PHPUnitLevelSetList::UP_TO_PHPUNIT_100,
+        PHPUnitSetList::PHPUNIT_100,
     ]);
 };
