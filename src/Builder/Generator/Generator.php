@@ -125,8 +125,8 @@ final class Generator
     private function handleStepFailure(
         Builder\BuildResult $result,
         string $stepType,
-        Step\StepInterface $step = null,
-        Throwable $exception = null,
+        ?Step\StepInterface $step = null,
+        ?Throwable $exception = null,
     ): bool {
         $this->messenger->error('Project generation failed. All processed steps will be reverted.');
         $this->messenger->newLine();

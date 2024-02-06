@@ -48,7 +48,7 @@ final class TemplateWriter implements WriterInterface
     public function write(
         Builder\BuildInstructions $instructions,
         Finder\SplFileInfo $file,
-        string $targetFile = null,
+        ?string $targetFile = null,
         array $variables = [],
     ): Finder\SplFileInfo {
         $renderer = $this->renderer->withRootPath($file->getPath());

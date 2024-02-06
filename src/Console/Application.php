@@ -136,7 +136,7 @@ final class Application
      * @throws Exception\InvalidTemplateSourceException
      */
     private function selectTemplateSource(
-        Template\Provider\ProviderInterface $templateProvider = null,
+        ?Template\Provider\ProviderInterface $templateProvider = null,
     ): Template\TemplateSource {
         try {
             $templateProvider ??= $this->messenger->selectProvider($this->templateProviders);

@@ -53,7 +53,7 @@ final class Renderer
      */
     public function render(
         Builder\BuildInstructions $instructions,
-        string $template = null,
+        ?string $template = null,
         array $variables = [],
     ): string {
         $mergedVariables = array_replace_recursive($instructions->getTemplateVariables(), $variables);

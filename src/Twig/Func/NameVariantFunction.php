@@ -46,7 +46,7 @@ final class NameVariantFunction implements TwigFunctionInterface
      *
      * @throws Exception\StringConversionException
      */
-    public function __invoke(array $context = [], string $variant = null, string $case = null): string
+    public function __invoke(array $context = [], ?string $variant = null, ?string $case = null): string
     {
         $instructions = $context['instructions'] ?? null;
 

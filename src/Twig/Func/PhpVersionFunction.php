@@ -45,7 +45,7 @@ final class PhpVersionFunction implements TwigFunctionInterface
         private readonly Resource\Http\PhpApiClient $client,
     ) {}
 
-    public function __invoke(string $branch = null): string
+    public function __invoke(?string $branch = null): string
     {
         Assert\Assert::string($branch);
 

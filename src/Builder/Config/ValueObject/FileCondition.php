@@ -35,7 +35,7 @@ final class FileCondition
 
     public function __construct(
         private readonly string $path,
-        string $if = null,
+        ?string $if = null,
         private readonly ?string $target = null,
     ) {
         $this->if = $if;

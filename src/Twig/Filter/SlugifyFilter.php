@@ -40,7 +40,7 @@ final class SlugifyFilter implements TwigFilterInterface
         private readonly Slugify\Slugify $slugify,
     ) {}
 
-    public function __invoke(mixed $input, string $separator = null): string
+    public function __invoke(mixed $input, ?string $separator = null): string
     {
         Assert\Assert::string($input);
 
