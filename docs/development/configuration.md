@@ -59,6 +59,32 @@ supported by your package:
 ```
 :::
 
+### Exclude packages from listing
+
+If a template package is published on a supported platform such as Packagist,
+it is always included in the list of available template packages when generating
+new projects.
+
+However, a single template package can also be explicitly excluded from that list.
+This may be useful if a package is not meant to be publicly used or if it's just
+published for demonstration or testing purposes.
+
+In such cases, template packages may provide the following configuration in
+their `composer.json` file:
+
+```{code-block} json
+:linenos:
+:caption: composer.json
+
+{
+    "extra": {
+        "cpsit/project-builder": {
+            "exclude-from-listing": true
+        }
+    }
+}
+```
+
 ## File structure
 
 Within the external Composer template package, the following file

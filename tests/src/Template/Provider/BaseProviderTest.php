@@ -83,6 +83,32 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
+    public function listTemplateSourcesSkipsPackagesByConfiguration(): void
+    {
+        $package1 = self::createPackage('foo/baz-1');
+        $package1->setExtra([
+            'cpsit/project-builder' => [
+                'exclude-from-listing' => true,
+            ],
+        ]);
+        $package2 = self::createPackage('foo/baz-2');
+        $package3 = self::createPackage('foo/baz-3');
+
+        $this->subject->packages = [
+            $package1,
+            $package2,
+            $package3,
+        ];
+
+        $expected = [
+            new Src\Template\TemplateSource($this->subject, $package2),
+            new Src\Template\TemplateSource($this->subject, $package3),
+        ];
+
+        self::assertEquals($expected, $this->subject->listTemplateSources());
+    }
+
+    #[Framework\Attributes\Test]
     public function installTemplateSourceThrowsExceptionIfInstallationFails(): void
     {
         $package = self::createPackage('foo/baz');
