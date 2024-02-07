@@ -90,7 +90,7 @@ abstract class BaseProvider implements ProviderInterface
         foreach ($searchResult as ['name' => $packageName]) {
             $package = $repository->findPackage($packageName, $constraint);
 
-            if (null !== $package && self::PACKAGE_TYPE === $package->getType()) {
+            if (null !== $package && $this->isPackageSupported($package)) {
                 $templateSources[] = $this->createTemplateSource($package);
             }
         }
@@ -225,6 +225,20 @@ abstract class BaseProvider implements ProviderInterface
         $this->messenger->newLine();
 
         $this->requestPackageVersionConstraint($templateSource);
+    }
+
+    protected function isPackageSupported(Package\BasePackage $package): bool
+    {
+        if (self::PACKAGE_TYPE !== $package->getType()) {
+            return false;
+        }
+
+        $excludeFromListing = (bool) Helper\ArrayHelper::getValueByPath(
+            $package->getExtra(),
+            'cpsit/project-builder.exclude-from-listing',
+        );
+
+        return !$excludeFromListing;
     }
 
     protected function createTemplateSource(Package\BasePackage $package): Template\TemplateSource
