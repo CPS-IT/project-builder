@@ -76,7 +76,8 @@ abstract class BaseProvider implements ProviderInterface
 
     public function listTemplateSources(): array
     {
-        $templateSources = [];
+        $maintainedPackageTemplateSources = [];
+        $abandonedPackageTemplateSources = [];
 
         $repository = $this->createRepository();
 
@@ -87,40 +88,23 @@ abstract class BaseProvider implements ProviderInterface
             self::PACKAGE_TYPE,
         );
 
-        foreach ($searchResult as $result) {
-            $package = $repository->findPackage($result['name'], $constraint);
+        foreach ($searchResult as ['name' => $packageName]) {
+            $package = $repository->findPackage($packageName, $constraint);
 
             if (null !== $package && $this->isPackageSupported($package)) {
-                $templateSources[] = $this->createTemplateSource($package);
+                if (
+                    $package instanceof Package\CompletePackageInterface
+                    && $package->isAbandoned()
+                ) {
+                    $abandonedPackageTemplateSources[] = $this->createTemplateSource($package);
+                    continue;
+                }
+
+                $maintainedPackageTemplateSources[] = $this->createTemplateSource($package);
             }
         }
 
-        return $this->sortAbandonedPackagesToBottomOfTemplateSources($templateSources);
-    }
-
-    /**
-     * @param list<Template\TemplateSource> $templateSources
-     *
-     * @return list<Template\TemplateSource>
-     */
-    private function sortAbandonedPackagesToBottomOfTemplateSources(array $templateSources): array
-    {
-        $orderedTemplateSources = [];
-        $abandonedPackages = [];
-
-        foreach ($templateSources as $templateSource) {
-            if (
-                $templateSource->getPackage() instanceof Package\CompletePackageInterface
-                && $templateSource->getPackage()->isAbandoned()
-            ) {
-                $abandonedPackages[] = $templateSource;
-                continue;
-            }
-
-            $orderedTemplateSources[] = $templateSource;
-        }
-
-        return array_merge($orderedTemplateSources, $abandonedPackages);
+        return array_merge($maintainedPackageTemplateSources, $abandonedPackageTemplateSources);
     }
 
     /**
