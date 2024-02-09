@@ -129,6 +129,35 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
+    public function listTemplateSourcesListsExcludedPackages(): void
+    {
+        $this->overwriteIO();
+
+        $repoA = $this->initializeGitRepository('test/repo-a', [], [
+            'cpsit/project-builder' => [
+                'exclude-from-listing' => true,
+            ],
+        ]);
+
+        self::$io->setUserInputs([$repoA]);
+
+        $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
+
+        $expected = [
+            'cpsit/project-builder' => [
+                'exclude-from-listing' => true,
+            ],
+        ];
+
+        $actual = $this->subject->listTemplateSources();
+
+        self::assertCount(1, $actual);
+        self::assertSame($expected, $actual[0]->getPackage()->getExtra());
+
+        $this->filesystem->remove($repoA);
+    }
+
+    #[Framework\Attributes\Test]
     public function installTemplateSourceAsksForAdditionalRepositories(): void
     {
         $this->overwriteIO();
@@ -223,8 +252,9 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
 
     /**
      * @param array<string, string> $requirements
+     * @param array<string, mixed>  $extra
      */
-    private function initializeGitRepository(string $composerName, array $requirements = []): string
+    private function initializeGitRepository(string $composerName, array $requirements = [], array $extra = []): string
     {
         $repoDir = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
 
@@ -232,7 +262,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         $this->filesystem->mkdir($repoDir);
 
         // Initialize repository
-        self::executeInDirectory($repoDir, function (string $repoDir) use ($composerName, $requirements) {
+        self::executeInDirectory($repoDir, function (string $repoDir) use ($composerName, $requirements, $extra) {
             $runner = self::$container->get(Cli\Command\Runner::class);
 
             // Initialize repository
@@ -266,6 +296,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
                 'name' => $composerName,
                 'type' => 'project-builder-template',
                 'require' => $requirements,
+                'extra' => $extra,
             ]));
 
             // Create branch
