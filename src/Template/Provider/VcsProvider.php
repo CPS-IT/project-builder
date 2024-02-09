@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Template\Provider;
 
 use Composer\Factory;
+use Composer\Package;
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\IO;
 use CPSIT\ProjectBuilder\Template;
@@ -138,6 +139,11 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
             $this->messenger->writeWithEmoji(IO\Emoji::WhiteHeavyCheckMark->value, 'Package added.');
             $this->messenger->newLine();
         }
+    }
+
+    protected function isPackageSupported(Package\BasePackage $package): bool
+    {
+        return self::PACKAGE_TYPE === $package->getType();
     }
 
     protected function createComposerJson(array $templateSources, array $repositories = []): string
