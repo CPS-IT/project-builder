@@ -464,11 +464,9 @@ final class Messenger
 
         $description = $package->getDescription();
 
-        if (null === $description || '' === trim($description)) {
-            return $name;
-        }
-
-        $decoratedTemplateSource = sprintf('%s <fg=gray>(%s)</>', $description, $name);
+        $decoratedTemplateSource = (null === $description || '' === trim($description))
+            ? $name
+            : sprintf('%s <fg=gray>(%s)</>', $description, $name);
 
         if (!$package->isAbandoned()) {
             return $decoratedTemplateSource;
