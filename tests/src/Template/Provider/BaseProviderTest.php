@@ -266,6 +266,22 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
                 $package2,
             ],
         ];
+        yield 'abandoned packages after maintained' => [
+            [
+                $abandonedPackage1 = self::createPackage(name: 'foo/baz-1', abandoned: true),
+                $package1 = self::createPackage('foo/baz-2'),
+                $abandonedPackage2 = self::createPackage(name: 'foo/baz-3', abandoned: 'foo/bar-3'),
+                $package2 = self::createPackage('foo/baz-4'),
+                $package3 = self::createPackage('foo/baz-5'),
+            ],
+            [
+                $package1,
+                $package2,
+                $package3,
+                $abandonedPackage1,
+                $abandonedPackage2,
+            ],
+        ];
     }
 
     /**
@@ -302,11 +318,16 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         string $name,
         string $type = 'project-builder-template',
         string $prettyVersion = '1.0.0',
-    ): Package\Package {
+        bool|string $abandoned = false,
+    ): Package\CompletePackage {
         $versionParser = new VersionParser();
 
-        $package = new Package\Package($name, $versionParser->normalize($prettyVersion), $prettyVersion);
+        $package = new Package\CompletePackage($name, $versionParser->normalize($prettyVersion), $prettyVersion);
         $package->setType($type);
+
+        if (false !== $abandoned) {
+            $package->setAbandoned($abandoned);
+        }
 
         return $package;
     }

@@ -76,7 +76,8 @@ abstract class BaseProvider implements ProviderInterface
 
     public function listTemplateSources(): array
     {
-        $templateSources = [];
+        $maintainedPackageTemplateSources = [];
+        $abandonedPackageTemplateSources = [];
 
         $repository = $this->createRepository();
 
@@ -91,11 +92,19 @@ abstract class BaseProvider implements ProviderInterface
             $package = $repository->findPackage($packageName, $constraint);
 
             if (null !== $package && $this->isPackageSupported($package)) {
-                $templateSources[] = $this->createTemplateSource($package);
+                if (
+                    $package instanceof Package\CompletePackageInterface
+                    && $package->isAbandoned()
+                ) {
+                    $abandonedPackageTemplateSources[] = $this->createTemplateSource($package);
+                    continue;
+                }
+
+                $maintainedPackageTemplateSources[] = $this->createTemplateSource($package);
             }
         }
 
-        return $templateSources;
+        return array_merge($maintainedPackageTemplateSources, $abandonedPackageTemplateSources);
     }
 
     /**
