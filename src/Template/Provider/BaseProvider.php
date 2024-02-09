@@ -28,6 +28,7 @@ use Composer\IO as ComposerIO;
 use Composer\Package;
 use Composer\Repository;
 use Composer\Semver;
+use Composer\Util;
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\IO;
@@ -290,6 +291,7 @@ abstract class BaseProvider implements ProviderInterface
         $config = Factory::createConfig($this->io);
         $config->merge([
             'config' => [
+                'cache-dir' => Util\Platform::isWindows() ? 'nul' : '/dev/null',
                 'secure-http' => !$this->acceptInsecureConnections,
             ],
         ]);

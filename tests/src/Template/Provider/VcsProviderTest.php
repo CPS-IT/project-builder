@@ -31,6 +31,7 @@ use PHPUnit\Framework;
 use ReflectionObject;
 use ReflectionProperty;
 use SebastianFeldmann\Cli;
+use Symfony\Component\Console;
 use Symfony\Component\Filesystem;
 
 use function chdir;
@@ -95,6 +96,13 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
     {
         $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);
         $io = $this->fetchIOViaReflection();
+
+        // Enforce output during package lookup
+        $this->setPropertyValueOnObject(
+            $io,
+            'output',
+            new Console\Output\BufferedOutput(Console\Output\OutputInterface::VERBOSITY_VERY_VERBOSE),
+        );
 
         self::$io->setUserInputs([$repoA]);
 

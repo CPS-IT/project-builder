@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Tests\Template\Provider;
 
+use Composer\Cache;
 use Composer\Package;
 use Composer\Repository;
 use Composer\Semver\Constraint;
@@ -32,6 +33,7 @@ use CPSIT\ProjectBuilder\Tests;
 use donatj\MockWebServer;
 use Generator;
 use PHPUnit\Framework;
+use ReflectionObject;
 use Symfony\Component\Filesystem;
 
 use function array_map;
@@ -236,6 +238,21 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
 
         self::assertInstanceOf(Repository\ComposerRepository::class, $actual);
         self::assertSame($this->subject->getUrl(), $actual->getRepoConfig()['url']);
+    }
+
+    #[Framework\Attributes\Test]
+    public function createRepositoryReturnsComposerRepositoryWithDisabledCache(): void
+    {
+        $actual = $this->subject->testCreateRepository();
+
+        self::assertInstanceOf(Repository\ComposerRepository::class, $actual);
+
+        $repositoryReflection = new ReflectionObject($actual);
+        $cacheReflection = $repositoryReflection->getProperty('cache');
+        $cache = $cacheReflection->getValue($actual);
+
+        self::assertInstanceOf(Cache::class, $cache);
+        self::assertFalse(Cache::isUsable($cache->getRoot()));
     }
 
     /**
