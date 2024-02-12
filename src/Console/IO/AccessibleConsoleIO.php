@@ -39,7 +39,7 @@ final class AccessibleConsoleIO extends IO\ConsoleIO
     public function __construct(
         Console\Input\InputInterface $input,
         Console\Output\OutputInterface $output,
-        Console\Helper\HelperSet $helperSet = null,
+        ?Console\Helper\HelperSet $helperSet = null,
     ) {
         $helperSet ??= new Console\Helper\HelperSet([
             new Console\Helper\QuestionHelper(),

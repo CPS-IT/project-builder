@@ -50,7 +50,7 @@ final class Generator
     public function __construct(
         private readonly Builder\Config\Config $config,
         private readonly IO\Messenger $messenger,
-        private readonly Builder\Generator\Step\StepFactory $stepFactory,
+        private readonly Step\StepFactory $stepFactory,
         private readonly Filesystem\Filesystem $filesystem,
         private readonly EventDispatcher\EventDispatcherInterface $eventDispatcher,
         private readonly Builder\Writer\JsonFileWriter $writer,
@@ -113,21 +113,21 @@ final class Generator
 
     public function dumpArtifact(Builder\BuildResult $result): void
     {
-        $step = new Builder\Generator\Step\DumpBuildArtifactStep($this->filesystem, $this->writer, $this->artifactGenerator);
+        $step = new Step\DumpBuildArtifactStep($this->filesystem, $this->writer, $this->artifactGenerator);
         $step->run($result);
     }
 
     public function cleanUp(Builder\BuildResult $result): void
     {
-        $step = new Builder\Generator\Step\CleanUpStep($this->filesystem);
+        $step = new Step\CleanUpStep($this->filesystem);
         $step->run($result);
     }
 
     private function handleStepFailure(
         Builder\BuildResult $result,
         string $stepType,
-        Step\StepInterface $step = null,
-        Throwable $exception = null,
+        ?Step\StepInterface $step = null,
+        ?Throwable $exception = null,
     ): bool {
         $this->messenger->error('Project generation failed. All processed steps will be reverted.');
         $this->messenger->newLine();

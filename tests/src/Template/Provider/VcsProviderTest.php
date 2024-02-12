@@ -31,6 +31,7 @@ use PHPUnit\Framework;
 use ReflectionObject;
 use ReflectionProperty;
 use SebastianFeldmann\Cli;
+use Symfony\Component\Console;
 use Symfony\Component\Filesystem;
 
 use function chdir;
@@ -93,6 +94,13 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);
         $io = $this->fetchIOViaReflection();
 
+        // Enforce output during package lookup
+        $this->setPropertyValueOnObject(
+            $io,
+            'output',
+            new Console\Output\BufferedOutput(Console\Output\OutputInterface::VERBOSITY_VERY_VERBOSE),
+        );
+
         self::$io->setUserInputs([$repoA]);
 
         $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
@@ -121,6 +129,35 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         self::assertCount(1, $actual);
         self::assertCount(1, $actual[0]->getPackage()->getRequires());
         self::assertArrayHasKey('test/repo-b', $actual[0]->getPackage()->getRequires());
+
+        $this->filesystem->remove($repoA);
+    }
+
+    #[Framework\Attributes\Test]
+    public function listTemplateSourcesListsExcludedPackages(): void
+    {
+        $this->overwriteIO();
+
+        $repoA = $this->initializeGitRepository('test/repo-a', [], [
+            'cpsit/project-builder' => [
+                'exclude-from-listing' => true,
+            ],
+        ]);
+
+        self::$io->setUserInputs([$repoA]);
+
+        $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
+
+        $expected = [
+            'cpsit/project-builder' => [
+                'exclude-from-listing' => true,
+            ],
+        ];
+
+        $actual = $this->subject->listTemplateSources();
+
+        self::assertCount(1, $actual);
+        self::assertSame($expected, $actual[0]->getPackage()->getExtra());
 
         $this->filesystem->remove($repoA);
     }
@@ -222,8 +259,9 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
 
     /**
      * @param array<string, string> $requirements
+     * @param array<string, mixed>  $extra
      */
-    private function initializeGitRepository(string $composerName, array $requirements = []): string
+    private function initializeGitRepository(string $composerName, array $requirements = [], array $extra = []): string
     {
         $repoDir = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
 
@@ -231,7 +269,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         $this->filesystem->mkdir($repoDir);
 
         // Initialize repository
-        self::executeInDirectory($repoDir, function (string $repoDir) use ($composerName, $requirements) {
+        self::executeInDirectory($repoDir, function (string $repoDir) use ($composerName, $requirements, $extra) {
             $runner = self::$container->get(Cli\Command\Runner::class);
 
             // Initialize repository
@@ -265,6 +303,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
                 'name' => $composerName,
                 'type' => 'project-builder-template',
                 'require' => $requirements,
+                'extra' => $extra,
             ]));
 
             // Create branch

@@ -43,7 +43,7 @@ abstract class BaseMigration implements Migration
     protected function remapValue(
         array &$artifact,
         string $path,
-        string $targetPath = null,
+        ?string $targetPath = null,
         mixed $newValue = null,
     ): void {
         $currentValue = Helper\ArrayHelper::getValueByPath($artifact, $path);

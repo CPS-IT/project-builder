@@ -201,9 +201,22 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         $completePackageWithoutDescription = clone $completePackage;
         $completePackageWithoutDescription->setDescription(null);
 
+        $abandonedPackageWithoutDescription = clone $completePackage;
+        $abandonedPackageWithoutDescription->setDescription(null);
+        $abandonedPackageWithoutDescription->setAbandoned(true);
+
+        $abandonedPackageWithReplacement = clone $completePackage;
+        $abandonedPackageWithReplacement->setAbandoned('foo/bar');
+
+        $abandonedPackageWithoutReplacement = clone $completePackage;
+        $abandonedPackageWithoutReplacement->setAbandoned(true);
+
         yield 'package' => [$package, 'foo/baz'];
         yield 'complete package' => [$completePackage, 'foo baz (foo/baz)'];
         yield 'complete package without description' => [$completePackageWithoutDescription, 'foo/baz'];
+        yield 'abandoned package without description' => [$abandonedPackageWithoutDescription, 'foo/baz <warning>Abandoned! No replacement was suggested.</warning>'];
+        yield 'abandoned package without replacement' => [$abandonedPackageWithoutReplacement, 'foo baz (foo/baz) <warning>Abandoned! No replacement was suggested.</warning>'];
+        yield 'abandoned package with replacement' => [$abandonedPackageWithReplacement, 'foo baz (foo/baz) <warning>Abandoned! Use foo/bar instead.</warning>'];
     }
 
     /**

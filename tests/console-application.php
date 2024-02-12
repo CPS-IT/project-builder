@@ -26,7 +26,7 @@ use CPSIT\ProjectBuilder\DependencyInjection;
 use CPSIT\ProjectBuilder\IO;
 use Symfony\Component\Console as SymfonyConsole;
 
-$messenger = IO\Messenger::create(new \Composer\IO\NullIO());
+$messenger = IO\Messenger::create(new Composer\IO\NullIO());
 
 $container = DependencyInjection\ContainerFactory::createForTesting()->get();
 $container->set('app.messenger', $messenger);

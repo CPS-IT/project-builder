@@ -36,7 +36,7 @@ final class PropertyOption
 
     public function __construct(
         int|float|string $value,
-        string $if = null,
+        ?string $if = null,
     ) {
         $this->value = $value;
         $this->if = $if;

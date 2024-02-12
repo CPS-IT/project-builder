@@ -57,7 +57,7 @@ final class Composer
     public function install(
         string $composerJson,
         bool $includeDevDependencies = false,
-        SymfonyConsole\Output\OutputInterface &$output = null,
+        ?SymfonyConsole\Output\OutputInterface &$output = null,
     ): int {
         if (!$this->filesystem->exists($composerJson)) {
             throw Exception\IOException::forMissingFile($composerJson);
@@ -95,7 +95,7 @@ final class Composer
     /**
      * @internal
      */
-    public static function createClassLoader(string $rootPath = null): Autoload\ClassLoader
+    public static function createClassLoader(?string $rootPath = null): Autoload\ClassLoader
     {
         $rootPath ??= Helper\FilesystemHelper::getPackageDirectory();
         $composer = self::createComposer($rootPath);

@@ -47,7 +47,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
     private string $targetDirectory;
     private Src\IO\Messenger $messenger;
     private Filesystem\Filesystem $filesystem;
-    private Src\Tests\Fixtures\DummyProvider $templateProvider;
+    private Tests\Fixtures\DummyProvider $templateProvider;
     private SymfonyConsole\Tester\CommandTester $commandTester;
 
     protected function setUp(): void
@@ -57,7 +57,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
         $this->messenger = self::$container->get('app.messenger');
         $this->targetDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
         $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
-        $this->templateProvider = new Src\Tests\Fixtures\DummyProvider();
+        $this->templateProvider = new Tests\Fixtures\DummyProvider();
 
         $command = new Src\Console\Command\CreateProjectCommand(
             $this->messenger,

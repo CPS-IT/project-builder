@@ -63,7 +63,7 @@ final class ConfigReader
         $this->finder = $this->createFinder();
     }
 
-    public static function create(string $templateDirectory = null): self
+    public static function create(?string $templateDirectory = null): self
     {
         $templateDirectory ??= Filesystem\Path::join(Helper\FilesystemHelper::getPackageDirectory(), Paths::PROJECT_TEMPLATES);
 

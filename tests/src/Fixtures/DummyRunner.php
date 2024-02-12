@@ -43,7 +43,7 @@ final class DummyRunner implements Cli\Command\Runner
      */
     public array $expectedResults = [];
 
-    public function run(Cli\Command $command, Cli\Command\OutputFormatter $formatter = null): Cli\Command\Runner\Result
+    public function run(Cli\Command $command, ?Cli\Command\OutputFormatter $formatter = null): Cli\Command\Runner\Result
     {
         $expectedResult = array_shift($this->expectedResults);
 

@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Tests\Template\Provider;
 
+use Composer\Cache;
 use Composer\Package;
 use Composer\Repository;
 use Composer\Semver\Constraint;
@@ -32,6 +33,7 @@ use CPSIT\ProjectBuilder\Tests;
 use donatj\MockWebServer;
 use Generator;
 use PHPUnit\Framework;
+use ReflectionObject;
 use Symfony\Component\Filesystem;
 
 use function array_map;
@@ -80,6 +82,32 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         );
 
         self::assertEquals($expectedTemplateSources, $this->subject->listTemplateSources());
+    }
+
+    #[Framework\Attributes\Test]
+    public function listTemplateSourcesSkipsPackagesByConfiguration(): void
+    {
+        $package1 = self::createPackage('foo/baz-1');
+        $package1->setExtra([
+            'cpsit/project-builder' => [
+                'exclude-from-listing' => true,
+            ],
+        ]);
+        $package2 = self::createPackage('foo/baz-2');
+        $package3 = self::createPackage('foo/baz-3');
+
+        $this->subject->packages = [
+            $package1,
+            $package2,
+            $package3,
+        ];
+
+        $expected = [
+            new Src\Template\TemplateSource($this->subject, $package2),
+            new Src\Template\TemplateSource($this->subject, $package3),
+        ];
+
+        self::assertEquals($expected, $this->subject->listTemplateSources());
     }
 
     #[Framework\Attributes\Test]
@@ -212,6 +240,21 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         self::assertSame($this->subject->getUrl(), $actual->getRepoConfig()['url']);
     }
 
+    #[Framework\Attributes\Test]
+    public function createRepositoryReturnsComposerRepositoryWithDisabledCache(): void
+    {
+        $actual = $this->subject->testCreateRepository();
+
+        self::assertInstanceOf(Repository\ComposerRepository::class, $actual);
+
+        $repositoryReflection = new ReflectionObject($actual);
+        $cacheReflection = $repositoryReflection->getProperty('cache');
+        $cache = $cacheReflection->getValue($actual);
+
+        self::assertInstanceOf(Cache::class, $cache);
+        self::assertFalse(Cache::isUsable($cache->getRoot()));
+    }
+
     /**
      * @return Generator<string, array{list<Package\PackageInterface>, list<Package\PackageInterface>}>
      */
@@ -238,6 +281,22 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
             [
                 $package1,
                 $package2,
+            ],
+        ];
+        yield 'abandoned packages after maintained' => [
+            [
+                $abandonedPackage1 = self::createPackage(name: 'foo/baz-1', abandoned: true),
+                $package1 = self::createPackage('foo/baz-2'),
+                $abandonedPackage2 = self::createPackage(name: 'foo/baz-3', abandoned: 'foo/bar-3'),
+                $package2 = self::createPackage('foo/baz-4'),
+                $package3 = self::createPackage('foo/baz-5'),
+            ],
+            [
+                $package1,
+                $package2,
+                $package3,
+                $abandonedPackage1,
+                $abandonedPackage2,
             ],
         ];
     }
@@ -276,11 +335,16 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         string $name,
         string $type = 'project-builder-template',
         string $prettyVersion = '1.0.0',
-    ): Package\Package {
+        bool|string $abandoned = false,
+    ): Package\CompletePackage {
         $versionParser = new VersionParser();
 
-        $package = new Package\Package($name, $versionParser->normalize($prettyVersion), $prettyVersion);
+        $package = new Package\CompletePackage($name, $versionParser->normalize($prettyVersion), $prettyVersion);
         $package->setType($type);
+
+        if (false !== $abandoned) {
+            $package->setAbandoned($abandoned);
+        }
 
         return $package;
     }

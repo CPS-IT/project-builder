@@ -160,7 +160,7 @@ final class CreateProjectCommand extends Command\BaseCommand
      * @throws Exception\InvalidTemplateSourceException
      */
     private function selectTemplateSource(
-        Template\Provider\ProviderInterface $templateProvider = null,
+        ?Template\Provider\ProviderInterface $templateProvider = null,
     ): Template\TemplateSource {
         try {
             $templateProvider ??= $this->messenger->selectProvider($this->templateProviders);

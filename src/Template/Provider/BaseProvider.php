@@ -28,6 +28,7 @@ use Composer\IO as ComposerIO;
 use Composer\Package;
 use Composer\Repository;
 use Composer\Semver;
+use Composer\Util;
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\IO;
@@ -76,7 +77,8 @@ abstract class BaseProvider implements ProviderInterface
 
     public function listTemplateSources(): array
     {
-        $templateSources = [];
+        $maintainedPackageTemplateSources = [];
+        $abandonedPackageTemplateSources = [];
 
         $repository = $this->createRepository();
 
@@ -90,12 +92,20 @@ abstract class BaseProvider implements ProviderInterface
         foreach ($searchResult as ['name' => $packageName]) {
             $package = $repository->findPackage($packageName, $constraint);
 
-            if (null !== $package && self::PACKAGE_TYPE === $package->getType()) {
-                $templateSources[] = $this->createTemplateSource($package);
+            if (null !== $package && $this->isPackageSupported($package)) {
+                if (
+                    $package instanceof Package\CompletePackageInterface
+                    && $package->isAbandoned()
+                ) {
+                    $abandonedPackageTemplateSources[] = $this->createTemplateSource($package);
+                    continue;
+                }
+
+                $maintainedPackageTemplateSources[] = $this->createTemplateSource($package);
             }
         }
 
-        return $templateSources;
+        return array_merge($maintainedPackageTemplateSources, $abandonedPackageTemplateSources);
     }
 
     /**
@@ -227,6 +237,20 @@ abstract class BaseProvider implements ProviderInterface
         $this->requestPackageVersionConstraint($templateSource);
     }
 
+    protected function isPackageSupported(Package\BasePackage $package): bool
+    {
+        if (self::PACKAGE_TYPE !== $package->getType()) {
+            return false;
+        }
+
+        $excludeFromListing = (bool) Helper\ArrayHelper::getValueByPath(
+            $package->getExtra(),
+            'cpsit/project-builder.exclude-from-listing',
+        );
+
+        return !$excludeFromListing;
+    }
+
     protected function createTemplateSource(Package\BasePackage $package): Template\TemplateSource
     {
         return new Template\TemplateSource($this, $package);
@@ -267,6 +291,7 @@ abstract class BaseProvider implements ProviderInterface
         $config = Factory::createConfig($this->io);
         $config->merge([
             'config' => [
+                'cache-dir' => Util\Platform::isWindows() ? 'nul' : '/dev/null',
                 'secure-http' => !$this->acceptInsecureConnections,
             ],
         ]);

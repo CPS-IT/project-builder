@@ -463,11 +463,22 @@ final class Messenger
 
         $description = $package->getDescription();
 
-        if (null === $description || '' === trim($description)) {
-            return $name;
+        $decoratedTemplateSource = (null === $description || '' === trim($description))
+            ? $name
+            : sprintf('%s <fg=gray>(%s)</>', $description, $name);
+
+        if (!$package->isAbandoned()) {
+            return $decoratedTemplateSource;
         }
 
-        return sprintf('%s <fg=gray>(%s)</>', $description, $name);
+        return sprintf(
+            '%s <warning>Abandoned! %s</warning>',
+            $decoratedTemplateSource,
+            match ($package->getReplacementPackage()) {
+                null => 'No replacement was suggested.',
+                default => 'Use '.$package->getReplacementPackage().' instead.',
+            },
+        );
     }
 
     /**

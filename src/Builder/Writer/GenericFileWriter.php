@@ -43,7 +43,7 @@ final class GenericFileWriter implements WriterInterface
     public function write(
         Builder\BuildInstructions $instructions,
         Finder\SplFileInfo $file,
-        string $targetFile = null,
+        ?string $targetFile = null,
     ): Finder\SplFileInfo {
         $targetDirectory = $instructions->getTemporaryDirectory();
         $targetFile = Helper\FilesystemHelper::createFileObject(
