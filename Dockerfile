@@ -1,8 +1,8 @@
-FROM composer:2.6 AS composer
+FROM composer/composer:2.6-bin AS composer
 LABEL maintainer="Elias Häußler <e.haeussler@familie-redlich.de>"
 
 FROM php:8.3-alpine
-COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --from=composer /composer /usr/bin/composer
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PROJECT_BUILDER_EXECUTOR=docker
