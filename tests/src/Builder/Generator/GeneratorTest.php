@@ -27,6 +27,7 @@ use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use PHPUnit\Framework;
+use Symfony\Component\Console;
 use Symfony\Component\Filesystem;
 
 use function dirname;
@@ -136,6 +137,11 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         } catch (Src\Exception\StepFailureException $exception) {
         }
 
+        self::assertStringContainsString(
+            'Project generation failed. All processed steps will be reverted',
+            self::$io->getOutput(),
+        );
+
         self::assertInstanceOf(Src\Exception\StepFailureException::class, $exception);
         self::assertSame(1652954290, $exception->getCode());
         self::assertSame('Running step "collectBuildInstructions" failed. All applied steps were reverted.', $exception->getMessage());
@@ -162,6 +168,43 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
 
         self::assertCount(4, $actual->getAppliedSteps());
         self::assertFalse($actual->isMirrored());
+    }
+
+    #[Framework\Attributes\Test]
+    public function runDisplaysExceptionMessageOnVerboseOutput(): void
+    {
+        self::$io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_VERBOSE);
+        self::$io->setUserInputs(['', '', '', 'no']);
+
+        try {
+            $this->subject->run($this->targetDirectory);
+        } catch (Src\Exception\StepFailureException) {
+        }
+
+        $output = self::$io->getOutput();
+
+        self::assertStringContainsString(
+            'Exception: The given input must not be empty.',
+            $output,
+        );
+        self::assertStringNotContainsString('#0', $output);
+    }
+
+    #[Framework\Attributes\Test]
+    public function runDisplaysExceptionTraceOnVeryVerboseOutput(): void
+    {
+        self::$io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_VERY_VERBOSE);
+        self::$io->setUserInputs(['', '', '', 'no']);
+
+        try {
+            $this->subject->run($this->targetDirectory);
+        } catch (Src\Exception\StepFailureException) {
+        }
+
+        self::assertStringContainsString(
+            'Exception: The given input must not be empty.'.PHP_EOL.'#0',
+            self::$io->getOutput(),
+        );
     }
 
     #[Framework\Attributes\Test]

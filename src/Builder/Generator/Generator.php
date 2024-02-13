@@ -129,6 +129,16 @@ final class Generator
         ?Throwable $exception = null,
     ): bool {
         $this->messenger->error('Project generation failed. All processed steps will be reverted.');
+
+        if (null !== $exception) {
+            if ($this->messenger->isVerbose()) {
+                $this->messenger->write('Exception: '.$exception->getMessage());
+            }
+            if ($this->messenger->isVeryVerbose()) {
+                $this->messenger->write($exception->getTraceAsString());
+            }
+        }
+
         $this->messenger->newLine();
 
         if (null !== $step) {
