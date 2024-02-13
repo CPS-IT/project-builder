@@ -191,7 +191,7 @@ final class Messenger
             'You can go one step back and select another template provider.',
             sprintf(
                 'For more information, take a look at the <href=%s>documentation</>.',
-                'https://github.com/CPS-IT/project-builder/blob/main/docs/configuration.md',
+                'https://project-builder.cps-it.de/development/configuration.html',
             ),
             '',
         ]);

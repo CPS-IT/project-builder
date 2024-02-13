@@ -8,5 +8,19 @@
 	],
 	"constraints": {
 		"php": "8.1.*"
-	}
+	},
+	"packageRules": [
+		{
+			"extends": [
+				":automergeDisabled"
+			],
+			"matchPackageNames": [
+				"composer/composer"
+			],
+			"matchUpdateTypes": [
+				"major",
+				"minor"
+			]
+		}
+	]
 }
