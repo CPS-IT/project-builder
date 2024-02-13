@@ -243,6 +243,8 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function createRepositoryReturnsComposerRepositoryWithDisabledCache(): void
     {
+        $this->subject->disableCache();
+
         $actual = $this->subject->testCreateRepository();
 
         self::assertInstanceOf(Repository\ComposerRepository::class, $actual);
