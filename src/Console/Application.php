@@ -73,7 +73,7 @@ final class Application
         $this->templateProviders = $templateProviders;
     }
 
-    public function run(): int
+    public function run(bool $disableTemplateSourceCache = false): int
     {
         if (!$this->messenger->isInteractive()) {
             $this->messenger->error('This command cannot be run in non-interactive mode.');
@@ -92,7 +92,7 @@ final class Application
         try {
             // Select template source
             $defaultTemplateProvider = reset($this->templateProviders);
-            $templateSource = $this->selectTemplateSource($defaultTemplateProvider);
+            $templateSource = $this->selectTemplateSource($defaultTemplateProvider, $disableTemplateSourceCache);
             $templateSource->getProvider()->installTemplateSource($templateSource);
             $templateIdentifier = $templateSource->getPackage()->getName();
 
@@ -137,9 +137,19 @@ final class Application
      */
     private function selectTemplateSource(
         ?Template\Provider\ProviderInterface $templateProvider = null,
+        bool $disableCache = false,
     ): Template\TemplateSource {
         try {
             $templateProvider ??= $this->messenger->selectProvider($this->templateProviders);
+
+            if ($templateProvider instanceof Template\Provider\BaseProvider) {
+                if ($disableCache) {
+                    $templateProvider->disableCache();
+                } else {
+                    $templateProvider->enableCache();
+                }
+            }
+
             $templateSource = $this->messenger->selectTemplateSource($templateProvider);
         } catch (Exception\InvalidTemplateSourceException $exception) {
             $retry = $this->messenger->confirmTemplateSourceRetry($exception);
@@ -147,14 +157,14 @@ final class Application
             $this->messenger->newLine();
 
             if ($retry) {
-                return $this->selectTemplateSource();
+                return $this->selectTemplateSource(disableCache: $disableCache);
             }
 
             throw $exception;
         }
 
         if (null === $templateSource) {
-            return $this->selectTemplateSource();
+            return $this->selectTemplateSource(disableCache: $disableCache);
         }
 
         return $templateSource;
