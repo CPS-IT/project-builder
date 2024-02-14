@@ -53,6 +53,7 @@ final class Bootstrap
         Script\Event $event,
         ?string $targetDirectory = null,
         bool $exitOnFailure = true,
+        bool $disableTemplateSourceCache = false,
     ): int {
         // Early return if current environment is unsupported
         if (self::runsOnAnUnsupportedEnvironment()) {
@@ -71,6 +72,7 @@ final class Bootstrap
         $input = new SymfonyConsole\Input\ArrayInput([
             'target-directory' => $targetDirectory,
             '--force' => true,
+            '--no-cache' => $disableTemplateSourceCache,
         ]);
         $input->setInteractive($io->isInteractive());
 
@@ -104,7 +106,7 @@ final class Bootstrap
         $targetDirectory = $simulation->prepare();
 
         $exitCode = $simulation->run(
-            static fn (): int => self::createProject($event, $targetDirectory, false),
+            static fn (): int => self::createProject($event, $targetDirectory, false, true),
         );
 
         exit($exitCode);

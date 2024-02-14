@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Template\Provider;
 
 use Composer\Factory;
 use Composer\Package;
+use Composer\Repository;
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\IO;
 use CPSIT\ProjectBuilder\Template;
@@ -151,6 +152,21 @@ final class VcsProvider extends BaseProvider implements CustomProviderInterface
         $repositories = [...$repositories, ...$this->repositories];
 
         return parent::createComposerJson($templateSources, $repositories);
+    }
+
+    protected function createRepository(): Repository\RepositoryInterface
+    {
+        $isCacheDisabled = $this->disableCache;
+
+        // Explicitly enable package cache as Composer requires caching to be enabled for Git operations
+        $this->disableCache = false;
+
+        try {
+            return parent::createRepository();
+        } finally {
+            // Restore original setting
+            $this->disableCache = $isCacheDisabled;
+        }
     }
 
     protected function getRepositoryType(): string

@@ -62,8 +62,9 @@ trait ProcessingFilesTrait
 
         foreach ($this->processedFiles as $index => $processedFile) {
             $this->filesystem->remove($processedFile->getTargetFile()->getPathname());
-            unset($this->processedFiles[$index]);
         }
+
+        $this->processedFiles = [];
     }
 
     public function getProcessedFiles(): array

@@ -57,6 +57,7 @@ abstract class BaseProvider implements ProviderInterface
     protected ComposerIO\IOInterface $io;
     protected Package\Version\VersionParser $versionParser;
     protected bool $acceptInsecureConnections = false;
+    protected bool $disableCache = false;
 
     public function __construct(
         protected IO\Messenger $messenger,
@@ -288,13 +289,18 @@ abstract class BaseProvider implements ProviderInterface
 
     protected function createRepository(): Repository\RepositoryInterface
     {
-        $config = Factory::createConfig($this->io);
-        $config->merge([
+        $customConfiguration = [
             'config' => [
-                'cache-dir' => Util\Platform::isWindows() ? 'nul' : '/dev/null',
                 'secure-http' => !$this->acceptInsecureConnections,
             ],
-        ]);
+        ];
+
+        if ($this->disableCache) {
+            $customConfiguration['config']['cache-dir'] = Util\Platform::isWindows() ? 'nul' : '/dev/null';
+        }
+
+        $config = Factory::createConfig($this->io);
+        $config->merge($customConfiguration);
 
         return Repository\RepositoryFactory::createRepo(
             $this->io,
@@ -325,6 +331,16 @@ abstract class BaseProvider implements ProviderInterface
         }
 
         return $input;
+    }
+
+    public function disableCache(): void
+    {
+        $this->disableCache = true;
+    }
+
+    public function enableCache(): void
+    {
+        $this->disableCache = false;
     }
 
     /**

@@ -41,7 +41,7 @@ composer require --dev cpsit/project-builder
 Once installed, an additional Composer command `project:create` is available:
 
 ```bash
-composer project:create <target-directory> [-f|--force]
+composer project:create <target-directory> [-f|--force] [--no-cache]
 ```
 
 The following command parameters are available:
@@ -51,6 +51,9 @@ The following command parameters are available:
 
 **`-f`, `--force`**
 : Force project creation even if target directory is not empty
+
+**`--no-cache`**
+: Disable template source cache during package listing
 
 [1]: https://getcomposer.org/
 [2]: https://www.php.net/

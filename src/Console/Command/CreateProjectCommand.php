@@ -90,6 +90,13 @@ final class CreateProjectCommand extends Command\BaseCommand
             Console\Input\InputOption::VALUE_NONE,
             'Force project creation even if target directory is not empty',
         );
+
+        $this->addOption(
+            'no-cache',
+            null,
+            Console\Input\InputOption::VALUE_NONE,
+            'Disable template source cache during package listing',
+        );
     }
 
     protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output): int
@@ -102,6 +109,7 @@ final class CreateProjectCommand extends Command\BaseCommand
 
         $targetDirectory = Helper\FilesystemHelper::resolveRelativePath($input->getArgument('target-directory'));
         $force = $input->getOption('force');
+        $noCache = $input->getOption('no-cache');
 
         // Early return if target directory is not empty and should not be overwritten
         if (!$force
@@ -115,7 +123,7 @@ final class CreateProjectCommand extends Command\BaseCommand
 
         try {
             // Run project generation
-            $generator = $this->prepareTemplate();
+            $generator = $this->prepareTemplate($noCache);
             $result = $generator->run($targetDirectory);
 
             // Show project generation result
@@ -137,14 +145,14 @@ final class CreateProjectCommand extends Command\BaseCommand
         return self::SUCCESSFUL;
     }
 
-    private function prepareTemplate(): Builder\Generator\Generator
+    private function prepareTemplate(bool $disableCache = false): Builder\Generator\Generator
     {
         $this->messenger->clearScreen();
         $this->messenger->welcome();
 
         // Select template source
         $defaultTemplateProvider = reset($this->templateProviders);
-        $templateSource = $this->selectTemplateSource($defaultTemplateProvider);
+        $templateSource = $this->selectTemplateSource($defaultTemplateProvider, $disableCache);
         $templateSource->getProvider()->installTemplateSource($templateSource);
         $templateIdentifier = $templateSource->getPackage()->getName();
 
@@ -161,9 +169,19 @@ final class CreateProjectCommand extends Command\BaseCommand
      */
     private function selectTemplateSource(
         ?Template\Provider\ProviderInterface $templateProvider = null,
+        bool $disableCache = false,
     ): Template\TemplateSource {
         try {
             $templateProvider ??= $this->messenger->selectProvider($this->templateProviders);
+
+            if ($templateProvider instanceof Template\Provider\BaseProvider) {
+                if ($disableCache) {
+                    $templateProvider->disableCache();
+                } else {
+                    $templateProvider->enableCache();
+                }
+            }
+
             $templateSource = $this->messenger->selectTemplateSource($templateProvider);
         } catch (Exception\InvalidTemplateSourceException $exception) {
             $retry = $this->messenger->confirmTemplateSourceRetry($exception);
@@ -171,14 +189,14 @@ final class CreateProjectCommand extends Command\BaseCommand
             $this->messenger->newLine();
 
             if ($retry) {
-                return $this->selectTemplateSource();
+                return $this->selectTemplateSource(disableCache: $disableCache);
             }
 
             throw $exception;
         }
 
         if (null === $templateSource) {
-            return $this->selectTemplateSource();
+            return $this->selectTemplateSource(disableCache: $disableCache);
         }
 
         return $templateSource;

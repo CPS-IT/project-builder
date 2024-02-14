@@ -48,6 +48,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
     private Src\IO\Messenger $messenger;
     private Filesystem\Filesystem $filesystem;
     private Tests\Fixtures\DummyProvider $templateProvider;
+    private Tests\Fixtures\DummyCacheableProvider $cacheableTemplateProvider;
     private SymfonyConsole\Tester\CommandTester $commandTester;
 
     protected function setUp(): void
@@ -58,12 +59,13 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
         $this->targetDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
         $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
         $this->templateProvider = new Tests\Fixtures\DummyProvider();
+        $this->cacheableTemplateProvider = new Tests\Fixtures\DummyCacheableProvider($this->messenger, $this->filesystem);
 
         $command = new Src\Console\Command\CreateProjectCommand(
             $this->messenger,
             $configReader,
             new Src\Error\ErrorHandler($this->messenger),
-            [$this->templateProvider],
+            [$this->templateProvider, $this->cacheableTemplateProvider],
         );
         $command->setApplication(new Console\Application());
 
@@ -218,6 +220,28 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
             sprintf('The target directory "%s" is not empty.', $this->targetDirectory),
             $output,
         );
+    }
+
+    #[Framework\Attributes\Test]
+    public function executeDisablesTemplateSourceCacheIfNoCacheOptionIsGiven(): void
+    {
+        $this->cacheableTemplateProvider->installationPath = $this->targetDirectory;
+        $this->cacheableTemplateProvider->templateSources = [
+            $this->createTemplateSource(),
+        ];
+
+        self::$io->setUserInputs(['yes', '1']);
+
+        try {
+            $this->commandTester->execute([
+                'target-directory' => $this->targetDirectory,
+                '--no-cache' => true,
+            ]);
+        } catch (Exception) {
+            // Intended fallthrough.
+        }
+
+        self::assertTrue($this->cacheableTemplateProvider->isCacheDisabled());
     }
 
     #[Framework\Attributes\Test]
