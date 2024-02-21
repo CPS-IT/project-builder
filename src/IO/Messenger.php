@@ -119,7 +119,7 @@ final class Messenger
     {
         $labels = array_map(
             fn (Template\Provider\ProviderInterface $provider) => $provider::getName(),
-            array_values($providers),
+            $providers,
         );
         $defaultIdentifier = array_key_first($providers);
 
