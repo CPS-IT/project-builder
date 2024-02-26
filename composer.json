@@ -57,7 +57,7 @@
 		"phpstan/phpstan-strict-rules": "^1.2",
 		"phpstan/phpstan-symfony": "^1.2",
 		"phpstan/phpstan-webmozart-assert": "^1.2",
-		"phpunit/phpunit": "^11.0",
+		"phpunit/phpunit": "^10.1 || ^11.0",
 		"rector/rector": "^1.0.0",
 		"seld/jsonlint": "^1.9"
 	},
