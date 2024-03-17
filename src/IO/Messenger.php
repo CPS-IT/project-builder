@@ -27,6 +27,7 @@ use Composer\IO;
 use Composer\Package;
 use CPSIT\ProjectBuilder\Builder;
 use CPSIT\ProjectBuilder\Exception;
+use CPSIT\ProjectBuilder\IO\Console\ClearableConsoleIO;
 use CPSIT\ProjectBuilder\Resource;
 use CPSIT\ProjectBuilder\Template;
 use Symfony\Component\Console;
@@ -48,6 +49,7 @@ use function trim;
 final class Messenger
 {
     private static ?string $lastProgressOutput = null;
+    private static ?Console\Output\ConsoleSectionOutput $lastProgressSection = null;
 
     private function __construct(
         private readonly IO\IOInterface $io,
@@ -56,6 +58,10 @@ final class Messenger
 
     public static function create(IO\IOInterface $io): self
     {
+        if ($io instanceof IO\ConsoleIO) {
+            $io = ClearableConsoleIO::from($io);
+        }
+
         return new self($io, new Console\Terminal());
     }
 
@@ -77,7 +83,16 @@ final class Messenger
 
     public function clearLine(): void
     {
-        $this->write("\x1b[1A", false);
+        $this->clearLines(1);
+    }
+
+    /**
+     * @param positive-int $lines
+     */
+    public function clearLines(int $lines): void
+    {
+        $this->write(sprintf("\x1b[%dA", $lines), false);
+        $this->write("\x1b[0J", false);
     }
 
     public function welcome(): void
@@ -247,6 +262,11 @@ final class Messenger
         }
 
         $message = sprintf('<comment>%s</comment> ', rtrim($message));
+
+        if ($this->io instanceof ClearableConsoleIO) {
+            self::$lastProgressSection = $this->io->section();
+        }
+
         $this->writeWithEmoji(Emoji::HourglassFlowingSand->value, $message, $overwrite);
 
         self::$lastProgressOutput = $message;
@@ -255,10 +275,12 @@ final class Messenger
     public function done(): void
     {
         if (null !== self::$lastProgressOutput) {
+            self::$lastProgressSection?->clear();
+
             $this->writeWithEmoji(
                 Emoji::WhiteHeavyCheckMark->value,
                 self::$lastProgressOutput.'<info>Done</info>',
-                true,
+                null === self::$lastProgressOutput,
             );
         }
     }
@@ -266,12 +288,40 @@ final class Messenger
     public function failed(): void
     {
         if (null !== self::$lastProgressOutput) {
+            self::$lastProgressSection?->clear();
+
             $this->writeWithEmoji(
                 Emoji::Prohibited->value,
                 self::$lastProgressOutput.'<error>Failed</error>',
-                true,
+                null === self::$lastProgressOutput,
             );
         }
+    }
+
+    public function finishWithComment(Emoji $emoji, string $comment): void
+    {
+        if (null !== self::$lastProgressOutput) {
+            self::$lastProgressSection?->clear();
+
+            $this->writeWithEmoji(
+                $emoji->value,
+                self::$lastProgressOutput.$comment,
+                null === self::$lastProgressOutput,
+            );
+        }
+    }
+
+    public function clearProgress(): void
+    {
+        self::$lastProgressSection?->clear();
+
+        $this->exitProgress();
+    }
+
+    public function exitProgress(): void
+    {
+        self::$lastProgressOutput = null;
+        self::$lastProgressSection = null;
     }
 
     public function decorateResult(Builder\BuildResult $result): void
@@ -379,7 +429,11 @@ final class Messenger
      */
     public function write(string|array $messages, bool $newLine = true, int $verbosity = IO\IOInterface::NORMAL): void
     {
-        $this->getIO()->write($messages, $newLine, $verbosity);
+        if (null !== self::$lastProgressSection) {
+            self::$lastProgressSection->write($messages, $newLine, $verbosity);
+        } else {
+            $this->getIO()->write($messages, $newLine, $verbosity);
+        }
     }
 
     public function writeWithEmoji(string $emoji, string $message, bool $overwrite = false): void
