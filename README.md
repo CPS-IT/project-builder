@@ -4,7 +4,7 @@
 
 # Project Builder
 
-[![Coverage](https://img.shields.io/codecov/c/github/CPS-IT/project-builder?logo=codecov&token=u5Clk9nd9Q)](https://codecov.io/gh/CPS-IT/project-builder)
+[![Coverage](https://img.shields.io/coverallsCoverage/github/CPS-IT/project-builder?logo=coveralls)](https://coveralls.io/github/CPS-IT/project-builder)
 [![Maintainability](https://img.shields.io/codeclimate/maintainability/CPS-IT/project-builder?logo=codeclimate)](https://codeclimate.com/github/CPS-IT/project-builder/maintainability)
 [![CGL](https://img.shields.io/github/actions/workflow/status/CPS-IT/project-builder/cgl.yaml?label=cgl&logo=github)](https://github.com/CPS-IT/project-builder/actions/workflows/cgl.yaml)
 [![Docker deploy](https://img.shields.io/github/actions/workflow/status/CPS-IT/project-builder/docker.yaml?label=docker&logo=github)](https://github.com/CPS-IT/project-builder/actions/workflows/docker.yaml)
