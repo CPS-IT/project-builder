@@ -86,7 +86,7 @@ composer test:unit:coverage
 
 ### View coverage report
 
-[![Coverage](https://codecov.io/gh/CPS-IT/project-builder/branch/main/graph/badge.svg?token=u5Clk9nd9Q)][5]
+[![Coverage](https://img.shields.io/coverallsCoverage/github/CPS-IT/project-builder?logo=coveralls)][5]
 
 Code coverage reports are written to `.build/coverage`. You can open the
 last HTML report like follows:
@@ -161,6 +161,6 @@ the appropriate [workflows][7] to get a detailed overview.
 [2]: https://semver.org/
 [3]: https://github.com/CPS-IT/project-builder/actions/workflows/cgl.yaml
 [4]: https://github.com/CPS-IT/project-builder/actions/workflows/tests.yaml
-[5]: https://codecov.io/gh/CPS-IT/Project-Builder
+[5]: https://coveralls.io/github/CPS-IT/project-builder
 [6]: https://github.com/CPS-IT/project-builder/actions/workflows/documentation.yaml
 [7]: https://github.com/CPS-IT/project-builder/tree/main/.github/workflows

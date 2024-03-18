@@ -54,6 +54,13 @@ final class Composer
         private readonly Filesystem\Filesystem $filesystem,
     ) {}
 
+    /**
+     * @template T of SymfonyConsole\Output\OutputInterface|null
+     *
+     * @param T $output
+     *
+     * @param-out (T is null ? SymfonyConsole\Output\BufferedOutput : T) $output
+     */
     public function install(
         string $composerJson,
         bool $includeDevDependencies = false,
