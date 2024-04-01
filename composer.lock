@@ -82,16 +82,16 @@
         },
         {
             "name": "cuyz/valinor",
-            "version": "1.10.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CuyZ/Valinor.git",
-                "reference": "274cfd526da68e659a42778585ac40729d8fc142"
+                "reference": "3f1d86f1bcb7f48f802e02cb50f449b589a68990"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CuyZ/Valinor/zipball/274cfd526da68e659a42778585ac40729d8fc142",
-                "reference": "274cfd526da68e659a42778585ac40729d8fc142",
+                "url": "https://api.github.com/repos/CuyZ/Valinor/zipball/3f1d86f1bcb7f48f802e02cb50f449b589a68990",
+                "reference": "3f1d86f1bcb7f48f802e02cb50f449b589a68990",
                 "shasum": ""
             },
             "require": {
@@ -143,7 +143,7 @@
             ],
             "support": {
                 "issues": "https://github.com/CuyZ/Valinor/issues",
-                "source": "https://github.com/CuyZ/Valinor/tree/1.10.0"
+                "source": "https://github.com/CuyZ/Valinor/tree/1.11.0"
             },
             "funding": [
                 {
@@ -151,7 +151,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-12T07:00:46+00:00"
+            "time": "2024-03-27T13:22:48+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -5065,16 +5065,16 @@
         },
         {
             "name": "phpstan/phpstan-webmozart-assert",
-            "version": "1.2.5",
+            "version": "1.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-webmozart-assert.git",
-                "reference": "0307f234730242ed5d50d6108ed6a5beb0285ecb"
+                "reference": "c1739d090e44b82b41b8e32f429fa68ddc28072a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-webmozart-assert/zipball/0307f234730242ed5d50d6108ed6a5beb0285ecb",
-                "reference": "0307f234730242ed5d50d6108ed6a5beb0285ecb",
+                "url": "https://api.github.com/repos/phpstan/phpstan-webmozart-assert/zipball/c1739d090e44b82b41b8e32f429fa68ddc28072a",
+                "reference": "c1739d090e44b82b41b8e32f429fa68ddc28072a",
                 "shasum": ""
             },
             "require": {
@@ -5110,9 +5110,9 @@
             "description": "PHPStan webmozart/assert extension",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-webmozart-assert/issues",
-                "source": "https://github.com/phpstan/phpstan-webmozart-assert/tree/1.2.5"
+                "source": "https://github.com/phpstan/phpstan-webmozart-assert/tree/1.2.6"
             },
-            "time": "2024-03-29T12:39:03+00:00"
+            "time": "2024-03-30T14:14:20+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -5437,16 +5437,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.15",
+            "version": "10.5.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "86376e05e8745ed81d88232ff92fee868247b07b"
+                "reference": "18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/86376e05e8745ed81d88232ff92fee868247b07b",
-                "reference": "86376e05e8745ed81d88232ff92fee868247b07b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd",
+                "reference": "18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd",
                 "shasum": ""
             },
             "require": {
@@ -5518,7 +5518,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.15"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.16"
             },
             "funding": [
                 {
@@ -5534,7 +5534,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-22T04:17:47+00:00"
+            "time": "2024-03-28T10:08:10+00:00"
         },
         {
             "name": "react/promise",
