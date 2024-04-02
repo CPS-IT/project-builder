@@ -71,7 +71,7 @@ final class ContainerFactory
     public static function createFromConfig(Builder\Config\Config $config): self
     {
         $resourcePaths = [
-            Filesystem\Path::join(
+            Helper\FilesystemHelper::path(
                 Helper\FilesystemHelper::getProjectRootPath(),
                 Paths::PROJECT_TEMPLATES,
                 basename(dirname($config->getDeclaringFile())),
@@ -85,22 +85,20 @@ final class ContainerFactory
     public static function createForTesting(string $testsRootPath = 'tests'): self
     {
         if (!Filesystem\Path::isAbsolute($testsRootPath)) {
-            $testsRootPath = Filesystem\Path::join(
+            $testsRootPath = Helper\FilesystemHelper::path(
                 Helper\FilesystemHelper::getProjectRootPath(),
                 $testsRootPath,
             );
         }
         $resources = self::locateResources([
-            Filesystem\Path::join(
+            Helper\FilesystemHelper::path(
                 $testsRootPath,
                 'config',
             ),
         ]);
-        $containerPath = Filesystem\Path::join(
+        $containerPath = Helper\FilesystemHelper::path(
             Helper\FilesystemHelper::getProjectRootPath(),
-            'var',
-            'cache',
-            'test-container.php',
+            'var/cache/test-container.php',
         );
 
         $filesystem = new Filesystem\Filesystem();
@@ -115,7 +113,7 @@ final class ContainerFactory
 
         if ($this->debug && null !== $this->containerPath) {
             $containerXmlFilename = Filesystem\Path::getFilenameWithoutExtension($this->containerPath);
-            $containerXmlPath = Filesystem\Path::join(dirname($this->containerPath), $containerXmlFilename.'.xml');
+            $containerXmlPath = Helper\FilesystemHelper::path(dirname($this->containerPath), $containerXmlFilename.'.xml');
             $container->addCompilerPass(new CompilerPass\ContainerBuilderDebugDumpPass($containerXmlPath));
         }
 
@@ -185,6 +183,6 @@ final class ContainerFactory
 
     private static function getDefaultResourcePath(): string
     {
-        return Filesystem\Path::join(Helper\FilesystemHelper::getProjectRootPath(), Paths::PROJECT_SERVICE_CONFIG);
+        return Helper\FilesystemHelper::path(Helper\FilesystemHelper::getProjectRootPath(), Paths::PROJECT_SERVICE_CONFIG);
     }
 }

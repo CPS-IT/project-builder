@@ -57,7 +57,7 @@ final class GenericFileWriterTest extends Tests\ContainerAwareTestCase
         $sourceFile = __FILE__;
         $file = new Finder\SplFileInfo($sourceFile, dirname($sourceFile), basename($sourceFile));
 
-        $expected = $instructions->getTemporaryDirectory().'/'.$file->getRelativePathname();
+        $expected = Src\Helper\FilesystemHelper::path($instructions->getTemporaryDirectory(), $file->getRelativePathname());
         $actual = $this->subject->write($instructions, $file);
 
         self::assertSame($expected, $actual->getPathname());
@@ -76,8 +76,8 @@ final class GenericFileWriterTest extends Tests\ContainerAwareTestCase
         $sourceFile = __FILE__;
         $file = new Finder\SplFileInfo($sourceFile, dirname($sourceFile), basename($sourceFile));
 
-        $expected = $instructions->getTemporaryDirectory().'/overrides/foo.php';
-        $actual = $this->subject->write($instructions, $file, 'overrides/foo.php');
+        $expected = Src\Helper\FilesystemHelper::path($instructions->getTemporaryDirectory(), 'overrides/foo.php');
+        $actual = $this->subject->write($instructions, $file, Src\Helper\FilesystemHelper::path('overrides/foo.php'));
 
         self::assertSame($expected, $actual->getPathname());
         self::assertFileExists($expected);

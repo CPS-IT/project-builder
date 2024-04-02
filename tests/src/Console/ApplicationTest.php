@@ -54,7 +54,9 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
         $this->messenger = self::$container->get('app.messenger');
         $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
         $this->templateProvider = new Tests\Fixtures\DummyProvider();
-        $this->configReader = Src\Builder\Config\ConfigReader::create(dirname(__DIR__).'/Fixtures/Templates');
+        $this->configReader = Src\Builder\Config\ConfigReader::create(
+            Src\Helper\FilesystemHelper::path(dirname(__DIR__), 'Fixtures/Templates'),
+        );
         $this->subject = new Src\Console\Application(
             $this->messenger,
             $this->configReader,
@@ -84,7 +86,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function runMirrorsSourceFilesToTemporaryDirectory(): void
     {
-        $temporaryDirectory = $this->targetDirectory.'/.build/src';
+        $temporaryDirectory = Src\Helper\FilesystemHelper::path($this->targetDirectory, '.build/src');
 
         self::assertDirectoryDoesNotExist($temporaryDirectory);
 
@@ -212,7 +214,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
 
     private function createTemplateSource(): Src\Template\TemplateSource
     {
-        $sourcePath = dirname(__DIR__).'/Fixtures/Templates/json-template';
+        $sourcePath = Src\Helper\FilesystemHelper::path(dirname(__DIR__), 'Fixtures/Templates/json-template');
         $package = Src\Resource\Local\Composer::createComposer($sourcePath)->getPackage();
 
         self::assertInstanceOf(Package\Package::class, $package);

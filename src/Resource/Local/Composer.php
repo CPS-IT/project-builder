@@ -136,7 +136,7 @@ final class Composer
 
         return $factory->createComposer(
             new IO\NullIO(),
-            Filesystem\Path::join($rootPath, 'composer.json'),
+            Helper\FilesystemHelper::path($rootPath, 'composer.json'),
         );
     }
 }

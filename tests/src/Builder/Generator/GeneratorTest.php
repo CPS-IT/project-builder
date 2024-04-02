@@ -77,8 +77,11 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertStringContainsString('Running step #5 "mirrorProcessedFiles"...', $output);
         self::assertStringContainsString('Running step #6 "runCommand"...', $output);
 
-        self::assertFileExists($this->targetDirectory.'/dummy.yaml');
-        self::assertStringEqualsFile($this->targetDirectory.'/dummy.yaml', 'name: "foo"'.PHP_EOL);
+        self::assertFileExists(Src\Helper\FilesystemHelper::path($this->targetDirectory, 'dummy.yaml'));
+        self::assertStringEqualsFile(
+            Src\Helper\FilesystemHelper::path($this->targetDirectory, 'dummy.yaml'),
+            'name: "foo"'.LF,
+        );
 
         self::assertCount(9, $this->eventListener->dispatchedEvents);
         self::assertInstanceOf(Src\Event\ProjectBuildStartedEvent::class, $this->eventListener->dispatchedEvents[0]);
@@ -109,8 +112,11 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         $output = self::$io->getOutput();
 
         self::assertStringContainsString('If you want, you can restart project generation now.', $output);
-        self::assertFileExists($this->targetDirectory.'/dummy.yaml');
-        self::assertStringEqualsFile($this->targetDirectory.'/dummy.yaml', 'name: "foo"'.PHP_EOL);
+        self::assertFileExists(Src\Helper\FilesystemHelper::path($this->targetDirectory, 'dummy.yaml'));
+        self::assertStringEqualsFile(
+            Src\Helper\FilesystemHelper::path($this->targetDirectory, 'dummy.yaml'),
+            'name: "foo"'.LF,
+        );
 
         self::assertCount(12, $this->eventListener->dispatchedEvents);
         self::assertInstanceOf(Src\Event\ProjectBuildStartedEvent::class, $this->eventListener->dispatchedEvents[0]);
@@ -202,7 +208,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         }
 
         self::assertStringContainsString(
-            'Exception: The given input must not be empty.'.PHP_EOL.'#0',
+            'Exception: The given input must not be empty.'.LF.'#0',
             self::$io->getOutput(),
         );
     }
@@ -236,7 +242,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         $configReader = Src\Builder\Config\ConfigFactory::create();
 
         $config = $configReader->buildFromFile(
-            dirname(__DIR__, 2).'/Fixtures/Templates/yaml-template/config.yaml',
+            Src\Helper\FilesystemHelper::path(dirname(__DIR__, 2), 'Fixtures/Templates/yaml-template/config.yaml'),
             'yaml',
         );
         $config->setTemplateSource(
