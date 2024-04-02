@@ -26,7 +26,6 @@ namespace CPSIT\ProjectBuilder\Builder;
 use ArrayObject;
 use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\Paths;
-use Symfony\Component\Filesystem;
 
 use function dirname;
 
@@ -62,12 +61,12 @@ final class BuildInstructions extends ArrayObject
 
     public function getSourceDirectory(): string
     {
-        return Filesystem\Path::join($this->getTemplateDirectory(), Paths::TEMPLATE_SOURCES);
+        return Helper\FilesystemHelper::path($this->getTemplateDirectory(), Paths::TEMPLATE_SOURCES);
     }
 
     public function getSharedSourceDirectory(): string
     {
-        return Filesystem\Path::join($this->getTemplateDirectory(), Paths::TEMPLATE_SHARED_SOURCES);
+        return Helper\FilesystemHelper::path($this->getTemplateDirectory(), Paths::TEMPLATE_SHARED_SOURCES);
     }
 
     public function getTemporaryDirectory(): string

@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Tests\Fixtures;
 
 use Composer\Json;
+use CPSIT\ProjectBuilder\Helper\FilesystemHelper;
 use CPSIT\ProjectBuilder\Template;
 
 /**
@@ -63,7 +64,9 @@ final class DummyProvider implements Template\Provider\ProviderInterface
         }
 
         $package = $templateSource->getPackage();
-        $jsonFile = new Json\JsonFile($this->installationPath.'/composer.json');
+        $jsonFile = new Json\JsonFile(
+            FilesystemHelper::path($this->installationPath, 'composer.json'),
+        );
         $json = [
             'require' => [
                 $package->getName() => '*',
