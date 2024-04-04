@@ -96,7 +96,7 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
         $this->subject->listTemplateSources();
 
         self::assertTrue($io->isOutputWritten());
-        self::assertSame(PHP_EOL, self::$io->getOutput());
+        self::assertSame(LF, self::$io->getOutput());
     }
 
     #[Framework\Attributes\Test]

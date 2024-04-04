@@ -21,6 +21,14 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
+// Assure cross-platform compatible line break is used in tests
+if (!defined('LF')) {
+    define('LF', match (PHP_OS) {
+        'Windows' => "\r\n",
+        default => "\n",
+    });
+}
+
 require_once dirname(__DIR__).'/.build/vendor/autoload.php';
 
 $factory = CPSIT\ProjectBuilder\DependencyInjection\ContainerFactory::createForTesting();
