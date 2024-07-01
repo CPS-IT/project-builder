@@ -13,6 +13,9 @@ services:
       - name: event.listener
         method: onEventDispatch
         event: CPSIT\ProjectBuilder\Event\BuildStepRevertedEvent
+      - name: event.listener
+        method: onEventDispatch
+        event: CPSIT\ProjectBuilder\Event\BuildInstructionCollectedEvent
 
   CPSIT\ProjectBuilder\Tests\Fixtures\DummyTemplateRenderingEventListener:
     tags: ['event.listener']
