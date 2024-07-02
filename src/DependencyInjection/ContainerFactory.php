@@ -172,7 +172,7 @@ final class ContainerFactory
             array_unshift($resourcePaths, $defaultResourcePath);
         }
 
-        $paths = array_filter($resourcePaths, 'is_dir');
+        $paths = array_filter($resourcePaths, is_dir(...));
         $finder = Finder\Finder::create()
             ->files()
             ->in($paths)
