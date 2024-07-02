@@ -24,9 +24,11 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder\Builder;
+use CPSIT\ProjectBuilder\Event;
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\IO;
 use CPSIT\ProjectBuilder\Twig;
+use Symfony\Component\EventDispatcher;
 use Symfony\Component\ExpressionLanguage;
 
 use function is_string;
@@ -46,6 +48,7 @@ final class CollectBuildInstructionsStep extends AbstractStep
         private readonly IO\Messenger $messenger,
         private readonly Interaction\InteractionFactory $interactionFactory,
         private readonly Twig\Renderer $renderer,
+        private readonly EventDispatcher\EventDispatcherInterface $eventDispatcher,
     ) {
         parent::__construct();
     }
@@ -58,7 +61,7 @@ final class CollectBuildInstructionsStep extends AbstractStep
             if (!$property->conditionMatches($this->expressionLanguage, $instructions->getTemplateVariables(), true)) {
                 // Apply NULL as value of property to avoid errors in conditions
                 // that reference this property in array-notation
-                $this->apply($property->getPath(), null, $buildResult);
+                $this->apply($property, null, $buildResult);
 
                 continue;
             }
@@ -94,7 +97,7 @@ final class CollectBuildInstructionsStep extends AbstractStep
     {
         if ($property->hasValue()) {
             $this->apply(
-                $property->getPath(),
+                $property,
                 $this->renderValue($property->getValue(), $buildResult),
                 $buildResult,
             );
@@ -115,13 +118,13 @@ final class CollectBuildInstructionsStep extends AbstractStep
         if (!$subProperty->conditionMatches($this->expressionLanguage, $instructions->getTemplateVariables(), true)) {
             // Apply NULL as value of sub-property to avoid errors in conditions
             // that reference this sub-property in array-notation
-            $this->apply($subProperty->getPath(), null, $buildResult);
+            $this->apply($subProperty, null, $buildResult);
 
             return;
         }
 
         if ($subProperty->hasValue()) {
-            $this->apply($subProperty->getPath(), $subProperty->getValue(), $buildResult);
+            $this->apply($subProperty, $subProperty->getValue(), $buildResult);
 
             return;
         }
@@ -139,12 +142,19 @@ final class CollectBuildInstructionsStep extends AbstractStep
                 break;
         }
 
-        $this->apply($subProperty->getPath(), $value, $buildResult);
+        $this->apply($subProperty, $value, $buildResult);
     }
 
-    private function apply(string $path, mixed $value, Builder\BuildResult $buildResult): void
-    {
-        $buildResult->getInstructions()->addTemplateVariable($path, $value);
+    private function apply(
+        Builder\Config\ValueObject\Property|Builder\Config\ValueObject\SubProperty $property,
+        mixed $value,
+        Builder\BuildResult $buildResult,
+    ): void {
+        $event = new Event\BuildInstructionCollectedEvent($property, $property->getPath(), $value, $buildResult);
+
+        $this->eventDispatcher->dispatch($event);
+
+        $buildResult->getInstructions()->addTemplateVariable($event->getPath(), $event->getValue());
         $buildResult->applyStep($this);
     }
 

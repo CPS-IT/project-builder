@@ -36,15 +36,24 @@ use PHPUnit\Framework;
 final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCase
 {
     private Src\Builder\Generator\Step\CollectBuildInstructionsStep $subject;
+    private Tests\Fixtures\DummyEventListener $eventListener;
 
     protected function setUp(): void
     {
         $this->subject = self::$container->get(Src\Builder\Generator\Step\CollectBuildInstructionsStep::class);
+        $this->eventListener = self::$container->get(Tests\Fixtures\DummyEventListener::class);
     }
 
     #[Framework\Attributes\Test]
     public function runAppliesNullAsDefaultValueOnSkippedProperties(): void
     {
+        $property = new Src\Builder\Config\ValueObject\Property(
+            'foo',
+            'Foo',
+            null,
+            'false',
+            'baz',
+        );
         $config = new Src\Builder\Config\Config(
             'test',
             'Test',
@@ -52,13 +61,7 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
                 new Src\Builder\Config\ValueObject\Step('dummy'),
             ],
             [
-                new Src\Builder\Config\ValueObject\Property(
-                    'foo',
-                    'Foo',
-                    null,
-                    'false',
-                    'baz',
-                ),
+                $property,
             ],
         );
         $config->setDeclaringFile(__FILE__);
@@ -70,11 +73,25 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
         $this->subject->run($buildResult);
 
         self::assertNull($buildResult->getInstructions()->getTemplateVariable('foo'));
+        self::assertCount(1, $this->eventListener->dispatchedEvents);
+
+        $event = $this->eventListener->dispatchedEvents[0];
+
+        self::assertInstanceOf(Src\Event\BuildInstructionCollectedEvent::class, $event);
+        self::assertSame($property, $event->getProperty());
+        self::assertNull($event->getValue());
     }
 
     #[Framework\Attributes\Test]
     public function runAppliesNullAsDefaultValueOnSkippedSubProperties(): void
     {
+        $subProperty = new Src\Builder\Config\ValueObject\SubProperty(
+            'bar',
+            'Bar',
+            'staticValue',
+            null,
+            'false',
+        );
         $config = new Src\Builder\Config\Config(
             'test',
             'Test',
@@ -89,13 +106,7 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
                     null,
                     null,
                     [
-                        new Src\Builder\Config\ValueObject\SubProperty(
-                            'bar',
-                            'Bar',
-                            'staticValue',
-                            null,
-                            'false',
-                        ),
+                        $subProperty,
                     ],
                 ),
             ],
@@ -110,11 +121,32 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
 
         self::assertSame(['bar' => null], $buildResult->getInstructions()->getTemplateVariable('foo'));
         self::assertNull($buildResult->getInstructions()->getTemplateVariable('foo/bar'));
+        self::assertCount(1, $this->eventListener->dispatchedEvents);
+
+        $event = $this->eventListener->dispatchedEvents[0];
+
+        self::assertInstanceOf(Src\Event\BuildInstructionCollectedEvent::class, $event);
+        self::assertSame($subProperty, $event->getProperty());
+        self::assertNull($event->getValue());
     }
 
     #[Framework\Attributes\Test]
     public function runRendersPropertyValueAsTwigTemplate(): void
     {
+        $fooProperty = new Src\Builder\Config\ValueObject\Property(
+            'foo',
+            'Foo',
+            null,
+            null,
+            '{{ "foo"|convert_case("upper") }}',
+        );
+        $barProperty = new Src\Builder\Config\ValueObject\Property(
+            'bar',
+            'Bar',
+            null,
+            null,
+            0,
+        );
         $config = new Src\Builder\Config\Config(
             'test',
             'Test',
@@ -122,20 +154,8 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
                 new Src\Builder\Config\ValueObject\Step('dummy'),
             ],
             [
-                new Src\Builder\Config\ValueObject\Property(
-                    'foo',
-                    'Foo',
-                    null,
-                    null,
-                    '{{ "foo"|convert_case("upper") }}',
-                ),
-                new Src\Builder\Config\ValueObject\Property(
-                    'bar',
-                    'Bar',
-                    null,
-                    null,
-                    0,
-                ),
+                $fooProperty,
+                $barProperty,
             ],
         );
 
@@ -147,5 +167,24 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
 
         self::assertSame('FOO', $buildResult->getInstructions()->getTemplateVariable('foo'));
         self::assertSame(0, $buildResult->getInstructions()->getTemplateVariable('bar'));
+        self::assertCount(2, $this->eventListener->dispatchedEvents);
+
+        $fooEvent = $this->eventListener->dispatchedEvents[0];
+        $barEvent = $this->eventListener->dispatchedEvents[1];
+
+        self::assertInstanceOf(Src\Event\BuildInstructionCollectedEvent::class, $fooEvent);
+        self::assertSame($fooProperty, $fooEvent->getProperty());
+        self::assertSame('FOO', $fooEvent->getValue());
+
+        self::assertInstanceOf(Src\Event\BuildInstructionCollectedEvent::class, $barEvent);
+        self::assertSame($barProperty, $barEvent->getProperty());
+        self::assertSame(0, $barEvent->getValue());
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->eventListener->dispatchedEvents = [];
     }
 }
