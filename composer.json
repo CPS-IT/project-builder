@@ -136,6 +136,9 @@
 		"test:docker": "tests/docker/docker-build.sh",
 		"test:unit": "@test:unit:coverage --no-coverage",
 		"test:unit:coverage": "phpunit -c phpunit.xml",
-		"validate-schema": "docker run --rm -v \"$(pwd)\":/code swaggest/json-cli json-cli validate-schema resources/config.schema.json"
+		"validate-schema": [
+			"docker run --rm -v \"$(pwd)\":/code swaggest/json-cli json-cli validate-schema resources/build-artifact.schema.json",
+			"docker run --rm -v \"$(pwd)\":/code swaggest/json-cli json-cli validate-schema resources/config.schema.json"
+		]
 	}
 }
