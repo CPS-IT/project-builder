@@ -55,7 +55,7 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
     {
         $this->expectException(UnhandledMatchError::class);
 
-        /* @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line argument.type */
         $this->subject->createVariant('foo');
     }
 
