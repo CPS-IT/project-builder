@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Config;
 use CPSIT\ProjectBuilder as Src;
 use Generator;
 use PHPUnit\Framework;
+use ReflectionClass;
 
 use function dirname;
 use function ucfirst;
@@ -152,6 +153,25 @@ final class ConfigFactoryTest extends Framework\TestCase
         $this->expectExceptionMessage('The config source "foo" is invalid and cannot be processed.');
 
         $this->subject->buildFromString('foo', 'baz', Src\Builder\Config\FileType::Yaml);
+    }
+
+    #[Framework\Attributes\Test]
+    public function destructorRemovesCacheDirectory(): void
+    {
+        $reflection = new ReflectionClass(Src\Builder\Config\ConfigFactory::class);
+        $cacheDirectory = $reflection->getStaticPropertyValue('cacheDirectory');
+
+        // Trigger build => This will create the cache directory
+        $configFile = dirname(__DIR__, 2).'/Fixtures/Templates/yaml-template/config.yaml';
+        $this->subject->buildFromFile($configFile, 'yaml');
+
+        self::assertIsString($cacheDirectory);
+        self::assertDirectoryExists($cacheDirectory);
+
+        // Trigger __destruct() on subject
+        unset($this->subject);
+
+        self::assertDirectoryDoesNotExist($cacheDirectory);
     }
 
     /**
