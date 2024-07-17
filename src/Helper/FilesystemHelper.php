@@ -79,7 +79,7 @@ final class FilesystemHelper
 
     public static function getWorkingDirectory(): string
     {
-        /* @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line function.alreadyNarrowedType */
         if (method_exists(Util\Platform::class, 'getCwd')) {
             // Composer >= 2.3
             $cwd = Util\Platform::getCwd(true);

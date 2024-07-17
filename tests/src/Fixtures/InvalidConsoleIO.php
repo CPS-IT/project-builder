@@ -43,7 +43,7 @@ final class InvalidConsoleIO extends IO\ConsoleIO
         parent::__construct($input, $output, $helperSet);
 
         // Intended invalid property assignment to test the behavior of AccessibleConsoleIO
-        /* @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line assign.propertyType */
         $this->input = null;
     }
 }
