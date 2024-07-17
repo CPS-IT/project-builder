@@ -51,7 +51,7 @@ final class StringHelperTest extends Framework\TestCase
     {
         $this->expectException(UnhandledMatchError::class);
 
-        /* @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line argument.type */
         Src\Helper\StringHelper::convertCase('foo', 'bar');
     }
 

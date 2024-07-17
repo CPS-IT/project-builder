@@ -107,7 +107,7 @@ final class Bootstrap
 
     private static function runsOnAnUnsupportedEnvironment(): bool
     {
-        /* @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line function.alreadyNarrowedType */
         return !method_exists(InstalledVersions::class, 'getInstallPath');
     }
 }
