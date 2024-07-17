@@ -9,7 +9,7 @@
 project = "Project Builder"
 copyright = "since 2022 by coding. powerful. systems. CPS GmbH"
 author = "Elias Häußler, Martin Adler"
-release = "2.9.3"
+release = "2.10.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

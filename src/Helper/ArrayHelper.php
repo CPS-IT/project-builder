@@ -41,7 +41,7 @@ final class ArrayHelper
      */
     public static function getValueByPath(array|ArrayObject $subject, string $path): mixed
     {
-        $pathSegments = array_filter(explode('.', $path));
+        $pathSegments = self::trimExplode($path, '.');
         $reference = &$subject;
 
         foreach ($pathSegments as $pathSegment) {
@@ -60,7 +60,7 @@ final class ArrayHelper
      */
     public static function setValueByPath(array|ArrayObject &$subject, string $path, mixed $value): void
     {
-        $pathSegments = array_filter(explode('.', $path));
+        $pathSegments = self::trimExplode($path, '.');
         $reference = &$subject;
 
         foreach ($pathSegments as $pathSegment) {
@@ -87,7 +87,7 @@ final class ArrayHelper
      */
     public static function removeByPath(iterable &$subject, string $path): void
     {
-        $pathSegments = array_filter(explode('.', $path));
+        $pathSegments = self::trimExplode($path, '.');
         $maxSegmentIndex = count($pathSegments) - 1;
         $reference = &$subject;
 
@@ -106,6 +106,24 @@ final class ArrayHelper
 
             $reference = &$reference[$pathSegment];
         }
+    }
+
+    /**
+     * @param non-empty-string $delimiter
+     *
+     * @return list<non-empty-string>
+     */
+    public static function trimExplode(string $subject, string $delimiter = ','): array
+    {
+        return array_values(
+            array_filter(
+                array_map(
+                    trim(...),
+                    explode($delimiter, $subject),
+                ),
+                static fn (string $value) => '' !== $value,
+            ),
+        );
     }
 
     private static function pathSegmentExists(mixed $subject, string $pathSegment): bool

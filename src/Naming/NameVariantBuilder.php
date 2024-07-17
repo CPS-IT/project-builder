@@ -127,7 +127,15 @@ final class NameVariantBuilder
             $components[] = $projectName;
         }
 
-        $nameVariant = ucwords(implode(' ', array_filter($components)));
+        $nameVariant = ucwords(
+            implode(
+                ' ',
+                array_filter(
+                    $components,
+                    static fn (mixed $component) => is_string($component) && '' !== trim($component),
+                ),
+            ),
+        );
 
         if (null === $case) {
             return $nameVariant;

@@ -137,9 +137,6 @@ final class ConfigFactory
         return $parsedContent;
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
     public function __destruct()
     {
         if (null !== self::$cacheDirectory) {

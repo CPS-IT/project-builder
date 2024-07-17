@@ -66,7 +66,10 @@ final class CleanUpStep extends AbstractStep
 
         $buildResult->applyStep($this);
 
-        return [] === array_filter(array_map($this->filesystem->exists(...), $directoriesToRemove));
+        return [] === array_filter(
+            array_map($this->filesystem->exists(...), $directoriesToRemove),
+            static fn (bool $directoryExists) => $directoryExists,
+        );
     }
 
     public function revert(Builder\BuildResult $buildResult): void

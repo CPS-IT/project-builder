@@ -32,4 +32,9 @@ $config->getFinder()
 $ruleset = new \CPSIT\PhpCsFixerConfig\Rule\DefaultRuleset();
 $ruleset->apply($config);
 
+// Enable parallel runs (PHP-CS-Fixer >= v3.57)
+if (class_exists(\PhpCsFixer\Runner\Parallel\ParallelConfigFactory::class)) {
+    $config->setParallelConfig(\PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect());
+}
+
 return $config;

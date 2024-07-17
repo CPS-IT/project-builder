@@ -19,6 +19,10 @@ The following events are currently dispatched:
 * [**`ProjectBuildFinishedEvent`**](https://github.com/CPS-IT/project-builder/blob/main/src/Event/ProjectBuildFinishedEvent.php)
   is dispatched once the whole project build process is finished. It provides
   the build result containing all processed build steps and the final result.
+* [**`BuildInstructionCollectedEvent`**](https://github.com/CPS-IT/project-builder/blob/main/src/Event/BuildInstructionCollectedEvent.php)
+  is dispatched when a collected build instruction is about to be applied to
+  the build result. It allows to modify the instructed value by calling
+  `setValue()`.
 * [**`BuildStepProcessedEvent`**](https://github.com/CPS-IT/project-builder/blob/main/src/Event/BuildStepProcessedEvent.php) is
   dispatched once a configured step is processed, either successfully or failing.
   The event provides information about the processed step and its result and
