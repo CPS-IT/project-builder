@@ -56,7 +56,9 @@ final class ArrayHelper
     }
 
     /**
-     * @param array<string, mixed>|ArrayObject<string, mixed> $subject
+     * @template T of array|ArrayObject
+     *
+     * @param T<string, mixed> $subject
      */
     public static function setValueByPath(array|ArrayObject &$subject, string $path, mixed $value): void
     {
@@ -82,10 +84,12 @@ final class ArrayHelper
     }
 
     /**
-     * @param iterable<string, mixed> $subject
-     * @param non-empty-string        $path
+     * @template T of array|ArrayObject
+     *
+     * @param T<string, mixed> $subject
+     * @param non-empty-string $path
      */
-    public static function removeByPath(iterable &$subject, string $path): void
+    public static function removeByPath(array|ArrayObject &$subject, string $path): void
     {
         $pathSegments = self::trimExplode($path, '.');
         $maxSegmentIndex = count($pathSegments) - 1;

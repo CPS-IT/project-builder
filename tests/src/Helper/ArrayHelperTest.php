@@ -81,6 +81,7 @@ final class ArrayHelperTest extends Framework\TestCase
 
         self::assertSame('hello world!', Src\Helper\ArrayHelper::getValueByPath($subject, 'bar'));
         self::assertNull(Src\Helper\ArrayHelper::getValueByPath($subject, 'foobar'));
+        /* @phpstan-ignore-next-linestaticMethod.impossibleType */
         self::assertSame(
             [
                 'foo' => [
@@ -106,6 +107,7 @@ final class ArrayHelperTest extends Framework\TestCase
 
         Src\Helper\ArrayHelper::removeByPath($subject, 'foo.hello.world');
 
+        /* @phpstan-ignore-next-linestaticMethod.impossibleType */
         self::assertSame(
             [
                 'foo' => [
@@ -127,6 +129,7 @@ final class ArrayHelperTest extends Framework\TestCase
 
         Src\Helper\ArrayHelper::removeByPath($subject, 'foo.bar');
 
+        /* @phpstan-ignore-next-linestaticMethod.impossibleType */
         self::assertSame(
             [
                 'foo' => [],
