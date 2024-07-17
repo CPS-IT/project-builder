@@ -59,7 +59,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
         $this->expectException(Assert\InvalidArgumentException::class);
         $this->expectExceptionMessage('Expected an instance of '.Src\Builder\BuildInstructions::class.'. Got: NULL');
 
-        /* @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line argument.type */
         ($this->subject)([], 'foo');
     }
 

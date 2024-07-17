@@ -59,7 +59,7 @@ final class CallbackValidatorTest extends Framework\TestCase
             Src\Exception\MisconfiguredValidatorException::forUnexpectedOption($this->subject, 'callback'),
         );
 
-        /* @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line argument.type */
         new Src\IO\Validator\CallbackValidator(['callback' => 'foo']);
     }
 

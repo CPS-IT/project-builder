@@ -59,7 +59,7 @@ abstract class AbstractValidator implements ValidatorInterface
             throw Exception\MisconfiguredValidatorException::forUnexpectedOptions($this, array_keys($invalidOptions));
         }
 
-        /* @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line assign.propertyType */
         $this->options = [...static::$defaultOptions, ...$options];
     }
 }

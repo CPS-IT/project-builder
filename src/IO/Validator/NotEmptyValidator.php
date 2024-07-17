@@ -66,7 +66,7 @@ final class NotEmptyValidator extends AbstractValidator
 
     private function isStrictCheckEnabled(): bool
     {
-        /* @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line cast.useless */
         return (bool) $this->options['strict'];
     }
 }
