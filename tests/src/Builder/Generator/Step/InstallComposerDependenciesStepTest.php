@@ -67,8 +67,8 @@ final class InstallComposerDependenciesStepTest extends Tests\ContainerAwareTest
 
         self::$config->setDeclaringFile($newConfig->getDeclaringFile());
         self::$filesystem->copy(
-            dirname(__DIR__, 3).'/Fixtures/Files/invalid-composer.json',
-            self::$temporaryDirectory.'/composer.json',
+            Src\Helper\FilesystemHelper::path(dirname(__DIR__, 3), 'Fixtures/Files/invalid-composer.json'),
+            Src\Helper\FilesystemHelper::path(self::$temporaryDirectory, 'composer.json'),
             true,
         );
 
@@ -81,7 +81,7 @@ final class InstallComposerDependenciesStepTest extends Tests\ContainerAwareTest
 
     protected static function createConfig(): Src\Builder\Config\Config
     {
-        $templateDirectory = dirname(__DIR__, 3).'/Fixtures/Templates/yaml-template';
+        $templateDirectory = Src\Helper\FilesystemHelper::path(dirname(__DIR__, 3), 'Fixtures/Templates/yaml-template');
         $finder = Finder\Finder::create()
             ->in($templateDirectory)
             ->notPath('vendor')
@@ -94,7 +94,10 @@ final class InstallComposerDependenciesStepTest extends Tests\ContainerAwareTest
 
         $configFactory = Src\Builder\Config\ConfigFactory::create();
 
-        return $configFactory->buildFromFile(self::$temporaryDirectory.'/config.yaml', 'yaml');
+        return $configFactory->buildFromFile(
+            Src\Helper\FilesystemHelper::path(self::$temporaryDirectory, 'config.yaml'),
+            'yaml',
+        );
     }
 
     protected function tearDown(): void

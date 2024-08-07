@@ -49,7 +49,7 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         $this->buildResult = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(self::$config, 'foo'),
         );
-        $this->artifactPath = Filesystem\Path::join(
+        $this->artifactPath = Src\Helper\FilesystemHelper::path(
             $this->buildResult->getWrittenDirectory(),
             '.build/build-artifact.json',
         );
