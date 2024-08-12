@@ -65,7 +65,7 @@ final class JsonFileWriterTest extends Tests\ContainerAwareTestCase
     {
         yield 'json string' => ['{"foo":"baz"}', '{"foo":"baz"}'];
         yield 'serializable json object' => [
-            new class() implements JsonSerializable {
+            new class implements JsonSerializable {
                 /**
                  * @return array{'foo': string}
                  */
