@@ -26,6 +26,7 @@ namespace CPSIT\ProjectBuilder\Tests;
 use Composer\IO;
 use Symfony\Component\Console;
 
+use function assert;
 use function fseek;
 use function ftruncate;
 
@@ -71,6 +72,8 @@ final class ClearableBufferIO extends IO\BufferIO
 
     public function clear(): void
     {
+        assert($this->output instanceof Console\Output\StreamOutput);
+
         ftruncate($this->output->getStream(), 0);
         fseek($this->output->getStream(), 0);
     }
