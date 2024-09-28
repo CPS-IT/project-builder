@@ -40,8 +40,10 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Generator\Step\CollectBuildInstructionsStep::class);
-        $this->eventListener = self::$container->get(Tests\Fixtures\DummyEventListener::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Generator\Step\CollectBuildInstructionsStep::class);
+        $this->eventListener = $this->container->get(Tests\Fixtures\DummyEventListener::class);
     }
 
     #[Framework\Attributes\Test]
@@ -183,8 +185,6 @@ final class CollectBuildInstructionsStepTest extends Tests\ContainerAwareTestCas
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         $this->eventListener->dispatchedEvents = [];
     }
 }

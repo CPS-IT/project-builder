@@ -50,9 +50,11 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->targetDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
-        $this->messenger = self::$container->get('app.messenger');
-        $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
+        $this->messenger = $this->container->get('app.messenger');
+        $this->filesystem = $this->container->get(Filesystem\Filesystem::class);
         $this->templateProvider = new Tests\Fixtures\DummyProvider();
         $this->configReader = Src\Builder\Config\ConfigReader::create(dirname(__DIR__).'/Fixtures/Templates');
         $this->subject = new Src\Console\Application(
@@ -66,17 +68,17 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
 
         $this->filesystem->mirror(dirname(__DIR__, 2), $this->targetDirectory);
 
-        self::$io->makeInteractive();
+        $this->io->makeInteractive();
     }
 
     #[Framework\Attributes\Test]
     public function runThrowsExceptionIfInputIsNonInteractive(): void
     {
-        self::$io->makeInteractive(false);
+        $this->io->makeInteractive(false);
 
         self::assertSame(1, $this->subject->run());
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringContainsString('This command cannot be run in non-interactive mode.', $output);
     }
@@ -88,7 +90,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
 
         self::assertDirectoryDoesNotExist($temporaryDirectory);
 
-        self::$io->setUserInputs(['no']);
+        $this->io->setUserInputs(['no']);
 
         $this->subject->run();
 
@@ -98,11 +100,11 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function runShowsWelcomeScreen(): void
     {
-        self::$io->setUserInputs(['no']);
+        $this->io->setUserInputs(['no']);
 
         $this->subject->run();
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringContainsString('Welcome to the Project Builder', $output);
     }
@@ -110,11 +112,11 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function runAllowsSelectingADifferentTemplateProviderIfTheSelectedProviderProvidesNoTemplates(): void
     {
-        self::$io->setUserInputs(['yes', '', 'no']);
+        $this->io->setUserInputs(['yes', '', 'no']);
 
         $this->subject->run();
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringContainsStringMultipleTimes('Fetching templates from https://www.example.com ...', $output);
         self::assertStringContainsString('Where can we find the project template?', $output);
@@ -127,11 +129,11 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
             $this->createTemplateSource(),
         ];
 
-        self::$io->setUserInputs(['1', '']);
+        $this->io->setUserInputs(['1', '']);
 
         $this->subject->run();
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringContainsStringMultipleTimes('Fetching templates from https://www.example.com ...', $output);
         self::assertStringContainsStringMultipleTimes('Try a different provider (e.g. Satis or GitHub)', $output);
@@ -145,7 +147,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
             $this->createTemplateSource(),
         ];
 
-        self::$io->setUserInputs(['', '', 'foo', 'no']);
+        $this->io->setUserInputs(['', '', 'foo', 'no']);
 
         self::assertSame(2, $this->subject->run());
     }
@@ -158,12 +160,12 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
             $this->createTemplateSource(),
         ];
 
-        self::$io->setUserInputs(['', '', '', '', 'no']);
+        $this->io->setUserInputs(['', '', '', '', 'no']);
 
         self::assertSame(1, $this->subject->run());
         self::assertStringContainsString(
             'Running step "collectBuildInstructions" failed. All applied steps were reverted. [1652954290]',
-            self::$io->getOutput(),
+            $this->io->getOutput(),
         );
     }
 
@@ -175,12 +177,12 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
             $this->createTemplateSource(),
         ];
 
-        self::$io->setUserInputs(['', '', 'foo', 'yes']);
+        $this->io->setUserInputs(['', '', 'foo', 'yes']);
 
         self::assertSame(0, $this->subject->run());
         self::assertStringContainsString(
             'Congratulations, your new project was successfully built!',
-            self::$io->getOutput(),
+            $this->io->getOutput(),
         );
     }
 
@@ -188,7 +190,7 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
     public function runUsesDefaultTemplateProvidersIfNoProvidersAreConfigured(): void
     {
         /** @var Src\Template\Provider\PackagistProvider $packagistProvider */
-        $packagistProvider = self::$container->get(Src\Template\Provider\PackagistProvider::class);
+        $packagistProvider = $this->container->get(Src\Template\Provider\PackagistProvider::class);
         $packageCount = count($packagistProvider->listTemplateSources());
 
         $subject = new Src\Console\Application(
@@ -199,11 +201,11 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
             $this->targetDirectory,
         );
 
-        self::$io->setUserInputs([(string) $packageCount]);
+        $this->io->setUserInputs([(string) $packageCount]);
 
         $subject->run();
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringContainsString(Src\Template\Provider\PackagistProvider::getName(), $output);
         self::assertStringContainsString(Src\Template\Provider\ComposerProvider::getName(), $output);
@@ -224,8 +226,6 @@ final class ApplicationTest extends Tests\ContainerAwareTestCase
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         $this->filesystem->remove($this->targetDirectory);
     }
 

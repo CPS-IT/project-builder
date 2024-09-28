@@ -46,13 +46,15 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
+        parent::setUp();
+
+        $this->filesystem = $this->container->get(Filesystem\Filesystem::class);
         $this->subject = new Src\Builder\Generator\Step\DumpBuildArtifactStep(
             $this->filesystem,
-            self::$container->get(Src\Builder\Writer\JsonFileWriter::class),
+            $this->container->get(Src\Builder\Writer\JsonFileWriter::class),
         );
         $this->buildResult = new Src\Builder\BuildResult(
-            new Src\Builder\BuildInstructions(self::$config, 'foo'),
+            new Src\Builder\BuildInstructions($this->config, 'foo'),
         );
         $this->buildArtifact = new Src\Builder\Artifact\BuildArtifact(
             'foo.json',
@@ -125,8 +127,6 @@ final class DumpBuildArtifactStepTest extends Tests\ContainerAwareTestCase
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         $this->filesystem->remove($this->buildArtifact->getFile()->getPathname());
     }
 }

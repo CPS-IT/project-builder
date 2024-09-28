@@ -44,10 +44,12 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Generator\Step\GenerateBuildArtifactStep::class);
-        $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Generator\Step\GenerateBuildArtifactStep::class);
+        $this->filesystem = $this->container->get(Filesystem\Filesystem::class);
         $this->buildResult = new Src\Builder\BuildResult(
-            new Src\Builder\BuildInstructions(self::$config, 'foo'),
+            new Src\Builder\BuildInstructions($this->config, 'foo'),
         );
         $this->artifactPath = Filesystem\Path::join(
             $this->buildResult->getWrittenDirectory(),
@@ -59,7 +61,7 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\DataProvider('runAsksForConfirmationIfBuildArtifactPathAlreadyExistsDataProvider')]
     public function runAsksForConfirmationIfBuildArtifactPathAlreadyExists(bool $continue, bool $expected): void
     {
-        self::$io->setUserInputs([$continue ? 'yes' : 'no']);
+        $this->io->setUserInputs([$continue ? 'yes' : 'no']);
 
         $this->filesystem->dumpFile($this->artifactPath, 'test');
 
@@ -70,7 +72,7 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         self::assertNull($this->buildResult->getBuildArtifact());
         self::assertStringContainsString(
             'The build artifact cannot be generated because the resulting file already exists.',
-            self::$io->getOutput(),
+            $this->io->getOutput(),
         );
     }
 
@@ -93,8 +95,6 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         $this->filesystem->remove($this->artifactPath);
     }
 }

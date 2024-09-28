@@ -41,9 +41,11 @@ final class BeforeTemplateRenderedEventTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->buildInstructions = new Src\Builder\BuildInstructions(self::$config, 'foo');
+        parent::setUp();
+
+        $this->buildInstructions = new Src\Builder\BuildInstructions($this->config, 'foo');
         $this->subject = new Src\Event\BeforeTemplateRenderedEvent(
-            self::$container->get(Environment::class),
+            $this->container->get(Environment::class),
             $this->buildInstructions,
             [
                 'foo' => true,
@@ -56,7 +58,7 @@ final class BeforeTemplateRenderedEventTest extends Tests\ContainerAwareTestCase
     public function getTwigReturnsTwigEnvironment(): void
     {
         self::assertSame(
-            self::$container->get(Environment::class),
+            $this->container->get(Environment::class),
             $this->subject->getTwig(),
         );
     }

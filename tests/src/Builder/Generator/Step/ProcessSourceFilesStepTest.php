@@ -43,12 +43,14 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $step = $this->findStep();
 
-        $this->subject = self::$container->get(Src\Builder\Generator\Step\ProcessSourceFilesStep::class);
+        $this->subject = $this->container->get(Src\Builder\Generator\Step\ProcessSourceFilesStep::class);
         $this->subject->setConfig($step);
         $this->result = new Src\Builder\BuildResult(
-            new Src\Builder\BuildInstructions(self::$config, 'foo'),
+            new Src\Builder\BuildInstructions($this->config, 'foo'),
         );
     }
 
@@ -162,7 +164,7 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
         ];
     }
 
-    protected static function createConfig(): Src\Builder\Config\Config
+    protected function createConfig(): Src\Builder\Config\Config
     {
         $configFactory = Src\Builder\Config\ConfigFactory::create();
 
@@ -174,7 +176,7 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
 
     private function findStep(): Src\Builder\Config\ValueObject\Step
     {
-        foreach (self::$config->getSteps() as $step) {
+        foreach ($this->config->getSteps() as $step) {
             if (Src\Builder\Generator\Step\ProcessSourceFilesStep::getType() === $step->getType()) {
                 return $step;
             }

@@ -39,17 +39,19 @@ use function dirname;
  */
 final class InstallComposerDependenciesStepTest extends Tests\ContainerAwareTestCase
 {
-    private static Filesystem\Filesystem $filesystem;
-    private static string $temporaryDirectory;
+    private Filesystem\Filesystem $filesystem;
+    private string $temporaryDirectory;
 
     private Src\Builder\Generator\Step\InstallComposerDependenciesStep $subject;
     private Src\Builder\BuildResult $buildResult;
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Generator\Step\InstallComposerDependenciesStep::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Generator\Step\InstallComposerDependenciesStep::class);
         $this->buildResult = new Src\Builder\BuildResult(
-            new Src\Builder\BuildInstructions(self::$config, 'foo'),
+            new Src\Builder\BuildInstructions($this->config, 'foo'),
         );
     }
 
@@ -63,23 +65,23 @@ final class InstallComposerDependenciesStepTest extends Tests\ContainerAwareTest
     #[Framework\Attributes\Test]
     public function runWritesComposerInstallOutputAndFailsOnFailure(): void
     {
-        $newConfig = self::createConfig();
+        $newConfig = $this->createConfig();
 
-        self::$config->setDeclaringFile($newConfig->getDeclaringFile());
-        self::$filesystem->copy(
+        $this->config->setDeclaringFile($newConfig->getDeclaringFile());
+        $this->filesystem->copy(
             dirname(__DIR__, 3).'/Fixtures/Files/invalid-composer.json',
-            self::$temporaryDirectory.'/composer.json',
+            $this->temporaryDirectory.'/composer.json',
             true,
         );
 
         self::assertFalse($this->subject->run($this->buildResult));
         self::assertStringContainsString(
             'Your requirements could not be resolved to an installable set of packages.',
-            self::$io->getOutput(),
+            $this->io->getOutput(),
         );
     }
 
-    protected static function createConfig(): Src\Builder\Config\Config
+    protected function createConfig(): Src\Builder\Config\Config
     {
         $templateDirectory = dirname(__DIR__, 3).'/Fixtures/Templates/yaml-template';
         $finder = Finder\Finder::create()
@@ -88,21 +90,19 @@ final class InstallComposerDependenciesStepTest extends Tests\ContainerAwareTest
             ->notName('composer.lock')
         ;
 
-        self::$temporaryDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
-        self::$filesystem = new Filesystem\Filesystem();
-        self::$filesystem->mirror($templateDirectory, self::$temporaryDirectory, $finder);
+        $this->temporaryDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
+        $this->filesystem = new Filesystem\Filesystem();
+        $this->filesystem->mirror($templateDirectory, $this->temporaryDirectory, $finder);
 
         $configFactory = Src\Builder\Config\ConfigFactory::create();
 
-        return $configFactory->buildFromFile(self::$temporaryDirectory.'/config.yaml', 'yaml');
+        return $configFactory->buildFromFile($this->temporaryDirectory.'/config.yaml', 'yaml');
     }
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
-        if (self::$filesystem->exists(self::$temporaryDirectory)) {
-            self::$filesystem->remove(self::$temporaryDirectory);
+        if ($this->filesystem->exists($this->temporaryDirectory)) {
+            $this->filesystem->remove($this->temporaryDirectory);
         }
     }
 }

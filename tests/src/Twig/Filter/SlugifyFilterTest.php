@@ -43,7 +43,9 @@ final class SlugifyFilterTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Twig\Filter\SlugifyFilter::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Twig\Filter\SlugifyFilter::class);
         error_reporting(E_WARNING);
     }
 

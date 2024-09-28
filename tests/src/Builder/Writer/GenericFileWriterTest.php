@@ -44,14 +44,16 @@ final class GenericFileWriterTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Writer\GenericFileWriter::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Writer\GenericFileWriter::class);
     }
 
     #[Framework\Attributes\Test]
     public function writeCopiesGivenFileToTemporaryDirectory(): void
     {
         $instructions = new Src\Builder\BuildInstructions(
-            self::$container->get('app.config'),
+            $this->container->get('app.config'),
             'foo',
         );
         $sourceFile = __FILE__;
@@ -70,7 +72,7 @@ final class GenericFileWriterTest extends Tests\ContainerAwareTestCase
     public function writeCopiesGivenFileToGivenTargetFile(): void
     {
         $instructions = new Src\Builder\BuildInstructions(
-            self::$container->get('app.config'),
+            $this->container->get('app.config'),
             'foo',
         );
         $sourceFile = __FILE__;

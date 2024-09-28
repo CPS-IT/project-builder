@@ -41,6 +41,8 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->subject = new Src\Twig\Func\NameVariantFunction();
     }
 
@@ -72,7 +74,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
     public function invokeReturnsNameVariant(string $variant, ?string $case, ?string $expected): void
     {
         $instructions = new Src\Builder\BuildInstructions(
-            self::$container->get('app.config'),
+            $this->container->get('app.config'),
             'foo',
         );
         $instructions->addTemplateVariable('project', [
