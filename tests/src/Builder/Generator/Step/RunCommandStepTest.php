@@ -41,10 +41,12 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Generator\Step\RunCommandStep::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Generator\Step\RunCommandStep::class);
         $this->result = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(
-                self::$config,
+                $this->config,
                 'foo',
             ),
         );
@@ -98,7 +100,7 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
 
         self::assertTrue($this->subject->run($this->result));
         self::assertFalse($this->subject->isStopped());
-        self::assertStringNotContainsString('Do you wish to run this command?', self::$io->getOutput());
+        self::assertStringNotContainsString('Do you wish to run this command?', $this->io->getOutput());
     }
 
     #[Framework\Attributes\Test]
@@ -123,7 +125,7 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
 
         self::assertTrue($this->subject->run($this->result));
         self::assertFalse($this->subject->isStopped());
-        self::assertStringContainsString('not found', self::$io->getOutput());
+        self::assertStringContainsString('not found', $this->io->getOutput());
     }
 
     #[Framework\Attributes\Test]
@@ -138,7 +140,7 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
             ),
         );
 
-        self::$io->setUserInputs(['no']);
+        $this->io->setUserInputs(['no']);
         self::assertFalse($this->subject->run($this->result));
         self::assertTrue($this->subject->isStopped());
     }
@@ -162,9 +164,9 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
             $fileSystem->mkdir($workingDirectory);
         }
 
-        self::$io->setUserInputs(['yes']);
+        $this->io->setUserInputs(['yes']);
         $actual = $this->subject->run($this->result);
-        self::$io->getOutput();
+        $this->io->getOutput();
 
         self::assertFalse($actual);
 

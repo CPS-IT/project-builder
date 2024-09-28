@@ -39,7 +39,9 @@ final class StepFactoryTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Generator\Step\StepFactory::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Generator\Step\StepFactory::class);
     }
 
     #[Framework\Attributes\Test]

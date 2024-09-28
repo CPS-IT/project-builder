@@ -42,23 +42,23 @@ use Symfony\Component\DependencyInjection;
  */
 abstract class ContainerAwareTestCase extends Framework\TestCase
 {
-    protected static DependencyInjection\ContainerInterface $container;
-    protected static ClearableBufferIO $io;
-    protected static Handler\MockHandler $mockHandler;
-    protected static Src\Builder\Config\Config $config;
+    protected DependencyInjection\ContainerInterface $container;
+    protected ClearableBufferIO $io;
+    protected Handler\MockHandler $mockHandler;
+    protected Src\Builder\Config\Config $config;
 
-    public static function setUpBeforeClass(): void
+    protected function setUp(): void
     {
-        self::$io = static::createIO();
-        self::$config = static::createConfig();
+        $this->io = $this->createIO();
+        $this->config = $this->createConfig();
 
-        self::$container = Src\DependencyInjection\ContainerFactory::createForTesting()->get();
-        self::$container->set('app.messenger', Src\IO\Messenger::create(self::$io));
-        self::$container->set('app.config', self::$config);
-        self::$container->set(Client\ClientInterface::class, static::createClient());
+        $this->container = Src\DependencyInjection\ContainerFactory::createForTesting()->get();
+        $this->container->set('app.messenger', Src\IO\Messenger::create($this->io));
+        $this->container->set('app.config', $this->config);
+        $this->container->set(Client\ClientInterface::class, $this->createClient());
     }
 
-    protected static function createConfig(): Src\Builder\Config\Config
+    protected function createConfig(): Src\Builder\Config\Config
     {
         $config = new Src\Builder\Config\Config(
             'test',
@@ -94,16 +94,16 @@ abstract class ContainerAwareTestCase extends Framework\TestCase
         return $config;
     }
 
-    protected static function createIO(): ClearableBufferIO
+    protected function createIO(): ClearableBufferIO
     {
         return new ClearableBufferIO();
     }
 
-    protected static function createClient(): Client\ClientInterface
+    protected function createClient(): Client\ClientInterface
     {
-        self::$mockHandler = new Handler\MockHandler();
+        $this->mockHandler = new Handler\MockHandler();
 
-        $handler = new HandlerStack(self::$mockHandler);
+        $handler = new HandlerStack($this->mockHandler);
 
         return new \GuzzleHttp\Client(['handler' => $handler]);
     }
@@ -123,11 +123,5 @@ abstract class ContainerAwareTestCase extends Framework\TestCase
     protected static function createErroneousResponse(int $statusCode = 500): Message\ResponseInterface
     {
         return new Psr7\Response($statusCode, [], 'Something went wrong.');
-    }
-
-    protected function tearDown(): void
-    {
-        self::$io->reset();
-        self::$mockHandler->reset();
     }
 }

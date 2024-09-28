@@ -45,14 +45,16 @@ final class RendererTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Twig\Renderer::class)
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Twig\Renderer::class)
             ->withRootPath(dirname(__DIR__, 2).'/templates')
         ;
         $this->instructions = new Src\Builder\BuildInstructions(
-            self::$container->get('app.config'),
+            $this->container->get('app.config'),
             'foo',
         );
-        $this->eventListener = self::$container->get(Tests\Fixtures\DummyTemplateRenderingEventListener::class);
+        $this->eventListener = $this->container->get(Tests\Fixtures\DummyTemplateRenderingEventListener::class);
     }
 
     #[Framework\Attributes\Test]
@@ -145,8 +147,6 @@ final class RendererTest extends Tests\ContainerAwareTestCase
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         $this->eventListener->dispatched = false;
         $this->eventListener->variables = [];
     }

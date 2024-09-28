@@ -43,11 +43,13 @@ final class CleanUpStepTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->filesystem = new Filesystem\Filesystem();
         $this->subject = new Src\Builder\Generator\Step\CleanUpStep($this->filesystem);
         $this->result = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(
-                self::$config,
+                $this->config,
                 Src\Helper\FilesystemHelper::getNewTemporaryDirectory(),
             ),
         );

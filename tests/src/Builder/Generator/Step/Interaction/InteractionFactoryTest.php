@@ -39,7 +39,9 @@ final class InteractionFactoryTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Generator\Step\Interaction\InteractionFactory::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Generator\Step\Interaction\InteractionFactory::class);
     }
 
     #[Framework\Attributes\Test]

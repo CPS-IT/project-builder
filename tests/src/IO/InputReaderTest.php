@@ -39,16 +39,18 @@ final class InputReaderTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = new Src\IO\InputReader(self::$io);
+        parent::setUp();
+
+        $this->subject = new Src\IO\InputReader($this->io);
     }
 
     #[Framework\Attributes\Test]
     public function staticValueReturnsUserInput(): void
     {
-        self::$io->setUserInputs(['Bob']);
+        $this->io->setUserInputs(['Bob']);
 
         self::assertSame('Bob', $this->subject->staticValue('What\'s your name?', 'Alice'));
-        self::assertStringContainsString('What\'s your name? (optional) [Alice]', self::$io->getOutput());
+        self::assertStringContainsString('What\'s your name? (optional) [Alice]', $this->io->getOutput());
     }
 
     #[Framework\Attributes\Test]
@@ -60,25 +62,25 @@ final class InputReaderTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function staticValueReturnsTrimmedAnswerValue(): void
     {
-        self::$io->setUserInputs([' Bob ']);
+        $this->io->setUserInputs([' Bob ']);
         self::assertSame('Bob', $this->subject->staticValue('What\'s your name?'));
     }
 
     #[Framework\Attributes\Test]
     public function staticValueReturnsNullForEmptyAnswerValue(): void
     {
-        self::$io->setUserInputs([' ']);
+        $this->io->setUserInputs([' ']);
         self::assertNull($this->subject->staticValue('What\'s your name?'));
     }
 
     #[Framework\Attributes\Test]
     public function hiddenValueHidesUserInput(): void
     {
-        self::$io->setUserInputs(['s3cr3t']);
+        $this->io->setUserInputs(['s3cr3t']);
 
         self::assertSame('s3cr3t', $this->subject->hiddenValue('What\'s your password?'));
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringContainsString('What\'s your password?', $output);
         self::assertStringNotContainsString('s3cr3t', $output);
@@ -87,7 +89,7 @@ final class InputReaderTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function choicesReturnsEmptyArrayIfNoSelectionWasMade(): void
     {
-        self::$io->setUserInputs(['']);
+        $this->io->setUserInputs(['']);
 
         self::assertSame(
             [],

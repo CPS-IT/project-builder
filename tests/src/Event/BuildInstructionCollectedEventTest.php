@@ -42,6 +42,8 @@ final class BuildInstructionCollectedEventTest extends Tests\ContainerAwareTestC
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->subProperty = new Src\Builder\Config\ValueObject\SubProperty(
             'bar',
             'Bar',
@@ -60,7 +62,7 @@ final class BuildInstructionCollectedEventTest extends Tests\ContainerAwareTestC
             ],
         );
         $this->buildResult = new Src\Builder\BuildResult(
-            new Src\Builder\BuildInstructions(self::$config, 'foo'),
+            new Src\Builder\BuildInstructions($this->config, 'foo'),
         );
         $this->subject = new Src\Event\BuildInstructionCollectedEvent(
             $this->property,

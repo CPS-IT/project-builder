@@ -44,9 +44,11 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->subject = new Src\Template\Provider\ComposerProvider(
-            self::$container->get('app.messenger'),
-            self::$container->get(Filesystem\Filesystem::class),
+            $this->container->get('app.messenger'),
+            $this->container->get(Filesystem\Filesystem::class),
         );
         $this->server = new MockWebServer\MockWebServer();
         $this->server->start();
@@ -59,9 +61,9 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
     {
         $this->overwriteIO();
 
-        self::$io->setUserInputs(['https://example.com']);
+        $this->io->setUserInputs(['https://example.com']);
 
-        $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
+        $this->subject->requestCustomOptions($this->container->get('app.messenger'));
 
         self::assertSame('https://example.com', $this->subject->getUrl());
     }
@@ -96,7 +98,7 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
         $this->subject->listTemplateSources();
 
         self::assertTrue($io->isOutputWritten());
-        self::assertSame(PHP_EOL, self::$io->getOutput());
+        self::assertSame(PHP_EOL, $this->io->getOutput());
     }
 
     #[Framework\Attributes\Test]
@@ -118,7 +120,7 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
 
     private function overwriteIO(): void
     {
-        $this->setPropertyValueOnObject($this->subject, 'io', self::$io);
+        $this->setPropertyValueOnObject($this->subject, 'io', $this->io);
     }
 
     private function acceptInsecureConnections(): void
@@ -151,8 +153,6 @@ final class ComposerProviderTest extends Tests\ContainerAwareTestCase
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         $this->server->stop();
     }
 }

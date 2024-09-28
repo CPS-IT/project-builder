@@ -40,8 +40,10 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Generator\Step\Interaction\SelectInteraction::class);
-        $this->instructions = new Src\Builder\BuildInstructions(self::$config, 'foo');
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Generator\Step\Interaction\SelectInteraction::class);
+        $this->instructions = new Src\Builder\BuildInstructions($this->config, 'foo');
     }
 
     #[Framework\Attributes\Test]
@@ -85,7 +87,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         ];
         $interactionSubject = $this->buildInteractionSubject($propertyOptions, false, null, true);
 
-        self::$io->setUserInputs(['bar']);
+        $this->io->setUserInputs(['bar']);
 
         self::assertSame('bar', $this->subject->interact($interactionSubject, $this->instructions));
     }
@@ -101,7 +103,7 @@ final class SelectInteractionTest extends Tests\ContainerAwareTestCase
         ];
         $interactionSubject = $this->buildInteractionSubject($propertyOptions, true);
 
-        self::$io->setUserInputs(['hello,bar']);
+        $this->io->setUserInputs(['hello,bar']);
 
         self::assertSame(['bar', 'hello'], $this->subject->interact($interactionSubject, $this->instructions));
     }

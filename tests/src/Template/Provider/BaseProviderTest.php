@@ -56,9 +56,11 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->subject = new Tests\Fixtures\DummyComposerProvider(
-            self::$container->get('app.messenger'),
-            self::$container->get(Filesystem\Filesystem::class),
+            $this->container->get('app.messenger'),
+            $this->container->get(Filesystem\Filesystem::class),
         );
         $this->server = new MockWebServer\MockWebServer();
         $this->server->start();
@@ -140,7 +142,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         $package = self::createPackage('foo/baz');
         $templateSource = new Src\Template\TemplateSource($this->subject, $package);
 
-        self::$io->setUserInputs(['']);
+        $this->io->setUserInputs(['']);
 
         $this->expectExceptionObject(Src\Exception\InvalidTemplateSourceException::forFailedInstallation($templateSource));
 
@@ -157,13 +159,13 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
 
         $this->mockPackagesServerResponse([$package]);
 
-        self::$io->setUserInputs(['foo', '']);
+        $this->io->setUserInputs(['foo', '']);
 
         $this->subject->installTemplateSource($templateSource);
 
         self::assertStringContainsString(
             'Could not parse version constraint foo: Invalid version string "foo"',
-            self::$io->getOutput(),
+            $this->io->getOutput(),
         );
     }
 
@@ -177,7 +179,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
 
         $this->mockPackagesServerResponse([$package]);
 
-        self::$io->setUserInputs(['^2.0', 'no']);
+        $this->io->setUserInputs(['^2.0', 'no']);
 
         $this->expectExceptionObject(
             Src\Exception\InvalidTemplateSourceException::forInvalidPackageVersionConstraint($templateSource, '^2.0'),
@@ -196,13 +198,13 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
 
         $this->mockPackagesServerResponse([$package]);
 
-        self::$io->setUserInputs(['^2.0', 'yes', '']);
+        $this->io->setUserInputs(['^2.0', 'yes', '']);
 
         self::assertFalse($templateSource->shouldUseDynamicVersionConstraint());
 
         $this->subject->installTemplateSource($templateSource);
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringContainsString('Installing project template (1.0.0)... Done', $output);
         self::assertTrue($templateSource->shouldUseDynamicVersionConstraint());
@@ -224,11 +226,11 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
 
         $this->mockPackagesServerResponse($packages);
 
-        self::$io->setUserInputs([$constraint]);
+        $this->io->setUserInputs([$constraint]);
 
         $this->subject->installTemplateSource($templateSource);
 
-        self::assertStringContainsString($expected, self::$io->getOutput());
+        self::assertStringContainsString($expected, $this->io->getOutput());
     }
 
     #[Framework\Attributes\Test]
@@ -402,8 +404,6 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         $this->server->stop();
     }
 }

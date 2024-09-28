@@ -42,8 +42,10 @@ final class BuildInstructionsTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->subject = new Src\Builder\BuildInstructions(
-            self::$container->get('app.config'),
+            $this->container->get('app.config'),
             'foo',
         );
     }
@@ -51,7 +53,7 @@ final class BuildInstructionsTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function getConfigReturnsConfig(): void
     {
-        self::assertSame(self::$container->get('app.config'), $this->subject->getConfig());
+        self::assertSame($this->container->get('app.config'), $this->subject->getConfig());
     }
 
     #[Framework\Attributes\Test]

@@ -46,15 +46,17 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Generator\Generator::class);
-        $this->eventListener = self::$container->get(Tests\Fixtures\DummyEventListener::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Generator\Generator::class);
+        $this->eventListener = $this->container->get(Tests\Fixtures\DummyEventListener::class);
         $this->targetDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
     }
 
     #[Framework\Attributes\Test]
     public function runRunsThroughAllConfiguredSteps(): void
     {
-        self::$io->setUserInputs(['foo']);
+        $this->io->setUserInputs(['foo']);
 
         self::assertCount(0, $this->eventListener->dispatchedEvents);
 
@@ -68,7 +70,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertTrue($actual->isStepApplied('runCommand'));
         self::assertTrue($actual->isMirrored());
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringContainsString('Running step #1 "collectBuildInstructions"...', $output);
         self::assertStringContainsString('Running step #2 "processSourceFiles"...', $output);
@@ -95,7 +97,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function runRestartsProjectGenerationOnStepFailure(): void
     {
-        self::$io->setUserInputs(['', '', '', 'yes', 'foo']);
+        $this->io->setUserInputs(['', '', '', 'yes', 'foo']);
 
         self::assertCount(0, $this->eventListener->dispatchedEvents);
 
@@ -108,7 +110,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertTrue($actual->isStepApplied('mirrorProcessedFiles'));
         self::assertTrue($actual->isMirrored());
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringContainsString('If you want, you can restart project generation now.', $output);
         self::assertFileExists($this->targetDirectory.'/dummy.yaml');
@@ -135,7 +137,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
     {
         $exception = null;
 
-        self::$io->setUserInputs(['', '', '', 'no']);
+        $this->io->setUserInputs(['', '', '', 'no']);
 
         try {
             $this->subject->run($this->targetDirectory);
@@ -144,7 +146,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
 
         self::assertStringContainsString(
             'Project generation failed. All processed steps will be reverted',
-            self::$io->getOutput(),
+            $this->io->getOutput(),
         );
 
         self::assertInstanceOf(Src\Exception\StepFailureException::class, $exception);
@@ -168,7 +170,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function runRevertsAppliedStepsAndExistsIfStoppableStepFailed(): void
     {
-        self::$io->setUserInputs(['foo', 'no']);
+        $this->io->setUserInputs(['foo', 'no']);
 
         $actual = $this->subject->run($this->targetDirectory);
 
@@ -179,15 +181,15 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function runDisplaysExceptionMessageOnVerboseOutput(): void
     {
-        self::$io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_VERBOSE);
-        self::$io->setUserInputs(['', '', '', 'no']);
+        $this->io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_VERBOSE);
+        $this->io->setUserInputs(['', '', '', 'no']);
 
         try {
             $this->subject->run($this->targetDirectory);
         } catch (Src\Exception\StepFailureException) {
         }
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringContainsString(
             'Exception: The given input must not be empty.',
@@ -199,8 +201,8 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function runDisplaysExceptionTraceOnVeryVerboseOutput(): void
     {
-        self::$io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_VERY_VERBOSE);
-        self::$io->setUserInputs(['', '', '', 'no']);
+        $this->io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_VERY_VERBOSE);
+        $this->io->setUserInputs(['', '', '', 'no']);
 
         try {
             $this->subject->run($this->targetDirectory);
@@ -209,14 +211,14 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
 
         self::assertStringContainsString(
             'Exception: The given input must not be empty.'.PHP_EOL.'#0',
-            self::$io->getOutput(),
+            $this->io->getOutput(),
         );
     }
 
     #[Framework\Attributes\Test]
     public function dumpArtifactDumpsBuildArtifact(): void
     {
-        self::$io->setUserInputs(['foo']);
+        $this->io->setUserInputs(['foo']);
 
         $result = $this->subject->run($this->targetDirectory);
 
@@ -228,7 +230,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function cleanUpCleansUpRemainingFilesInTargetDirectory(): void
     {
-        self::$io->setUserInputs(['foo']);
+        $this->io->setUserInputs(['foo']);
 
         $result = $this->subject->run($this->targetDirectory);
 
@@ -237,7 +239,7 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
         self::assertTrue($result->isStepApplied('cleanUp'));
     }
 
-    protected static function createConfig(): Src\Builder\Config\Config
+    protected function createConfig(): Src\Builder\Config\Config
     {
         $configReader = Src\Builder\Config\ConfigFactory::create();
 
@@ -257,8 +259,6 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         $this->eventListener->dispatchedEvents = [];
 
         $filesystem = new Filesystem\Filesystem();

@@ -40,7 +40,9 @@ final class ValidatorFactoryTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\IO\Validator\ValidatorFactory::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\IO\Validator\ValidatorFactory::class);
     }
 
     #[Framework\Attributes\Test]

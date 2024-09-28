@@ -44,14 +44,16 @@ final class TemplateWriterTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Writer\TemplateWriter::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Writer\TemplateWriter::class);
     }
 
     #[Framework\Attributes\Test]
     public function writeWritesRenderedTemplateFileToTemporaryDirectory(): void
     {
         $instructions = new Src\Builder\BuildInstructions(
-            self::$container->get('app.config'),
+            $this->container->get('app.config'),
             'foo',
         );
         $instructions->addTemplateVariable('foo', 'foo');
@@ -85,7 +87,7 @@ final class TemplateWriterTest extends Tests\ContainerAwareTestCase
     public function writeWritesRenderedTemplateFileToGivenTargetFile(): void
     {
         $instructions = new Src\Builder\BuildInstructions(
-            self::$container->get('app.config'),
+            $this->container->get('app.config'),
             'foo',
         );
         $instructions->addTemplateVariable('foo', 'foo');
