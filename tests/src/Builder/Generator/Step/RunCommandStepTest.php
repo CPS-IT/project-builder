@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use Generator;
 use LogicException;
 use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
@@ -104,6 +105,25 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('runDoesNotExecuteCommandAndRespectsExecutionRequirementDataProvider')]
+    public function runDoesNotExecuteCommandAndRespectsExecutionRequirement(bool $required, bool $expected): void
+    {
+        $this->subject->setConfig(
+            new Src\Builder\Config\ValueObject\Step(
+                Src\Builder\Generator\Step\RunCommandStep::getType(),
+                new Src\Builder\Config\ValueObject\StepOptions(
+                    command: 'echo \'foo\'',
+                    required: $required,
+                ),
+            ),
+        );
+
+        $this->io->setUserInputs(['no']);
+        self::assertSame($expected, $this->subject->run($this->result));
+        self::assertTrue($this->subject->isStopped());
+    }
+
+    #[Framework\Attributes\Test]
     public function runExecutesCommandAndAllowsExecutionFailures(): void
     {
         $this->subject->setConfig(
@@ -152,6 +172,15 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
 
         $this->io->setUserInputs(['yes']);
         self::assertFalse($this->subject->run($this->result));
+    }
+
+    /**
+     * @return Generator<string, array{bool, bool}>
+     */
+    public static function runDoesNotExecuteCommandAndRespectsExecutionRequirementDataProvider(): Generator
+    {
+        yield 'required' => [true, false];
+        yield 'optional' => [false, true];
     }
 
     protected function tearDown(): void
