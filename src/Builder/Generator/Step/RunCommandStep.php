@@ -57,7 +57,7 @@ final class RunCommandStep extends AbstractStep implements StepInterface, Stoppa
         if (!$this->config->getOptions()->shouldSkipConfirmation() && !$this->messenger->confirmRunCommand($command)) {
             $this->stopped = true;
 
-            return false;
+            return !$this->config->getOptions()->isRequired();
         }
 
         $this->messenger->newLine(ComposerIO\IOInterface::VERBOSE);

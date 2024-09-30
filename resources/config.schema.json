@@ -315,6 +315,12 @@
 									"title": "Allow command execution failure",
 									"description": "Ignore errors occurred during command execution and continue as normal",
 									"default": false
+								},
+								"required": {
+									"type": "boolean",
+									"title": "Enforce command execution",
+									"description": "If set to true, the command must be executed and cannot be skipped, otherwise project generation fails",
+									"default": true
 								}
 							},
 							"required": [

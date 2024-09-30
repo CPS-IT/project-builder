@@ -25,6 +25,8 @@ namespace CPSIT\ProjectBuilder\Tests\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
+use Generator;
+use LogicException;
 use PHPUnit\Framework;
 use Symfony\Component\Filesystem;
 
@@ -38,6 +40,7 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
 {
     private Src\Builder\Generator\Step\RunCommandStep $subject;
     private Src\Builder\BuildResult $result;
+    private Filesystem\Filesystem $filesystem;
 
     protected function setUp(): void
     {
@@ -50,6 +53,11 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
                 'foo',
             ),
         );
+        $this->filesystem = new Filesystem\Filesystem();
+
+        if (!$this->filesystem->exists($this->result->getWrittenDirectory())) {
+            $this->filesystem->mkdir($this->result->getWrittenDirectory());
+        }
     }
 
     #[Framework\Attributes\Test]
@@ -64,7 +72,7 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function runThrowsExceptionIfRevertingIsAttempted(): never
     {
-        $this->expectException('\LogicException');
+        $this->expectException(LogicException::class);
         $this->expectExceptionCode(1687518806);
         $this->expectExceptionMessage('An already run command cannot be reverted.');
         $this->subject->revert($this->result);
@@ -79,7 +87,7 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
-    public function runExecutesCommandWithoutConfirmationIfSKipConfirmationIsConfigured(): void
+    public function runExecutesCommandWithoutConfirmationIfSkipConfirmationIsConfigured(): void
     {
         $this->subject->setConfig(
             new Src\Builder\Config\ValueObject\Step(
@@ -91,16 +99,28 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
             ),
         );
 
-        $workingDirectory = $this->result->getWrittenDirectory();
-
-        $fileSystem = new Filesystem\Filesystem();
-        if (!$fileSystem->exists($workingDirectory)) {
-            $fileSystem->mkdir($workingDirectory);
-        }
-
         self::assertTrue($this->subject->run($this->result));
         self::assertFalse($this->subject->isStopped());
         self::assertStringNotContainsString('Do you wish to run this command?', $this->io->getOutput());
+    }
+
+    #[Framework\Attributes\Test]
+    #[Framework\Attributes\DataProvider('runDoesNotExecuteCommandAndRespectsExecutionRequirementDataProvider')]
+    public function runDoesNotExecuteCommandAndRespectsExecutionRequirement(bool $required, bool $expected): void
+    {
+        $this->subject->setConfig(
+            new Src\Builder\Config\ValueObject\Step(
+                Src\Builder\Generator\Step\RunCommandStep::getType(),
+                new Src\Builder\Config\ValueObject\StepOptions(
+                    command: 'echo \'foo\'',
+                    required: $required,
+                ),
+            ),
+        );
+
+        $this->io->setUserInputs(['no']);
+        self::assertSame($expected, $this->subject->run($this->result));
+        self::assertTrue($this->subject->isStopped());
     }
 
     #[Framework\Attributes\Test]
@@ -115,13 +135,6 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
                 ),
             ),
         );
-
-        $workingDirectory = $this->result->getWrittenDirectory();
-
-        $fileSystem = new Filesystem\Filesystem();
-        if (!$fileSystem->exists($workingDirectory)) {
-            $fileSystem->mkdir($workingDirectory);
-        }
 
         self::assertTrue($this->subject->run($this->result));
         self::assertFalse($this->subject->isStopped());
@@ -157,19 +170,23 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
             ),
         );
 
-        $workingDirectory = $this->result->getWrittenDirectory();
-
-        $fileSystem = new Filesystem\Filesystem();
-        if (!$fileSystem->exists($workingDirectory)) {
-            $fileSystem->mkdir($workingDirectory);
-        }
-
         $this->io->setUserInputs(['yes']);
-        $actual = $this->subject->run($this->result);
-        $this->io->getOutput();
+        self::assertFalse($this->subject->run($this->result));
+    }
 
-        self::assertFalse($actual);
+    /**
+     * @return Generator<string, array{bool, bool}>
+     */
+    public static function runDoesNotExecuteCommandAndRespectsExecutionRequirementDataProvider(): Generator
+    {
+        yield 'required' => [true, false];
+        yield 'optional' => [false, true];
+    }
 
-        $fileSystem->remove($workingDirectory);
+    protected function tearDown(): void
+    {
+        if ($this->filesystem->exists($this->result->getWrittenDirectory())) {
+            $this->filesystem->remove($this->result->getWrittenDirectory());
+        }
     }
 }
