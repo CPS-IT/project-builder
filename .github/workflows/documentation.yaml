@@ -29,7 +29,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Render documentation
-        run: docker-compose -f docs/_build/docker-compose.yaml run --rm build
+        run: docker compose -f docs/_build/docker-compose.yaml run --rm build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
