@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         php-version: ["8.1", "8.2", "8.3"]
-        composer-version: ["2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7"]
+        composer-version: ["2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7", "2.8"]
         dependencies: ["highest", "lowest"]
     steps:
       - uses: actions/checkout@v4
@@ -36,7 +36,7 @@ jobs:
         with:
           dependency-versions: ${{ matrix.dependencies }}
           # Composer < 2.7 is not compatible with symfony/console 7.x
-          composer-options: ${{ matrix.composer-version != '2.7' && '--with symfony/console:<7' }}
+          composer-options: ${{ matrix.composer-version < 2.7 && '--with symfony/console:<7' }}
 
       # Run tests
       - name: Run tests
@@ -63,9 +63,6 @@ jobs:
         uses: ramsey/composer-install@v2
         with:
           dependency-versions: highest
-          # @todo Remove once Composer 2.7 is released and supported
-          # Composer < 2.7 is not compatible with symfony/console 7.x
-          composer-options: "--with symfony/console:<7"
 
       # Run Unit tests
       - name: Build coverage directory
