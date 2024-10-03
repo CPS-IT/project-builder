@@ -49,7 +49,7 @@
 		"composer/xdebug-handler": "^3.0",
 		"cpsit/php-cs-fixer-config": "^1.1",
 		"donatj/mock-webserver": "^2.5",
-		"eliashaeussler/version-bumper": "^1.1",
+		"eliashaeussler/version-bumper": "^1.2",
 		"ergebnis/composer-normalize": "^2.26",
 		"phpstan/extension-installer": "^1.2",
 		"phpstan/phpstan": "^1.9",

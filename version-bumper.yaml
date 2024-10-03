@@ -2,3 +2,5 @@ filesToModify:
   - path: docs/conf.py
     patterns:
       - release = "{%version%}"
+releaseOptions:
+  commitMessage: '[RELEASE] Release of project-builder {%version%}'
