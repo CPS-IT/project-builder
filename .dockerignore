@@ -12,4 +12,5 @@
 /phpunit.xml
 /README.md
 /rector.php
+/renovate.json
 /version-bumper.yaml
