@@ -12,3 +12,4 @@
 /phpunit.xml
 /README.md
 /rector.php
+/version-bumper.yaml

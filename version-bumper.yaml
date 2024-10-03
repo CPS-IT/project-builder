@@ -1,0 +1,4 @@
+filesToModify:
+  - path: docs/conf.py
+    patterns:
+      - release = "{%version%}"
