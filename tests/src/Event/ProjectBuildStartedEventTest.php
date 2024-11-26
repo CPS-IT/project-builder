@@ -40,7 +40,9 @@ final class ProjectBuildStartedEventTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->buildInstructions = new Src\Builder\BuildInstructions(self::$config, 'foo');
+        parent::setUp();
+
+        $this->buildInstructions = new Src\Builder\BuildInstructions($this->config, 'foo');
         $this->subject = new Src\Event\ProjectBuildStartedEvent(
             $this->buildInstructions,
         );

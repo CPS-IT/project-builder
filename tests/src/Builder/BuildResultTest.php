@@ -44,8 +44,10 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->instructions = new Src\Builder\BuildInstructions(
-            self::$container->get('app.config'),
+            $this->container->get('app.config'),
             'foo',
         );
         $this->subject = new Src\Builder\BuildResult(
@@ -101,7 +103,7 @@ final class BuildResultTest extends Tests\ContainerAwareTestCase
 
         self::assertFalse($this->subject->isStepApplied('foo'));
         self::assertFalse($this->subject->isStepApplied(
-            self::$container->get(Src\Builder\Generator\Step\InstallComposerDependenciesStep::class),
+            $this->container->get(Src\Builder\Generator\Step\InstallComposerDependenciesStep::class),
         ));
     }
 

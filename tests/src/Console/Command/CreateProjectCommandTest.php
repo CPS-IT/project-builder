@@ -53,11 +53,13 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $configReader = Src\Builder\Config\ConfigReader::create(dirname(__DIR__, 2).'/Fixtures/Templates');
 
-        $this->messenger = self::$container->get('app.messenger');
+        $this->messenger = $this->container->get('app.messenger');
         $this->targetDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
-        $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
+        $this->filesystem = $this->container->get(Filesystem\Filesystem::class);
         $this->templateProvider = new Tests\Fixtures\DummyProvider();
         $this->cacheableTemplateProvider = new Tests\Fixtures\DummyCacheableProvider($this->messenger, $this->filesystem);
 
@@ -71,13 +73,13 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
 
         $this->commandTester = new SymfonyConsole\Tester\CommandTester($command);
 
-        self::$io->makeInteractive();
+        $this->io->makeInteractive();
     }
 
     #[Framework\Attributes\Test]
     public function createReturnsInstanceWithGivenMessenger(): void
     {
-        self::$io->makeInteractive(false);
+        $this->io->makeInteractive(false);
 
         $input = new SymfonyConsole\Input\ArrayInput([
             'target-directory' => 'foo',
@@ -89,20 +91,20 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
 
         self::assertStringContainsString(
             'This command cannot be run in non-interactive mode.',
-            self::$io->getOutput(),
+            $this->io->getOutput(),
         );
     }
 
     #[Framework\Attributes\Test]
     public function executeThrowsExceptionIfInputIsNonInteractive(): void
     {
-        self::$io->makeInteractive(false);
+        $this->io->makeInteractive(false);
 
         self::assertSame(1, $this->commandTester->execute([
             'target-directory' => $this->targetDirectory,
         ]));
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringContainsString('This command cannot be run in non-interactive mode.', $output);
     }
@@ -110,7 +112,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function executeShowsWelcomeScreen(): void
     {
-        self::$io->setUserInputs(['no']);
+        $this->io->setUserInputs(['no']);
 
         try {
             $this->commandTester->execute([
@@ -120,7 +122,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
             // Intended fallthrough.
         }
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringContainsString('Welcome to the Project Builder', $output);
     }
@@ -128,7 +130,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function executeAllowsSelectingADifferentTemplateProviderIfTheSelectedProviderProvidesNoTemplates(): void
     {
-        self::$io->setUserInputs(['yes', '', 'no']);
+        $this->io->setUserInputs(['yes', '', 'no']);
 
         try {
             $this->commandTester->execute([
@@ -138,7 +140,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
             // Intended fallthrough.
         }
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringContainsStringMultipleTimes('Fetching templates from https://www.example.com ...', $output);
         self::assertStringContainsString('Where can we find the project template?', $output);
@@ -151,7 +153,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
             $this->createTemplateSource(),
         ];
 
-        self::$io->setUserInputs(['1', '']);
+        $this->io->setUserInputs(['1', '']);
 
         try {
             $this->commandTester->execute([
@@ -161,7 +163,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
             // Intended fallthrough.
         }
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringContainsStringMultipleTimes('Fetching templates from https://www.example.com ...', $output);
         self::assertStringContainsStringMultipleTimes('Try a different provider (e.g. Satis or GitHub)', $output);
@@ -172,7 +174,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
     {
         $this->filesystem->dumpFile($this->targetDirectory.'/foo', 'baz');
 
-        self::$io->setUserInputs(['no']);
+        $this->io->setUserInputs(['no']);
 
         self::assertSame(2, $this->commandTester->execute([
             'target-directory' => $this->targetDirectory,
@@ -187,14 +189,14 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
             $this->createTemplateSource(),
         ];
 
-        self::$io->setUserInputs(['', '', '', '', 'no']);
+        $this->io->setUserInputs(['', '', '', '', 'no']);
 
         self::assertSame(1, $this->commandTester->execute([
             'target-directory' => $this->targetDirectory,
         ]));
         self::assertStringContainsString(
             'Running step "collectBuildInstructions" failed. All applied steps were reverted. [1652954290]',
-            self::$io->getOutput(),
+            $this->io->getOutput(),
         );
     }
 
@@ -203,7 +205,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
     {
         $this->filesystem->dumpFile($this->targetDirectory.'/foo', 'baz');
 
-        self::$io->setUserInputs(['no']);
+        $this->io->setUserInputs(['no']);
 
         try {
             $this->commandTester->execute([
@@ -214,7 +216,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
             // Intended fallthrough.
         }
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertStringNotContainsString(
             sprintf('The target directory "%s" is not empty.', $this->targetDirectory),
@@ -230,7 +232,7 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
             $this->createTemplateSource(),
         ];
 
-        self::$io->setUserInputs(['yes', '1']);
+        $this->io->setUserInputs(['yes', '1']);
 
         try {
             $this->commandTester->execute([
@@ -252,13 +254,13 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
             $this->createTemplateSource(),
         ];
 
-        self::$io->setUserInputs(['', '', 'foo', 'yes']);
+        $this->io->setUserInputs(['', '', 'foo', 'yes']);
 
         $this->commandTester->execute([
             'target-directory' => $this->targetDirectory,
         ]);
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertSame(0, $this->commandTester->getStatusCode());
         self::assertStringContainsString(
@@ -276,14 +278,14 @@ final class CreateProjectCommandTest extends Tests\ContainerAwareTestCase
             $this->createTemplateSource(),
         ];
 
-        self::$io->setVerbosity(SymfonyConsole\Output\OutputInterface::VERBOSITY_VERBOSE);
-        self::$io->setUserInputs(['', '', 'foo', 'yes']);
+        $this->io->setVerbosity(SymfonyConsole\Output\OutputInterface::VERBOSITY_VERBOSE);
+        $this->io->setUserInputs(['', '', 'foo', 'yes']);
 
         $this->commandTester->execute([
             'target-directory' => $this->targetDirectory,
         ]);
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertSame(0, $this->commandTester->getStatusCode());
         self::assertStringContainsString('* dummy.json', $output);

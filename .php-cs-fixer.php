@@ -21,20 +21,21 @@ declare(strict_types=1);
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-$config = new \PhpCsFixer\Config();
+$config = new PhpCsFixer\Config();
 $config->getFinder()
     ->files()
     ->name('*.php')
     ->in(__DIR__)
     ->ignoreVCSIgnored(true)
+    ->ignoreDotFiles(false)
 ;
 
-$ruleset = new \CPSIT\PhpCsFixerConfig\Rule\DefaultRuleset();
+$ruleset = new CPSIT\PhpCsFixerConfig\Rule\DefaultRuleset();
 $ruleset->apply($config);
 
 // Enable parallel runs (PHP-CS-Fixer >= v3.57)
-if (class_exists(\PhpCsFixer\Runner\Parallel\ParallelConfigFactory::class)) {
-    $config->setParallelConfig(\PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect());
+if (class_exists(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::class)) {
+    $config->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect());
 }
 
 return $config;

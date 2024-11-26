@@ -16,7 +16,7 @@
 		}
 	],
 	"require": {
-		"php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+		"php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
 		"ext-filter": "*",
 		"ext-json": "*",
 		"ext-mbstring": "*",
@@ -32,7 +32,7 @@
 		"psr/http-message": "^1.0 || ^2.0",
 		"sebastianfeldmann/cli": "^3.4",
 		"symfony/config": "^5.4 || ^6.0 || ^7.0",
-		"symfony/console": "^5.4 || ^6.0",
+		"symfony/console": "^5.4 || ^6.0 || ^7.0",
 		"symfony/dependency-injection": "^5.4 || ^6.0 || ^7.0",
 		"symfony/event-dispatcher": "^5.4 || ^6.0 || ^7.0",
 		"symfony/expression-language": "^5.4 || ^6.0 || ^7.0",
@@ -50,6 +50,7 @@
 		"composer/xdebug-handler": "^3.0",
 		"cpsit/php-cs-fixer-config": "^1.1",
 		"donatj/mock-webserver": "^2.5",
+		"eliashaeussler/version-bumper": "^1.2",
 		"ergebnis/composer-normalize": "^2.26",
 		"phpstan/extension-installer": "^1.2",
 		"phpstan/phpstan": "^1.9",
@@ -74,6 +75,7 @@
 	},
 	"config": {
 		"allow-plugins": {
+			"eliashaeussler/version-bumper": true,
 			"ergebnis/composer-normalize": true,
 			"phpstan/extension-installer": true
 		},

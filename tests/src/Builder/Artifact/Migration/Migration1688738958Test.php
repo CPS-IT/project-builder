@@ -44,7 +44,9 @@ final class Migration1688738958Test extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Artifact\Migration\Migration1688738958::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Artifact\Migration\Migration1688738958::class);
         $this->artifact = [
             'template' => [
                 'provider' => [

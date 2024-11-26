@@ -41,9 +41,11 @@ final class BuildStepProcessedEventTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->step = new Tests\Fixtures\DummyStep();
         $this->buildResult = new Src\Builder\BuildResult(
-            new Src\Builder\BuildInstructions(self::$config, 'foo'),
+            new Src\Builder\BuildInstructions($this->config, 'foo'),
         );
         $this->subject = new Src\Event\BuildStepProcessedEvent(
             $this->step,

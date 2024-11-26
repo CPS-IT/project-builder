@@ -46,14 +46,16 @@ final class ArtifactGeneratorTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\ArtifactGenerator::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\ArtifactGenerator::class);
         $this->artifactFile = Src\Helper\FilesystemHelper::createFileObject(
             Src\Helper\FilesystemHelper::getNewTemporaryDirectory(),
             'build-artifact.json',
         );
         $this->buildResult = new Src\Builder\BuildResult(
             new Src\Builder\BuildInstructions(
-                self::$container->get('app.config'),
+                $this->container->get('app.config'),
                 'foo',
             ),
         );

@@ -16,9 +16,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ["8.1", "8.2", "8.3"]
-        composer-version: ["2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7"]
+        php-version: ["8.1", "8.2", "8.3", "8.4"]
+        composer-version: ["2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7", "2.8"]
         dependencies: ["highest", "lowest"]
+        # Skip tests for PHP 8.4 and incompatible Composer versions
+        exclude:
+          - php-version: "8.4"
+            composer-version: "2.1"
+          - php-version: "8.4"
+            composer-version: "2.2"
+          - php-version: "8.4"
+            composer-version: "2.3"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,11 +42,11 @@ jobs:
 
       # Install dependencies
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
         with:
           dependency-versions: ${{ matrix.dependencies }}
           # Composer < 2.7 is not compatible with symfony/console 7.x
-          composer-options: ${{ matrix.composer-version != '2.7' && '--with symfony/console:<7' }}
+          composer-options: ${{ matrix.composer-version < 2.7 && '--with symfony/console:<7' }}
 
       # Run tests
       - name: Run tests
@@ -56,18 +64,15 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: 8.4
           tools: composer:v2
           coverage: pcov
 
       # Install dependencies
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
         with:
           dependency-versions: highest
-          # @todo Remove once Composer 2.7 is released and supported
-          # Composer < 2.7 is not compatible with symfony/console 7.x
-          composer-options: "--with symfony/console:<7"
 
       # Run Unit tests
       - name: Build coverage directory
@@ -104,7 +109,7 @@ jobs:
 
       # CodeClimate
       - name: CodeClimate report
-        uses: paambaati/codeclimate-action@v8.0.0
+        uses: paambaati/codeclimate-action@v9.0.0
         if: env.CC_TEST_REPORTER_ID
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}

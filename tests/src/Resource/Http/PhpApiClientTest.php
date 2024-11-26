@@ -39,13 +39,15 @@ final class PhpApiClientTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Resource\Http\PhpApiClient::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Resource\Http\PhpApiClient::class);
     }
 
     #[Framework\Attributes\Test]
     public function getLatestStableVersionThrowsExceptionOnInvalidResponse(): void
     {
-        self::$mockHandler->append(self::createErroneousResponse());
+        $this->mockHandler->append(self::createErroneousResponse());
 
         $this->expectException(Src\Exception\HttpException::class);
         $this->expectExceptionCode(1652861804);
@@ -57,7 +59,7 @@ final class PhpApiClientTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function getLatestStableVersionReturnsLatestStableVersionOfGivenBranch(): void
     {
-        self::$mockHandler->append(self::createJsonResponse(['version' => '8.0.10']));
+        $this->mockHandler->append(self::createJsonResponse(['version' => '8.0.10']));
 
         self::assertSame('8.0.10', $this->subject->getLatestStableVersion('8.0'));
     }
@@ -65,7 +67,7 @@ final class PhpApiClientTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function getLatestStableVersionFallsBackToDotZeroReleaseIfResponseIsErroneous(): void
     {
-        self::$mockHandler->append(self::createJsonResponse(['error' => 'Unknown version']));
+        $this->mockHandler->append(self::createJsonResponse(['error' => 'Unknown version']));
 
         self::assertSame('8.2.0', $this->subject->getLatestStableVersion('8.2'));
     }

@@ -46,7 +46,9 @@ final class ErrorHandlerTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = new Src\Error\ErrorHandler(self::$container->get('app.messenger'));
+        parent::setUp();
+
+        $this->subject = new Src\Error\ErrorHandler($this->container->get('app.messenger'));
     }
 
     /**
@@ -58,7 +60,7 @@ final class ErrorHandlerTest extends Tests\ContainerAwareTestCase
     {
         $this->subject->handleException($exception);
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         foreach ($expectedOutput as $expected) {
             self::assertStringContainsString($expected, $output);

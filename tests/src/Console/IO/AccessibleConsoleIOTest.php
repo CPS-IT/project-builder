@@ -41,7 +41,9 @@ final class AccessibleConsoleIOTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = Src\Console\IO\AccessibleConsoleIO::fromIO(self::$io);
+        parent::setUp();
+
+        $this->subject = Src\Console\IO\AccessibleConsoleIO::fromIO($this->io);
     }
 
     #[Framework\Attributes\Test]
@@ -70,17 +72,17 @@ final class AccessibleConsoleIOTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function getInputReturnsInput(): void
     {
-        self::$io->makeInteractive();
+        $this->io->makeInteractive();
 
         $input = $this->subject->getInput();
 
         self::assertTrue($input->isInteractive());
-        self::assertTrue(self::$io->isInteractive());
+        self::assertTrue($this->io->isInteractive());
 
         $input->setInteractive(false);
 
         self::assertFalse($input->isInteractive());
-        self::assertFalse(self::$io->isInteractive());
+        self::assertFalse($this->io->isInteractive());
     }
 
     #[Framework\Attributes\Test]
@@ -89,6 +91,6 @@ final class AccessibleConsoleIOTest extends Tests\ContainerAwareTestCase
         $output = $this->subject->getOutput();
         $output->write('hello world');
 
-        self::assertSame('hello world', self::$io->getOutput());
+        self::assertSame('hello world', $this->io->getOutput());
     }
 }

@@ -40,8 +40,10 @@ final class ProjectBuildFinishedEventTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->buildResult = new Src\Builder\BuildResult(
-            new Src\Builder\BuildInstructions(self::$config, 'foo'),
+            new Src\Builder\BuildInstructions($this->config, 'foo'),
         );
         $this->subject = new Src\Event\ProjectBuildFinishedEvent(
             $this->buildResult,

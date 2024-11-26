@@ -52,9 +52,11 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
+        parent::setUp();
+
+        $this->filesystem = $this->container->get(Filesystem\Filesystem::class);
         $this->subject = new Src\Template\Provider\VcsProvider(
-            self::$container->get('app.messenger'),
+            $this->container->get('app.messenger'),
             $this->filesystem,
         );
         $this->rootPath = Src\Helper\FilesystemHelper::getPackageDirectory();
@@ -65,9 +67,9 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function requestCustomOptionsAsksAndAppliesBaseUrl(): void
     {
-        self::$io->setUserInputs(['https://example.com']);
+        $this->io->setUserInputs(['https://example.com']);
 
-        $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
+        $this->subject->requestCustomOptions($this->container->get('app.messenger'));
 
         self::assertSame('https://example.com', $this->subject->getUrl());
     }
@@ -101,14 +103,14 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
             new Console\Output\BufferedOutput(Console\Output\OutputInterface::VERBOSITY_VERY_VERBOSE),
         );
 
-        self::$io->setUserInputs([$repoA]);
+        $this->io->setUserInputs([$repoA]);
 
-        $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
+        $this->subject->requestCustomOptions($this->container->get('app.messenger'));
 
         $this->subject->listTemplateSources();
 
         self::assertTrue($io->isOutputWritten());
-        self::assertStringContainsString(PHP_EOL, self::$io->getOutput());
+        self::assertStringContainsString(PHP_EOL, $this->io->getOutput());
 
         $this->filesystem->remove($repoA);
     }
@@ -120,9 +122,9 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
 
         $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);
 
-        self::$io->setUserInputs([$repoA]);
+        $this->io->setUserInputs([$repoA]);
 
-        $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
+        $this->subject->requestCustomOptions($this->container->get('app.messenger'));
 
         $actual = $this->subject->listTemplateSources();
 
@@ -144,9 +146,9 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
             ],
         ]);
 
-        self::$io->setUserInputs([$repoA]);
+        $this->io->setUserInputs([$repoA]);
 
-        $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
+        $this->subject->requestCustomOptions($this->container->get('app.messenger'));
 
         $expected = [
             'cpsit/project-builder' => [
@@ -170,7 +172,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         $repoA = $this->initializeGitRepository('test/repo-a', ['test/repo-b' => '*']);
         $repoB = $this->initializeGitRepository('test/repo-b');
 
-        self::$io->setUserInputs([
+        $this->io->setUserInputs([
             $repoA,
             '',
             'yes',
@@ -180,7 +182,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
             '',
         ]);
 
-        $this->subject->requestCustomOptions(self::$container->get('app.messenger'));
+        $this->subject->requestCustomOptions($this->container->get('app.messenger'));
 
         [$templateSource] = $this->subject->listTemplateSources();
 
@@ -192,7 +194,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         self::assertDirectoryExists($this->rootPath.'/.build/templates/repo-a');
         self::assertDirectoryExists($this->rootPath.'/.build/templates/repo-b');
 
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
         $repositories = $this->fetchConfiguredRepositoriesViaReflection();
 
         self::assertSame(
@@ -213,7 +215,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
 
     private function overwriteIO(): void
     {
-        $this->setPropertyValueOnObject($this->subject, 'io', self::$io);
+        $this->setPropertyValueOnObject($this->subject, 'io', $this->io);
     }
 
     private function acceptInsecureConnections(): void
@@ -270,7 +272,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
 
         // Initialize repository
         self::executeInDirectory($repoDir, function (string $repoDir) use ($composerName, $requirements, $extra) {
-            $runner = self::$container->get(Cli\Command\Runner::class);
+            $runner = $this->container->get(Cli\Command\Runner::class);
 
             // Initialize repository
             $initCommand = (new Cli\Command\Executable('git'))

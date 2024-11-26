@@ -41,6 +41,7 @@ final class StepOptions
         private readonly ?string $command = null,
         private readonly bool $skipConfirmation = false,
         private readonly bool $allowFailure = false,
+        private readonly bool $required = true,
     ) {}
 
     /**
@@ -74,5 +75,10 @@ final class StepOptions
     public function shouldAllowFailure(): bool
     {
         return $this->allowFailure;
+    }
+
+    public function isRequired(): bool
+    {
+        return $this->required;
     }
 }

@@ -42,9 +42,11 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Generator\Step\ShowNextStepsStep::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Generator\Step\ShowNextStepsStep::class);
         $this->result = new Src\Builder\BuildResult(
-            new Src\Builder\BuildInstructions(self::$config, 'foo'),
+            new Src\Builder\BuildInstructions($this->config, 'foo'),
         );
     }
 
@@ -109,7 +111,7 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
         );
 
         $actual = $this->subject->run($this->result);
-        $output = self::$io->getOutput();
+        $output = $this->io->getOutput();
 
         self::assertTrue($actual);
         self::assertStringContainsString('Next steps', $output);

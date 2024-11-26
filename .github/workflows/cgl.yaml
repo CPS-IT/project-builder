@@ -21,7 +21,8 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          # @todo Use PHP 8.4 once PHP-CS-Fixer supports it
+          php-version: 8.3
           tools: composer:v2, composer-require-checker, composer-unused, cs2pr
           coverage: none
 
@@ -39,7 +40,7 @@ jobs:
       - name: Reset composer.json
         run: git checkout composer.json composer.lock
       - name: Re-install Composer dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
       - name: Check for unused dependencies
         run: composer-unused --excludePackage=nyholm/psr7
 

@@ -6,10 +6,10 @@ og:description: A Composer package for creating new projects based on various sp
 
 # Project Builder
 
-[![Latest Stable Version](http://poser.pugx.org/cpsit/project-builder/v)][1]
-[![Total Downloads](http://poser.pugx.org/cpsit/project-builder/downloads)][2]
-[![Docker](https://img.shields.io/docker/v/cpsit/project-builder?label=docker&sort=semver)][3]
-[![License](http://poser.pugx.org/cpsit/project-builder/license)](contributing/license.md)
+[![Latest Stable Version](https://img.shields.io/packagist/v/cpsit/project-builder?label=version)][1]
+[![Packagist Downloads](https://img.shields.io/packagist/dt/cpsit/project-builder?label=packagist+downloads&color=brightgreen)][2]
+[![GHCR Pulls](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fipitio.github.io%2Fbackage%2FCPS-IT%2Fproject-builder%2Fproject-builder.json&query=%24.downloads&label=GHCR%20pulls&color=brightgreen)][3]
+[![Docker Pulls](https://img.shields.io/docker/pulls/cpsit/project-builder?label=docker+pulls&color=brightgreen)][4]
 
 A Composer package to **create new projects** based on various, specific **project templates**.
 All project templates are distributed as separate Composer packages.
@@ -63,6 +63,7 @@ contributing/workflow
 contributing/license
 ```
 
-[1]: https://packagist.org/packages/cpsit/project-builder
-[2]: https://packagist.org/packages/cpsit/project-builder/stats
-[3]: https://hub.docker.com/r/cpsit/project-builder
+[1]: https://github.com/CPS-IT/project-builder/releases/latest
+[2]: https://packagist.org/packages/cpsit/project-builder
+[3]: https://github.com/CPS-IT/project-builder/pkgs/container/project-builder
+[4]: https://hub.docker.com/r/cpsit/project-builder

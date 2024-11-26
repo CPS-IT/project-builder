@@ -212,6 +212,11 @@ steps:
       command: 'git init --initial-branch=main'
       skipConfirmation: true
       allowFailure: true
+  - type: runCommand
+    options:
+      command: 'composer update'
+      allowFailure: true
+      required: false
   - type: showNextSteps
     options:
       templateFile: templates/next-steps.html.twig

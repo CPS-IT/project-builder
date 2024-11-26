@@ -40,7 +40,9 @@ final class PhpVersionFunctionTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Twig\Func\PhpVersionFunction::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Twig\Func\PhpVersionFunction::class);
     }
 
     #[Framework\Attributes\Test]
@@ -55,24 +57,24 @@ final class PhpVersionFunctionTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function invokeReturnsAndCachesLatestStableVersionOfGivenBranch(): void
     {
-        self::$mockHandler->append(self::createJsonResponse(['version' => '8.0.10']));
-        self::$mockHandler->append(self::createJsonResponse(['version' => '8.1.4']));
+        $this->mockHandler->append(self::createJsonResponse(['version' => '8.0.10']));
+        $this->mockHandler->append(self::createJsonResponse(['version' => '8.1.4']));
 
-        self::assertCount(2, self::$mockHandler);
-
-        $actual = ($this->subject)('8.0');
-
-        self::assertSame('8.0.10', $actual);
-        self::assertCount(1, self::$mockHandler);
+        self::assertCount(2, $this->mockHandler);
 
         $actual = ($this->subject)('8.0');
 
         self::assertSame('8.0.10', $actual);
-        self::assertCount(1, self::$mockHandler);
+        self::assertCount(1, $this->mockHandler);
+
+        $actual = ($this->subject)('8.0');
+
+        self::assertSame('8.0.10', $actual);
+        self::assertCount(1, $this->mockHandler);
 
         $actual = ($this->subject)('8.1');
 
         self::assertSame('8.1.4', $actual);
-        self::assertCount(0, self::$mockHandler);
+        self::assertCount(0, $this->mockHandler);
     }
 }

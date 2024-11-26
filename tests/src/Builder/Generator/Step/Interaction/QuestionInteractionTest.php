@@ -40,8 +40,10 @@ final class QuestionInteractionTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Generator\Step\Interaction\QuestionInteraction::class);
-        $this->instructions = new Src\Builder\BuildInstructions(self::$config, 'foo');
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Generator\Step\Interaction\QuestionInteraction::class);
+        $this->instructions = new Src\Builder\BuildInstructions($this->config, 'foo');
     }
 
     #[Framework\Attributes\Test]
@@ -49,7 +51,7 @@ final class QuestionInteractionTest extends Tests\ContainerAwareTestCase
     {
         $interactionSubject = $this->buildInteractionSubject();
 
-        self::$io->setUserInputs(['yes', 'no']);
+        $this->io->setUserInputs(['yes', 'no']);
 
         self::assertTrue($this->subject->interact($interactionSubject, $this->instructions));
         self::assertFalse($this->subject->interact($interactionSubject, $this->instructions));
@@ -63,7 +65,7 @@ final class QuestionInteractionTest extends Tests\ContainerAwareTestCase
             new Src\Builder\Config\ValueObject\PropertyOption('bar', 'not selected'),
         ]);
 
-        self::$io->setUserInputs(['yes', 'no']);
+        $this->io->setUserInputs(['yes', 'no']);
 
         self::assertSame('foo', $this->subject->interact($interactionSubject, $this->instructions));
         self::assertSame('bar', $this->subject->interact($interactionSubject, $this->instructions));
@@ -76,7 +78,7 @@ final class QuestionInteractionTest extends Tests\ContainerAwareTestCase
             new Src\Builder\Config\ValueObject\PropertyOption('foo'),
         ]);
 
-        self::$io->setUserInputs(['yes', 'no']);
+        $this->io->setUserInputs(['yes', 'no']);
 
         self::assertSame('foo', $this->subject->interact($interactionSubject, $this->instructions));
         self::assertFalse($this->subject->interact($interactionSubject, $this->instructions));

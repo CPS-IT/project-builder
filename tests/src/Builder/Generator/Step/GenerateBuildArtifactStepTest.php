@@ -45,10 +45,12 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Generator\Step\GenerateBuildArtifactStep::class);
-        $this->filesystem = self::$container->get(Filesystem\Filesystem::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Generator\Step\GenerateBuildArtifactStep::class);
+        $this->filesystem = $this->container->get(Filesystem\Filesystem::class);
         $this->buildResult = new Src\Builder\BuildResult(
-            new Src\Builder\BuildInstructions(self::$config, Src\Helper\FilesystemHelper::getNewTemporaryDirectory()),
+            new Src\Builder\BuildInstructions($this->config, Src\Helper\FilesystemHelper::getNewTemporaryDirectory()),
         );
         $this->artifactFile = Src\Helper\FilesystemHelper::createFileObject(
             $this->buildResult->getInstructions()->getTargetDirectory(),
@@ -60,7 +62,7 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\DataProvider('runAsksForConfirmationIfArtifactPathAlreadyExistsDataProvider')]
     public function runAsksForConfirmationIfArtifactPathAlreadyExists(bool $continue, bool $expected): void
     {
-        self::$io->setUserInputs([$continue ? 'yes' : 'no']);
+        $this->io->setUserInputs([$continue ? 'yes' : 'no']);
 
         $this->filesystem->dumpFile($this->artifactFile->getPathname(), 'test');
 
@@ -71,7 +73,7 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
         self::assertNull($this->buildResult->getArtifactFile());
         self::assertStringContainsString(
             'The build artifact cannot be generated because the resulting file already exists.',
-            self::$io->getOutput(),
+            $this->io->getOutput(),
         );
     }
 
@@ -94,8 +96,6 @@ final class GenerateBuildArtifactStepTest extends Tests\ContainerAwareTestCase
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         $this->filesystem->remove($this->artifactFile->getPathname());
     }
 }

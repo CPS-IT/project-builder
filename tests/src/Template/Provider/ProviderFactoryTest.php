@@ -39,7 +39,9 @@ final class ProviderFactoryTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Template\Provider\ProviderFactory::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Template\Provider\ProviderFactory::class);
     }
 
     #[Framework\Attributes\Test]

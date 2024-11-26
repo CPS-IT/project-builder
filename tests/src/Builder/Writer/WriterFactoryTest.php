@@ -39,7 +39,9 @@ final class WriterFactoryTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Writer\WriterFactory::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Writer\WriterFactory::class);
     }
 
     #[Framework\Attributes\Test]

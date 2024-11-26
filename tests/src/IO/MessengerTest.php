@@ -46,7 +46,9 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get('app.messenger');
+        parent::setUp();
+
+        $this->subject = $this->container->get('app.messenger');
     }
 
     #[Framework\Attributes\Test]
@@ -54,10 +56,10 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     {
         $packagistProvider = new Src\Template\Provider\PackagistProvider(
             $this->subject,
-            self::$container->get(Filesystem\Filesystem::class),
+            $this->container->get(Filesystem\Filesystem::class),
         );
 
-        self::$io->setUserInputs(['']);
+        $this->io->setUserInputs(['']);
 
         self::assertSame($packagistProvider, $this->subject->selectProvider([$packagistProvider]));
     }
@@ -67,10 +69,10 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     {
         $customProvider = new Src\Template\Provider\ComposerProvider(
             $this->subject,
-            self::$container->get(Filesystem\Filesystem::class),
+            $this->container->get(Filesystem\Filesystem::class),
         );
 
-        self::$io->setUserInputs(['', 'https://www.example.com']);
+        $this->io->setUserInputs(['', 'https://www.example.com']);
 
         self::assertSame($customProvider, $this->subject->selectProvider([$customProvider]));
         self::assertSame('https://www.example.com', $customProvider->getUrl());
@@ -96,10 +98,10 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
         $templateSource = new Src\Template\TemplateSource($provider, $package);
         $provider->templateSources = [$templateSource];
 
-        self::$io->setUserInputs(['']);
+        $this->io->setUserInputs(['']);
 
         self::assertSame($templateSource, $this->subject->selectTemplateSource($provider));
-        self::assertStringContainsString($expected, self::$io->getOutput());
+        self::assertStringContainsString($expected, $this->io->getOutput());
     }
 
     #[Framework\Attributes\Test]
@@ -108,7 +110,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     {
         $exception = new Exception('Something went wrong.');
 
-        self::$io->setUserInputs([$input]);
+        $this->io->setUserInputs([$input]);
 
         self::assertSame($expected, $this->subject->confirmTemplateSourceRetry($exception));
         self::assertStringContainsString(
@@ -119,14 +121,14 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
                 '',
                 'Continue? [Y/n]',
             ]),
-            self::$io->getOutput(),
+            $this->io->getOutput(),
         );
     }
 
     #[Framework\Attributes\Test]
     public function confirmProjectRegenerationAsksForConfirmationAndReturnsResult(): void
     {
-        self::$io->setUserInputs(['yes']);
+        $this->io->setUserInputs(['yes']);
 
         self::assertTrue($this->subject->confirmProjectRegeneration());
         self::assertStringContainsString(
@@ -134,14 +136,14 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
                 'If you want, you can restart project generation now.',
                 'Restart? [Y/n]',
             ]),
-            self::$io->getOutput(),
+            $this->io->getOutput(),
         );
     }
 
     #[Framework\Attributes\Test]
     public function confirmProjectGenerationAsksForRunCommandAndReturnsResult(): void
     {
-        self::$io->setUserInputs(['yes']);
+        $this->io->setUserInputs(['yes']);
 
         $dummyCommand = 'foo --bar';
 
@@ -154,7 +156,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
                 ),
                 'Do you wish to run this command? [Y/n]',
             ]),
-            self::$io->getOutput(),
+            $this->io->getOutput(),
         );
     }
 
@@ -163,7 +165,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     {
         self::assertFalse($this->subject->isVerbose());
 
-        self::$io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_VERBOSE);
+        $this->io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_VERBOSE);
 
         self::assertTrue($this->subject->isVerbose());
     }
@@ -173,7 +175,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     {
         self::assertFalse($this->subject->isVeryVerbose());
 
-        self::$io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_VERY_VERBOSE);
+        $this->io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_VERY_VERBOSE);
 
         self::assertTrue($this->subject->isVeryVerbose());
     }
@@ -183,7 +185,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     {
         self::assertFalse($this->subject->isDebug());
 
-        self::$io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_DEBUG);
+        $this->io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_DEBUG);
 
         self::assertTrue($this->subject->isDebug());
     }

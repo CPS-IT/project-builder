@@ -43,9 +43,11 @@ final class ArtifactReaderTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->artifactFile = dirname(__DIR__).'/Fixtures/Files/build-artifact.json';
-        $this->migration = self::$container->get(Tests\Fixtures\DummyMigration::class);
-        $this->subject = self::$container->get(Src\Builder\ArtifactReader::class);
+        $this->migration = $this->container->get(Tests\Fixtures\DummyMigration::class);
+        $this->subject = $this->container->get(Src\Builder\ArtifactReader::class);
     }
 
     #[Framework\Attributes\Test]

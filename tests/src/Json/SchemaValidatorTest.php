@@ -42,7 +42,9 @@ final class SchemaValidatorTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Json\SchemaValidator::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Json\SchemaValidator::class);
     }
 
     #[Framework\Attributes\Test]

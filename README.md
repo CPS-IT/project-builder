@@ -39,6 +39,7 @@ composer create-project cpsit/project-builder <projectname>
 ### Docker
 
 [![Docker](https://img.shields.io/docker/v/cpsit/project-builder?label=version&logo=docker&sort=semver)](https://hub.docker.com/r/cpsit/project-builder)
+[![GHCR Pulls](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fipitio.github.io%2Fbackage%2FCPS-IT%2Fproject-builder%2Fproject-builder.json&query=%24.downloads&label=GHCR%20pulls&color=brightgreen)](https://github.com/CPS-IT/project-builder/pkgs/container/project-builder)
 [![Docker Pulls](https://img.shields.io/docker/pulls/cpsit/project-builder?color=brightgreen)](https://hub.docker.com/r/cpsit/project-builder)
 
 ```bash

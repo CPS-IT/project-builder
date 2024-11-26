@@ -43,8 +43,10 @@ final class NameVariantBuilderTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->instructions = new Src\Builder\BuildInstructions(
-            self::$container->get('app.config'),
+            $this->container->get('app.config'),
             'foo',
         );
         $this->subject = new Src\Naming\NameVariantBuilder($this->instructions);

@@ -41,7 +41,9 @@ final class JsonFileWriterTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->subject = self::$container->get(Src\Builder\Writer\JsonFileWriter::class);
+        parent::setUp();
+
+        $this->subject = $this->container->get(Src\Builder\Writer\JsonFileWriter::class);
     }
 
     #[Framework\Attributes\Test]
@@ -65,7 +67,7 @@ final class JsonFileWriterTest extends Tests\ContainerAwareTestCase
     {
         yield 'json string' => ['{"foo":"baz"}', '{"foo":"baz"}'];
         yield 'serializable json object' => [
-            new class() implements JsonSerializable {
+            new class implements JsonSerializable {
                 /**
                  * @return array{'foo': string}
                  */

@@ -43,6 +43,8 @@ final class ProxyCommandTest extends Tests\ContainerAwareTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->command = new Tests\Fixtures\DummyCommand();
         $this->subject = new Src\Console\Command\ProxyCommand(
             fn (Src\IO\Messenger $messenger) => $this->command->setMessenger($messenger),
