@@ -1205,16 +1205,16 @@
         },
         {
             "name": "sebastianfeldmann/cli",
-            "version": "3.4.1",
+            "version": "3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianfeldmann/cli.git",
-                "reference": "8a932e99e9455981fb32fa6c085492462fe8f8cf"
+                "reference": "6fa122afd528dae7d7ec988a604aa6c600f5d9b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianfeldmann/cli/zipball/8a932e99e9455981fb32fa6c085492462fe8f8cf",
-                "reference": "8a932e99e9455981fb32fa6c085492462fe8f8cf",
+                "url": "https://api.github.com/repos/sebastianfeldmann/cli/zipball/6fa122afd528dae7d7ec988a604aa6c600f5d9b5",
+                "reference": "6fa122afd528dae7d7ec988a604aa6c600f5d9b5",
                 "shasum": ""
             },
             "require": {
@@ -1251,7 +1251,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianfeldmann/cli/issues",
-                "source": "https://github.com/sebastianfeldmann/cli/tree/3.4.1"
+                "source": "https://github.com/sebastianfeldmann/cli/tree/3.4.2"
             },
             "funding": [
                 {
@@ -1259,7 +1259,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-20T14:59:49+00:00"
+            "time": "2024-11-26T10:19:01+00:00"
         },
         {
             "name": "symfony/cache",
