@@ -39,6 +39,7 @@ use Symfony\Component\Filesystem;
 use function array_map;
 use function array_reduce;
 use function dirname;
+use function is_array;
 use function json_encode;
 use function reset;
 use function sprintf;
@@ -276,24 +277,35 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
             ],
             [],
         ];
+
+        $package1 = self::createPackage('foo/baz-2');
+        $package2 = self::createPackage('foo/baz-3');
+
         yield 'unsupported and supported packages' => [
             [
                 self::createPackage('foo/baz-1', 'library'),
-                $package1 = self::createPackage('foo/baz-2'),
-                $package2 = self::createPackage('foo/baz-3'),
+                $package1,
+                $package2,
             ],
             [
                 $package1,
                 $package2,
             ],
         ];
+
+        $abandonedPackage1 = self::createPackage(name: 'foo/baz-1', abandoned: true);
+        $abandonedPackage2 = self::createPackage(name: 'foo/baz-3', abandoned: 'foo/bar-3');
+        $package1 = self::createPackage('foo/baz-2');
+        $package2 = self::createPackage('foo/baz-4');
+        $package3 = self::createPackage('foo/baz-5');
+
         yield 'abandoned packages after maintained' => [
             [
-                $abandonedPackage1 = self::createPackage(name: 'foo/baz-1', abandoned: true),
-                $package1 = self::createPackage('foo/baz-2'),
-                $abandonedPackage2 = self::createPackage(name: 'foo/baz-3', abandoned: 'foo/bar-3'),
-                $package2 = self::createPackage('foo/baz-4'),
-                $package3 = self::createPackage('foo/baz-5'),
+                $abandonedPackage1,
+                $package1,
+                $abandonedPackage2,
+                $package2,
+                $package3,
             ],
             [
                 $package1,
@@ -385,8 +397,14 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
                     [
                         'packages' => array_reduce(
                             $packages,
-                            function (array $carry, Package\PackageInterface $package) use ($dumper): array {
-                                $carry[$package->getName()][$package->getPrettyVersion()] = $dumper->dump($package);
+                            static function (array $carry, Package\PackageInterface $package) use ($dumper): array {
+                                $packageName = $package->getName();
+
+                                if (!is_array($carry[$packageName] ?? null)) {
+                                    $carry[$packageName] = [];
+                                }
+
+                                $carry[$packageName][$package->getPrettyVersion()] = $dumper->dump($package);
 
                                 return $carry;
                             },

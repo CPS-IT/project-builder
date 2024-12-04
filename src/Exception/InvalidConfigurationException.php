@@ -86,6 +86,7 @@ final class InvalidConfigurationException extends Exception
 
         if (null !== $error) {
             $formatter = new JsonSchema\Errors\ErrorFormatter();
+            /** @var array<string, string> $formattedErrors */
             $formattedErrors = $formatter->format($error, false);
 
             foreach ($formattedErrors as $path => $errorMessage) {

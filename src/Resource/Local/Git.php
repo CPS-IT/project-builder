@@ -25,6 +25,7 @@ namespace CPSIT\ProjectBuilder\Resource\Local;
 
 use SebastianFeldmann\Cli;
 
+use function reset;
 use function trim;
 
 /**
@@ -66,13 +67,15 @@ final class Git
     private function run(Cli\Command $command): ?string
     {
         $result = $this->runner->run($command);
+        /** @var list<string> $output */
+        $output = $result->getBufferedOutput();
 
-        if (!$result->isSuccessful() || [] === $result->getBufferedOutput()) {
+        if (!$result->isSuccessful() || [] === $output) {
             return null;
         }
 
-        $output = $result->getBufferedOutput()[0];
+        $output = reset($output);
 
-        return '' !== trim((string) $output) ? trim((string) $output) : null;
+        return '' !== trim($output) ? trim($output) : null;
     }
 }

@@ -30,6 +30,7 @@ use Psr\Http\Client;
 use Psr\Http\Message;
 use stdClass;
 
+use function is_string;
 use function property_exists;
 
 /**
@@ -65,7 +66,7 @@ final class PhpApiClient
         $json = Utils::jsonDecode((string) $response->getBody());
 
         // Fall back to .0 release if version cannot be determined via API
-        if (!($json instanceof stdClass) || !property_exists($json, 'version')) {
+        if (!($json instanceof stdClass) || !property_exists($json, 'version') || !is_string($json->version)) {
             return $branch.'.0';
         }
 
