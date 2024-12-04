@@ -59,7 +59,7 @@
 		"phpstan/phpstan-symfony": "^2.0",
 		"phpstan/phpstan-webmozart-assert": "^2.0",
 		"phpunit/phpunit": "^10.1 || ^11.0",
-		"rector/rector": "^1.0.0",
+		"rector/rector": "^2.0@rc",
 		"seld/jsonlint": "^1.9"
 	},
 	"autoload": {
