@@ -56,13 +56,14 @@ final class InvalidArtifactException extends Exception
         return new self('Unable to detect a valid artifact version.', 1677141758);
     }
 
-    public static function forValidationErrors(?JsonSchema\Errors\ValidationError $error): self
+    public static function forValidationErrors(?JsonSchema\Errors\ValidationError $errors): self
     {
         $decoratedErrors = '';
 
-        if (null !== $error) {
+        if (null !== $errors) {
             $formatter = new JsonSchema\Errors\ErrorFormatter();
-            $formattedErrors = $formatter->format($error, false);
+            /** @var array<string, string> $formattedErrors */
+            $formattedErrors = $formatter->format($errors, false);
 
             foreach ($formattedErrors as $path => $errorMessage) {
                 $decoratedErrors .= PHP_EOL.sprintf('  * Error at property path "%s": %s', $path, $errorMessage);

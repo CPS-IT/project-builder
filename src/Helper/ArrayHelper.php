@@ -130,6 +130,9 @@ final class ArrayHelper
         );
     }
 
+    /**
+     * @phpstan-assert-if-true array<string, mixed>|ArrayObject<string, mixed> $subject
+     */
     private static function pathSegmentExists(mixed $subject, string $pathSegment): bool
     {
         if (!is_array($subject) && !($subject instanceof ArrayObject)) {

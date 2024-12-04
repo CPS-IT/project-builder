@@ -244,8 +244,10 @@ abstract class BaseProvider implements ProviderInterface
             return false;
         }
 
+        /** @var array<string, mixed> $extra */
+        $extra = $package->getExtra();
         $excludeFromListing = (bool) Helper\ArrayHelper::getValueByPath(
-            $package->getExtra(),
+            $extra,
             'cpsit/project-builder.exclude-from-listing',
         );
 
