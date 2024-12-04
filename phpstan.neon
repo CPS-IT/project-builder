@@ -2,7 +2,7 @@ includes:
     - .build/vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 parameters:
-    level: 9
+    level: max
     paths:
         - src
         - tests/src

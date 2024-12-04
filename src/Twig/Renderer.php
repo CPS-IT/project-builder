@@ -56,6 +56,7 @@ final class Renderer
         ?string $template = null,
         array $variables = [],
     ): string {
+        /** @var array<string, mixed> $mergedVariables */
         $mergedVariables = array_replace_recursive($instructions->getTemplateVariables(), $variables);
         $event = new Event\BeforeTemplateRenderedEvent($this->twig, $instructions, $mergedVariables);
         $template ??= $this->defaultTemplate;

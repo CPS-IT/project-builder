@@ -62,13 +62,16 @@ final class EventListenerPass implements DependencyInjection\Compiler\CompilerPa
                 continue;
             }
 
-            if (null === ($className = $service->getClass())) {
+            /** @var class-string|null $className */
+            $className = $service->getClass();
+
+            if (null === $className) {
                 throw Exception\ShouldNotHappenException::create();
             }
 
+            /** @var array{method?: string, event?: class-string} $tag */
             foreach ($tags as $tag) {
                 $method = $tag['method'] ?? '__invoke';
-                /** @var class-string $className */
                 $event = $tag['event'] ?? $this->determineEventFromClassMethod($className, $method);
 
                 $dispatcher->addMethodCall(
