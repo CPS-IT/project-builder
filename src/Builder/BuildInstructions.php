@@ -85,6 +85,7 @@ final class BuildInstructions extends ArrayObject
      */
     public function getTemplateVariables(): array
     {
+        /* @phpstan-ignore return.type */
         return (array) $this;
     }
 
