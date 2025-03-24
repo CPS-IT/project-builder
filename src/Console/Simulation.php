@@ -111,7 +111,8 @@ final class Simulation
     public function run(callable $applicationCode): int
     {
         // Switch to simulation directory
-        $initialWorkingDirectory = false !== getcwd() ? getcwd() : Helper\FilesystemHelper::getProjectRootPath();
+        $currentWorkingDirectory = getcwd();
+        $initialWorkingDirectory = false !== $currentWorkingDirectory ? $currentWorkingDirectory : Helper\FilesystemHelper::getProjectRootPath();
         chdir($this->targetDirectory);
 
         // Run project creation
