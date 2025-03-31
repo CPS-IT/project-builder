@@ -82,22 +82,26 @@
         },
         {
             "name": "cuyz/valinor",
-            "version": "1.14.4",
+            "version": "1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CuyZ/Valinor.git",
-                "reference": "c1d2407963408aa8aea0432e8645095283f16a67"
+                "reference": "c3cb63a35bb0c0b1b130117cd8962def1ede9e6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CuyZ/Valinor/zipball/c1d2407963408aa8aea0432e8645095283f16a67",
-                "reference": "c1d2407963408aa8aea0432e8645095283f16a67",
+                "url": "https://api.github.com/repos/CuyZ/Valinor/zipball/c3cb63a35bb0c0b1b130117cd8962def1ede9e6f",
+                "reference": "c3cb63a35bb0c0b1b130117cd8962def1ede9e6f",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.0",
                 "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
                 "psr/simple-cache": "^1.0 || ^2.0 || ^3.0"
+            },
+            "conflict": {
+                "phpstan/phpstan": "<1.0 || >= 3.0",
+                "vimeo/psalm": "<5.0 || >=7.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.4",
@@ -144,7 +148,7 @@
             ],
             "support": {
                 "issues": "https://github.com/CuyZ/Valinor/issues",
-                "source": "https://github.com/CuyZ/Valinor/tree/1.14.4"
+                "source": "https://github.com/CuyZ/Valinor/tree/1.15.0"
             },
             "funding": [
                 {
@@ -152,7 +156,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-02-23T18:48:29+00:00"
+            "time": "2025-03-30T22:35:46+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
