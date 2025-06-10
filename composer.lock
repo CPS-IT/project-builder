@@ -3821,16 +3821,16 @@
         },
         {
             "name": "donatj/mock-webserver",
-            "version": "v2.7.2",
+            "version": "v2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/donatj/mock-webserver.git",
-                "reference": "1887dcbd8b4a52dde23a43f0d303c4509a065e83"
+                "reference": "5cc49c1ae0d63d286227d6d729a33874f78a1068"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/donatj/mock-webserver/zipball/1887dcbd8b4a52dde23a43f0d303c4509a065e83",
-                "reference": "1887dcbd8b4a52dde23a43f0d303c4509a065e83",
+                "url": "https://api.github.com/repos/donatj/mock-webserver/zipball/5cc49c1ae0d63d286227d6d729a33874f78a1068",
+                "reference": "5cc49c1ae0d63d286227d6d729a33874f78a1068",
                 "shasum": ""
             },
             "require": {
@@ -3840,7 +3840,7 @@
                 "ralouphie/getallheaders": "~2.0 || ~3.0"
             },
             "require-dev": {
-                "corpus/coding-standard": "^0.6.0 || ^0.8.0",
+                "corpus/coding-standard": "^0.6.0 || ^0.9.0",
                 "donatj/drop": "^1.0",
                 "ext-curl": "*",
                 "friendsofphp/php-cs-fixer": "^3.1",
@@ -3877,7 +3877,7 @@
             ],
             "support": {
                 "issues": "https://github.com/donatj/mock-webserver/issues",
-                "source": "https://github.com/donatj/mock-webserver/tree/v2.7.2"
+                "source": "https://github.com/donatj/mock-webserver/tree/v2.7.3"
             },
             "funding": [
                 {
@@ -3893,7 +3893,7 @@
                     "type": "ko_fi"
                 }
             ],
-            "time": "2024-01-22T20:41:09+00:00"
+            "time": "2025-06-09T20:44:17+00:00"
         },
         {
             "name": "eliashaeussler/version-bumper",
