@@ -3821,16 +3821,16 @@
         },
         {
             "name": "donatj/mock-webserver",
-            "version": "v2.7.3",
+            "version": "v2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/donatj/mock-webserver.git",
-                "reference": "5cc49c1ae0d63d286227d6d729a33874f78a1068"
+                "reference": "73b5d53a8f1285674ff36b2474a4cb9132d81177"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/donatj/mock-webserver/zipball/5cc49c1ae0d63d286227d6d729a33874f78a1068",
-                "reference": "5cc49c1ae0d63d286227d6d729a33874f78a1068",
+                "url": "https://api.github.com/repos/donatj/mock-webserver/zipball/73b5d53a8f1285674ff36b2474a4cb9132d81177",
+                "reference": "73b5d53a8f1285674ff36b2474a4cb9132d81177",
                 "shasum": ""
             },
             "require": {
@@ -3877,7 +3877,7 @@
             ],
             "support": {
                 "issues": "https://github.com/donatj/mock-webserver/issues",
-                "source": "https://github.com/donatj/mock-webserver/tree/v2.7.3"
+                "source": "https://github.com/donatj/mock-webserver/tree/v2.8.0"
             },
             "funding": [
                 {
@@ -3893,7 +3893,7 @@
                     "type": "ko_fi"
                 }
             ],
-            "time": "2025-06-09T20:44:17+00:00"
+            "time": "2025-06-26T22:24:11+00:00"
         },
         {
             "name": "eliashaeussler/version-bumper",
