@@ -36,7 +36,7 @@ use function dirname;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  *
- * @extends \ArrayObject<string, mixed>
+ * @extends ArrayObject<string, mixed>
  */
 final class BuildInstructions extends ArrayObject
 {
