@@ -40,13 +40,13 @@ use JsonSerializable;
  *     result: ResultArtifact
  * }
  */
-final class Artifact implements JsonSerializable
+final readonly class Artifact implements JsonSerializable
 {
     public function __construct(
-        public readonly BuildArtifact $artifact,
-        public readonly TemplateArtifact $template,
-        public readonly GeneratorArtifact $generator,
-        public readonly ResultArtifact $result,
+        public BuildArtifact $artifact,
+        public TemplateArtifact $template,
+        public GeneratorArtifact $generator,
+        public ResultArtifact $result,
     ) {}
 
     /**

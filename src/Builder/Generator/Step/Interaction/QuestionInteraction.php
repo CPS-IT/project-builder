@@ -34,14 +34,14 @@ use Symfony\Component\ExpressionLanguage;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class QuestionInteraction implements InteractionInterface
+final readonly class QuestionInteraction implements InteractionInterface
 {
     private const TYPE = 'question';
 
     public function __construct(
-        private readonly ExpressionLanguage\ExpressionLanguage $expressionLanguage,
-        private readonly IO\InputReader $reader,
-        private readonly Twig\Renderer $renderer,
+        private ExpressionLanguage\ExpressionLanguage $expressionLanguage,
+        private IO\InputReader $reader,
+        private Twig\Renderer $renderer,
     ) {}
 
     public function interact(

@@ -33,14 +33,14 @@ use JsonSerializable;
  *
  * @internal
  */
-final class PackageArtifact implements JsonSerializable
+final readonly class PackageArtifact implements JsonSerializable
 {
     public function __construct(
-        public readonly string $name,
-        public readonly string $version,
-        public readonly ?string $sourceReference,
-        public readonly ?string $sourceUrl,
-        public readonly ?string $distUrl,
+        public string $name,
+        public string $version,
+        public ?string $sourceReference,
+        public ?string $sourceUrl,
+        public ?string $distUrl,
     ) {}
 
     /**

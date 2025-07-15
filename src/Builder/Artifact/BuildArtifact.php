@@ -33,12 +33,12 @@ use JsonSerializable;
  *
  * @internal
  */
-final class BuildArtifact implements JsonSerializable
+final readonly class BuildArtifact implements JsonSerializable
 {
     public function __construct(
-        public readonly int $version,
-        public readonly string $path,
-        public readonly int $date,
+        public int $version,
+        public string $path,
+        public int $date,
     ) {}
 
     /**

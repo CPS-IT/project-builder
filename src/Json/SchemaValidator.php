@@ -32,10 +32,10 @@ use Opis\JsonSchema;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class SchemaValidator
+final readonly class SchemaValidator
 {
     public function __construct(
-        private readonly JsonSchema\Validator $validator,
+        private JsonSchema\Validator $validator,
     ) {}
 
     public function validate(mixed $data, string $schemaFile): JsonSchema\ValidationResult

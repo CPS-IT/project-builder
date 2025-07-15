@@ -38,12 +38,12 @@ use function ltrim;
  *
  * @codeCoverageIgnore
  */
-final class FactoryServicesPass implements DependencyInjection\Compiler\CompilerPassInterface
+final readonly class FactoryServicesPass implements DependencyInjection\Compiler\CompilerPassInterface
 {
     public function __construct(
-        private readonly string $tagName,
-        private readonly string $factoryService,
-        private readonly string $argumentName,
+        private string $tagName,
+        private string $factoryService,
+        private string $argumentName,
     ) {}
 
     public function process(DependencyInjection\ContainerBuilder $container): void

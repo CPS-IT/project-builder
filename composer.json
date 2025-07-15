@@ -16,7 +16,7 @@
 		}
 	],
 	"require": {
-		"php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
+		"php": "~8.2.0 || ~8.3.0 || ~8.4.0",
 		"ext-filter": "*",
 		"ext-json": "*",
 		"ext-mbstring": "*",
@@ -44,7 +44,7 @@
 		"webmozart/assert": "^1.11"
 	},
 	"require-dev": {
-		"armin/editorconfig-cli": "^1.6 || ^2.0",
+		"armin/editorconfig-cli": "^2.0",
 		"composer/composer": "~2.2.13 || ^2.3.6",
 		"composer/semver": "^3.0",
 		"composer/xdebug-handler": "^3.0",
@@ -59,7 +59,8 @@
 		"phpstan/phpstan-strict-rules": "^2.0",
 		"phpstan/phpstan-symfony": "^2.0",
 		"phpstan/phpstan-webmozart-assert": "^2.0",
-		"phpunit/phpunit": "^10.1 || ^11.0 || ^12.0",
+		"phpunit/phpunit": "^11.0 || ^12.0",
+		"react/promise": "^2.8 || ^3.0",
 		"rector/rector": "^2.0",
 		"seld/jsonlint": "^1.9"
 	},

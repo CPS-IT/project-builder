@@ -33,7 +33,7 @@ use Symfony\Component\Filesystem;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ProviderFactory
+final readonly class ProviderFactory
 {
     /**
      * @var non-empty-list<ProviderInterface>

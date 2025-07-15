@@ -31,12 +31,12 @@ use CPSIT\ProjectBuilder\Builder;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class BuildStepProcessedEvent
+final readonly class BuildStepProcessedEvent
 {
     public function __construct(
-        private readonly Builder\Generator\Step\StepInterface $step,
-        private readonly Builder\BuildResult $buildResult,
-        private readonly bool $successful,
+        private Builder\Generator\Step\StepInterface $step,
+        private Builder\BuildResult $buildResult,
+        private bool $successful,
     ) {}
 
     public function getStep(): Builder\Generator\Step\StepInterface

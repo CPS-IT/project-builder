@@ -32,12 +32,12 @@ use Webmozart\Assert;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class SlugifyFilter implements TwigFilterInterface
+final readonly class SlugifyFilter implements TwigFilterInterface
 {
     private const NAME = 'slugify';
 
     public function __construct(
-        private readonly Slugify\Slugify $slugify,
+        private Slugify\Slugify $slugify,
     ) {}
 
     public function __invoke(mixed $input, ?string $separator = null): string

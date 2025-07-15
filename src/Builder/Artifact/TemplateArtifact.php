@@ -33,16 +33,16 @@ use JsonSerializable;
  *
  * @internal
  */
-final class TemplateArtifact implements JsonSerializable
+final readonly class TemplateArtifact implements JsonSerializable
 {
     /**
      * @param array{type: string, url: string} $provider
      */
     public function __construct(
-        public readonly string $identifier,
-        public readonly string $hash,
-        public readonly PackageArtifact $package,
-        public readonly array $provider,
+        public string $identifier,
+        public string $hash,
+        public PackageArtifact $package,
+        public array $provider,
     ) {}
 
     /**

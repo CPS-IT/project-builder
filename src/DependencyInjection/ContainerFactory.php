@@ -49,15 +49,15 @@ use function iterator_to_array;
  *
  * @codeCoverageIgnore
  */
-final class ContainerFactory
+final readonly class ContainerFactory
 {
     /**
      * @param list<Finder\SplFileInfo> $resources
      */
     private function __construct(
-        private readonly array $resources,
-        private readonly ?string $containerPath = null,
-        private readonly bool $debug = false,
+        private array $resources,
+        private ?string $containerPath = null,
+        private bool $debug = false,
     ) {}
 
     /**

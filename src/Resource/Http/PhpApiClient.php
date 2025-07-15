@@ -39,11 +39,11 @@ use function property_exists;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class PhpApiClient
+final readonly class PhpApiClient
 {
     public function __construct(
-        private readonly Client\ClientInterface $client,
-        private readonly Message\RequestFactoryInterface $requestFactory,
+        private Client\ClientInterface $client,
+        private Message\RequestFactoryInterface $requestFactory,
     ) {}
 
     /**
