@@ -40,13 +40,29 @@ jobs:
           tools: composer:v${{ matrix.composer-version }}
           coverage: none
 
+      - name: Determine composer options
+        id: composer-options
+        run: |
+          FLAGS=""
+
+          # Composer < 2.7 is not compatible with symfony/console 7.x
+          if (( $(echo "${{ matrix.composer-version }} < 2.7" | bc -l) )); then
+            FLAGS+=" --with symfony/console:<7"
+          fi
+
+          # Include Composer version constraint for Composer >= 2.2
+          if (( $(echo "${{ matrix.composer-version }} >= 2.2" | bc -l) )); then
+            FLAGS+=" --with composer/composer:~${{ matrix.composer-version }}.0"
+          fi
+
+          echo "flags=$FLAGS" >> $GITHUB_OUTPUT
+
       # Install dependencies
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v3
         with:
           dependency-versions: ${{ matrix.dependencies }}
-          # Composer < 2.7 is not compatible with symfony/console 7.x
-          composer-options: ${{ matrix.composer-version < 2.7 && '--with symfony/console:<7' }}
+          composer-options: ${{ steps.composer-options.outputs.flags }}
 
       # Run tests
       - name: Run tests
