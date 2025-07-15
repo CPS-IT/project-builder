@@ -31,10 +31,10 @@ use CPSIT\ProjectBuilder\Builder;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ProjectBuildFinishedEvent
+final readonly class ProjectBuildFinishedEvent
 {
     public function __construct(
-        private readonly Builder\BuildResult $buildResult,
+        private Builder\BuildResult $buildResult,
     ) {}
 
     public function getBuildResult(): Builder\BuildResult

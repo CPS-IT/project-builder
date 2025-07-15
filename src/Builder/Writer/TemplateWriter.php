@@ -35,11 +35,11 @@ use Symfony\Component\Finder;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class TemplateWriter implements WriterInterface
+final readonly class TemplateWriter implements WriterInterface
 {
     public function __construct(
-        private readonly Filesystem\Filesystem $filesystem,
-        private readonly Twig\Renderer $renderer,
+        private Filesystem\Filesystem $filesystem,
+        private Twig\Renderer $renderer,
     ) {}
 
     /**

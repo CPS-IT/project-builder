@@ -31,11 +31,11 @@ use Symfony\Component\Finder;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ProcessedFile
+final readonly class ProcessedFile
 {
     public function __construct(
-        private readonly Finder\SplFileInfo $originalFile,
-        private readonly Finder\SplFileInfo $targetFile,
+        private Finder\SplFileInfo $originalFile,
+        private Finder\SplFileInfo $targetFile,
     ) {}
 
     public function getOriginalFile(): Finder\SplFileInfo

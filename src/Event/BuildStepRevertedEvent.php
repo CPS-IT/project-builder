@@ -31,11 +31,11 @@ use CPSIT\ProjectBuilder\Builder;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class BuildStepRevertedEvent
+final readonly class BuildStepRevertedEvent
 {
     public function __construct(
-        private readonly Builder\Generator\Step\StepInterface $step,
-        private readonly Builder\BuildResult $buildResult,
+        private Builder\Generator\Step\StepInterface $step,
+        private Builder\BuildResult $buildResult,
     ) {}
 
     public function getStep(): Builder\Generator\Step\StepInterface

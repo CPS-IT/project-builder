@@ -40,11 +40,11 @@ use function class_exists;
  *
  * @codeCoverageIgnore
  */
-final class EventListenerPass implements DependencyInjection\Compiler\CompilerPassInterface
+final readonly class EventListenerPass implements DependencyInjection\Compiler\CompilerPassInterface
 {
     public function __construct(
-        private readonly string $tagName,
-        private readonly string $dispatcherId,
+        private string $tagName,
+        private string $dispatcherId,
     ) {}
 
     public function process(DependencyInjection\ContainerBuilder $container): void

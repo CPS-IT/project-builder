@@ -33,10 +33,10 @@ use Throwable;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ErrorHandler
+final readonly class ErrorHandler
 {
     public function __construct(
-        private readonly IO\Messenger $messenger,
+        private IO\Messenger $messenger,
     ) {}
 
     public function handleException(Throwable $exception): void

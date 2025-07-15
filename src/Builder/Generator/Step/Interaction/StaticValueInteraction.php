@@ -35,14 +35,14 @@ use function is_string;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class StaticValueInteraction implements InteractionInterface
+final readonly class StaticValueInteraction implements InteractionInterface
 {
     private const TYPE = 'staticValue';
 
     public function __construct(
-        private readonly IO\InputReader $reader,
-        private readonly Twig\Renderer $renderer,
-        private readonly IO\Validator\ValidatorFactory $validatorFactory,
+        private IO\InputReader $reader,
+        private Twig\Renderer $renderer,
+        private IO\Validator\ValidatorFactory $validatorFactory,
     ) {}
 
     public function interact(
