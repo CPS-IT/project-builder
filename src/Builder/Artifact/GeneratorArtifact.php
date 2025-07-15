@@ -33,11 +33,11 @@ use JsonSerializable;
  *
  * @internal
  */
-final class GeneratorArtifact implements JsonSerializable
+final readonly class GeneratorArtifact implements JsonSerializable
 {
     public function __construct(
-        public readonly PackageArtifact $package,
-        public readonly string $executor,
+        public PackageArtifact $package,
+        public string $executor,
     ) {}
 
     /**

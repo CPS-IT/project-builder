@@ -34,7 +34,7 @@ use stdClass;
  *
  * @internal
  */
-final class ResultArtifact implements JsonSerializable
+final readonly class ResultArtifact implements JsonSerializable
 {
     /**
      * @param array<string, mixed>                        $properties
@@ -42,9 +42,9 @@ final class ResultArtifact implements JsonSerializable
      * @param list<array{source: string, target: string}> $processedFiles
      */
     public function __construct(
-        public readonly array $properties,
-        public readonly array $steps,
-        public readonly array $processedFiles,
+        public array $properties,
+        public array $steps,
+        public array $processedFiles,
     ) {}
 
     /**

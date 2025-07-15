@@ -44,17 +44,17 @@ use function json_decode;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ArtifactReader
+final readonly class ArtifactReader
 {
-    private readonly Valinor\Mapper\TreeMapper $mapper;
+    private Valinor\Mapper\TreeMapper $mapper;
 
     /**
      * @param iterable<Artifact\Migration\Migration> $migrations
      */
     public function __construct(
-        private readonly iterable $migrations,
-        private readonly Filesystem\Filesystem $filesystem,
-        private readonly Json\SchemaValidator $schemaValidator,
+        private iterable $migrations,
+        private Filesystem\Filesystem $filesystem,
+        private Json\SchemaValidator $schemaValidator,
     ) {
         $this->mapper = $this->createMapper();
     }
