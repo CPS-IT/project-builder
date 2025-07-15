@@ -46,7 +46,7 @@ final readonly class ErrorHandler
         $this->messenger->error($exception->getMessage().$this->formatExceptionCode($exception));
 
         if ($exception instanceof Mapper\MappingError) {
-            $this->formatMappingErrors($exception->node());
+            $this->formatMappingErrors($exception);
         }
 
         if (null !== $previousException) {
@@ -62,12 +62,10 @@ final readonly class ErrorHandler
         }
     }
 
-    private function formatMappingErrors(Mapper\Tree\Node $node): void
+    private function formatMappingErrors(Mapper\MappingError $error): void
     {
-        $errors = Mapper\Tree\Message\Messages::flattenFromNode($node)->errors();
-
-        foreach ($errors as $error) {
-            $this->messenger->error('- '.$error);
+        foreach ($error->messages() as $message) {
+            $this->messenger->error('- '.$message);
         }
     }
 
