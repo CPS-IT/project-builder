@@ -50,7 +50,7 @@
 		"composer/xdebug-handler": "^3.0",
 		"cpsit/php-cs-fixer-config": "^1.1",
 		"donatj/mock-webserver": "^2.5",
-		"eliashaeussler/version-bumper": "^1.2",
+		"eliashaeussler/version-bumper": "^2.0 || ^3.0",
 		"ergebnis/composer-normalize": "^2.26",
 		"phpstan/extension-installer": "^1.2",
 		"phpstan/phpstan": "^2.0",
@@ -59,8 +59,8 @@
 		"phpstan/phpstan-strict-rules": "^2.0",
 		"phpstan/phpstan-symfony": "^2.0",
 		"phpstan/phpstan-webmozart-assert": "^2.0",
-		"phpunit/phpunit": "^10.1 || ^11.0",
-		"rector/rector": "^2.0@rc",
+		"phpunit/phpunit": "^10.1 || ^11.0 || ^12.0",
+		"rector/rector": "^2.0",
 		"seld/jsonlint": "^1.9"
 	},
 	"autoload": {
