@@ -28,7 +28,6 @@ use Symfony\Component\Console;
 
 use function fopen;
 use function fseek;
-use function is_string;
 use function stream_get_contents;
 
 /**
@@ -64,13 +63,7 @@ final class BufferedConsoleOutput extends Console\Output\StreamOutput implements
     {
         fseek($this->stream, 0);
 
-        $output = stream_get_contents($this->stream);
-
-        if (!is_string($output)) {
-            throw new RuntimeException('The output stream cannot be processed.', 1687607309);
-        }
-
-        return $output;
+        return stream_get_contents($this->stream);
     }
 
     public function getErrorOutput(): Console\Output\OutputInterface
