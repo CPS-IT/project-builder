@@ -54,7 +54,7 @@ final class MisconfiguredValidatorException extends Exception
     }
 
     /**
-     * @param list<string> $options
+     * @param non-empty-list<string> $options
      */
     public static function forUnexpectedOptions(
         string|IO\Validator\ValidatorInterface $validator,
