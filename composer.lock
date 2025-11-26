@@ -3755,32 +3755,32 @@
         },
         {
             "name": "cpsit/php-cs-fixer-config",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CPS-IT/php-cs-fixer-config.git",
-                "reference": "ce51940f501753387160c25d83852e4a71f5bb76"
+                "reference": "129f67201b0d0ef24660a542b0d3d6c047162c64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CPS-IT/php-cs-fixer-config/zipball/ce51940f501753387160c25d83852e4a71f5bb76",
-                "reference": "ce51940f501753387160c25d83852e4a71f5bb76",
+                "url": "https://api.github.com/repos/CPS-IT/php-cs-fixer-config/zipball/129f67201b0d0ef24660a542b0d3d6c047162c64",
+                "reference": "129f67201b0d0ef24660a542b0d3d6c047162c64",
                 "shasum": ""
             },
             "require": {
                 "friendsofphp/php-cs-fixer": "^3.14",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0"
             },
             "require-dev": {
                 "armin/editorconfig-cli": "^1.8 || ^2.0",
                 "ergebnis/composer-normalize": "^2.41",
                 "phpstan/extension-installer": "^1.3",
-                "phpstan/phpstan": "^1.10",
-                "phpstan/phpstan-deprecation-rules": "^1.1",
-                "phpstan/phpstan-phpunit": "^1.3",
-                "phpstan/phpstan-strict-rules": "^1.5",
-                "phpunit/phpunit": "^10.1 || ^11.0",
-                "rector/rector": "^1.0.0"
+                "phpstan/phpstan": "^2.0",
+                "phpstan/phpstan-deprecation-rules": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpstan/phpstan-strict-rules": "^2.0",
+                "phpunit/phpunit": "^10.1 || ^11.0 || ^12.0",
+                "rector/rector": "^2.0"
             },
             "type": "library",
             "autoload": {
@@ -3803,9 +3803,9 @@
             "description": "Shared PHP-CS-Fixer configuration for CPS projects",
             "support": {
                 "issues": "https://github.com/CPS-IT/php-cs-fixer-config/issues",
-                "source": "https://github.com/CPS-IT/php-cs-fixer-config/tree/1.2.0"
+                "source": "https://github.com/CPS-IT/php-cs-fixer-config/tree/1.3.0"
             },
-            "time": "2024-11-07T07:08:55+00:00"
+            "time": "2025-11-26T08:51:49+00:00"
         },
         {
             "name": "cypresslab/gitelephant",
