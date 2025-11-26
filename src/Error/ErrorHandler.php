@@ -27,6 +27,8 @@ use CPSIT\ProjectBuilder\IO;
 use CuyZ\Valinor\Mapper;
 use Throwable;
 
+use function method_exists;
+
 /**
  * ErrorHandler.
  *
@@ -46,7 +48,7 @@ final class ErrorHandler
         $this->messenger->error($exception->getMessage().$this->formatExceptionCode($exception));
 
         if ($exception instanceof Mapper\MappingError) {
-            $this->formatMappingErrors($exception->node());
+            $this->formatMappingErrors($exception);
         }
 
         if (null !== $previousException) {
@@ -62,12 +64,20 @@ final class ErrorHandler
         }
     }
 
-    private function formatMappingErrors(Mapper\Tree\Node $node): void
+    private function formatMappingErrors(Mapper\MappingError $error): void
     {
-        $errors = Mapper\Tree\Message\Messages::flattenFromNode($node)->errors();
+        /* @phpstan-ignore function.alreadyNarrowedType */
+        if (method_exists($error, 'node')) {
+            // @todo Remove once support for Valinor v1 is dropped
+            $messages = Mapper\Tree\Message\Messages::flattenFromNode($error->node())->errors();
+        } else {
+            /** @var Mapper\Tree\Message\Messages $messages */
+            /* @phpstan-ignore method.notFound, method.nonObject */
+            $messages = $error->messages()->errors();
+        }
 
-        foreach ($errors as $error) {
-            $this->messenger->error('- '.$error);
+        foreach ($messages as $message) {
+            $this->messenger->error('- '.$message);
         }
     }
 
