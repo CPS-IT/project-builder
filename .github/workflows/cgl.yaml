@@ -13,7 +13,7 @@ jobs:
   cgl:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -21,8 +21,8 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          # @todo Use PHP 8.4 once PHP-CS-Fixer supports it
-          php-version: 8.3
+          # We use the minimum supported PHP version
+          php-version: 8.1
           tools: composer:v2, composer-require-checker, composer-unused, cs2pr
           coverage: none
 

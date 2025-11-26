@@ -135,8 +135,7 @@ final class ErrorHandlerTest extends Tests\ContainerAwareTestCase
                 $error,
                 [
                     'Could not map type `array{foo: string}`',
-                    '[1617193185]',
-                    'Cannot be empty and must be filled with a value matching type `array{foo: string}`.',
+                    'Cannot be empty and must be filled with a value matching `array{foo: string}`.',
                 ],
             ];
         }

@@ -1,7 +1,5 @@
 # Contribution workflow
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/a84923d4d61c50561186/maintainability)][1]
-
 Thanks for considering contributing to this project! Each contribution is
 highly appreciated. In order to maintain a high code quality, please follow
 all steps below.
@@ -157,7 +155,6 @@ All described code quality tools are automatically executed on each pull request
 for all currently supported PHP versions and Composer versions. Take a look at
 the appropriate [workflows][7] to get a detailed overview.
 
-[1]: https://codeclimate.com/github/CPS-IT/project-builder/maintainability
 [2]: https://semver.org/
 [3]: https://github.com/CPS-IT/project-builder/actions/workflows/cgl.yaml
 [4]: https://github.com/CPS-IT/project-builder/actions/workflows/tests.yaml

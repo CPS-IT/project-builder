@@ -444,7 +444,7 @@ final class Messenger
             array_unshift($alternatives, '');
         }
         if (is_scalar($default) && (!is_string($default) || '' !== trim($default))) {
-            $label .= sprintf(' [<info>%s</info>%s]', $default, implode('/', $alternatives));
+            $label .= sprintf(' [<info>%s</info>%s]', (string) $default, implode('/', $alternatives));
         }
 
         $label .= ': ';
