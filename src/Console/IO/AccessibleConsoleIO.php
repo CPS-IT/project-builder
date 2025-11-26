@@ -93,7 +93,6 @@ final class AccessibleConsoleIO extends IO\ConsoleIO
     ): mixed {
         $classReflection = new ReflectionClass($object);
         $propertyReflection = $classReflection->getProperty($propertyName);
-        $propertyReflection->setAccessible(true);
         $value = $propertyReflection->getValue($object);
 
         if (!($value instanceof $expectedType)) {

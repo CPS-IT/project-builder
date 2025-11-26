@@ -95,7 +95,7 @@ final class BaseMigrationTest extends Framework\TestCase
         $this->subject->remapArguments = [
             'foo.baz',
             null,
-            static fn (string $currentValue) => strrev($currentValue),
+            strrev(...),
         ];
 
         $expected = [
@@ -114,7 +114,7 @@ final class BaseMigrationTest extends Framework\TestCase
         $this->subject->remapArguments = [
             'foo.baz',
             'baz',
-            static fn (string $currentValue) => strrev($currentValue),
+            strrev(...),
         ];
 
         $expected = [

@@ -110,7 +110,7 @@ final readonly class ArtifactReader
         }
 
         // Assure artifact is an associative array
-        if ($artifact !== array_filter($artifact, 'is_string', ARRAY_FILTER_USE_KEY)) {
+        if ($artifact !== array_filter($artifact, is_string(...), ARRAY_FILTER_USE_KEY)) {
             throw Exception\InvalidArtifactException::forFile($file);
         }
 

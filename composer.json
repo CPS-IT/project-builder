@@ -23,7 +23,7 @@
 		"composer-plugin-api": "^2.1",
 		"composer-runtime-api": "^2.1",
 		"cocur/slugify": "^4.1",
-		"cuyz/valinor": "^2.0",
+		"cuyz/valinor": "^2.2",
 		"guzzlehttp/guzzle": "^7.0",
 		"nyholm/psr7": "^1.5",
 		"opis/json-schema": "^2.3",
