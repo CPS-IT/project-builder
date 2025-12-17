@@ -40,7 +40,7 @@
 		"symfony/process": "^5.4 || ^6.0 || ^7.0",
 		"symfony/yaml": "^5.4 || ^6.0 || ^7.0",
 		"twig/twig": "^3.3.3",
-		"webmozart/assert": "^1.11"
+		"webmozart/assert": "^2.0"
 	},
 	"require-dev": {
 		"armin/editorconfig-cli": "^1.6 || ^2.0",
