@@ -144,7 +144,7 @@ final class ConfigFactory
             FileType::Json => json_decode($content, false, 512, JSON_THROW_ON_ERROR),
         };
 
-        if (!($parsedContent instanceof stdClass)) {
+        if (!$parsedContent instanceof stdClass) {
             throw Exception\InvalidConfigurationException::forSource($content);
         }
 
