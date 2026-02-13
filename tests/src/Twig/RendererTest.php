@@ -48,7 +48,7 @@ final class RendererTest extends Tests\ContainerAwareTestCase
         parent::setUp();
 
         $this->subject = $this->container->get(Src\Twig\Renderer::class)
-            ->withRootPath(dirname(__DIR__, 2).'/templates')
+            ->withRootPath(Src\Helper\FilesystemHelper::path(dirname(__DIR__, 2), 'templates'))
         ;
         $this->instructions = new Src\Builder\BuildInstructions(
             $this->container->get('app.config'),
@@ -110,8 +110,8 @@ final class RendererTest extends Tests\ContainerAwareTestCase
         $actual = $this->subject->render($this->instructions, 'dump.json.twig', ['bar' => 'bar']);
         $expected = [
             'instructions' => [
-                'sourceDirectory' => dirname(__DIR__).'/templates/src',
-                'sharedSourceDirectory' => dirname(__DIR__).'/templates/shared',
+                'sourceDirectory' => Src\Helper\FilesystemHelper::path(dirname(__DIR__), 'templates/src'),
+                'sharedSourceDirectory' => Src\Helper\FilesystemHelper::path(dirname(__DIR__), 'templates/shared'),
             ],
             'foo' => 'foo',
             'bar' => 'bar',

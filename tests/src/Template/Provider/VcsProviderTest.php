@@ -113,7 +113,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         $this->subject->listTemplateSources();
 
         self::assertTrue($io->isOutputWritten());
-        self::assertStringContainsString(PHP_EOL, $this->io->getOutput());
+        self::assertStringContainsString(LF, $this->io->getOutput());
 
         $this->filesystem->remove($repoA);
     }
@@ -189,13 +189,21 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
 
         [$templateSource] = $this->subject->listTemplateSources();
 
-        self::assertDirectoryDoesNotExist($this->temporaryRootPath.'/.build/templates/repo-a');
-        self::assertDirectoryDoesNotExist($this->temporaryRootPath.'/.build/templates/repo-b');
+        self::assertDirectoryDoesNotExist(
+            Src\Helper\FilesystemHelper::path($this->temporaryRootPath, '.build/templates/repo-a'),
+        );
+        self::assertDirectoryDoesNotExist(
+            Src\Helper\FilesystemHelper::path($this->temporaryRootPath, '.build/templates/repo-b'),
+        );
 
         $this->subject->installTemplateSource($templateSource);
 
-        self::assertDirectoryExists($this->temporaryRootPath.'/.build/templates/repo-a');
-        self::assertDirectoryExists($this->temporaryRootPath.'/.build/templates/repo-b');
+        self::assertDirectoryExists(
+            Src\Helper\FilesystemHelper::path($this->temporaryRootPath, '.build/templates/repo-a'),
+        );
+        self::assertDirectoryExists(
+            Src\Helper\FilesystemHelper::path($this->temporaryRootPath, '.build/templates/repo-b'),
+        );
 
         $output = $this->io->getOutput();
         $repositories = $this->fetchConfiguredRepositoriesViaReflection();
@@ -276,25 +284,25 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
             $runner = $this->container->get(Cli\Command\Runner::class);
 
             // Initialize repository
-            $initCommand = (new Cli\Command\Executable('git'))
+            $initCommand = $this->createGitExecutable()
                 ->addArgument('init')
             ;
             self::assertTrue($runner->run($initCommand)->isSuccessful());
 
             // Configure author
-            $configEmailCommand = (new Cli\Command\Executable('git'))
+            $configEmailCommand = $this->createGitExecutable()
                 ->addArgument('config')
                 ->addArgument('user.email')
                 ->addArgument('noreply@example.com')
             ;
             self::assertTrue($runner->run($configEmailCommand)->isSuccessful());
-            $configNameCommand = (new Cli\Command\Executable('git'))
+            $configNameCommand = $this->createGitExecutable()
                 ->addArgument('config')
                 ->addArgument('user.name')
                 ->addArgument('Test bot')
             ;
             self::assertTrue($runner->run($configNameCommand)->isSuccessful());
-            $configSignCommand = (new Cli\Command\Executable('git'))
+            $configSignCommand = $this->createGitExecutable()
                 ->addArgument('config')
                 ->addArgument('commit.gpgsign')
                 ->addArgument('false')
@@ -302,36 +310,39 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
             self::assertTrue($runner->run($configSignCommand)->isSuccessful());
 
             // Add composer.json
-            $this->filesystem->dumpFile($repoDir.'/composer.json', Json\JsonFile::encode([
-                'name' => $composerName,
-                'type' => 'project-builder-template',
-                'require' => $requirements,
-                'extra' => $extra,
-            ]));
+            $this->filesystem->dumpFile(
+                Src\Helper\FilesystemHelper::path($repoDir, 'composer.json'),
+                Json\JsonFile::encode([
+                    'name' => $composerName,
+                    'type' => 'project-builder-template',
+                    'require' => $requirements,
+                    'extra' => $extra,
+                ]),
+            );
 
             // Create branch
-            $checkoutCommand = (new Cli\Command\Executable('git'))
+            $checkoutCommand = $this->createGitExecutable()
                 ->addArgument('checkout')
                 ->addOption('--orphan', 'main')
             ;
             self::assertTrue($runner->run($checkoutCommand)->isSuccessful());
 
             // Add files
-            $addCommand = (new Cli\Command\Executable('git'))
+            $addCommand = $this->createGitExecutable()
                 ->addArgument('add')
                 ->addArgument('composer.json')
             ;
             self::assertTrue($runner->run($addCommand)->isSuccessful());
 
             // Commit files
-            $commitCommand = (new Cli\Command\Executable('git'))
+            $commitCommand = $this->createGitExecutable()
                 ->addArgument('commit')
                 ->addOption('--message', 'Add composer.json')
             ;
             self::assertTrue($runner->run($commitCommand)->isSuccessful());
 
             // Create tag
-            $tagCommand = (new Cli\Command\Executable('git'))
+            $tagCommand = $this->createGitExecutable()
                 ->addArgument('tag')
                 ->addArgument('1.0.0')
             ;
@@ -354,6 +365,17 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         $code($directory);
 
         chdir($currentWorkingDirectory);
+    }
+
+    private function createGitExecutable(): Cli\Command\Executable
+    {
+        if (PHP_OS_FAMILY === 'Windows') {
+            $binary = 'git.exe';
+        } else {
+            $binary = 'git';
+        }
+
+        return new Cli\Command\Executable($binary);
     }
 
     protected function tearDown(): void

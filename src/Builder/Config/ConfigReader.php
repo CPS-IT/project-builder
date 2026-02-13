@@ -65,7 +65,7 @@ final class ConfigReader
 
     public static function create(?string $templateDirectory = null): self
     {
-        $templateDirectory ??= Filesystem\Path::join(Helper\FilesystemHelper::getProjectRootPath(), Paths::PROJECT_TEMPLATES);
+        $templateDirectory ??= Helper\FilesystemHelper::path(Helper\FilesystemHelper::getProjectRootPath(), Paths::PROJECT_TEMPLATES);
 
         return new self(ConfigFactory::create(), $templateDirectory);
     }

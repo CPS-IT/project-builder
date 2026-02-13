@@ -47,7 +47,7 @@ final class FilesystemHelperTest extends Framework\TestCase
 
         self::assertSame($relativePathname, $actual->getRelativePathname());
         self::assertSame('.', $actual->getRelativePath());
-        self::assertSame($baseDir.'/'.$relativePathname, $actual->getPathname());
+        self::assertSame(Src\Helper\FilesystemHelper::path($baseDir, $relativePathname), $actual->getPathname());
     }
 
     #[Framework\Attributes\Test]

@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Builder\Generator\Step;
 
 use CPSIT\ProjectBuilder\Builder;
+use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\IO;
 use CPSIT\ProjectBuilder\Paths;
 use CPSIT\ProjectBuilder\Resource;
@@ -95,7 +96,7 @@ final class ProcessSharedSourceFilesStep extends AbstractStep implements Process
 
     private function listSharedSourceFiles(Builder\BuildInstructions $instructions): Finder\Finder
     {
-        $basePath = Filesystem\Path::join(
+        $basePath = Helper\FilesystemHelper::path(
             $instructions->getSharedSourceDirectory(),
             // Include all installed shared source packages
             '*',

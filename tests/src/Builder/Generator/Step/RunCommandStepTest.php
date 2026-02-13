@@ -136,9 +136,22 @@ final class RunCommandStepTest extends Tests\ContainerAwareTestCase
             ),
         );
 
+        $workingDirectory = $this->result->getWrittenDirectory();
+
+        $fileSystem = new Filesystem\Filesystem();
+        if (!$fileSystem->exists($workingDirectory)) {
+            $fileSystem->mkdir($workingDirectory);
+        }
+
+        if (PHP_OS_FAMILY === 'Windows') {
+            $expected = 'is not recognized as an internal or external command';
+        } else {
+            $expected = 'not found';
+        }
+
         self::assertTrue($this->subject->run($this->result));
         self::assertFalse($this->subject->isStopped());
-        self::assertStringContainsString('not found', $this->io->getOutput());
+        self::assertStringContainsString($expected, $this->io->getOutput());
     }
 
     #[Framework\Attributes\Test]
