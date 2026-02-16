@@ -63,7 +63,7 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
         $this->expectException(Assert\InvalidArgumentException::class);
         $this->expectExceptionMessageMatches(
             // @todo Remove class specific expectation once support for webmozart/assert v1 is dropped
-            '/Expected an (object|instance of '.addcslashes(Src\Builder\BuildInstructions::class, '\\').'|object)\. Got: NULL/',
+            '/Expected an (object|instance of '.addcslashes(Src\Builder\BuildInstructions::class, '\\').')\. Got: NULL/',
         );
 
         /* @phpstan-ignore-next-line argument.type */
