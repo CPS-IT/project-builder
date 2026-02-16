@@ -53,7 +53,7 @@ final class AccessibleConsoleIO extends IO\ConsoleIO
      */
     public static function fromIO(IO\IOInterface $io): self
     {
-        if (!($io instanceof IO\ConsoleIO)) {
+        if (!$io instanceof IO\ConsoleIO) {
             return new self(
                 new Console\Input\ArgvInput(),
                 new Console\Output\ConsoleOutput(),
@@ -95,7 +95,7 @@ final class AccessibleConsoleIO extends IO\ConsoleIO
         $propertyReflection = $classReflection->getProperty($propertyName);
         $value = $propertyReflection->getValue($object);
 
-        if (!($value instanceof $expectedType)) {
+        if (!$value instanceof $expectedType) {
             throw Exception\ShouldNotHappenException::create();
         }
 

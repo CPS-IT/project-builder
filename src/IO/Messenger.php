@@ -131,7 +131,7 @@ final class Messenger
 
         $selectedProvider = $providers[(int) $index];
 
-        if (!($selectedProvider instanceof Template\Provider\CustomProviderInterface)) {
+        if (!$selectedProvider instanceof Template\Provider\CustomProviderInterface) {
             $this->newLine();
 
             return $selectedProvider;
@@ -457,7 +457,7 @@ final class Messenger
         $package = $templateSource->getPackage();
         $name = $package->getPrettyName();
 
-        if (!($package instanceof Package\CompletePackageInterface)) {
+        if (!$package instanceof Package\CompletePackageInterface) {
             return $name;
         }
 

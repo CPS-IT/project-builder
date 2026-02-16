@@ -107,7 +107,7 @@ final readonly class EventListenerPass implements DependencyInjection\Compiler\C
         [$firstParameter] = $methodReflection->getParameters();
         $parameterType = $firstParameter->getType();
 
-        if (!($parameterType instanceof ReflectionNamedType)) {
+        if (!$parameterType instanceof ReflectionNamedType) {
             throw Exception\ShouldNotHappenException::create();
         }
 
