@@ -61,17 +61,36 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
 
         $actual = $this->subject->run($this->result);
 
+        $temporaryDirectory = $this->result->getInstructions()->getTemporaryDirectory();
+
         self::assertTrue($actual);
         self::assertCount(4, $this->subject->getProcessedFiles());
-        self::assertSame('overrides/dummy-4.yaml', $this->subject->getProcessedFiles()[0]->getTargetFile()->getRelativePathname());
+        self::assertSame(
+            'overrides/dummy-4.yaml',
+            $this->subject->getProcessedFiles()[0]->getTargetFile()->getRelativePathname(),
+        );
         self::assertSame('dummy.yaml', $this->subject->getProcessedFiles()[1]->getTargetFile()->getRelativePathname());
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/dummy.yaml');
-        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/dummy-2.yaml');
-        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/dummy-3.yaml');
-        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/dummy-4.yaml');
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/overrides/dummy-4.yaml');
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/foo-baz-dummy/dummy-1.yaml');
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/foo-baz-dummy/dummy-2.yaml');
+        self::assertFileExists(
+            Src\Helper\FilesystemHelper::path($temporaryDirectory.'/dummy.yaml'),
+        );
+        self::assertFileDoesNotExist(
+            Src\Helper\FilesystemHelper::path($temporaryDirectory.'/dummy-2.yaml'),
+        );
+        self::assertFileDoesNotExist(
+            Src\Helper\FilesystemHelper::path($temporaryDirectory.'/dummy-3.yaml'),
+        );
+        self::assertFileDoesNotExist(
+            Src\Helper\FilesystemHelper::path($temporaryDirectory.'/dummy-4.yaml'),
+        );
+        self::assertFileExists(
+            Src\Helper\FilesystemHelper::path($temporaryDirectory.'/overrides/dummy-4.yaml'),
+        );
+        self::assertFileExists(
+            Src\Helper\FilesystemHelper::path($temporaryDirectory.'/foo-baz-dummy/dummy-1.yaml'),
+        );
+        self::assertFileExists(
+            Src\Helper\FilesystemHelper::path($temporaryDirectory.'/foo-baz-dummy/dummy-2.yaml'),
+        );
         self::assertTrue($this->result->isStepApplied($this->subject));
     }
 
@@ -86,7 +105,7 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
         string $expected,
         array $notExpected,
     ): void {
-        $declaringFile = dirname(__DIR__, 3).'/Fixtures/Templates/yaml-template/config.yaml';
+        $declaringFile = Src\Helper\FilesystemHelper::path(dirname(__DIR__, 3), 'Fixtures/Templates/yaml-template/config.yaml');
         $step = new Src\Builder\Config\ValueObject\Step(
             'processSourceFiles',
             new Src\Builder\Config\ValueObject\StepOptions($fileConditions),
@@ -102,10 +121,14 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
 
         $this->subject->run($result);
 
-        self::assertFileExists($result->getInstructions()->getTemporaryDirectory().'/'.$expected);
+        self::assertFileExists(
+            Src\Helper\FilesystemHelper::path($result->getInstructions()->getTemporaryDirectory(), $expected),
+        );
 
         foreach ($notExpected as $notExpectedFile) {
-            self::assertFileDoesNotExist($result->getInstructions()->getTemporaryDirectory().'/'.$notExpectedFile);
+            self::assertFileDoesNotExist(
+                Src\Helper\FilesystemHelper::path($result->getInstructions()->getTemporaryDirectory(), $notExpectedFile),
+            );
         }
     }
 
@@ -114,11 +137,15 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
     {
         $this->subject->run($this->result);
 
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/dummy.yaml');
+        self::assertFileExists(
+            Src\Helper\FilesystemHelper::path($this->result->getInstructions()->getTemporaryDirectory(), 'dummy.yaml'),
+        );
 
         $this->subject->revert($this->result);
 
-        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/dummy.yaml');
+        self::assertFileDoesNotExist(
+            Src\Helper\FilesystemHelper::path($this->result->getInstructions()->getTemporaryDirectory(), 'dummy.yaml'),
+        );
     }
 
     /**
@@ -169,7 +196,7 @@ final class ProcessSourceFilesStepTest extends Tests\ContainerAwareTestCase
         $configFactory = Src\Builder\Config\ConfigFactory::create();
 
         return $configFactory->buildFromFile(
-            dirname(__DIR__, 3).'/Fixtures/Templates/yaml-template/config.yaml',
+            Src\Helper\FilesystemHelper::path(dirname(__DIR__, 3), 'Fixtures/Templates/yaml-template/config.yaml'),
             'yaml',
         );
     }

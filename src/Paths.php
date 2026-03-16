@@ -49,6 +49,11 @@ enum Paths
     final public const PROJECT_SCHEMA_CONFIG = 'resources/config.schema.json';
 
     /**
+     * Internal reference to the JSON schema for template config files.
+     */
+    final public const PROJECT_SCHEMA_REFERENCE = 'https://project-builder.cps-it.de/schema.json';
+
+    /**
      * Path to service configurations.
      */
     final public const PROJECT_SERVICE_CONFIG = 'config';
