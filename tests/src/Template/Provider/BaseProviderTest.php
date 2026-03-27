@@ -369,7 +369,7 @@ final class BaseProviderTest extends Tests\ContainerAwareTestCase
         string $templateName = 'json-template',
         string $prettyVersion = '1.0.0',
     ): Package\Package {
-        $fixturePath = dirname(__DIR__, 2).'/Fixtures/Templates/'.$templateName;
+        $fixturePath = Src\Helper\FilesystemHelper::path(dirname(__DIR__, 2), 'Fixtures/Templates', $templateName);
 
         self::assertDirectoryExists($fixturePath);
 

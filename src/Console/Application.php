@@ -27,6 +27,7 @@ use CPSIT\ProjectBuilder\Builder;
 use CPSIT\ProjectBuilder\DependencyInjection;
 use CPSIT\ProjectBuilder\Error;
 use CPSIT\ProjectBuilder\Exception;
+use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\IO;
 use CPSIT\ProjectBuilder\Paths;
 use CPSIT\ProjectBuilder\Resource;
@@ -127,8 +128,8 @@ final class Application
     private function mirrorSourceFiles(): void
     {
         $this->filesystem->mirror(
-            Filesystem\Path::join($this->targetDirectory, Paths::PROJECT_SOURCES),
-            Filesystem\Path::join($this->targetDirectory, '.build', Paths::PROJECT_SOURCES),
+            Helper\FilesystemHelper::path($this->targetDirectory, Paths::PROJECT_SOURCES),
+            Helper\FilesystemHelper::path($this->targetDirectory, '.build', Paths::PROJECT_SOURCES),
         );
     }
 
