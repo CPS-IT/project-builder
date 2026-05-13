@@ -85,7 +85,7 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
                 Src\Builder\Generator\Step\ShowNextStepsStep::getType(),
                 new Src\Builder\Config\ValueObject\StepOptions(
                     [],
-                    dirname(__DIR__, 3).'/Fixtures/Files/invalid-template.twig',
+                    Src\Helper\FilesystemHelper::path(dirname(__DIR__, 3), 'Fixtures/Files/invalid-template.twig'),
                 ),
             ),
         );
@@ -105,7 +105,7 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
                 Src\Builder\Generator\Step\ShowNextStepsStep::getType(),
                 new Src\Builder\Config\ValueObject\StepOptions(
                     [],
-                    dirname(__DIR__, 3).'/Fixtures/Templates/yaml-template/templates/next-steps.html.twig',
+                    Src\Helper\FilesystemHelper::path(dirname(__DIR__, 3), 'Fixtures/Templates/yaml-template/templates/next-steps.html.twig'),
                 ),
             ),
         );
@@ -115,7 +115,7 @@ final class ShowNextStepsStepTest extends Tests\ContainerAwareTestCase
 
         self::assertTrue($actual);
         self::assertStringContainsString('Next steps', $output);
-        self::assertStringContainsString('Hello'.PHP_EOL.'World', $output);
+        self::assertStringContainsString('Hello'.LF.'World', $output);
         self::assertTrue($this->result->isStepApplied($this->subject));
     }
 }

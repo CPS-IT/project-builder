@@ -58,17 +58,36 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
 
         $actual = $this->subject->run($this->result);
 
+        $temporaryDirectory = $this->result->getInstructions()->getTemporaryDirectory();
+
         self::assertTrue($actual);
         self::assertCount(4, $this->subject->getProcessedFiles());
-        self::assertSame('overrides/shared-dummy-4.yaml', $this->subject->getProcessedFiles()[0]->getTargetFile()->getRelativePathname());
+        self::assertSame(
+            'overrides/shared-dummy-4.yaml',
+            $this->subject->getProcessedFiles()[0]->getTargetFile()->getRelativePathname(),
+        );
         self::assertSame('shared-dummy.yaml', $this->subject->getProcessedFiles()[1]->getTargetFile()->getRelativePathname());
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy.yaml');
-        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy-2.yaml');
-        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy-3.yaml');
-        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy-4.yaml');
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/overrides/shared-dummy-4.yaml');
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/foo-baz-shared-dummy/shared-dummy-1.yaml');
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/foo-baz-shared-dummy/shared-dummy-2.yaml');
+        self::assertFileExists(
+            Src\Helper\FilesystemHelper::path($temporaryDirectory, 'shared-dummy.yaml'),
+        );
+        self::assertFileDoesNotExist(
+            Src\Helper\FilesystemHelper::path($temporaryDirectory, 'shared-dummy-2.yaml'),
+        );
+        self::assertFileDoesNotExist(
+            Src\Helper\FilesystemHelper::path($temporaryDirectory, 'shared-dummy-3.yaml'),
+        );
+        self::assertFileDoesNotExist(
+            Src\Helper\FilesystemHelper::path($temporaryDirectory, 'shared-dummy-4.yaml'),
+        );
+        self::assertFileExists(
+            Src\Helper\FilesystemHelper::path($temporaryDirectory, 'overrides/shared-dummy-4.yaml'),
+        );
+        self::assertFileExists(
+            Src\Helper\FilesystemHelper::path($temporaryDirectory, 'foo-baz-shared-dummy/shared-dummy-1.yaml'),
+        );
+        self::assertFileExists(
+            Src\Helper\FilesystemHelper::path($temporaryDirectory, 'foo-baz-shared-dummy/shared-dummy-2.yaml'),
+        );
         self::assertTrue($this->result->isStepApplied($this->subject));
     }
 
@@ -77,11 +96,15 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
     {
         $this->subject->run($this->result);
 
-        self::assertFileExists($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy.yaml');
+        self::assertFileExists(
+            Src\Helper\FilesystemHelper::path($this->result->getInstructions()->getTemporaryDirectory(), 'shared-dummy.yaml'),
+        );
 
         $this->subject->revert($this->result);
 
-        self::assertFileDoesNotExist($this->result->getInstructions()->getTemporaryDirectory().'/shared-dummy.yaml');
+        self::assertFileDoesNotExist(
+            Src\Helper\FilesystemHelper::path($this->result->getInstructions()->getTemporaryDirectory(), 'shared-dummy.yaml'),
+        );
     }
 
     protected function createConfig(): Src\Builder\Config\Config
@@ -89,7 +112,7 @@ final class ProcessSharedSourceFilesStepTest extends Tests\ContainerAwareTestCas
         $configFactory = Src\Builder\Config\ConfigFactory::create();
 
         return $configFactory->buildFromFile(
-            dirname(__DIR__, 3).'/Fixtures/Templates/yaml-template/config.yaml',
+            Src\Helper\FilesystemHelper::path(dirname(__DIR__, 3), 'Fixtures/Templates/yaml-template/config.yaml'),
             'yaml',
         );
     }

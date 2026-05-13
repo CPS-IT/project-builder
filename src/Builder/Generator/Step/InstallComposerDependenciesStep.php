@@ -25,10 +25,10 @@ namespace CPSIT\ProjectBuilder\Builder\Generator\Step;
 
 use Composer\IO as ComposerIO;
 use CPSIT\ProjectBuilder\Builder;
+use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\IO;
 use CPSIT\ProjectBuilder\Resource;
 use Symfony\Component\Console;
-use Symfony\Component\Filesystem;
 
 /**
  * InstallComposerDependenciesStep.
@@ -49,7 +49,7 @@ final class InstallComposerDependenciesStep extends AbstractStep
 
     public function run(Builder\BuildResult $buildResult): bool
     {
-        $composerJson = Filesystem\Path::join($buildResult->getInstructions()->getTemplateDirectory(), 'composer.json');
+        $composerJson = Helper\FilesystemHelper::path($buildResult->getInstructions()->getTemplateDirectory(), 'composer.json');
         $exitCode = $this->runComposerInstall($composerJson);
 
         $buildResult->applyStep($this);

@@ -28,7 +28,9 @@ use Symfony\Component\Filesystem;
 use Symfony\Component\Finder;
 
 use function dirname;
+use function explode;
 use function getenv;
+use function implode;
 
 /**
  * FilesystemHelper.
@@ -41,7 +43,7 @@ final class FilesystemHelper
     public static function createFileObject(string $baseDir, string $relativePathname): Finder\SplFileInfo
     {
         return new Finder\SplFileInfo(
-            Filesystem\Path::join($baseDir, $relativePathname),
+            self::path($baseDir, $relativePathname),
             dirname($relativePathname),
             $relativePathname,
         );
@@ -50,7 +52,7 @@ final class FilesystemHelper
     public static function getNewTemporaryDirectory(): string
     {
         do {
-            $dir = Filesystem\Path::join(sys_get_temp_dir(), uniqid('cpsit_project_builder_'));
+            $dir = self::path(sys_get_temp_dir(), uniqid('cpsit_project_builder_'));
         } while (is_dir($dir));
 
         return $dir;
@@ -63,9 +65,16 @@ final class FilesystemHelper
         }
 
         if (null !== $rootPath) {
-            $rootPath = Filesystem\Path::canonicalize($rootPath);
+            $rootPath = self::path($rootPath);
         }
 
         return $rootPath ?? dirname(__DIR__, 2);
+    }
+
+    public static function path(string ...$segments): string
+    {
+        $normalizedSegments = explode('/', Filesystem\Path::join(...$segments));
+
+        return implode(DIRECTORY_SEPARATOR, $normalizedSegments);
     }
 }

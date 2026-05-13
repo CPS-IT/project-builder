@@ -23,6 +23,14 @@ declare(strict_types=1);
 
 use CPSIT\ProjectBuilder\DependencyInjection;
 
+// Assure cross-platform compatible line break is used in tests
+if (!defined('LF')) {
+    define('LF', match (PHP_OS) {
+        'Windows' => "\r\n",
+        default => "\n",
+    });
+}
+
 require_once dirname(__DIR__).'/.build/vendor/autoload.php';
 
 $factory = DependencyInjection\ContainerFactory::createForTesting();

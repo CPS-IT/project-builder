@@ -66,7 +66,7 @@ abstract class BaseProvider implements ProviderInterface
         $this->composer = new Resource\Local\Composer($this->filesystem);
         $this->renderer = new Environment(
             new Loader\FilesystemLoader([
-                Filesystem\Path::join(
+                Helper\FilesystemHelper::path(
                     Helper\FilesystemHelper::getProjectRootPath(),
                     Paths::PROJECT_INSTALLER,
                 ),
@@ -274,7 +274,7 @@ abstract class BaseProvider implements ProviderInterface
         ];
 
         $targetDirectory = Helper\FilesystemHelper::getNewTemporaryDirectory();
-        $targetFile = Filesystem\Path::join($targetDirectory, 'composer.json');
+        $targetFile = Helper\FilesystemHelper::path($targetDirectory, 'composer.json');
         $composerJson = $this->renderer->render('composer.json.twig', [
             'templateSources' => $templateSources,
             'rootDir' => Helper\FilesystemHelper::getProjectRootPath(),

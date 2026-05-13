@@ -65,13 +65,19 @@ final class BuildInstructionsTest extends Tests\ContainerAwareTestCase
     #[Framework\Attributes\Test]
     public function getSourceDirectoryReturnsSourceDirectory(): void
     {
-        self::assertSame(dirname(__DIR__).'/templates/src', $this->subject->getSourceDirectory());
+        self::assertSame(
+            Src\Helper\FilesystemHelper::path(dirname(__DIR__), 'templates/src'),
+            $this->subject->getSourceDirectory(),
+        );
     }
 
     #[Framework\Attributes\Test]
     public function getSharedSourceDirectoryReturnsSharedSourceDirectory(): void
     {
-        self::assertSame(dirname(__DIR__).'/templates/shared', $this->subject->getSharedSourceDirectory());
+        self::assertSame(
+            Src\Helper\FilesystemHelper::path(dirname(__DIR__), 'templates/shared'),
+            $this->subject->getSharedSourceDirectory(),
+        );
     }
 
     #[Framework\Attributes\Test]

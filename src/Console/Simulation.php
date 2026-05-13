@@ -65,7 +65,7 @@ final class Simulation
             new Resource\Local\Composer($filesystem),
             Factory::createOutput(),
             $rootPath,
-            Filesystem\Path::join($rootPath, '.build', uniqid('simulate_')),
+            Helper\FilesystemHelper::path($rootPath, '.build', uniqid('simulate_')),
         );
     }
 
@@ -88,7 +88,7 @@ final class Simulation
 
         // Install project
         $exitCode = $this->composer->install(
-            Filesystem\Path::join($this->targetDirectory, 'composer.json'),
+            Helper\FilesystemHelper::path($this->targetDirectory, 'composer.json'),
             true,
             $this->output,
         );

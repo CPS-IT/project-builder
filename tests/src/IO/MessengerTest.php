@@ -113,7 +113,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
 
         self::assertSame($expected, $this->subject->confirmTemplateSourceRetry($exception));
         self::assertStringContainsString(
-            implode(PHP_EOL, [
+            implode(LF, [
                 'Something went wrong.',
                 'You can go one step back and select another template provider.',
                 'For more information, take a look at the documentation.',
@@ -131,7 +131,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
 
         self::assertTrue($this->subject->confirmProjectRegeneration());
         self::assertStringContainsString(
-            implode(PHP_EOL, [
+            implode(LF, [
                 'If you want, you can restart project generation now.',
                 'Restart? [Y/n]',
             ]),
@@ -148,7 +148,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
 
         self::assertTrue($this->subject->confirmRunCommand($dummyCommand));
         self::assertStringContainsString(
-            implode(PHP_EOL, [
+            implode(LF, [
                 sprintf(
                     'Preparing to run "%s" in the project dir.',
                     $dummyCommand,

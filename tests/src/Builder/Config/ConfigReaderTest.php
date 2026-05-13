@@ -41,7 +41,7 @@ final class ConfigReaderTest extends Framework\TestCase
     protected function setUp(): void
     {
         $this->subject = Src\Builder\Config\ConfigReader::create(
-            dirname(__DIR__, 2).'/Fixtures/Templates',
+            Src\Helper\FilesystemHelper::path(dirname(__DIR__, 2), 'Fixtures/Templates'),
         );
     }
 
@@ -60,11 +60,13 @@ final class ConfigReaderTest extends Framework\TestCase
     #[Framework\Attributes\Test]
     public function readConfigThrowsExceptionIfTemplateHasNoComposerJson(): void
     {
-        $templateDirectory = dirname(__DIR__, 2).'/Fixtures';
+        $templateDirectory = Src\Helper\FilesystemHelper::path(dirname(__DIR__, 2), 'Fixtures');
         $subject = Src\Builder\Config\ConfigReader::create($templateDirectory);
 
         $this->expectExceptionObject(
-            Src\Exception\InvalidConfigurationException::forMissingManifestFile($templateDirectory.'/Files/config.json'),
+            Src\Exception\InvalidConfigurationException::forMissingManifestFile(
+                Src\Helper\FilesystemHelper::path($templateDirectory, 'Files/config.json'),
+            ),
         );
 
         $subject->readConfig('foo');
@@ -84,7 +86,7 @@ final class ConfigReaderTest extends Framework\TestCase
     public function readConfigThrowsExceptionIfTemplateContainsMultipleConfigFiles(): void
     {
         $subject = Src\Builder\Config\ConfigReader::create(
-            dirname(__DIR__, 2).'/Fixtures/Files',
+            Src\Helper\FilesystemHelper::path(dirname(__DIR__, 2), 'Fixtures/Files'),
         );
 
         $this->expectException(Src\Exception\InvalidConfigurationException::class);
@@ -101,7 +103,7 @@ final class ConfigReaderTest extends Framework\TestCase
 
         self::assertSame('cpsit/project-builder-template-yaml', $actual->getIdentifier());
         self::assertSame(
-            dirname(__DIR__, 2).'/Fixtures/Templates/yaml-template/config.yaml',
+            Src\Helper\FilesystemHelper::path(dirname(__DIR__, 2), 'Fixtures/Templates/yaml-template/config.yaml'),
             $actual->getDeclaringFile(),
         );
     }

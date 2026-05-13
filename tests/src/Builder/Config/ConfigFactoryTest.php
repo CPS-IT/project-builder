@@ -137,7 +137,7 @@ final class ConfigFactoryTest extends Framework\TestCase
         );
 
         foreach (['json', 'yaml'] as $fileType) {
-            $configFile = dirname(__DIR__, 2).'/Fixtures/Templates/'.$fileType.'-template/config.'.$fileType;
+            $configFile = Src\Helper\FilesystemHelper::path(dirname(__DIR__, 2), 'Fixtures/Templates/'.$fileType.'-template/config.'.$fileType);
             $expected = $createConfig($fileType);
             $expected->setDeclaringFile($configFile);
 
@@ -179,10 +179,16 @@ final class ConfigFactoryTest extends Framework\TestCase
      */
     public static function buildFromFileThrowsExceptionIfFileContentsAreInvalidDataProvider(): Generator
     {
-        $fixturePath = dirname(__DIR__, 2).'/Fixtures/Files';
+        $fixturePath = Src\Helper\FilesystemHelper::path(dirname(__DIR__, 2), 'Fixtures/Files');
 
-        yield 'invalid file' => [$fixturePath.'/invalid-config-file.yaml'];
-        yield 'invalid path at file condition' => [$fixturePath.'/invalid-config-file-condition-path.yaml'];
-        yield 'invalid target at file condition' => [$fixturePath.'/invalid-config-file-condition-target.yaml'];
+        yield 'invalid file' => [
+            Src\Helper\FilesystemHelper::path($fixturePath, 'invalid-config-file.yaml'),
+        ];
+        yield 'invalid path at file condition' => [
+            Src\Helper\FilesystemHelper::path($fixturePath, 'invalid-config-file-condition-path.yaml'),
+        ];
+        yield 'invalid target at file condition' => [
+            Src\Helper\FilesystemHelper::path($fixturePath, 'invalid-config-file-condition-target.yaml'),
+        ];
     }
 }

@@ -99,8 +99,7 @@ final class ConfigFactory
 
     private function validateConfig(stdClass $parsedContent): JsonSchema\ValidationResult
     {
-        $schemaFile = Filesystem\Path::join(Helper\FilesystemHelper::getProjectRootPath(), Paths::PROJECT_SCHEMA_CONFIG);
-        $schemaReference = 'file://'.$schemaFile;
+        $schemaFile = Helper\FilesystemHelper::path(Helper\FilesystemHelper::getProjectRootPath(), Paths::PROJECT_SCHEMA_CONFIG);
         $schemaResolver = $this->validator->resolver();
 
         // @codeCoverageIgnoreStart
@@ -110,9 +109,9 @@ final class ConfigFactory
         }
         // @codeCoverageIgnoreEnd
 
-        $schemaResolver->registerFile($schemaReference, $schemaFile);
+        $schemaResolver->registerFile(Paths::PROJECT_SCHEMA_REFERENCE, $schemaFile);
 
-        return $this->validator->validate($parsedContent, $schemaReference);
+        return $this->validator->validate($parsedContent, Paths::PROJECT_SCHEMA_REFERENCE);
     }
 
     private function generateMapperSource(string $content, string $identifier, FileType $fileType): Mapper\Source\Source
