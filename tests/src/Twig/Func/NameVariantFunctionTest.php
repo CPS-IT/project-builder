@@ -29,6 +29,8 @@ use Generator;
 use PHPUnit\Framework;
 use Webmozart\Assert;
 
+use function sprintf;
+
 /**
  * NameVariantFunctionTest.
  *
@@ -59,7 +61,9 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
     public function invokeThrowsExceptionIfGivenContextDoesNotContainBuildInstructions(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Expected an object. Got: NULL');
+        $this->expectExceptionMessage(
+            sprintf('Expected an instance of %s. Got: NULL', Src\Builder\BuildInstructions::class),
+        );
 
         /* @phpstan-ignore-next-line argument.type */
         ($this->subject)([], 'foo');
