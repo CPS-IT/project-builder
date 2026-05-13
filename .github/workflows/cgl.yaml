@@ -32,7 +32,7 @@ jobs:
 
       # Install dependencies
       - name: Install Composer dependencies
-        run: composer require --no-progress composer/composer:"^2.1" composer/semver:"^3.0" composer/xdebug-handler:"^3.0"
+        run: composer require --no-progress composer/composer:"^2.2" composer/semver:"^3.0" composer/xdebug-handler:"^3.0"
 
       # Check Composer dependencies
       - name: Check dependencies
