@@ -36,7 +36,7 @@ final class UnsupportedEnvironmentException extends Exception
         return new self(
             implode(PHP_EOL, [
                 'Your global Composer installation is not up to date.',
-                'Make sure that you have at least Composer 2.1 installed.',
+                'Make sure that you have at least Composer 2.2 installed.',
                 'Run `composer global update --lock` and then restart project creation.',
             ]),
             1670607990,

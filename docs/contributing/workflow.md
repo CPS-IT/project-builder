@@ -6,7 +6,7 @@ all steps below.
 
 ## Requirements
 
-- Composer >= 2.1
+- Composer >= 2.2
 - PHP >= 8.2
 - Docker
 

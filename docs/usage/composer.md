@@ -9,7 +9,7 @@
 
 ## Requirements
 
-* [Composer][1] >= 2.1
+* [Composer][1] >= 2.2
 * [PHP][2] >= 8.2
 
 ## Global usage

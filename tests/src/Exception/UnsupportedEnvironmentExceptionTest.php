@@ -41,7 +41,7 @@ final class UnsupportedEnvironmentExceptionTest extends Framework\TestCase
 
         self::assertSame(
             'Your global Composer installation is not up to date.'.PHP_EOL.
-            'Make sure that you have at least Composer 2.1 installed.'.PHP_EOL.
+            'Make sure that you have at least Composer 2.2 installed.'.PHP_EOL.
             'Run `composer global update --lock` and then restart project creation.',
             $actual->getMessage(),
         );
