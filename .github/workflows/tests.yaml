@@ -24,13 +24,13 @@ jobs:
           - php-version: "8.5"
             composer-version: "2.2"
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
 
       # Prepare environment
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2
         with:
           php-version: ${{ matrix.php-version }}
           tools: composer:v${{ matrix.composer-version }}
@@ -55,7 +55,7 @@ jobs:
 
       # Install dependencies
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v4
+        uses: ramsey/composer-install@5c2bcf28d7b060ef3c601d7b476d5430a7b46c27 # v4
         with:
           dependency-versions: ${{ matrix.dependencies }}
           composer-options: ${{ steps.composer-options.outputs.flags }}
@@ -68,13 +68,13 @@ jobs:
     name: Test coverage
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
 
       # Prepare environment
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2
         with:
           php-version: 8.4
           tools: composer:v2
@@ -82,7 +82,7 @@ jobs:
 
       # Install dependencies
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v4
+        uses: ramsey/composer-install@5c2bcf28d7b060ef3c601d7b476d5430a7b46c27 # v4
         with:
           dependency-versions: highest
 
@@ -108,7 +108,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: coverage
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
 
@@ -121,7 +121,7 @@ jobs:
 
       # Coveralls
       - name: Coveralls report
-        uses: coverallsapp/github-action@v2
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2
         with:
           file: ${{ steps.download.outputs.download-path }}/clover.xml
 
@@ -129,13 +129,13 @@ jobs:
     name: Docker tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
 
       # Handle Docker image layer cache
       - name: Handle Docker cache
-        uses: jpribyl/action-docker-layer-caching@v0.1.1
+        uses: jpribyl/action-docker-layer-caching@c632825d12ec837065f49726ea27ddd40bcc7894 # v0.1.1
         continue-on-error: true
 
       # Run Docker tests
