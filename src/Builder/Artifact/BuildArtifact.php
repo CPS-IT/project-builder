@@ -23,12 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Builder\Artifact;
 
-use Composer\Package;
-use CPSIT\ProjectBuilder\Builder;
-use CPSIT\ProjectBuilder\Helper;
-use Symfony\Component\Finder;
-
-use function time;
+use JsonSerializable;
 
 /**
  * BuildArtifact.
@@ -37,40 +32,28 @@ use function time;
  * @license GPL-3.0-or-later
  *
  * @internal
- *
- * @extends Artifact<array{
- *     artifact: array{version: int, file: string, date: int},
- *     template: TemplateArtifact,
- *     generator: GeneratorArtifact,
- *     result: ResultArtifact
- * }>
  */
-final class BuildArtifact extends Artifact
+final readonly class BuildArtifact implements JsonSerializable
 {
-    private const VERSION = 1;
-
     public function __construct(
-        private readonly string $file,
-        private readonly Builder\BuildResult $buildResult,
-        private readonly Package\RootPackageInterface $rootPackage,
+        public int $version,
+        public string $path,
+        public int $date,
     ) {}
 
-    public function dump(): array
+    /**
+     * @return array{
+     *     version: int,
+     *     path: string,
+     *     date: int,
+     * }
+     */
+    public function jsonSerialize(): array
     {
         return [
-            'artifact' => [
-                'version' => self::VERSION,
-                'file' => $this->file,
-                'date' => time(),
-            ],
-            'template' => new TemplateArtifact($this->buildResult),
-            'generator' => new GeneratorArtifact($this->rootPackage),
-            'result' => new ResultArtifact($this->buildResult),
+            'version' => $this->version,
+            'path' => $this->path,
+            'date' => $this->date,
         ];
-    }
-
-    public function getFile(): Finder\SplFileInfo
-    {
-        return Helper\FilesystemHelper::createFileObject($this->buildResult->getWrittenDirectory(), $this->file);
     }
 }

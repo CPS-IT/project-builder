@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Builder\Artifact;
 
-use Composer\Package;
+use JsonSerializable;
 
 /**
  * GeneratorArtifact.
@@ -32,31 +32,25 @@ use Composer\Package;
  * @license GPL-3.0-or-later
  *
  * @internal
- *
- * @extends Artifact<array{
- *     package: PackageArtifact,
- *     executor: string
- * }>
  */
-final class GeneratorArtifact extends Artifact
+final readonly class GeneratorArtifact implements JsonSerializable
 {
     public function __construct(
-        private readonly Package\RootPackageInterface $rootPackage,
+        public PackageArtifact $package,
+        public string $executor,
     ) {}
 
-    public function dump(): array
+    /**
+     * @return array{
+     *     package: PackageArtifact,
+     *     executor: string,
+     * }
+     */
+    public function jsonSerialize(): array
     {
         return [
-            'package' => new PackageArtifact($this->rootPackage),
-            'executor' => $this->determineExecutor(),
+            'package' => $this->package,
+            'executor' => $this->executor,
         ];
-    }
-
-    private function determineExecutor(): string
-    {
-        return match (getenv('PROJECT_BUILDER_EXECUTOR')) {
-            'docker' => 'docker',
-            default => 'composer',
-        };
     }
 }

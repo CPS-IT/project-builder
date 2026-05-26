@@ -34,10 +34,10 @@ use function trim;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class Git
+final readonly class Git
 {
     public function __construct(
-        private readonly Cli\Command\Runner $runner,
+        private Cli\Command\Runner $runner,
     ) {}
 
     public function getAuthorName(): ?string

@@ -27,18 +27,16 @@ use CPSIT\ProjectBuilder\IO;
 use CuyZ\Valinor\Mapper;
 use Throwable;
 
-use function method_exists;
-
 /**
  * ErrorHandler.
  *
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ErrorHandler
+final readonly class ErrorHandler
 {
     public function __construct(
-        private readonly IO\Messenger $messenger,
+        private IO\Messenger $messenger,
     ) {}
 
     public function handleException(Throwable $exception): void
@@ -66,17 +64,7 @@ final class ErrorHandler
 
     private function formatMappingErrors(Mapper\MappingError $error): void
     {
-        /* @phpstan-ignore function.alreadyNarrowedType */
-        if (method_exists($error, 'node')) {
-            // @todo Remove once support for Valinor v1 is dropped
-            $messages = Mapper\Tree\Message\Messages::flattenFromNode($error->node())->errors();
-        } else {
-            /** @var Mapper\Tree\Message\Messages $messages */
-            /* @phpstan-ignore method.notFound, method.nonObject */
-            $messages = $error->messages()->errors();
-        }
-
-        foreach ($messages as $message) {
+        foreach ($error->messages() as $message) {
             $this->messenger->error('- '.$message);
         }
     }

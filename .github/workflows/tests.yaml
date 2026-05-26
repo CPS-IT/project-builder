@@ -3,9 +3,11 @@ on:
   push:
     branches:
       - main
+      - 3.x
   pull_request:
     branches:
       - main
+      - 3.x
 
 jobs:
   tests:
@@ -14,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ["8.1", "8.2", "8.3", "8.4", "8.5"]
+        php-version: ["8.2", "8.3", "8.4", "8.5"]
         # We test only 2.2 (LTS) and latest version, since all other versions are insecure
         composer-version: ["2.2", "2.9"]
         dependencies: ["highest", "lowest"]

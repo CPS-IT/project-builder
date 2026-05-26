@@ -48,10 +48,10 @@ use function putenv;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class Composer
+final readonly class Composer
 {
     public function __construct(
-        private readonly Filesystem\Filesystem $filesystem,
+        private Filesystem\Filesystem $filesystem,
     ) {}
 
     /**
@@ -104,7 +104,7 @@ final class Composer
      */
     public static function createClassLoader(?string $rootPath = null): Autoload\ClassLoader
     {
-        $rootPath ??= Helper\FilesystemHelper::getProjectRootPath();
+        $rootPath ??= Helper\FilesystemHelper::getPackageDirectory();
         $composer = self::createComposer($rootPath);
 
         // Get all packages of type "project-builder-template"

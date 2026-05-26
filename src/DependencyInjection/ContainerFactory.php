@@ -49,15 +49,15 @@ use function iterator_to_array;
  *
  * @codeCoverageIgnore
  */
-final class ContainerFactory
+final readonly class ContainerFactory
 {
     /**
      * @param list<Finder\SplFileInfo> $resources
      */
     private function __construct(
-        private readonly array $resources,
-        private readonly ?string $containerPath = null,
-        private readonly bool $debug = false,
+        private array $resources,
+        private ?string $containerPath = null,
+        private bool $debug = false,
     ) {}
 
     /**
@@ -72,7 +72,7 @@ final class ContainerFactory
     {
         $resourcePaths = [
             Filesystem\Path::join(
-                Helper\FilesystemHelper::getProjectRootPath(),
+                Helper\FilesystemHelper::getPackageDirectory(),
                 Paths::PROJECT_TEMPLATES,
                 basename(dirname($config->getDeclaringFile())),
                 Paths::TEMPLATE_SERVICE_CONFIG,
@@ -86,7 +86,7 @@ final class ContainerFactory
     {
         if (!Filesystem\Path::isAbsolute($testsRootPath)) {
             $testsRootPath = Filesystem\Path::join(
-                Helper\FilesystemHelper::getProjectRootPath(),
+                Helper\FilesystemHelper::getPackageDirectory(),
                 $testsRootPath,
             );
         }
@@ -97,7 +97,7 @@ final class ContainerFactory
             ),
         ]);
         $containerPath = Filesystem\Path::join(
-            Helper\FilesystemHelper::getProjectRootPath(),
+            Helper\FilesystemHelper::getPackageDirectory(),
             'var',
             'cache',
             'test-container.php',
@@ -185,6 +185,6 @@ final class ContainerFactory
 
     private static function getDefaultResourcePath(): string
     {
-        return Filesystem\Path::join(Helper\FilesystemHelper::getProjectRootPath(), Paths::PROJECT_SERVICE_CONFIG);
+        return Filesystem\Path::join(Helper\FilesystemHelper::getPackageDirectory(), Paths::PROJECT_SERVICE_CONFIG);
     }
 }

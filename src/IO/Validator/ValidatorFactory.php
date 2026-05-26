@@ -32,13 +32,13 @@ use CPSIT\ProjectBuilder\Exception;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ValidatorFactory
+final readonly class ValidatorFactory
 {
     /**
      * @param list<class-string<ValidatorInterface>> $validators
      */
     public function __construct(
-        private readonly array $validators,
+        private array $validators,
     ) {}
 
     public function get(Builder\Config\ValueObject\PropertyValidator $validator): ValidatorInterface

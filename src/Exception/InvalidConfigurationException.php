@@ -80,14 +80,14 @@ final class InvalidConfigurationException extends Exception
         );
     }
 
-    public static function forValidationErrors(?JsonSchema\Errors\ValidationError $error): self
+    public static function forValidationErrors(?JsonSchema\Errors\ValidationError $errors): self
     {
         $decoratedErrors = '';
 
-        if (null !== $error) {
+        if (null !== $errors) {
             $formatter = new JsonSchema\Errors\ErrorFormatter();
             /** @var array<string, string> $formattedErrors */
-            $formattedErrors = $formatter->format($error, false);
+            $formattedErrors = $formatter->format($errors, false);
 
             foreach ($formattedErrors as $path => $errorMessage) {
                 $decoratedErrors .= PHP_EOL.sprintf('  * Error at property path "%s": %s', $path, $errorMessage);

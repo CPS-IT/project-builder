@@ -90,9 +90,4 @@ final class DummyProvider implements Template\Provider\ProviderInterface
     {
         return self::TYPE;
     }
-
-    public static function supports(string $type): bool
-    {
-        return self::TYPE === $type;
-    }
 }

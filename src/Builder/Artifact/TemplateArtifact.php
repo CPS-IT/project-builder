@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder\Builder\Artifact;
 
-use CPSIT\ProjectBuilder\Builder\BuildResult;
+use JsonSerializable;
 
 /**
  * TemplateArtifact.
@@ -32,34 +32,34 @@ use CPSIT\ProjectBuilder\Builder\BuildResult;
  * @license GPL-3.0-or-later
  *
  * @internal
- *
- * @extends Artifact<array{
- *     identifier: string,
- *     hash: string,
- *     package: PackageArtifact,
- *     provider: array{name: string, url: string}
- * }>
  */
-final class TemplateArtifact extends Artifact
+final readonly class TemplateArtifact implements JsonSerializable
 {
+    /**
+     * @param array{type: string, url: string} $provider
+     */
     public function __construct(
-        private readonly BuildResult $buildResult,
+        public string $identifier,
+        public string $hash,
+        public PackageArtifact $package,
+        public array $provider,
     ) {}
 
-    public function dump(): array
+    /**
+     * @return array{
+     *     identifier: string,
+     *     hash: string,
+     *     package: PackageArtifact,
+     *     provider: array{type: string, url: string},
+     * }
+     */
+    public function jsonSerialize(): array
     {
-        $config = $this->buildResult->getInstructions()->getConfig();
-        $package = $config->getTemplateSource()->getPackage();
-        $provider = $config->getTemplateSource()->getProvider();
-
         return [
-            'identifier' => $config->getIdentifier(),
-            'hash' => $config->buildHash(),
-            'package' => new PackageArtifact($package),
-            'provider' => [
-                'name' => $provider::getName(),
-                'url' => $provider->getUrl(),
-            ],
+            'identifier' => $this->identifier,
+            'hash' => $this->hash,
+            'package' => $this->package,
+            'provider' => $this->provider,
         ];
     }
 }

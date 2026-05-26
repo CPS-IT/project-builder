@@ -39,10 +39,10 @@ use Symfony\Component\DependencyInjection;
  *
  * @see https://github.com/symfony/framework-bundle/blob/5.4/DependencyInjection/Compiler/ContainerBuilderDebugDumpPass.php
  */
-final class ContainerBuilderDebugDumpPass implements DependencyInjection\Compiler\CompilerPassInterface
+final readonly class ContainerBuilderDebugDumpPass implements DependencyInjection\Compiler\CompilerPassInterface
 {
     public function __construct(
-        private readonly string $cachePath,
+        private string $cachePath,
     ) {}
 
     public function process(DependencyInjection\ContainerBuilder $container): void

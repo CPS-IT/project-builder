@@ -31,13 +31,13 @@ use CPSIT\ProjectBuilder\Exception;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class WriterFactory
+final readonly class WriterFactory
 {
     /**
      * @param iterable<WriterInterface> $writers
      */
     public function __construct(
-        private readonly iterable $writers,
+        private iterable $writers,
     ) {}
 
     public function get(string $file): WriterInterface

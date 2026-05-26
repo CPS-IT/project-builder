@@ -36,11 +36,11 @@ use Symfony\Component\DependencyInjection;
  *
  * @codeCoverageIgnore
  */
-final class ExpressionLanguageProviderPass implements DependencyInjection\Compiler\CompilerPassInterface
+final readonly class ExpressionLanguageProviderPass implements DependencyInjection\Compiler\CompilerPassInterface
 {
     public function __construct(
-        private readonly string $tagName,
-        private readonly string $expressionLanguageId,
+        private string $tagName,
+        private string $expressionLanguageId,
     ) {}
 
     public function process(DependencyInjection\ContainerBuilder $container): void

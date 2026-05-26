@@ -36,7 +36,6 @@ use Symfony\Component\Filesystem;
 
 use function chdir;
 use function getcwd;
-use function putenv;
 
 /**
  * VcsProviderTest.
@@ -49,7 +48,7 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
 {
     private Filesystem\Filesystem $filesystem;
     private Src\Template\Provider\VcsProvider $subject;
-    private string $temporaryRootPath;
+    private string $rootPath;
 
     protected function setUp(): void
     {
@@ -60,11 +59,9 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
             $this->container->get('app.messenger'),
             $this->filesystem,
         );
-        $this->temporaryRootPath = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
+        $this->rootPath = Src\Helper\FilesystemHelper::getPackageDirectory();
 
         $this->acceptInsecureConnections();
-
-        putenv('PROJECT_BUILDER_ROOT_PATH='.$this->temporaryRootPath);
     }
 
     #[Framework\Attributes\Test]
@@ -189,13 +186,13 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
 
         [$templateSource] = $this->subject->listTemplateSources();
 
-        self::assertDirectoryDoesNotExist($this->temporaryRootPath.'/.build/templates/repo-a');
-        self::assertDirectoryDoesNotExist($this->temporaryRootPath.'/.build/templates/repo-b');
+        $this->filesystem->remove($this->rootPath.'/.build/templates/repo-a');
+        $this->filesystem->remove($this->rootPath.'/.build/templates/repo-b');
 
         $this->subject->installTemplateSource($templateSource);
 
-        self::assertDirectoryExists($this->temporaryRootPath.'/.build/templates/repo-a');
-        self::assertDirectoryExists($this->temporaryRootPath.'/.build/templates/repo-b');
+        self::assertDirectoryExists($this->rootPath.'/.build/templates/repo-a');
+        self::assertDirectoryExists($this->rootPath.'/.build/templates/repo-b');
 
         $output = $this->io->getOutput();
         $repositories = $this->fetchConfiguredRepositoriesViaReflection();
@@ -212,6 +209,8 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
 
         $this->filesystem->remove($repoA);
         $this->filesystem->remove($repoB);
+        $this->filesystem->remove($this->rootPath.'/.build/templates/repo-a');
+        $this->filesystem->remove($this->rootPath.'/.build/templates/repo-b');
     }
 
     private function overwriteIO(): void
@@ -354,12 +353,5 @@ final class VcsProviderTest extends Tests\ContainerAwareTestCase
         $code($directory);
 
         chdir($currentWorkingDirectory);
-    }
-
-    protected function tearDown(): void
-    {
-        $this->filesystem->remove($this->temporaryRootPath);
-
-        putenv('PROJECT_BUILDER_ROOT_PATH');
     }
 }

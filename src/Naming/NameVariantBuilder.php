@@ -37,10 +37,10 @@ use function is_string;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class NameVariantBuilder
+final readonly class NameVariantBuilder
 {
     public function __construct(
-        private readonly Builder\BuildInstructions $instructions,
+        private Builder\BuildInstructions $instructions,
     ) {}
 
     /**

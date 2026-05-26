@@ -39,10 +39,10 @@ use function trim;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class InputReader
+final readonly class InputReader
 {
     public function __construct(
-        private readonly IO\IOInterface $io,
+        private IO\IOInterface $io,
     ) {}
 
     /**

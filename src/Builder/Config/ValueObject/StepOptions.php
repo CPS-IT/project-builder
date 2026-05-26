@@ -29,19 +29,19 @@ namespace CPSIT\ProjectBuilder\Builder\Config\ValueObject;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class StepOptions
+final readonly class StepOptions
 {
     /**
      * @param list<FileCondition> $fileConditions
      */
     public function __construct(
-        private readonly array $fileConditions = [],
-        private readonly ?string $templateFile = null,
-        private readonly ?string $artifactPath = null,
-        private readonly ?string $command = null,
-        private readonly bool $skipConfirmation = false,
-        private readonly bool $allowFailure = false,
-        private readonly bool $required = true,
+        private array $fileConditions = [],
+        private ?string $templateFile = null,
+        private ?string $artifactPath = null,
+        private ?string $command = null,
+        private bool $skipConfirmation = false,
+        private bool $allowFailure = false,
+        private bool $required = true,
     ) {}
 
     /**

@@ -48,16 +48,17 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__.'/src/DependencyInjection/CompilerPass/FactoryServicesPass.php',
             __DIR__.'/src/DependencyInjection/CompilerPass/PublicServicePass.php',
             __DIR__.'/src/DependencyInjection/ContainerFactory.php',
+            __DIR__.'/src/ProjectBuilderPlugin.php',
         ],
         NullToStrictStringFuncCallArgRector::class => [
             __DIR__.'/src/Builder/Generator/Step/ProcessingFilesTrait.php',
         ],
     ]);
 
-    $rectorConfig->phpVersion(PhpVersion::PHP_81);
+    $rectorConfig->phpVersion(PhpVersion::PHP_82);
 
     $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_81,
+        LevelSetList::UP_TO_PHP_82,
         PHPUnitSetList::PHPUNIT_100,
     ]);
 };

@@ -31,10 +31,10 @@ use CPSIT\ProjectBuilder\Builder;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ProjectBuildStartedEvent
+final readonly class ProjectBuildStartedEvent
 {
     public function __construct(
-        private readonly Builder\BuildInstructions $instructions,
+        private Builder\BuildInstructions $instructions,
     ) {}
 
     public function getInstructions(): Builder\BuildInstructions

@@ -34,8 +34,6 @@ use PHPUnit\Framework;
 use Symfony\Component\Console;
 use Throwable;
 
-use function method_exists;
-
 /**
  * ErrorHandlerTest.
  *
@@ -133,27 +131,13 @@ final class ErrorHandlerTest extends Tests\ContainerAwareTestCase
 
             self::fail('No exception thrown. This should not happen.');
         } catch (Mapper\MappingError $error) {
-            $expectedOutputs = [
-                'Could not map type `array{foo: string}`',
+            yield 'MappingError' => [
+                $error,
+                [
+                    'Could not map type `array{foo: string}`',
+                    'Cannot be empty and must be filled with a value matching `array{foo: string}`.',
+                ],
             ];
-
-            if (self::usesLegacyValinorVersion()) {
-                $expectedOutputs[] = '[1617193185]';
-                $expectedOutputs[] = 'Cannot be empty and must be filled with a value matching type `array{foo: string}`.';
-            } else {
-                $expectedOutputs[] = 'Cannot be empty and must be filled with a value matching `array{foo: string}`.';
-            }
-
-            yield 'MappingError' => [$error, $expectedOutputs];
         }
-    }
-
-    /**
-     * @todo Remove once support for Valinor v1 is dropped
-     */
-    private static function usesLegacyValinorVersion(): bool
-    {
-        /* @phpstan-ignore function.alreadyNarrowedType */
-        return method_exists(Mapper\Tree\Message\Messages::class, 'flattenFromNode');
     }
 }

@@ -24,6 +24,8 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Template\Provider;
 
 use CPSIT\ProjectBuilder\Exception;
+use CPSIT\ProjectBuilder\IO;
+use Symfony\Component\Filesystem;
 
 /**
  * ProviderFactory.
@@ -31,23 +33,44 @@ use CPSIT\ProjectBuilder\Exception;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class ProviderFactory
+final readonly class ProviderFactory
 {
     /**
-     * @param iterable<ProviderInterface> $providers
+     * @var non-empty-list<ProviderInterface>
      */
-    public function __construct(
-        private readonly iterable $providers,
-    ) {}
+    private readonly array $providers;
 
+    public function __construct(
+        IO\Messenger $messenger,
+        Filesystem\Filesystem $filesystem,
+    ) {
+        $this->providers = [
+            // sorted by priority
+            new PackagistProvider($messenger, $filesystem),
+            new ComposerProvider($messenger, $filesystem),
+            new VcsProvider($messenger, $filesystem),
+        ];
+    }
+
+    /**
+     * @throws Exception\UnknownTemplateProviderException
+     */
     public function get(string $type): ProviderInterface
     {
         foreach ($this->providers as $provider) {
-            if ($provider::supports($type)) {
+            if ($type === $provider::getType()) {
                 return $provider;
             }
         }
 
-        throw Exception\UnsupportedTypeException::create($type);
+        throw Exception\UnknownTemplateProviderException::create($type);
+    }
+
+    /**
+     * @return non-empty-list<ProviderInterface>
+     */
+    public function getAll(): array
+    {
+        return $this->providers;
     }
 }

@@ -29,7 +29,7 @@ use Generator;
 use PHPUnit\Framework;
 use Webmozart\Assert;
 
-use function addcslashes;
+use function sprintf;
 
 /**
  * NameVariantFunctionTest.
@@ -61,9 +61,8 @@ final class NameVariantFunctionTest extends Tests\ContainerAwareTestCase
     public function invokeThrowsExceptionIfGivenContextDoesNotContainBuildInstructions(): void
     {
         $this->expectException(Assert\InvalidArgumentException::class);
-        $this->expectExceptionMessageMatches(
-            // @todo Remove class specific expectation once support for webmozart/assert v1 is dropped
-            '/Expected an (object|instance of '.addcslashes(Src\Builder\BuildInstructions::class, '\\').')\. Got: NULL/',
+        $this->expectExceptionMessage(
+            sprintf('Expected an instance of %s. Got: NULL', Src\Builder\BuildInstructions::class),
         );
 
         /* @phpstan-ignore-next-line argument.type */

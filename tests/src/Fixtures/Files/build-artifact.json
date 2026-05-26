@@ -1,0 +1,79 @@
+{
+	"artifact": {
+		"version": 1,
+		"file": "foo.json",
+		"date": 1679501401
+	},
+	"template": {
+		"identifier": "cpsit/project-builder-template-json",
+		"hash": "faa1988f89bdbabe1852e60338b83588e6c593c8",
+		"package": {
+			"name": "cpsit/project-builder-test-template",
+			"version": "1.0.0.0",
+			"sourceReference": null,
+			"sourceUrl": null,
+			"distUrl": null
+		},
+		"provider": {
+			"name": "Packagist.org",
+			"url": "https://packagist.org"
+		}
+	},
+	"generator": {
+		"package": {
+			"name": "cpsit/project-builder",
+			"version": "1.7.3.0",
+			"sourceReference": null,
+			"sourceUrl": null,
+			"distUrl": null
+		},
+		"executor": "composer"
+	},
+	"result": {
+		"properties": {
+			"bar": {
+				"name": "Hello World"
+			}
+		},
+		"steps": [
+			{
+				"type": "collectBuildInstructions",
+				"applied": true
+			},
+			{
+				"type": "processSourceFiles",
+				"applied": true
+			},
+			{
+				"type": "processSharedSourceFiles",
+				"applied": true
+			},
+			{
+				"type": "generateBuildArtifact",
+				"applied": true
+			},
+			{
+				"type": "mirrorProcessedFiles",
+				"applied": true
+			}
+		],
+		"processedFiles": [
+			{
+				"source": "dummy.json.twig",
+				"target": "dummy.json"
+			},
+			{
+				"source": "dummy-4.json",
+				"target": "overrides/dummy-4.json"
+			},
+			{
+				"source": "shared-dummy.json.twig",
+				"target": "shared-dummy.json"
+			},
+			{
+				"source": "shared-dummy-4.json",
+				"target": "overrides/shared-dummy-4.json"
+			}
+		]
+	}
+}

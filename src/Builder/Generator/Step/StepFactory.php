@@ -32,13 +32,13 @@ use CPSIT\ProjectBuilder\Exception;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class StepFactory
+final readonly class StepFactory
 {
     /**
      * @param iterable<StepInterface> $steps
      */
     public function __construct(
-        private readonly iterable $steps,
+        private iterable $steps,
     ) {}
 
     /**

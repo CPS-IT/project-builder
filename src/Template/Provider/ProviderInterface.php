@@ -47,6 +47,4 @@ interface ProviderInterface
     public static function getName(): string;
 
     public static function getType(): string;
-
-    public static function supports(string $type): bool;
 }

@@ -11,4 +11,5 @@ parameters:
     bootstrapFiles:
         - tests/bootstrap.php
     symfony:
+        consoleApplicationLoader: tests/console-application.php
         containerXmlPath: var/cache/test-container.xml

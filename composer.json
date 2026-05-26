@@ -2,7 +2,7 @@
 	"name": "cpsit/project-builder",
 	"description": "Composer package to create new projects from project templates",
 	"license": "GPL-3.0-or-later",
-	"type": "library",
+	"type": "composer-plugin",
 	"authors": [
 		{
 			"name": "Elias Häußler",
@@ -16,13 +16,14 @@
 		}
 	],
 	"require": {
-		"php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+		"php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
 		"ext-filter": "*",
 		"ext-json": "*",
 		"ext-mbstring": "*",
-		"composer-runtime-api": "^2.1",
+		"composer-plugin-api": "^2.2",
+		"composer-runtime-api": "^2.2",
 		"cocur/slugify": "^4.1",
-		"cuyz/valinor": "^1.0 || ^2.0",
+		"cuyz/valinor": "^2.2",
 		"guzzlehttp/guzzle": "^7.0",
 		"nyholm/psr7": "^1.5",
 		"opis/json-schema": "^2.3",
@@ -30,26 +31,26 @@
 		"psr/http-factory": "^1.0",
 		"psr/http-message": "^1.0 || ^2.0",
 		"sebastianfeldmann/cli": "^3.4",
-		"symfony/config": "^5.4 || ^6.0 || ^7.0",
-		"symfony/console": "^5.4 || ^6.0 || ^7.0",
-		"symfony/dependency-injection": "^5.4 || ^6.0 || ^7.0",
-		"symfony/event-dispatcher": "^5.4 || ^6.0 || ^7.0",
-		"symfony/expression-language": "^5.4 || ^6.0 || ^7.0",
-		"symfony/filesystem": "^5.4 || ^6.0 || ^7.0",
-		"symfony/finder": "^5.4 || ^6.0 || ^7.0",
-		"symfony/process": "^5.4 || ^6.0 || ^7.0",
-		"symfony/yaml": "^5.4 || ^6.0 || ^7.0",
+		"symfony/config": "^5.4 || ^6.4 || ^7.4",
+		"symfony/console": "^5.4 || ^6.4 || ^7.4",
+		"symfony/dependency-injection": "^5.4 || ^6.4 || ^7.4",
+		"symfony/event-dispatcher": "^5.4 || ^6.4 || ^7.4",
+		"symfony/expression-language": "^5.4 || ^6.4 || ^7.4",
+		"symfony/filesystem": "^5.4 || ^6.4 || ^7.4",
+		"symfony/finder": "^5.4 || ^6.4 || ^7.4",
+		"symfony/process": "^5.4 || ^6.4 || ^7.4",
+		"symfony/yaml": "^5.4 || ^6.4 || ^7.4",
 		"twig/twig": "^3.3.3",
-		"webmozart/assert": "^1.11 || ^2.0"
+		"webmozart/assert": "^2.2"
 	},
 	"require-dev": {
-		"armin/editorconfig-cli": "^1.6 || ^2.0",
-		"composer/composer": "~2.2.13 || ^2.3.6",
+		"armin/editorconfig-cli": "^2.0",
+		"composer/composer": "~2.2.28 || ~2.9.8",
 		"composer/semver": "^3.0",
 		"composer/xdebug-handler": "^3.0",
 		"cpsit/php-cs-fixer-config": "^1.1",
 		"donatj/mock-webserver": "^2.5",
-		"eliashaeussler/version-bumper": "^2.0 || ^3.0 || ^4.0",
+		"eliashaeussler/version-bumper": "^4.0",
 		"ergebnis/composer-normalize": "^2.26",
 		"phpstan/extension-installer": "^1.2",
 		"phpstan/phpstan": "^2.0",
@@ -58,16 +59,14 @@
 		"phpstan/phpstan-strict-rules": "^2.0",
 		"phpstan/phpstan-symfony": "^2.0",
 		"phpstan/phpstan-webmozart-assert": "^2.0",
-		"phpunit/phpunit": "^10.1 || ^11.0 || ^12.0 || ^13.0",
+		"phpunit/phpunit": "^11.5 || ^12.5 || ^13.0",
+		"react/promise": "^2.8 || ^3.0",
 		"rector/rector": "^2.0",
 		"seld/jsonlint": "^1.9"
 	},
 	"autoload": {
 		"psr-4": {
-			"CPSIT\\ProjectBuilder\\": [
-				"src/",
-				".build/src/"
-			]
+			"CPSIT\\ProjectBuilder\\": "src/"
 		}
 	},
 	"autoload-dev": {
@@ -83,6 +82,9 @@
 		},
 		"sort-packages": true,
 		"vendor-dir": ".build/vendor"
+	},
+	"extra": {
+		"class": "CPSIT\\ProjectBuilder\\ProjectBuilderPlugin"
 	},
 	"scripts": {
 		"post-create-project-cmd": [

@@ -34,10 +34,10 @@ use Symfony\Component\Finder;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class GenericFileWriter implements WriterInterface
+final readonly class GenericFileWriter implements WriterInterface
 {
     public function __construct(
-        private readonly Filesystem\Filesystem $filesystem,
+        private Filesystem\Filesystem $filesystem,
     ) {}
 
     public function write(

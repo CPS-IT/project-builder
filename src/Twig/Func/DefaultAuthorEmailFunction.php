@@ -31,12 +31,12 @@ use CPSIT\ProjectBuilder\Resource;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class DefaultAuthorEmailFunction implements TwigFunctionInterface
+final readonly class DefaultAuthorEmailFunction implements TwigFunctionInterface
 {
     private const NAME = 'get_default_author_email';
 
     public function __construct(
-        private readonly Resource\Local\Git $git,
+        private Resource\Local\Git $git,
     ) {}
 
     public function __invoke(): ?string

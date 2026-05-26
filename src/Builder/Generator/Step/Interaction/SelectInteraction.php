@@ -36,14 +36,14 @@ use function is_string;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class SelectInteraction implements InteractionInterface
+final readonly class SelectInteraction implements InteractionInterface
 {
     private const TYPE = 'select';
 
     public function __construct(
-        private readonly ExpressionLanguage\ExpressionLanguage $expressionLanguage,
-        private readonly IO\InputReader $reader,
-        private readonly Twig\Renderer $renderer,
+        private ExpressionLanguage\ExpressionLanguage $expressionLanguage,
+        private IO\InputReader $reader,
+        private Twig\Renderer $renderer,
     ) {}
 
     /**

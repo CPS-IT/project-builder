@@ -35,10 +35,10 @@ use function json_encode;
  * @author Elias Häußler <e.haeussler@familie-redlich.de>
  * @license GPL-3.0-or-later
  */
-final class JsonFileWriter
+final readonly class JsonFileWriter
 {
     public function __construct(
-        private readonly Filesystem\Filesystem $filesystem,
+        private Filesystem\Filesystem $filesystem,
     ) {}
 
     public function write(Finder\SplFileInfo $file, string|JsonSerializable $json): bool

@@ -29,6 +29,7 @@ use CPSIT\ProjectBuilder\Tests;
 use Exception;
 use Generator;
 use PHPUnit\Framework;
+use Symfony\Component\Console;
 use Symfony\Component\Filesystem;
 
 use function implode;
@@ -125,7 +126,7 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
-    public function confirmProjectGenerationAsksForConfirmationAndReturnsResult(): void
+    public function confirmProjectRegenerationAsksForConfirmationAndReturnsResult(): void
     {
         $this->io->setUserInputs(['yes']);
 
@@ -157,6 +158,36 @@ final class MessengerTest extends Tests\ContainerAwareTestCase
             ]),
             $this->io->getOutput(),
         );
+    }
+
+    #[Framework\Attributes\Test]
+    public function isVerboseReturnsTrueIfVerbosityLevelIsVerbose(): void
+    {
+        self::assertFalse($this->subject->isVerbose());
+
+        $this->io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_VERBOSE);
+
+        self::assertTrue($this->subject->isVerbose());
+    }
+
+    #[Framework\Attributes\Test]
+    public function isVeryVerboseReturnsTrueIfVerbosityLevelIsVeryVerbose(): void
+    {
+        self::assertFalse($this->subject->isVeryVerbose());
+
+        $this->io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_VERY_VERBOSE);
+
+        self::assertTrue($this->subject->isVeryVerbose());
+    }
+
+    #[Framework\Attributes\Test]
+    public function isDebugReturnsTrueIfVerbosityLevelIsDebug(): void
+    {
+        self::assertFalse($this->subject->isDebug());
+
+        $this->io->setVerbosity(Console\Output\OutputInterface::VERBOSITY_DEBUG);
+
+        self::assertTrue($this->subject->isDebug());
     }
 
     /**

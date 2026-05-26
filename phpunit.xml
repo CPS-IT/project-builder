@@ -5,6 +5,9 @@
          cacheDirectory=".build/cache/phpunit"
          colors="true"
 >
+    <php>
+        <env name="COLUMNS" value="300" />
+    </php>
     <testsuites>
         <testsuite name="tests">
             <directory>tests/src</directory>
