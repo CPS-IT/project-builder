@@ -69,7 +69,10 @@ final readonly class ArtifactReader
         $migratedArtifact = $this->performMigrations($artifact);
         $validationResult = $this->schemaValidator->validate(
             JsonSchema\Helper::toJSON($migratedArtifact),
-            Paths::BUILD_ARTIFACT_SCHEMA,
+            Filesystem\Path::join(
+                Helper\FilesystemHelper::getPackageDirectory(),
+                Paths::BUILD_ARTIFACT_SCHEMA,
+            ),
         );
 
         // Validate migrated artifact
