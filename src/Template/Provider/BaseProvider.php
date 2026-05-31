@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Template\Provider;
 
 use Composer\Factory;
+use Composer\InstalledVersions;
 use Composer\IO as ComposerIO;
 use Composer\Package;
 use Composer\Repository;
@@ -35,6 +36,7 @@ use CPSIT\ProjectBuilder\IO;
 use CPSIT\ProjectBuilder\Paths;
 use CPSIT\ProjectBuilder\Resource;
 use CPSIT\ProjectBuilder\Template;
+use OutOfBoundsException;
 use Symfony\Component\Console;
 use Symfony\Component\Filesystem;
 use Twig\Environment;
@@ -42,6 +44,7 @@ use Twig\Loader;
 use UnexpectedValueException;
 
 use function getenv;
+use function is_string;
 use function sprintf;
 
 /**
@@ -281,12 +284,32 @@ abstract class BaseProvider implements ProviderInterface
             'tempDir' => $targetDirectory,
             'repositories' => $repositories,
             'acceptInsecureConnections' => $this->acceptInsecureConnections,
-            'simulatedRootPackageVersion' => getenv('PROJECT_BUILDER_SIMULATE_VERSION'),
+            'rootPackageVersion' => $this->resolveRootPackageVersion(),
         ]);
 
         $this->filesystem->dumpFile($targetFile, $composerJson);
 
         return $targetFile;
+    }
+
+    protected function resolveRootPackageVersion(): string
+    {
+        $version = getenv('PROJECT_BUILDER_SIMULATE_VERSION');
+
+        if (false !== $version) {
+            return $version;
+        }
+
+        try {
+            $version = InstalledVersions::getVersion('cpsit/project-builder');
+        } catch (OutOfBoundsException) {
+        }
+
+        if (!is_string($version)) {
+            $version = 'self.version';
+        }
+
+        return $version;
     }
 
     protected function createRepository(): Repository\RepositoryInterface
