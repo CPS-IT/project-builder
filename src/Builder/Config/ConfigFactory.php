@@ -87,7 +87,13 @@ final class ConfigFactory
     public function buildFromString(string $content, string $identifier, FileType $fileType): Config
     {
         $parsedContent = $this->parseContent($content, $fileType);
-        $validationResult = $this->schemaValidator->validate($parsedContent, Paths::PROJECT_SCHEMA_CONFIG);
+        $validationResult = $this->schemaValidator->validate(
+            $parsedContent,
+            Filesystem\Path::join(
+                Helper\FilesystemHelper::getPackageDirectory(),
+                Paths::PROJECT_SCHEMA_CONFIG,
+            ),
+        );
 
         if (!$validationResult->isValid()) {
             throw Exception\InvalidConfigurationException::forValidationErrors($validationResult->error());
