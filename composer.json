@@ -45,7 +45,7 @@
 	},
 	"require-dev": {
 		"armin/editorconfig-cli": "^2.0",
-		"composer/composer": "~2.2.28 || ~2.9.8 || ~2.10.0",
+		"composer/composer": "~2.2.28 || ~2.10.0",
 		"composer/semver": "^3.0",
 		"composer/xdebug-handler": "^3.0",
 		"cpsit/php-cs-fixer-config": "^1.1",
