@@ -23,11 +23,13 @@ declare(strict_types=1);
 
 namespace CPSIT\ProjectBuilder;
 
+use Composer\Composer;
 use Composer\InstalledVersions;
 use Composer\Script;
 use Symfony\Component\Console as SymfonyConsole;
 use Symfony\Component\Finder;
 
+use function is_file;
 use function str_replace;
 use function substr;
 
@@ -62,9 +64,10 @@ final class Bootstrap
 
         $targetDirectory ??= Helper\FilesystemHelper::getWorkingDirectory();
 
-        // Trigger autoload for all classes in order to keep them loaded
-        // when files are moved around
+        // Trigger autoload for all classes in order to keep them loaded when files are moved around.
+        // Load global functions as well because they might not be bundled in Composer.
         self::autoloadClasses();
+        self::autoloadFiles($event->getComposer());
 
         // Initialize IO components
         $io = Console\IO\AccessibleConsoleIO::fromIO($event->getIO());
@@ -125,6 +128,30 @@ final class Bootstrap
         foreach ($finder as $file) {
             $className = __NAMESPACE__.'\\'.str_replace('/', '\\', substr($file->getRelativePathname(), 0, -4));
             class_exists($className);
+        }
+    }
+
+    private static function autoloadFiles(Composer $composer): void
+    {
+        $vendor = $composer->getConfig()->get('vendor-dir');
+        $autoloadFilename = $vendor.'/composer/autoload_files.php';
+
+        if (!is_file($autoloadFilename)) {
+            return;
+        }
+
+        /** @var array<string, string> $files */
+        $files = require $autoloadFilename;
+
+        foreach ($files as $file) {
+            self::loadFailsafe($file);
+        }
+    }
+
+    private static function loadFailsafe(string $filename): void
+    {
+        if (is_file($filename)) {
+            require_once $filename;
         }
     }
 
