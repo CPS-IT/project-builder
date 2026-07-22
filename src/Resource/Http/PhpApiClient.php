@@ -25,12 +25,12 @@ namespace CPSIT\ProjectBuilder\Resource\Http;
 
 use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\Helper;
-use GuzzleHttp\Utils;
 use Psr\Http\Client;
 use Psr\Http\Message;
 use stdClass;
 
 use function is_string;
+use function json_decode;
 use function property_exists;
 
 /**
@@ -63,7 +63,7 @@ final readonly class PhpApiClient
             throw Exception\HttpException::forInvalidResponse($request, $response);
         }
 
-        $json = Utils::jsonDecode((string) $response->getBody());
+        $json = json_decode((string) $response->getBody());
 
         // Fall back to .0 release if version cannot be determined via API
         if (!($json instanceof stdClass) || !property_exists($json, 'version') || !is_string($json->version)) {
