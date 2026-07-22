@@ -40,7 +40,7 @@ jobs:
       - name: Re-install Composer dependencies
         uses: ramsey/composer-install@26d8a556604053a9612623447203a691f406fbe6 # v4
       - name: Check for unused dependencies
-        run: composer-unused --excludePackage=nyholm/psr7
+        run: composer-unused --excludePackage=guzzlehttp/guzzle --excludePackage=nyholm/psr7
 
       # Linting
       - name: Lint composer.json

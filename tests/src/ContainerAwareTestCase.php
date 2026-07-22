@@ -27,12 +27,13 @@ use Composer\Package;
 use CPSIT\ProjectBuilder as Src;
 use GuzzleHttp\Handler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Utils;
 use Nyholm\Psr7;
 use PHPUnit\Framework;
 use Psr\Http\Client;
 use Psr\Http\Message;
 use Symfony\Component\DependencyInjection;
+
+use function json_encode;
 
 /**
  * ContainerAwareTestCase.
@@ -116,7 +117,7 @@ abstract class ContainerAwareTestCase extends Framework\TestCase
         return new Psr7\Response(
             200,
             ['Content-Type' => 'application/json'],
-            Utils::jsonEncode($json),
+            json_encode($json, JSON_THROW_ON_ERROR),
         );
     }
 
