@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Error;
 
 use CPSIT\ProjectBuilder\IO;
-use CuyZ\Valinor\Mapper;
+use CuyZ\Valinor;
 use Throwable;
 
 /**
@@ -45,7 +45,7 @@ final readonly class ErrorHandler
 
         $this->messenger->error($exception->getMessage().$this->formatExceptionCode($exception));
 
-        if ($exception instanceof Mapper\MappingError) {
+        if ($exception instanceof Valinor\Mapper\MappingError) {
             $this->formatMappingErrors($exception);
         }
 
@@ -62,7 +62,7 @@ final readonly class ErrorHandler
         }
     }
 
-    private function formatMappingErrors(Mapper\MappingError $error): void
+    private function formatMappingErrors(Valinor\Mapper\MappingError $error): void
     {
         foreach ($error->messages() as $message) {
             $this->messenger->error('- '.$message);

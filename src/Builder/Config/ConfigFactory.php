@@ -27,9 +27,7 @@ use CPSIT\ProjectBuilder\Exception;
 use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\Json;
 use CPSIT\ProjectBuilder\Paths;
-use CuyZ\Valinor\Cache;
-use CuyZ\Valinor\Mapper;
-use CuyZ\Valinor\MapperBuilder;
+use CuyZ\Valinor;
 use Opis\JsonSchema;
 use stdClass;
 use Symfony\Component\Filesystem;
@@ -50,7 +48,7 @@ final class ConfigFactory
     private static ?string $cacheDirectory = null;
 
     private function __construct(
-        private readonly Mapper\TreeMapper $mapper,
+        private readonly Valinor\Mapper\TreeMapper $mapper,
         private readonly Json\SchemaValidator $schemaValidator,
     ) {}
 
@@ -60,8 +58,8 @@ final class ConfigFactory
             self::$cacheDirectory = Helper\FilesystemHelper::getNewTemporaryDirectory();
         }
 
-        $mapper = (new MapperBuilder())
-            ->withCache(new Cache\FileSystemCache(self::$cacheDirectory))
+        $mapper = (new Valinor\MapperBuilder())
+            ->withCache(new Valinor\Cache\FileSystemCache(self::$cacheDirectory))
             ->mapper()
         ;
 
@@ -104,7 +102,7 @@ final class ConfigFactory
         return $this->mapper->map(Config::class, $source);
     }
 
-    private function generateMapperSource(string $content, string $identifier, FileType $fileType): Mapper\Source\Source
+    private function generateMapperSource(string $content, string $identifier, FileType $fileType): Valinor\Mapper\Source\Source
     {
         $parsedContent = match ($fileType) {
             FileType::Yaml => Yaml\Yaml::parse($content),
@@ -123,7 +121,7 @@ final class ConfigFactory
         // Unset $schema property
         unset($parsedContent['$schema']);
 
-        return Mapper\Source\Source::array($parsedContent);
+        return Valinor\Mapper\Source\Source::array($parsedContent);
     }
 
     private function parseContent(string $content, FileType $fileType): stdClass
