@@ -48,7 +48,7 @@
 		"composer/composer": "~2.2.28 || ~2.10.0",
 		"composer/semver": "^3.0",
 		"composer/xdebug-handler": "^3.0",
-		"cpsit/php-cs-fixer-config": "^1.1",
+		"cpsit/php-cs-fixer-config": "^2.0",
 		"donatj/mock-webserver": "^2.5",
 		"eliashaeussler/version-bumper": "^4.0",
 		"ergebnis/composer-normalize": "^2.26",
