@@ -22,43 +22,16 @@ declare(strict_types=1);
  */
 
 use Rector\Config\RectorConfig;
-use Rector\Php80\Rector\Class_\AnnotationToAttributeRector;
-use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
-use Rector\PHPUnit\Set\PHPUnitSetList;
-use Rector\Set\ValueObject\LevelSetList;
-use Rector\ValueObject\PhpVersion;
 
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->paths([
+return RectorConfig::configure()
+    ->withPaths([
         __DIR__.'/config',
         __DIR__.'/src',
         __DIR__.'/tests',
-    ]);
-
-    $rectorConfig->skip([
+    ])
+    ->withSkip([
         __DIR__.'/tests/src/Fixtures/Templates/*/vendor/*',
-
-        AnnotationToAttributeRector::class => [
-            __DIR__.'/src/Bootstrap.php',
-            __DIR__.'/src/Builder/Config/ConfigFactory.php',
-            __DIR__.'/src/Console/Simulation.php',
-            __DIR__.'/src/DependencyInjection/CompilerPass/ContainerBuilderDebugDumpPass.php',
-            __DIR__.'/src/DependencyInjection/CompilerPass/EventListenerPass.php',
-            __DIR__.'/src/DependencyInjection/CompilerPass/ExpressionLanguageProviderPass.php',
-            __DIR__.'/src/DependencyInjection/CompilerPass/FactoryServicesPass.php',
-            __DIR__.'/src/DependencyInjection/CompilerPass/PublicServicePass.php',
-            __DIR__.'/src/DependencyInjection/ContainerFactory.php',
-            __DIR__.'/src/ProjectBuilderPlugin.php',
-        ],
-        NullToStrictStringFuncCallArgRector::class => [
-            __DIR__.'/src/Builder/Generator/Step/ProcessingFilesTrait.php',
-        ],
-    ]);
-
-    $rectorConfig->phpVersion(PhpVersion::PHP_82);
-
-    $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_82,
-        PHPUnitSetList::PHPUNIT_100,
-    ]);
-};
+    ])
+    ->withPhpSets(php82: true)
+    ->withComposerBased(phpunit: true)
+;

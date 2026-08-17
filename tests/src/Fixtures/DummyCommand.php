@@ -69,7 +69,7 @@ final class DummyCommand extends Command\BaseCommand
     {
         $this->messenger->write('execute was called');
 
-        return 0;
+        return self::SUCCESS;
     }
 
     public function getMessenger(): IO\Messenger
