@@ -24,7 +24,6 @@ declare(strict_types=1);
 namespace CPSIT\ProjectBuilder\Resource\Local;
 
 use Composer\Autoload;
-use Composer\Console;
 use Composer\Factory;
 use Composer\InstalledVersions;
 use Composer\IO;
@@ -34,13 +33,16 @@ use CPSIT\ProjectBuilder\Helper;
 use CPSIT\ProjectBuilder\Template;
 use Symfony\Component\Console as SymfonyConsole;
 use Symfony\Component\Filesystem;
+use Symfony\Component\Process;
 
 use function array_filter;
 use function basename;
 use function dirname;
-use function getenv;
 use function in_array;
-use function putenv;
+use function is_array;
+use function is_executable;
+use function is_file;
+use function is_string;
 
 /**
  * Composer.
@@ -52,6 +54,7 @@ final readonly class Composer
 {
     public function __construct(
         private Filesystem\Filesystem $filesystem,
+        private Process\ExecutableFinder $executableFinder = new Process\ExecutableFinder(),
     ) {}
 
     /**
@@ -70,33 +73,63 @@ final readonly class Composer
             throw Exception\IOException::forMissingFile($composerJson);
         }
 
-        $initialComposerEnvValue = getenv('COMPOSER');
-
-        putenv('COMPOSER='.basename($composerJson));
-
-        $input = new SymfonyConsole\Input\ArrayInput([
-            'command' => 'update',
-            '--working-dir' => dirname($composerJson),
-            '--no-dev' => !$includeDevDependencies,
-            '--prefer-dist' => true,
-        ]);
-        $input->setInteractive(false);
-
         if (null === $output) {
             $output = new SymfonyConsole\Output\BufferedOutput();
         }
 
-        $application = new Console\Application();
-        $application->setAutoExit(false);
-        $exitCode = $application->run($input, $output);
+        $command = [
+            ...$this->resolveComposerBinary(),
+            'update',
+            '--prefer-dist',
+            '--no-interaction',
+        ];
 
-        if (false !== $initialComposerEnvValue) {
-            putenv('COMPOSER='.$initialComposerEnvValue);
-        } else {
-            putenv('COMPOSER');
+        if (!$includeDevDependencies) {
+            $command[] = '--no-dev';
         }
 
-        return $exitCode;
+        // Run Composer in a dedicated process. Running it in-process would
+        // load the template's dependencies (autoload "files", plugins, ...)
+        // into this very process, which can clash with dependencies already
+        // loaded for the project builder itself (e.g. duplicate global
+        // function declarations of a shared dependency).
+        $process = new Process\Process(
+            $command,
+            dirname($composerJson),
+            ['COMPOSER' => basename($composerJson)],
+            null,
+            null,
+        );
+        $process->disableOutput();
+        $process->run(static function (string $type, string $line) use ($output): void {
+            $output->write($line);
+        });
+
+        return (int) $process->getExitCode();
+    }
+
+    /**
+     * @return non-empty-list<string>
+     */
+    private function resolveComposerBinary(): array
+    {
+        $binary = $this->executableFinder->find('composer');
+
+        if (null !== $binary) {
+            return [$binary];
+        }
+
+        // Fall back to the binary/script that runs the current process,
+        // e.g. when Composer was invoked as a local "composer.phar" that
+        // is not registered on the system's PATH.
+        $argv = $_SERVER['argv'] ?? null;
+        $fallback = is_array($argv) ? $argv[0] ?? null : null;
+
+        if (is_string($fallback) && is_file($fallback)) {
+            return is_executable($fallback) ? [$fallback] : [PHP_BINARY, $fallback];
+        }
+
+        return ['composer'];
     }
 
     /**
