@@ -27,10 +27,10 @@ use CPSIT\ProjectBuilder as Src;
 use CPSIT\ProjectBuilder\Tests;
 use PHPUnit\Framework;
 use Symfony\Component\Console;
+use Symfony\Component\Filesystem;
+use Symfony\Component\Process;
 
 use function dirname;
-use function getenv;
-use function putenv;
 
 /**
  * ComposerTest.
@@ -40,15 +40,22 @@ use function putenv;
  */
 final class ComposerTest extends Tests\ContainerAwareTestCase
 {
+    private string $temporaryDirectory;
+    private Filesystem\Filesystem $filesystem;
     private Src\Resource\Local\Composer $subject;
-    private string $composerJson;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->subject = $this->container->get(Src\Resource\Local\Composer::class);
-        $this->composerJson = dirname(__DIR__, 2).'/Fixtures/Templates/yaml-template/composer.json';
+        $this->temporaryDirectory = Src\Helper\FilesystemHelper::getNewTemporaryDirectory();
+        $this->filesystem = new Filesystem\Filesystem();
+        $this->subject = new Src\Resource\Local\Composer($this->filesystem);
+
+        $this->filesystem->copy(
+            dirname(__DIR__, 2).'/Fixtures/Templates/yaml-template/composer.json',
+            $this->temporaryDirectory.'/composer.json',
+        );
     }
 
     #[Framework\Attributes\Test]
@@ -66,7 +73,7 @@ final class ComposerTest extends Tests\ContainerAwareTestCase
     {
         $output = new Console\Output\BufferedOutput();
 
-        $actual = $this->subject->install($this->composerJson, false, $output);
+        $actual = $this->subject->install($this->temporaryDirectory.'/composer.json', false, $output);
         $actualOutput = $output->fetch();
 
         self::assertSame(0, $actual);
@@ -79,7 +86,7 @@ final class ComposerTest extends Tests\ContainerAwareTestCase
     {
         $output = new Console\Output\BufferedOutput();
 
-        $actual = $this->subject->install($this->composerJson, true, $output);
+        $actual = $this->subject->install($this->temporaryDirectory.'/composer.json', true, $output);
         $actualOutput = $output->fetch();
 
         self::assertSame(0, $actual);
@@ -88,14 +95,33 @@ final class ComposerTest extends Tests\ContainerAwareTestCase
     }
 
     #[Framework\Attributes\Test]
-    public function installRestoresInitialComposerEnvironmentVariable(): void
+    public function installFallsBackToCallingScriptAsComposerBinaryIfExecutableFinderIsUnsuccessful(): void
     {
-        putenv('COMPOSER=foo');
+        $executableFinder = new class extends Process\ExecutableFinder {
+            /**
+             * @param mixed[] $extraDirs
+             */
+            public function find(string $name, ?string $default = null, array $extraDirs = []): ?string
+            {
+                return null;
+            }
+        };
 
-        $this->subject->install($this->composerJson);
+        $subject = new Src\Resource\Local\Composer(
+            $this->filesystem,
+            $executableFinder,
+        );
 
-        self::assertSame('foo', getenv('COMPOSER'));
+        $output = new Console\Output\BufferedOutput();
 
-        putenv('COMPOSER');
+        $actual = $subject->install($this->temporaryDirectory.'/composer.json', false, $output);
+
+        self::assertGreaterThan(0, $actual);
+        self::assertStringContainsString('PHPUnit', $output->fetch());
+    }
+
+    protected function tearDown(): void
+    {
+        $this->filesystem->remove($this->temporaryDirectory);
     }
 }
