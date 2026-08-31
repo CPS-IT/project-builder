@@ -97,9 +97,8 @@ final readonly class InputReader
             $noSelectionIndex = array_key_first($choices);
         }
 
-        if (null === $default) {
-            $default = (string) array_key_first($choices);
-        }
+        $default ??= (string) array_key_first($choices);
+
         if (is_string($default) && '' === trim($default)) {
             $default = false;
         }

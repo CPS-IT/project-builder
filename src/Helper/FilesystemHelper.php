@@ -68,11 +68,8 @@ final class FilesystemHelper
         } catch (OutOfBoundsException) {
             $packageDirectory = null;
         }
-        // @codeCoverageIgnoreEnd
 
-        if (null === $packageDirectory) {
-            $packageDirectory = dirname(__DIR__, 2);
-        }
+        $packageDirectory ??= dirname(__DIR__, 2);
 
         return Filesystem\Path::canonicalize($packageDirectory);
     }

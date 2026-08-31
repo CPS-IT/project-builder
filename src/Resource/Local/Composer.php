@@ -73,9 +73,7 @@ final readonly class Composer
             throw Exception\IOException::forMissingFile($composerJson);
         }
 
-        if (null === $output) {
-            $output = new SymfonyConsole\Output\BufferedOutput();
-        }
+        $output ??= new SymfonyConsole\Output\BufferedOutput();
 
         $command = [
             ...$this->resolveComposerBinary(),

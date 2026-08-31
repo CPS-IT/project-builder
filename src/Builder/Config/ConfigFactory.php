@@ -54,9 +54,7 @@ final class ConfigFactory
 
     public static function create(): self
     {
-        if (null === self::$cacheDirectory) {
-            self::$cacheDirectory = Helper\FilesystemHelper::getNewTemporaryDirectory();
-        }
+        self::$cacheDirectory ??= Helper\FilesystemHelper::getNewTemporaryDirectory();
 
         $mapper = (new Valinor\MapperBuilder())
             ->withCache(new Valinor\Cache\FileSystemCache(self::$cacheDirectory))
