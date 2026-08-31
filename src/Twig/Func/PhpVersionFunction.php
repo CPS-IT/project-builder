@@ -49,9 +49,7 @@ final class PhpVersionFunction implements TwigFunctionInterface
     {
         Assert\Assert::string($branch);
 
-        if (!isset(self::$versionCache[$branch])) {
-            self::$versionCache[$branch] = $this->client->getLatestStableVersion($branch);
-        }
+        self::$versionCache[$branch] ??= $this->client->getLatestStableVersion($branch);
 
         return self::$versionCache[$branch];
     }
