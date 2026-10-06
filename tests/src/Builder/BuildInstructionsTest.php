@@ -80,7 +80,7 @@ final class BuildInstructionsTest extends Tests\ContainerAwareTestCase
         $prefix = sys_get_temp_dir();
         $actual = $this->subject->getTemporaryDirectory();
 
-        self::assertNotEmpty($prefix);
+        self::assertNotSame('', $prefix);
         self::assertDirectoryDoesNotExist($actual);
         self::assertStringStartsWith($prefix, $actual);
     }
