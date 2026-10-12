@@ -60,7 +60,7 @@ trait ProcessingFilesTrait
             return;
         }
 
-        foreach ($this->processedFiles as $index => $processedFile) {
+        foreach ($this->processedFiles as $processedFile) {
             $this->filesystem->remove($processedFile->getTargetFile()->getPathname());
         }
 
