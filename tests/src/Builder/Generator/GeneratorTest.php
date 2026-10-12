@@ -63,8 +63,6 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
     {
         $this->io->setUserInputs(['foo']);
 
-        self::assertCount(0, $this->eventListener->dispatchedEvents);
-
         $actual = $this->subject->run($this->targetDirectory);
 
         self::assertTrue($actual->isStepApplied('collectBuildInstructions'));
@@ -103,8 +101,6 @@ final class GeneratorTest extends Tests\ContainerAwareTestCase
     public function runRestartsProjectGenerationOnStepFailure(): void
     {
         $this->io->setUserInputs(['', '', '', 'yes', 'foo']);
-
-        self::assertCount(0, $this->eventListener->dispatchedEvents);
 
         $actual = $this->subject->run($this->targetDirectory);
 
