@@ -3905,21 +3905,21 @@
         },
         {
             "name": "cpsit/php-cs-fixer-config",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CPS-IT/php-cs-fixer-config.git",
-                "reference": "9105c29878dbf17da9c4a07c850ab68461892487"
+                "reference": "764b058741c5635e635640d43d40e787e712e207"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CPS-IT/php-cs-fixer-config/zipball/9105c29878dbf17da9c4a07c850ab68461892487",
-                "reference": "9105c29878dbf17da9c4a07c850ab68461892487",
+                "url": "https://api.github.com/repos/CPS-IT/php-cs-fixer-config/zipball/764b058741c5635e635640d43d40e787e712e207",
+                "reference": "764b058741c5635e635640d43d40e787e712e207",
                 "shasum": ""
             },
             "require": {
                 "friendsofphp/php-cs-fixer": "^3.14",
-                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0"
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0 || ~8.6.0"
             },
             "require-dev": {
                 "armin/editorconfig-cli": "^2.0",
@@ -3930,7 +3930,8 @@
                 "phpstan/phpstan-phpunit": "^2.0",
                 "phpstan/phpstan-strict-rules": "^2.0",
                 "phpunit/phpunit": "^11.5 || ^12.5 || ^13.3",
-                "rector/rector": "^2.6.2"
+                "rector/rector": "^2.6.2",
+                "shipmonk/composer-dependency-analyser": "^1.8"
             },
             "type": "library",
             "autoload": {
@@ -3953,10 +3954,10 @@
             "description": "Shared PHP-CS-Fixer configuration for CPS projects",
             "support": {
                 "issues": "https://github.com/CPS-IT/php-cs-fixer-config/issues",
-                "source": "https://github.com/CPS-IT/php-cs-fixer-config/tree/2.0.0"
+                "source": "https://github.com/CPS-IT/php-cs-fixer-config/tree/2.1.0"
             },
-            "time": "2026-08-17T05:48:21+00:00",
-            "published-time": "2026-08-17T05:48:41+00:00"
+            "time": "2026-11-24T08:30:44+00:00",
+            "published-time": "2026-11-24T08:32:29+00:00"
         },
         {
             "name": "cypresslab/gitelephant",
